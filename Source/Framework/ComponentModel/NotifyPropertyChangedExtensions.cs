@@ -5,32 +5,33 @@ namespace Microsoft.IoT.Cortana.SampleDeviceApp
 {
 	public static class NotifyPropertyChangedExtensions
 	{
-		public static bool SetProperty<TSender, TValue>(this PropertyChangedEventHandler @this, TSender sender, ref TValue field, TValue newValue, [CallerMemberName] string propertyName = null)
-			where TSender : INotifyPropertyChanged
+		public static bool SetProperty<TValue>(this PropertyChangedEventHandler @this,
+			INotifyPropertyChanged sender, TValue newValue, ref TValue oldValueField, [CallerMemberName] string propertyName = null)
 		{
-			var propertyChanged = !object.Equals(field, newValue);
+			var propertyChanged = !object.Equals(oldValueField, newValue);
 			if (propertyChanged)
 			{
-				field = newValue;
+				oldValueField = newValue;
 				@this.RaisePropertyChanged(sender, propertyName);
 			}
 			return propertyChanged;
 		}
 
-		public static bool SetProperty<TSender, TValue>(this PropertyChangedEventHandler @this, TSender sender, ref TValue field, TValue newValue, params string[] propertyNames)
+		public static bool SetProperty<TSender, TValue>(this PropertyChangedEventHandler @this,
+			TSender sender, TValue newValue, ref TValue oldValueField, params string[] propertyNames)
 			where TSender : INotifyPropertyChanged
 		{
-			var propertyChanged = !object.Equals(field, newValue);
+			var propertyChanged = !object.Equals(oldValueField, newValue);
 			if (propertyChanged)
 			{
-				field = newValue;
+				oldValueField = newValue;
 				@this.RaisePropertyChanged(sender, propertyNames);
 			}
 			return propertyChanged;
 		}
 
-		public static void RaisePropertyChanged<T>(this PropertyChangedEventHandler @this, T sender, string propertyName)
-			where T : INotifyPropertyChanged
+		public static void RaisePropertyChanged(this PropertyChangedEventHandler @this,
+			INotifyPropertyChanged sender, string propertyName)
 		{
 			if (@this != null && propertyName != null)
 			{
@@ -38,16 +39,15 @@ namespace Microsoft.IoT.Cortana.SampleDeviceApp
 			}
 		}
 
-		public static void RaisePropertyChanged<T>(this PropertyChangedEventHandler @this, T sender, params string[] propertyNames)
-			where T : INotifyPropertyChanged
+		public static void RaisePropertyChanged(this PropertyChangedEventHandler @this,
+			INotifyPropertyChanged sender, params string[] propertyNames)
 		{
 			if (@this != null && propertyNames != null)
 			{
 				var length = propertyNames.Length;
 				for (var index = 0; index < length; ++index)
 				{
-					var propertyName = propertyNames[index];
-					@this.Invoke(sender, new PropertyChangedEventArgs(propertyName));
+					@this.Invoke(sender, new PropertyChangedEventArgs(propertyNames[index]));
 				}
 			}
 		}
