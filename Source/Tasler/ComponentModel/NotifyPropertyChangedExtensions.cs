@@ -1,7 +1,8 @@
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.IoT.Cortana.SampleDeviceApp
+namespace Tasler.ComponentModel
 {
 	public static class NotifyPropertyChangedExtensions
 	{
@@ -74,7 +75,7 @@ namespace Microsoft.IoT.Cortana.SampleDeviceApp
 		public static IDisposable SetPropertyScopeRaise<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, [CallerMemberName] string propertyName = null)
 		{
-			return @this.SetPropertyNoRaise(sender, newValue, ref valueField, out TValue oldValue)
+			return @this.SetPropertyNoRaise(sender, newValue, ref valueField, out oldValue)
 				? new RaiseScope(@this, sender, propertyName)
 				: null;
 		}
