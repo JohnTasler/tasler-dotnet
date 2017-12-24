@@ -8,87 +8,52 @@ namespace Microsoft.IoT.Cortana.SampleDeviceApp
 		public static bool SetProperty<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, [CallerMemberName] string propertyName = null)
 		{
-			var propertyChanged = !object.Equals(valueField, newValue);
-			if (propertyChanged)
-			{
-				valueField = newValue;
-				@this.RaisePropertyChanged(sender, propertyName);
-			}
-			return propertyChanged;
+			return @this.SetProperty(sender, newValue, ref valueField, out TValue oldValue, propertyName);
 		}
 
 		public static bool SetProperty<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, params string[] propertyNames)
 		{
-			var propertyChanged = !object.Equals(valueField, newValue);
-			if (propertyChanged)
-			{
-				valueField = newValue;
-				@this.RaisePropertyChanged(sender, propertyNames);
-			}
-			return propertyChanged;
+			return @this.SetProperty(sender, newValue, ref valueField, out TValue oldValue, propertyNames);
 		}
 
 		public static bool SetProperty<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, [CallerMemberName] string propertyName = null)
 		{
-			var propertyChanged = !object.Equals(valueField, newValue);
+			var propertyChanged = @this.SetPropertyNoRaise(sender, newValue, ref valueField, out oldValue);
 			if (propertyChanged)
 			{
-				oldValue = valueField;
-				valueField = newValue;
 				@this.RaisePropertyChanged(sender, propertyName);
 			}
-			else
-			{
-				oldValue = default(TValue);
-			}
-
 			return propertyChanged;
 		}
 
 		public static bool SetProperty<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, params string[] propertyNames)
 		{
-			var propertyChanged = !object.Equals(valueField, newValue);
+			var propertyChanged = @this.SetPropertyNoRaise(sender, newValue, ref valueField, out oldValue);
 			if (propertyChanged)
 			{
-				oldValue = valueField;
-				valueField = newValue;
 				@this.RaisePropertyChanged(sender, propertyNames);
 			}
-			else
-			{
-				oldValue = default(TValue);
-			}
-
 			return propertyChanged;
 		}
 
 		public static bool SetPropertyNoRaise<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField)
 		{
-			var propertyChanged = !object.Equals(valueField, newValue);
-			if (propertyChanged)
-			{
-				valueField = newValue;
-			}
-
-			return propertyChanged;
+			return @this.SetPropertyNoRaise(sender, newValue, ref valueField, out TValue oldValue);
 		}
 
 		public static bool SetPropertyNoRaise<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue)
 		{
+			oldValue = valueField;
+
 			var propertyChanged = !object.Equals(valueField, newValue);
 			if (propertyChanged)
 			{
-				oldValue = valueField;
 				valueField = newValue;
-			}
-			else
-			{
-				oldValue = default(TValue);
 			}
 
 			return propertyChanged;
@@ -97,46 +62,19 @@ namespace Microsoft.IoT.Cortana.SampleDeviceApp
 		public static IDisposable SetPropertyScopeRaise<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, [CallerMemberName] string propertyName = null)
 		{
-			var propertyChanged = !object.Equals(valueField, newValue);
-			if (propertyChanged)
-			{
-				valueField = newValue;
-			}
-
-			return propertyChanged
-				? new RaiseScope(@this, sender, propertyName)
-				: null;
+			return @this.SetPropertyScopeRaise(sender, newValue, ref valueField, out TValue oldValue, propertyName);
 		}
 
 		public static IDisposable SetPropertyScopeRaise<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, params string[] propertyNames)
 		{
-			var propertyChanged = !object.Equals(valueField, newValue);
-			if (propertyChanged)
-			{
-				valueField = newValue;
-			}
-
-			return propertyChanged
-				? new RaiseScope(@this, sender, propertyNames)
-				: null;
+			return @this.SetPropertyScopeRaise(sender, newValue, ref valueField, out TValue oldValue, propertyNames);
 		}
 
 		public static IDisposable SetPropertyScopeRaise<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, [CallerMemberName] string propertyName = null)
 		{
-			var propertyChanged = !object.Equals(valueField, newValue);
-			if (propertyChanged)
-			{
-				oldValue = valueField;
-				valueField = newValue;
-			}
-			else
-			{
-				oldValue = default(TValue);
-			}
-
-			return propertyChanged
+			return @this.SetPropertyNoRaise(sender, newValue, ref valueField, out TValue oldValue)
 				? new RaiseScope(@this, sender, propertyName)
 				: null;
 		}
@@ -144,18 +82,7 @@ namespace Microsoft.IoT.Cortana.SampleDeviceApp
 		public static IDisposable SetPropertyScopeRaise<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, params string[] propertyNames)
 		{
-			var propertyChanged = !object.Equals(valueField, newValue);
-			if (propertyChanged)
-			{
-				oldValue = valueField;
-				valueField = newValue;
-			}
-			else
-			{
-				oldValue = default(TValue);
-			}
-
-			return propertyChanged
+			return @this.SetPropertyNoRaise(sender, newValue, ref valueField, out oldValue)
 				? new RaiseScope(@this, sender, propertyNames)
 				: null;
 		}
@@ -186,23 +113,37 @@ namespace Microsoft.IoT.Cortana.SampleDeviceApp
 		{
 			private PropertyChangedEventHandler _handler;
 			private INotifyPropertyChanged _sender;
+			private string _propertyName;
 			private string[] _propertyNames;
 
-			public RaiseScope(PropertyChangedEventHandler handler, INotifyPropertyChanged sender, string propertyName)
-				: this(handler, sender, new[] { propertyName })
-			{
-			}
-
-			public RaiseScope(PropertyChangedEventHandler handler, INotifyPropertyChanged sender, string[] propertyNames)
+			private RaiseScope(PropertyChangedEventHandler handler, INotifyPropertyChanged sender)
 			{
 				_handler = handler;
 				_sender = sender;
+			}
+
+			public RaiseScope(PropertyChangedEventHandler handler, INotifyPropertyChanged sender, string propertyName)
+				: this(handler, sender)
+			{
+				_propertyName = propertyName;
+			}
+
+			public RaiseScope(PropertyChangedEventHandler handler, INotifyPropertyChanged sender, string[] propertyNames)
+				: this(handler, sender)
+			{
 				_propertyNames = propertyNames;
 			}
 
 			void IDisposable.Dispose()
 			{
-				_handler.RaisePropertyChanged(_sender, _propertyNames);
+				if (_propertyName != null)
+				{
+					_handler.RaisePropertyChanged(_sender, _propertyName);
+				}
+				if (_propertyNames != null)
+				{
+					_handler.RaisePropertyChanged(_sender, _propertyNames);
+				}
 			}
 		}
 	}
