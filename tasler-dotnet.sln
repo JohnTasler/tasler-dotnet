@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.Uwp", "Source\Tasler
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.Wpf", "Source\Tasler.Wpf\Tasler.Wpf.csproj", "{4DD7ED0B-D1B6-4ECD-8028-71D13A3A4834}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.Interop", "Source\Tasler.Interop\Tasler.Interop.csproj", "{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Source\Tasler.Shared\Tasler.Shared.projitems*{4dd7ed0b-d1b6-4ecd-8028-71d13a3a4834}*SharedItemsImports = 4
@@ -120,6 +122,22 @@ Global
 		{4DD7ED0B-D1B6-4ECD-8028-71D13A3A4834}.Release|x64.Build.0 = Release|Any CPU
 		{4DD7ED0B-D1B6-4ECD-8028-71D13A3A4834}.Release|x86.ActiveCfg = Release|Any CPU
 		{4DD7ED0B-D1B6-4ECD-8028-71D13A3A4834}.Release|x86.Build.0 = Release|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Debug|ARM.Build.0 = Debug|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Debug|x64.Build.0 = Debug|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Debug|x86.Build.0 = Debug|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Release|ARM.ActiveCfg = Release|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Release|ARM.Build.0 = Release|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Release|x64.ActiveCfg = Release|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Release|x64.Build.0 = Release|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Release|x86.ActiveCfg = Release|Any CPU
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,6 +149,7 @@ Global
 		{5179C310-67AD-4274-BC8B-4630E18743EF} = {51437DEE-428B-4142-BD32-A775E16FE2ED}
 		{E8BBBB77-0D9D-4101-90CD-2741970CE01A} = {51437DEE-428B-4142-BD32-A775E16FE2ED}
 		{4DD7ED0B-D1B6-4ECD-8028-71D13A3A4834} = {51437DEE-428B-4142-BD32-A775E16FE2ED}
+		{CA6287D9-6F8B-4F6D-8D44-D8359A43D644} = {51437DEE-428B-4142-BD32-A775E16FE2ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F678DB90-5DA4-47D2-A8EF-F7251162BA7A}
