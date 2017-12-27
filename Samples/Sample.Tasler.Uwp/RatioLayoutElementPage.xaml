@@ -1,0 +1,70 @@
+﻿<Page
+	x:Class="Sample.Tasler.Uwp.RatioLayoutElementPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:taz="using:Tasler.UI.Xaml.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	>
+	<Page.Resources>
+		<CircleEase x:Key="EaseOut" EasingMode="EaseOut" />
+		<CircleEase x:Key="EaseIn" EasingMode="EaseIn" />
+	</Page.Resources>
+
+	<Grid x:Name="rootElement" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="0,40">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+		<ToggleSwitch Grid.Column="2" VerticalAlignment="Top" Toggled="ToggleSwitch_LoadedOrToggled" Loaded="ToggleSwitch_LoadedOrToggled" />
+
+		<taz:RatioLayoutElement
+			x:Name="dropDown"
+			Grid.Column="1"
+			VerticalAlignment="Top"
+			Background="Tan"
+			UseMinHeight="True" MinHeight="40"
+			HeightMultiplier="1" ChildVerticalOffsetMultiplier="-1"
+			>
+			<StackPanel Background="DarkRed" Width="300" VerticalAlignment="Top">
+				<TextBlock Foreground="WhiteSmoke" TextAlignment="Center">00<LineBreak/>01<LineBreak/>02<LineBreak/>03<LineBreak/>04<LineBreak/>05<LineBreak/>06<LineBreak/>07<LineBreak/>08<LineBreak/>09<LineBreak/>10<LineBreak/>11<LineBreak/>12<LineBreak/>13<LineBreak/>14<LineBreak/>15<LineBreak/>16<LineBreak/>17<LineBreak/>18<LineBreak/>19<LineBreak/>20<LineBreak/>21<LineBreak/>22<LineBreak/>23<LineBreak/>24<LineBreak/>25<LineBreak/>26<LineBreak/>27<LineBreak/>28<LineBreak/>29</TextBlock>
+			</StackPanel>
+		</taz:RatioLayoutElement>
+
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState x:Name="Expanded">
+					<Storyboard>
+						<DoubleAnimation
+							Storyboard.TargetName="dropDown" Storyboard.TargetProperty="HeightMultiplier"
+							To="1.0" Duration="0:0:0.2" EnableDependentAnimation="True"
+							EasingFunction="{StaticResource EaseOut}"
+							/>
+						<DoubleAnimation
+							Storyboard.TargetName="dropDown" Storyboard.TargetProperty="ChildVerticalOffsetMultiplier"
+							To="0.0" Duration="0:0:0.2" EnableDependentAnimation="True"
+							EasingFunction="{StaticResource EaseOut}"
+							/>
+					</Storyboard>
+				</VisualState>
+				<VisualState x:Name="Collapsed">
+					<Storyboard>
+						<DoubleAnimation
+							Storyboard.TargetName="dropDown" Storyboard.TargetProperty="HeightMultiplier"
+							To="0.0" Duration="0:0:0.2" EnableDependentAnimation="True"
+							EasingFunction="{StaticResource EaseIn}"
+							/>
+						<DoubleAnimation
+							Storyboard.TargetName="dropDown" Storyboard.TargetProperty="ChildVerticalOffsetMultiplier"
+							To="-1.0" Duration="0:0:0.2" EnableDependentAnimation="True"
+							EasingFunction="{StaticResource EaseIn}"
+							/>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+	</Grid>
+</Page>

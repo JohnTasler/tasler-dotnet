@@ -1,11 +1,16 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
+using Windows.UI.Xaml.Media;
 
 namespace Tasler.UI.Xaml.Controls
 {
 	using dpFactory = DependencyPropertyFactory<RatioLayoutElement>;
+
+	// TODO: NEEDS_UNIT_TESTS
 
 	/// <summary>
 	/// An element that provides multiplier properties to easily animate the width, height, and offsets of a
@@ -21,7 +26,7 @@ namespace Tasler.UI.Xaml.Controls
 	/// desired animation effects.
 	/// </remarks>
 	[ContentProperty(Name = nameof(Child))]
-	public partial class RatioLayoutElement : FrameworkElement
+	public partial class RatioLayoutElement : Panel
 	{
 		#region Instance Fields
 		private Size _cachedAvailableSize;
@@ -32,7 +37,7 @@ namespace Tasler.UI.Xaml.Controls
 		#region Child
 
 		public static readonly DependencyProperty ChildProperty =
-			dpFactory.Register<FrameworkElement>(nameof(Child), OnAffectsMeasurePropertyChanged);
+			dpFactory.Register<FrameworkElement>(nameof(Child), ChildPropertyChanged);
 
 		[Category("Content")]
 		public FrameworkElement Child
@@ -40,6 +45,20 @@ namespace Tasler.UI.Xaml.Controls
 			get { return (FrameworkElement)this.GetValue(ChildProperty); }
 			set { this.SetValue(ChildProperty, value); }
 		}
+
+		private static void ChildPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var @this = (RatioLayoutElement)d;
+			var newValue = e.NewValue as UIElement;
+
+			@this.Children.Clear();
+
+			if (newValue != null)
+				@this.Children.Add(newValue);
+
+			@this.InvalidateArrange();
+		}
+
 		#endregion Child
 
 		#region ChildHorizontalOffsetMultiplier
@@ -63,6 +82,17 @@ namespace Tasler.UI.Xaml.Controls
 			set { this.SetValue(ChildVerticalOffsetMultiplierProperty, value); }
 		}
 		#endregion ChildVerticalOffsetMultiplier
+
+		#region ClipChild
+		public static readonly DependencyProperty ClipChildProperty =
+			dpFactory.Register<bool>(nameof(ClipChild), true, OnAffectsArrangePropertyChanged);
+
+		public bool ClipChild
+		{
+			get { return (bool)this.GetValue(ClipChildProperty); }
+			set { this.SetValue(ClipChildProperty, value); }
+		}
+		#endregion ClipChild
 
 		#region WidthMultiplier
 		public static readonly DependencyProperty WidthMultiplierProperty =
@@ -124,8 +154,26 @@ namespace Tasler.UI.Xaml.Controls
 					childSize.Height = this._cachedAvailableSize.Height;
 
 				var horizontalOffset = childSize.Width * this.ChildHorizontalOffsetMultiplier;
+				if (horizontalOffset < 0 && this.UseMinWidth)
+					horizontalOffset = Math.Max(horizontalOffset, this.MinWidth - childSize.Width);
+
 				var verticalOffset = childSize.Height * this.ChildVerticalOffsetMultiplier;
+				if (verticalOffset < 0 && this.UseMinHeight)
+					verticalOffset = Math.Max(verticalOffset, this.MinHeight - childSize.Height);
+
 				child.Arrange(new Rect(horizontalOffset, verticalOffset, childSize.Width, childSize.Height));
+			}
+
+			if (this.ClipChild)
+			{
+				this.Clip = new RectangleGeometry
+				{
+					Rect = new Rect(0, 0, arrangeSize.Width, arrangeSize.Height)
+				};
+			}
+			else
+			{
+				this.SetValue(ClipProperty, null);
 			}
 
 			return arrangeSize;

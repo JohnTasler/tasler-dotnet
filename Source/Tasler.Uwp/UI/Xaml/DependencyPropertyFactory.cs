@@ -2,6 +2,8 @@
 
 namespace Tasler.UI.Xaml
 {
+	// TODO: NEEDS_UNIT_TESTS
+
 	public static class DependencyPropertyFactory<TOwner> where TOwner : DependencyObject
 	{
 		public static DependencyProperty Register<TProperty>(string propertyName)
