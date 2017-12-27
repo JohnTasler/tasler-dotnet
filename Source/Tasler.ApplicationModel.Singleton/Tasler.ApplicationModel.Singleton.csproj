@@ -46,6 +46,10 @@
       <Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
       <Name>Tasler.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
+      <Project>{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}</Project>
+      <Name>Tasler.Interop</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

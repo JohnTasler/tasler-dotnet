@@ -57,7 +57,7 @@ namespace Tasler.ApplicationModel
 					new FileIOPermission(FileIOPermissionAccess.PathDiscovery, executablePath).Demand();
 				}
 
-				return PathUtility.GetUniversalName(executablePath);
+				return executablePath; // TODO: Implement PathUtility.GetUniversalName(executablePath);
 			}
 		}
 		#endregion Properties

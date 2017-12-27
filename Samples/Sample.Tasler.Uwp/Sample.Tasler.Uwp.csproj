@@ -148,6 +148,12 @@
       <Version>2.0.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Tasler.Uwp\Tasler.Uwp.csproj">
+      <Project>{E8BBBB77-0D9D-4101-90CD-2741970CE01A}</Project>
+      <Name>Tasler.Uwp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
