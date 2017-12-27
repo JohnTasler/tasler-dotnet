@@ -4,7 +4,9 @@ using System.Runtime.CompilerServices;
 
 namespace Tasler.ComponentModel
 {
-	public static class NotifyPropertyChangedExtensions
+	// TODO: NEEDS_UNIT_TESTS
+
+	public static partial class NotifyPropertyChangedExtensions
 	{
 		public static bool SetProperty<TValue>(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, [CallerMemberName] string propertyName = null)
@@ -24,7 +26,7 @@ namespace Tasler.ComponentModel
 			var propertyChanged = @this.SetPropertyNoRaise(sender, newValue, ref valueField, out oldValue);
 			if (propertyChanged)
 			{
-				@this.RaisePropertyChanged(sender, propertyName);
+				@this.Raise(sender, propertyName);
 			}
 			return propertyChanged;
 		}
@@ -88,7 +90,7 @@ namespace Tasler.ComponentModel
 				: null;
 		}
 
-		public static void RaisePropertyChanged(this PropertyChangedEventHandler @this,
+		public static void Raise(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, string propertyName)
 		{
 			if (@this != null && propertyName != null)
@@ -139,7 +141,7 @@ namespace Tasler.ComponentModel
 			{
 				if (_propertyName != null)
 				{
-					_handler.RaisePropertyChanged(_sender, _propertyName);
+					_handler.Raise(_sender, _propertyName);
 				}
 				if (_propertyNames != null)
 				{
