@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{921D82F1-B7A8-47F9-83E0-B576441057F7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tasler.Interop.RawInput</RootNamespace>
+    <AssemblyName>Tasler.Interop.RawInput</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo\AssemblyInfoConfiguration.cs">
+      <Link>Properties\AssemblyInfoConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AssemblyInfo\AssemblyInfoCopyright.cs">
+      <Link>Properties\AssemblyInfoCopyright.cs</Link>
+    </Compile>
+    <Compile Include="..\AssemblyInfo\AssemblyInfoVersion.cs">
+      <Link>Properties\AssemblyInfoVersion.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyInfoVersion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InterfaceDevice.cs" />
+    <Compile Include="InterfaceDeviceHuman.cs" />
+    <Compile Include="InterfaceDeviceKeyboard.cs" />
+    <Compile Include="InterfaceDeviceMouse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User\RawInputApi.cs" />
+    <Compile Include="User\RawInputEnums.cs" />
+    <Compile Include="User\RawInputStructs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
+      <Project>{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}</Project>
+      <Name>Tasler.Interop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\AssemblyInfo\AssemblyInfoVersion.tt">
+      <Link>Properties\AssemblyInfoVersion.tt</Link>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
