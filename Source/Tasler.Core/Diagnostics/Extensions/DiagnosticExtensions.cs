@@ -154,9 +154,11 @@ namespace Tasler.Diagnostics
 				return "<null>";
 
 			var asString = @this.ToString();
-			if (asString == @this.GetType().FullName)
+			if (asString.Contains(@this.GetType().Name))
 				asString = "<non-null";
 			return $"HashCode={@this.GetHashCode()} {asString}";
 		}
+
+		public static string GetMemberName([CallerMemberName] string memberName = null) => memberName;
 	}
 }
