@@ -7,8 +7,8 @@ using System.Windows.Markup;
 //     AssemblyInfoConfiguration.cs
 //     AssemblyInfoCopyright.cs
 //     AssemblyInfoVersion.cs
-[assembly: AssemblyTitle("Tasler.Interop.RawInput")]
-[assembly: AssemblyDescription("Application-neutral .NET core interop framework for raw (HID) input.")]
+
+[assembly: AssemblyTitle("Application-neutral .NET core interop framework for raw (HID) input.")]
 [assembly: AssemblyProduct("Tasler .NET Framework")]
 [assembly: Guid("90E7B808-EA0E-431D-B61F-496BA8B117B9")]
 

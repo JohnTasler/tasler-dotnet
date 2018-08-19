@@ -6,7 +6,7 @@
 //   This code was automatically generated from a Text Template.
 //     Time and Date: <#=DateTime.Now.ToString("G") + " " + TimeZoneInfo.Local.DisplayName#>
 //     Computer Name: <#=Environment.ExpandEnvironmentVariables("%COMPUTERNAME%.%USERDNSDOMAIN%").ToLower()#>
-//         User Name: <#=Environment.ExpandEnvironmentVariables("%USERDOMAIN%\\%USERNAME%")#>
+//     User Name    : <#=Environment.ExpandEnvironmentVariables("%USERDOMAIN%\\%USERNAME%")#>
 //
 //   Changes to this file may cause incorrect behavior and will be lost when
 //   the code is regenerated.

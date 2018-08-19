@@ -7,6 +7,6 @@ using System.Runtime.InteropServices;
 //     AssemblyInfoCopyright.cs
 //     AssemblyInfoVersion.cs
 
-[assembly: AssemblyTitle("Application-neutral .NET library for single-instance Windows Desktop applications.")]
+[assembly: AssemblyTitle("Application-neutral .NET framework component model library.")]
 [assembly: AssemblyProduct("Tasler .NET Framework")]
-[assembly: Guid("99015bcb-9b5e-4b3b-89a6-3b5b9f67e1dd")]
+[assembly: Guid("72A1D37C-858C-4F7B-8A82-0967CDC59CC8")]

@@ -1,7 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Tasler.ComponentModel</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
+  <Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
+
+  <ItemGroup>
+    <Compile Include="IModelContainer.cs" />
+    <Compile Include="IMultipleSelectionContainer.cs" />
+    <Compile Include="IParentedObject.cs" />
+    <Compile Include="ISingleSelectionContainer.cs" />
+    <Compile Include="ParentedModelBase.cs" />
+  </ItemGroup>
+
+  <Import Project="..\Tasler.BuildTools\AssemblyVersion.targets" />
 </Project>

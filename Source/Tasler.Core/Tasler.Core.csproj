@@ -1,9 +1,45 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Tasler</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Version />
   </PropertyGroup>
+
+  <Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
+
+  <ItemGroup>
+    <Compile Include="Collections\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Collections\Extensions\IDictionaryExtensions.cs" />
+    <Compile Include="Collections\Extensions\IListExtensions.cs" />
+    <Compile Include="ComponentModel\Extensions\NotifyCollectionChangedExtensions.cs" />
+    <Compile Include="ComponentModel\Extensions\NotifyPropertyChangedExtensions.cs" />
+    <Compile Include="ComponentModel\Extensions\PropertyObserver.cs" />
+    <Compile Include="ComponentModel\Extensions\PropertySupport.cs" />
+    <Compile Include="Converters\HexStringToByteArrayConverter.cs" />
+    <Compile Include="Diagnostics\Extensions\DiagnosticExtensions.cs" />
+    <Compile Include="DisposeScopeExit.cs" />
+    <Compile Include="EnvironmentUtility.cs" />
+    <Compile Include="EventSubscriber.cs" />
+    <Compile Include="EventSubscriberDictionary.cs" />
+    <Compile Include="Extensions\ByteArrayExtensions.cs" />
+    <Compile Include="Extensions\ComparableExtensions.cs" />
+    <Compile Include="Extensions\IntegerExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="IO\Extensions\StreamExtensions.cs" />
+    <Compile Include="IO\PathUtility.cs" />
+    <Compile Include="IO\StreamSection.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Text\Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="Text\RegularExpressions\RegexUtility.cs" />
+    <Compile Include="Threading\Extensions\ReaderWriterLockSlimExtensions.cs" />
+    <Compile Include="Threading\ITimerAdapter.cs" />
+    <Compile Include="Threading\ThreadPoolTimerAdapter.cs" />
+    <Compile Include="Threading\TimerDeferredAction.cs" />
+    <Compile Include="ValidateArgument.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -14,10 +50,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
+  <Import Project="..\Tasler.BuildTools\AssemblyVersion.targets" />
 </Project>

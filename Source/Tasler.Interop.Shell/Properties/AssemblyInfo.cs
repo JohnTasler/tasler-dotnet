@@ -6,8 +6,7 @@ using System.Runtime.InteropServices;
 //     AssemblyInfoConfiguration.cs
 //     AssemblyInfoCopyright.cs
 //     AssemblyInfoVersion.cs
-[assembly: AssemblyTitle("Tasler.Interop.Shell")]
-[assembly: AssemblyDescription("Application-neutral .NET Shell interop framework.")]
+
+[assembly: AssemblyTitle("Application-neutral .NET Shell interop framework.")]
 [assembly: AssemblyProduct("Tasler .NET Framework")]
 [assembly: Guid("0D47AC56-9F1E-4DC0-943C-AB2D6FEF4162")]
-

@@ -1,29 +1,12 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("Tasler.Uwp")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Tasler.Uwp")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+// Assembly-specific information about an assembly. Shared, assembly-neutral information
+// is in the following files:
+//     AssemblyInfoConfiguration.cs
+//     AssemblyInfoCopyright.cs
+//     AssemblyInfoVersion.cs
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: ComVisible(false)]
+[assembly: AssemblyTitle("Tasler.Uwp")]
+[assembly: AssemblyProduct("Tasler .NET Framework")]
+[assembly: Guid("52AC7CF2-1E68-4A5D-AB17-F414C6094730")]
