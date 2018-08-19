@@ -9,7 +9,7 @@ namespace Tasler.Interop.Com
 	public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 	{
 		#region Instance Fields
-		private IRunningObjectTable rot = ComApi.GetRunningObjectTable();
+		private IRunningObjectTable _rot = ComApi.GetRunningObjectTable();
 		#endregion Instance Fields
 
 		#region Finalizer
@@ -22,11 +22,11 @@ namespace Tasler.Interop.Com
 		#region IDisposable Members
 		public void Dispose()
 		{
-			if (this.rot != null)
+			if (_rot != null)
 			{
 				GC.SuppressFinalize(this);
-				Marshal.ReleaseComObject(this.rot);
-				this.rot = null;
+				Marshal.ReleaseComObject(_rot);
+				_rot = null;
 			}
 		}
 		#endregion IDisposable Members
@@ -38,7 +38,7 @@ namespace Tasler.Interop.Com
 			var enumMoniker = new ComPtr<IEnumMoniker>();
 			using (enumMoniker)
 			{
-				this.rot.EnumRunning(out enumMoniker.Value);
+				_rot.EnumRunning(out enumMoniker.Value);
 
 				var monikers = new IMoniker[1];
 				int hr = 0;
@@ -66,7 +66,7 @@ namespace Tasler.Interop.Com
 			where T : class
 		{
 			object runningObject;
-			this.rot.GetObject(moniker, out runningObject);
+			_rot.GetObject(moniker, out runningObject);
 			T result = runningObject as T;
 			if (result == null)
 				Marshal.ReleaseComObject(runningObject);

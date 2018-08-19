@@ -22,7 +22,7 @@ namespace Tasler.Extensions
 
 			var oldSize = @this.Count;
 			if (newSize < oldSize)
-				throw new ArgumentOutOfRangeException("newSize");
+				throw new ArgumentOutOfRangeException(nameof(newSize));
 
 			for (var index = oldSize; index < newSize; ++index)
 				@this.Add(instantiator());
@@ -38,7 +38,7 @@ namespace Tasler.Extensions
 
 			var oldSize = @this.Count;
 			if (newSize > oldSize)
-				throw new ArgumentOutOfRangeException("newSize");
+				throw new ArgumentOutOfRangeException(nameof(newSize));
 
 			for (var index = oldSize; index > newSize; --index)
 				@this.RemoveAt(index - 1);
@@ -46,7 +46,7 @@ namespace Tasler.Extensions
 			return @this;
 		}
 
-		public static TList ShrimkBy<TItem, TList>(this TList @this, int decrementAmount, Func<TItem> instantiator)
+		public static TList ShrinkBy<TItem, TList>(this TList @this, int decrementAmount, Func<TItem> instantiator)
 			where TList : IList<TItem>, new()
 		{
 			return @this.Grow(@this.Count - decrementAmount, instantiator);

@@ -26,18 +26,11 @@ namespace Tasler.ComponentModel
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
 		public static string ExtractPropertyName<TResult>(Expression<Func<TResult>> propertyExpression)
 		{
-			if (propertyExpression == null)
-				throw new ArgumentNullException("propertyExpression");
+			ValidateArgument.IsNotNull(propertyExpression, nameof(propertyExpression));
+			var memberExpression = ValidateArgument.IsOrIsDerivedFrom<MemberExpression>(propertyExpression.Body, nameof(propertyExpression));
+			var propertyInfo = ValidateArgument.IsOrIsDerivedFrom<PropertyInfo>(memberExpression.Member, nameof(propertyExpression));
 
-			var memberExpression = propertyExpression.Body as MemberExpression;
-			if (memberExpression == null)
-				throw new ArgumentException(Resources.PropertySupport_NotMemberAccessExpression_Exception, "propertyExpression");
-
-			var property = memberExpression.Member as PropertyInfo;
-			if (property == null)
-				throw new ArgumentException(Resources.PropertySupport_ExpressionNotProperty_Exception, "propertyExpression");
-
-			var getMethod = property.GetGetMethod(true);
+			var getMethod = propertyInfo.GetGetMethod(true);
 			if (getMethod.IsStatic)
 				throw new ArgumentException(Resources.PropertySupport_StaticExpression_Exception, "propertyExpression");
 
@@ -60,26 +53,17 @@ namespace Tasler.ComponentModel
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
 		public static string ExtractPropertyName<TSource, TResult>(Expression<Func<TSource, TResult>> propertyExpression)
 		{
-			if (propertyExpression == null)
-				throw new ArgumentNullException("propertyExpression");
+			ValidateArgument.IsNotNull(propertyExpression, nameof(propertyExpression));
 
-			var memberExpression = propertyExpression.Body as MemberExpression;
-			if (memberExpression == null)
+			if (!(propertyExpression.Body is MemberExpression memberExpression))
 			{
-				var unaryExpression = propertyExpression.Body as UnaryExpression;
-				if (unaryExpression == null)
-					throw new ArgumentException(Resources.PropertySupport_BodyNotUnaryExpression_Exception, "propertyExpression");
-
-				memberExpression = unaryExpression.Operand as MemberExpression;
-				if (memberExpression == null)
-					throw new ArgumentException(Resources.PropertySupport_NotMemberAccessExpression_Exception, "propertyExpression");
+				var unaryExpression = ValidateArgument.IsOrIsDerivedFrom<UnaryExpression>(propertyExpression.Body, nameof(propertyExpression));
+				memberExpression = ValidateArgument.IsOrIsDerivedFrom<MemberExpression>(unaryExpression.Operand, nameof(propertyExpression));
 			}
 
-			var property = memberExpression.Member as PropertyInfo;
-			if (property == null)
-				throw new ArgumentException(Resources.PropertySupport_ExpressionNotProperty_Exception, "propertyExpression");
+			var propertyInfo = ValidateArgument.IsOrIsDerivedFrom<PropertyInfo>((propertyExpression.Body as MemberExpression).Member, nameof(propertyExpression));
 
-			var getMethod = property.GetGetMethod(true);
+			var getMethod = propertyInfo.GetGetMethod(true);
 			if (getMethod.IsStatic)
 				throw new ArgumentException(Resources.PropertySupport_StaticExpression_Exception, "propertyExpression");
 

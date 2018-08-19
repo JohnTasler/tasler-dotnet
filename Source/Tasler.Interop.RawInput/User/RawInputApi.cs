@@ -8,7 +8,7 @@ namespace Tasler.Interop.RawInput.User
 		#region Constants
 		private const string ApiLib = "user32.dll";
 		#endregion Constants
-	
+
 		/// <summary>
 		/// Function to register a raw input device.
 		/// </summary>

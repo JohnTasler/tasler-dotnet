@@ -19,9 +19,9 @@ namespace Tasler.ComponentModel
 
 		#region Overridables
 		protected virtual bool OnParentSet()
-	{
+		{
 			return true;
-	}
+		}
 		#endregion Overridables
 
 		#region INotifyPropertyChanged Members
@@ -41,12 +41,12 @@ namespace Tasler.ComponentModel
 
 		public bool SetParent(TParent parent)
 		{
-		  if (this.Parent != null)
-			return false;
+			if (this.Parent != null)
+				return false;
 
-	  this.Parent = parent;
+			this.Parent = parent;
 
-	  return this.OnParentSet();
+			return this.OnParentSet();
 		}
 
 		#endregion IParentedObject<TParent> Members

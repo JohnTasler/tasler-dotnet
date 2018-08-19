@@ -14,15 +14,15 @@ namespace Tasler.ApplicationModel
 	public class SingletonApplicationManager
 	{
 		#region Instance Fields
-		private SingletonApplicationBroker broker;
-		private Mutex mutex;
-		private EventWaitHandle readyEvent;
+		private SingletonApplicationBroker _broker;
+		private Mutex _mutex;
+		private EventWaitHandle _readyEvent;
 		#endregion Instance Fields
 
 		#region Construction
 		public SingletonApplicationManager(SingletonApplicationBroker broker)
 		{
-			this.broker = broker;
+			_broker = broker;
 		}
 		#endregion Construction
 
@@ -55,18 +55,18 @@ namespace Tasler.ApplicationModel
 		private void RunInternal(string[] args, bool activateExistingWindow)
 		{
 			// Determine the unique name for this application and object URI
-			string uniqueName = PathUtility.GetInvalidFileNameCharsRegex().Replace(this.broker.UniqueName, "_");
+			string uniqueName = PathUtility.GetInvalidFileNameCharsRegex().Replace(_broker.UniqueName, "_");
 			string mutexName = uniqueName + "_mutex";
 			string eventName = uniqueName + "_ready";
-			string programURI = this.broker.GetType().Name;
+			string programURI = _broker.GetType().Name;
 			string programURL = "ipc://" + uniqueName + "/" + programURI;
 
 			// Create or obtain a named mutex
 			bool createdNew;
-			using (this.mutex = new Mutex(true, mutexName, out createdNew))
+			using (_mutex = new Mutex(true, mutexName, out createdNew))
 			{
 				// Create or obtain the event used to signal when ready for calls
-				using (this.readyEvent = new EventWaitHandle(false, EventResetMode.ManualReset, eventName))
+				using (_readyEvent = new EventWaitHandle(false, EventResetMode.ManualReset, eventName))
 				{
 					SingletonApplicationStartupArgs startupArgs = new SingletonApplicationStartupArgs(args);
 
@@ -79,19 +79,19 @@ namespace Tasler.ApplicationModel
 
 						// Register a well-known service
 						RemotingConfiguration.RegisterWellKnownServiceType(
-							this.broker.GetType(), programURI, WellKnownObjectMode.Singleton);
+							_broker.GetType(), programURI, WellKnownObjectMode.Singleton);
 
 						// Marshal the application broker instance
-						RemotingServices.Marshal(this.broker, programURI);
+						RemotingServices.Marshal(_broker, programURI);
 
 						// Allow the new instance to initialize itself
-						this.broker.OnStartupFirstInstance(startupArgs);
+						_broker.OnStartupFirstInstance(startupArgs);
 
 						// Signal that we're ready for calls
-						this.readyEvent.Set();
+						_readyEvent.Set();
 
 						// Allow the new application instance to run
-						this.broker.OnRun();
+						_broker.OnRun();
 
 						// Unregister the channel
 						ChannelServices.UnregisterChannel(serverChannel);
@@ -99,20 +99,20 @@ namespace Tasler.ApplicationModel
 					else
 					{
 						// Wait for the other instance to be ready for calls
-						readyEvent.WaitOne();
+						_readyEvent.WaitOne();
 
 						// Create and register an ipc client channel
 						IpcClientChannel clientChannel = new IpcClientChannel();
 						ChannelServices.RegisterChannel(clientChannel, true);
 
 						// Create the remote object proxy
-						this.broker = (SingletonApplicationBroker)
-							RemotingServices.Connect(this.broker.GetType(), programURL);
+						_broker = (SingletonApplicationBroker)
+							RemotingServices.Connect(_broker.GetType(), programURL);
 
 						// Bring the existing window into the foreground, as specified
 						if (activateExistingWindow)
 						{
-							IntPtr mainWindowHandle = (IntPtr)this.broker.MainWindowHandle;
+							IntPtr mainWindowHandle = (IntPtr)_broker.MainWindowHandle;
 
 							bool result = UnsafeNativeMethods.SetForegroundWindow(mainWindowHandle);
 							Debug.WriteLineIf(result, "SingletonApplicationManager.RunInternal: SetForegroundWindow succeeded.");
@@ -155,7 +155,7 @@ namespace Tasler.ApplicationModel
 						}
 
 						// Allow the other instance to respond to the command line parameters
-						this.broker.OnStartupNextInstance(startupArgs);
+						_broker.OnStartupNextInstance(startupArgs);
 					}
 				}
 			}
@@ -165,22 +165,22 @@ namespace Tasler.ApplicationModel
 		#region Nested Types
 		private struct AttachThreadInput : IDisposable
 		{
-			private uint currentThreadId;
-			private uint otherThreadId;
+			private uint _currentThreadId;
+			private uint _otherThreadId;
 
 			public AttachThreadInput(IntPtr hwnd)
 			{
-				this.currentThreadId = UnsafeNativeMethods.GetCurrentThreadId();
-				this.otherThreadId = UnsafeNativeMethods.GetWindowThreadProcessId(hwnd, IntPtr.Zero);
-				bool isAttached = UnsafeNativeMethods.AttachThreadInput(this.currentThreadId, this.otherThreadId, true);
+				_currentThreadId = UnsafeNativeMethods.GetCurrentThreadId();
+				_otherThreadId = UnsafeNativeMethods.GetWindowThreadProcessId(hwnd, IntPtr.Zero);
+				bool isAttached = UnsafeNativeMethods.AttachThreadInput(_currentThreadId, _otherThreadId, true);
 				Debug.WriteLine(string.Format(
 					"AttachThreadInput..ctor: AttachThreadInput({0:D4}, {1:D4}) returned {2}",
-					this.currentThreadId, this.otherThreadId, isAttached));
+					_currentThreadId, _otherThreadId, isAttached));
 			}
 
 			public void Dispose()
 			{
-				UnsafeNativeMethods.AttachThreadInput(this.currentThreadId, this.otherThreadId, false);
+				UnsafeNativeMethods.AttachThreadInput(_currentThreadId, _otherThreadId, false);
 			}
 		}
 

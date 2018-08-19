@@ -362,17 +362,17 @@ namespace Tasler.Interop.Shell
 	{
 		#region Static Fields
 		[ThreadStatic]
-		private static IntPtr[] items = new IntPtr[512];
+		private static IntPtr[] _items = new IntPtr[512];
 		#endregion Static Fields
 
 		#region Instance Fields
-		private IEnumIDList enumIdList;
+		private IEnumIDList _enumIdList;
 		#endregion Instance Fields
 
 		#region Construction
 		public EnumIdList(IEnumIDList enumIdList)
 		{
-			this.enumIdList = enumIdList;
+			_enumIdList = enumIdList;
 		}
 		#endregion Construction
 
@@ -383,12 +383,12 @@ namespace Tasler.Interop.Shell
 			do
 			{
 				uint fetched;
-				hr = this.enumIdList.Next((uint)EnumIdList.items.Length, items, out fetched);
+				hr = _enumIdList.Next((uint)EnumIdList._items.Length, _items, out fetched);
 				if (hr == 0 || hr == 1)
 				{
 					for (int index = 0; index < fetched; ++index)
 					{
-						ChildItemIdList childItem = new ChildItemIdList(EnumIdList.items[index]);
+						ChildItemIdList childItem = new ChildItemIdList(EnumIdList._items[index]);
 						yield return childItem;
 					}
 				}

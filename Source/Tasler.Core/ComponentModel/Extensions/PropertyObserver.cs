@@ -143,7 +143,7 @@ namespace Tasler.ComponentModel
 			{
 				var source = this.Source;
 				if (source != null)
-					this.source_PropertyChanged(source, new PropertyChangedEventArgs(null));
+					this.Source_PropertyChanged(source, new PropertyChangedEventArgs(null));
 			}
 
 			/// <summary>
@@ -155,7 +155,7 @@ namespace Tasler.ComponentModel
 				{
 					var source = this.Source;
 					if (source != null)
-						source.PropertyChanged -= this.source_PropertyChanged;
+						source.PropertyChanged -= this.Source_PropertyChanged;
 
 					this.Clear();
 				}
@@ -187,7 +187,7 @@ namespace Tasler.ComponentModel
 			{
 				var source = this.Source;
 				if (source != null)
-					source.PropertyChanged += this.source_PropertyChanged;
+					source.PropertyChanged += this.Source_PropertyChanged;
 			}
 
 			private void Clear()
@@ -199,7 +199,7 @@ namespace Tasler.ComponentModel
 			#endregion Private Implementation
 
 			#region Event Handlers
-			private void source_PropertyChanged(object sender, PropertyChangedEventArgs e)
+			private void Source_PropertyChanged(object sender, PropertyChangedEventArgs e)
 			{
 				if (sender == this.Source && (string.IsNullOrWhiteSpace(e.PropertyName) || e.PropertyName == this.PropertyName))
 				{

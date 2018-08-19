@@ -16,10 +16,9 @@ namespace Tasler
 		/// <exception cref="System.InvalidCastException">The <typeparamref name="TDelegate"/> is not a <see cref="Delegate"/> type.</exception>
 		static EventSubscriber()
 		{
-			// Unfortunately, the C# compiler does not allow Delegate or MulticastDelegate as generic type constraints,
+			// Unfortunately, C# does not allow Delegate or MulticastDelegate as generic type constraints,
 			// so we have to check at runtime.
-			if (!typeof(TDelegate).Is<Delegate>())
-				throw new InvalidCastException(Properties.Resources.TDelegateMustBeDelegate);
+			ValidateArgument.IsOrIsDerivedFrom<TDelegate, Delegate>(nameof(TDelegate));
 		}
 
 		private EventSubscriber(TDelegate handler)

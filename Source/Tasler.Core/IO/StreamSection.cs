@@ -28,24 +28,17 @@ namespace Tasler.IO
 
 		public StreamSection(Stream stream, long origin, long length)
 		{
-			if (stream == null)
-				throw new ArgumentNullException("stream");
-
+			ValidateArgument.IsNotNull(stream, nameof(stream));
 			if (!stream.CanRead)
 				throw new ArgumentException("Unreadable stream specified.", "stream");
-
 			if (!stream.CanSeek)
 				throw new ArgumentException("Unseekable stream specified.", "stream");
-
 			if (origin >= stream.Length)
 				throw new ArgumentOutOfRangeException("position", "Specified position is beyond the length of the specified stream.");
-
 			if (origin < 0)
 				throw new ArgumentOutOfRangeException("position", "Specified argument must be non-negative.");
-
 			if (length < 0)
 				throw new ArgumentOutOfRangeException("length", "Specified argument must be non-negative.");
-
 			if (origin + length > stream.Length)
 				throw new ArgumentOutOfRangeException("length", "Specified length extends beyond the length of the specified stream.");
 
@@ -79,15 +72,11 @@ namespace Tasler.IO
 		public override int Read(byte[] buffer, int offset, int count)
 		{
 			// TODO: RESOURCES
-			if (buffer == null)
-				throw new ArgumentNullException("buffer");
-
+			ValidateArgument.IsNotNull(buffer, nameof(buffer));
 			if (offset < 0)
 				throw new ArgumentOutOfRangeException("position", "Specified argument must be non-negative.");
-
 			if (count < 0)
 				throw new ArgumentOutOfRangeException("count", "Specified argument must be non-negative.");
-
 			if ((buffer.Length - offset) < count)
 				throw new ArgumentException("position", "Specified range extends beyond the length of the specified buffer.");
 

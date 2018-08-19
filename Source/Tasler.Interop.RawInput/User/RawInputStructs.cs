@@ -78,7 +78,7 @@ namespace Tasler.Interop.RawInput.User
 
 	/// <summary>
 	/// Value type for raw input from a keyboard.
-	/// </summary>	
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public struct RAWINPUTKEYBOARD
 	{
@@ -98,7 +98,7 @@ namespace Tasler.Interop.RawInput.User
 
 	/// <summary>
 	/// Value type for raw input from a HID.
-	/// </summary>	
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public struct RAWINPUTHID
 	{

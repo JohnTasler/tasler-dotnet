@@ -62,27 +62,27 @@ namespace Tasler.Interop.RawInput
 
 	public class MouseInput : RawInputBase
 	{
-		private RAWINPUTMOUSE raw;
+		private RAWINPUTMOUSE _raw;
 
 		internal MouseInput(IntPtr pData)
 		{
-			this.raw = (RAWINPUTMOUSE)Marshal.PtrToStructure(
+			_raw = (RAWINPUTMOUSE)Marshal.PtrToStructure(
 				new IntPtr(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTMOUSE));
 		}
 
 		/// <summary>Flags for the event.</summary>
-		public MouseFlags Flags { get { return this.raw.Flags; } }
+		public MouseFlags Flags { get { return _raw.Flags; } }
 		/// <summary>Flags for the event.</summary>
-		public MouseButtons Buttons { get { return this.raw.Buttons; } }
+		public MouseButtons Buttons { get { return _raw.Buttons; } }
 		/// <summary>If the mouse wheel is moved, this will contain the delta amount.</summary>
-		public short ButtonData { get { return this.raw.ButtonData; } }
+		public short ButtonData { get { return _raw.ButtonData; } }
 		/// <summary>Raw button data.</summary>
-		public int RawButtons { get { return this.raw.RawButtons; } }
+		public int RawButtons { get { return _raw.RawButtons; } }
 		/// <summary>Relative direction of motion, depending on flags.</summary>
-		public int LastX { get { return this.raw.LastX; } }
+		public int LastX { get { return _raw.LastX; } }
 		/// <summary>Relative direction of motion, depending on flags.</summary>
-		public int LastY { get { return this.raw.LastY; } }
+		public int LastY { get { return _raw.LastY; } }
 		/// <summary>Extra information.</summary>
-		public int ExtraInformation { get { return this.raw.ExtraInformation; } }
+		public int ExtraInformation { get { return _raw.ExtraInformation; } }
 	}
 }

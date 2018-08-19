@@ -3,11 +3,9 @@
 #if WINDOWS_UWP
 using Windows.Foundation;
 namespace Tasler.Foundation
-
 #elif WINDOWS_WPF
 using System.Windows;
 namespace Tasler.Windows
-
 #endif
 {
 	// TODO: NEEDS_UNIT_TESTS

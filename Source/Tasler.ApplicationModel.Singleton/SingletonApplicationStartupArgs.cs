@@ -10,32 +10,28 @@ namespace Tasler.ApplicationModel
 	public class SingletonApplicationStartupArgs : EventArgs, ISerializable
 	{
 		#region Instance Fields
-		private int processId;
-		private string[] commandLineArgs;
-		private string commandLine;
-		private string currentDirectory;
-		private IDictionary environmentVariables;
-		private int imitationRefCount;
-		private string previousCurrentDirectory;
-		private IDictionary previousEnvironmentVariables;
+		private int _processId;
+		private int _imitationRefCount;
+		private string _previousCurrentDirectory;
+		private IDictionary _previousEnvironmentVariables;
 		#endregion Instance Fields
 
 		#region Construction
 		public SingletonApplicationStartupArgs(string[] args)
 		{
-			this.processId = Process.GetCurrentProcess().Id;
-			this.commandLineArgs = args;
-			this.commandLine = Environment.CommandLine;
-			this.currentDirectory = Environment.CurrentDirectory;
-			this.environmentVariables = Environment.GetEnvironmentVariables();
+			_processId = Process.GetCurrentProcess().Id;
+			this.CommnadLineArgs = args;
+			this.CommandLine = Environment.CommandLine;
+			this.CurrentDirectory = Environment.CurrentDirectory;
+			this.EnvironmentVariables = Environment.GetEnvironmentVariables();
 		}
 		#endregion Construction
 
 		#region Properties
-		public string[] CommnadLineArgs { get { return this.commandLineArgs; } }
-		public string CommandLine { get { return this.commandLine; } }
-		public string CurrentDirectory { get { return this.currentDirectory; } }
-		public IDictionary EnvironmentVariables { get { return this.environmentVariables; } }
+		public string[] CommnadLineArgs { get; }
+		public string CommandLine { get; }
+		public string CurrentDirectory { get; }
+		public IDictionary EnvironmentVariables { get; }
 		#endregion Properties
 
 		#region Methods
@@ -48,31 +44,31 @@ namespace Tasler.ApplicationModel
 		#region Private Implementation
 		private void IncrementRefCount()
 		{
-			if (Interlocked.Increment(ref this.imitationRefCount) == 1)
+			if (Interlocked.Increment(ref _imitationRefCount) == 1)
 			{
-				if (this.processId != Process.GetCurrentProcess().Id)
+				if (_processId != Process.GetCurrentProcess().Id)
 				{
 					// Save the current working directory and change to that of the other process
-					this.previousCurrentDirectory = Environment.CurrentDirectory;
+					_previousCurrentDirectory = Environment.CurrentDirectory;
 					Environment.CurrentDirectory = this.CurrentDirectory;
 
 					// Save the current set of environment variables and change to that of the other process
-					this.previousEnvironmentVariables = EnvironmentUtility.ReplaceEnvironmentVariables(this.EnvironmentVariables);
+					_previousEnvironmentVariables = EnvironmentUtility.ReplaceEnvironmentVariables(this.EnvironmentVariables);
 				}
 			}
 		}
 
 		private void DecrementRefCount()
 		{
-			if (Interlocked.Decrement(ref this.imitationRefCount) == 0)
+			if (Interlocked.Decrement(ref _imitationRefCount) == 0)
 			{
-				if (this.processId != Process.GetCurrentProcess().Id)
+				if (_processId != Process.GetCurrentProcess().Id)
 				{
 					// Restore the previous working directory and process environment
-					Environment.CurrentDirectory = this.previousCurrentDirectory;
-					EnvironmentUtility.ReplaceEnvironmentVariables(this.previousEnvironmentVariables);
-					this.previousCurrentDirectory = null;
-					this.previousEnvironmentVariables = null;
+					Environment.CurrentDirectory = _previousCurrentDirectory;
+					EnvironmentUtility.ReplaceEnvironmentVariables(_previousEnvironmentVariables);
+					_previousCurrentDirectory = null;
+					_previousEnvironmentVariables = null;
 				}
 			}
 		}
@@ -82,19 +78,19 @@ namespace Tasler.ApplicationModel
 		private class ImitationState : IDisposable
 		{
 			#region Instance Fields
-			private SingletonApplicationStartupArgs owner;
+			private SingletonApplicationStartupArgs _owner;
 			#endregion Instance Fields
 
 			#region Construction / Finalization
 			public ImitationState(SingletonApplicationStartupArgs owner)
 			{
-				this.owner = owner;
-				this.owner.IncrementRefCount();
+				_owner = owner;
+				_owner.IncrementRefCount();
 			}
 
 			~ImitationState()
 			{
-				if (this.owner != null)
+				if (_owner != null)
 					this.Dispose();
 			}
 			#endregion Construction / Finalization
@@ -102,7 +98,7 @@ namespace Tasler.ApplicationModel
 			#region IDisposable Members
 			public void Dispose()
 			{
-				SingletonApplicationStartupArgs owner = Interlocked.Exchange(ref this.owner, null);
+				SingletonApplicationStartupArgs owner = Interlocked.Exchange(ref _owner, null);
 				if (owner != null)
 				{
 					GC.SuppressFinalize(this);
@@ -117,20 +113,20 @@ namespace Tasler.ApplicationModel
 
 		protected SingletonApplicationStartupArgs(SerializationInfo info, StreamingContext context)
 		{
-			this.processId = info.GetInt32("processId");
-			this.commandLineArgs = (string[])info.GetValue("commandLineArgs", typeof(string[]));
-			this.commandLine = info.GetString("commandLine");
-			this.currentDirectory = info.GetString("currentDirectory");
-			this.environmentVariables = (IDictionary)info.GetValue("environmentVariables", typeof(Hashtable));
+			_processId = info.GetInt32("processId");
+			this.CommnadLineArgs = (string[])info.GetValue("commandLineArgs", typeof(string[]));
+			this.CommandLine = info.GetString("commandLine");
+			this.CurrentDirectory = info.GetString("currentDirectory");
+			this.EnvironmentVariables = (IDictionary)info.GetValue("environmentVariables", typeof(Hashtable));
 		}
 
 		void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
 		{
-			info.AddValue("processId", processId);
-			info.AddValue("commandLineArgs", this.commandLineArgs);
-			info.AddValue("commandLine", this.commandLine);
-			info.AddValue("currentDirectory", this.currentDirectory);
-			info.AddValue("environmentVariables", this.environmentVariables);
+			info.AddValue("processId", _processId);
+			info.AddValue("commandLineArgs", this.CommnadLineArgs);
+			info.AddValue("commandLine", this.CommandLine);
+			info.AddValue("currentDirectory", this.CurrentDirectory);
+			info.AddValue("environmentVariables", this.EnvironmentVariables);
 		}
 
 		#endregion ISerializable Members

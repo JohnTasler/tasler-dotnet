@@ -180,8 +180,7 @@ namespace Tasler.Interop.User
 		[SecurityCritical]
 		public static string GetWindowText(IntPtr hWnd)
 		{
-			var sb = new StringBuilder();
-			sb.Capacity = Private.GetWindowTextLength(hWnd);
+			var sb = new StringBuilder { Capacity = Private.GetWindowTextLength(hWnd) };
 			Private.GetWindowText(hWnd, sb, sb.Capacity);
 			return sb.ToString();
 		}

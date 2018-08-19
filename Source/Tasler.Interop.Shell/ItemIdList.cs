@@ -262,7 +262,7 @@ namespace Tasler.Interop.Shell
 				{
 					cb = (ushort)Marshal.ReadInt16(base.handle, offset);
 					if (cb == 0)
-						throw new ArgumentOutOfRangeException("index");
+						throw new ArgumentOutOfRangeException(nameof(index));
 					if (pidlIndex > 0)
 						offset += cb;
 				}
@@ -380,9 +380,9 @@ namespace Tasler.Interop.Shell
 
 			// Validate the array length
 			if (array.Length < sizeof(ushort))
-				throw new ArgumentException("Argument Array.Length is too small to be a SHITEMID.", "array");
+				throw new ArgumentException($"Array argument's Length is too small to be a SHITEMID. Length={array.Length}", nameof(array));
 			if (array.Length > ushort.MaxValue)
-				throw new ArgumentException("Argument Array.Length is too large to be a SHITEMID.", "array");
+				throw new ArgumentException("Array argument's Length is too large to be a SHITEMID. Length={array.Length}", nameof(array));
 
 			// Allocate the unmanaged memory
 			base.SetHandle(Marshal.AllocCoTaskMem(array.Length));

@@ -6,7 +6,7 @@ namespace Tasler.Threading
 	public class ThreadPoolTimerAdapter : ITimerAdapter
 	{
 		#region Instance Fields
-		private object _lock = new object();
+		private readonly object _lock = new object();
 		private Timer _threadPoolTimer;
 		private TimeSpan _interval;
 		private EventHandler _tick;
@@ -87,8 +87,7 @@ namespace Tasler.Threading
 			var tick = default(EventHandler);
 			lock (_lock)
 				tick = _tick;
-			if (tick != null)
-				tick(this, EventArgs.Empty);
+			tick?.Invoke(this, EventArgs.Empty);
 		}
 
 		#endregion Private Implementation

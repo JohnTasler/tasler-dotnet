@@ -5,41 +5,40 @@ namespace Tasler.Interop.Com
 {
 	public class GitHandleBase : IDisposable
 	{
-		#region Static Fields
-		private static GlobalInterfaceTable git = new GlobalInterfaceTable();
-		#endregion Static Fields
-
 		#region Instance Fields
-		protected int cookie;
+		private readonly object _cookieLock = new object();
+		private int _cookie;
 		#endregion Instance Fields
 
 		#region Properties
 
-		protected static IGlobalInterfaceTable Git
-		{
-			get
-			{
-				if (git == null)
-					git = (GlobalInterfaceTable)new GlobalInterfaceTable();
-				return git;
-			}
-		}
+		protected static IGlobalInterfaceTable Git { get; } = new GlobalInterfaceTable();
 
 		public int Cookie
 		{
 			get
 			{
-				return this.cookie;
+				lock (_cookieLock)
+					return _cookie;
+			}
+			protected set
+			{
+				lock (_cookieLock)
+					_cookie = value;
 			}
 		}
+
 		#endregion Properties
 
 		#region Methods
 		public int DetachCookie()
 		{
-			int result = this.cookie;
-			this.cookie = 0;
-			return result;
+			lock (_cookieLock)
+			{
+				int result = _cookie;
+				_cookie = 0;
+				return result;
+			}
 		}
 		#endregion Methods
 
@@ -60,10 +59,13 @@ namespace Tasler.Interop.Com
 
 		public void Dispose()
 		{
-			if (this.cookie != 0)
+			lock (_cookieLock)
 			{
-				Git.RevokeInterfaceFromGlobal(this.cookie);
-				this.cookie = 0;
+				if (_cookie != 0)
+				{
+					Git.RevokeInterfaceFromGlobal(_cookie);
+					_cookie = 0;
+				}
 			}
 
 			GC.SuppressFinalize(this);
@@ -78,13 +80,15 @@ namespace Tasler.Interop.Com
 		#region Construction
 		public GitHandle(T unknown)
 		{
-			if (unknown == null)
-				throw new ArgumentNullException("unknown");
+			ValidateArgument.IsNotNull(unknown, nameof(unknown));
 
 			Guid iid = typeof(T).GUID;
-			int hr = Git.RegisterInterfaceInGlobal(unknown, ref iid, out base.cookie);
+			int hr = Git.RegisterInterfaceInGlobal(unknown, ref iid, out int cookie);
 			if (hr < 0)
 				Marshal.ThrowExceptionForHR(hr);
+			else
+				base.Cookie = cookie;
+
 		}
 		#endregion Construction
 
@@ -93,9 +97,8 @@ namespace Tasler.Interop.Com
 		{
 			get
 			{
-				object unknown;
 				Guid iid = typeof(T).GUID;
-				int hr = Git.GetInterfaceFromGlobal(base.cookie, ref iid, out unknown);
+				int hr = Git.GetInterfaceFromGlobal(base.Cookie, ref iid, out var unknown);
 				if (hr < 0)
 					Marshal.ThrowExceptionForHR(hr);
 				return unknown as T;

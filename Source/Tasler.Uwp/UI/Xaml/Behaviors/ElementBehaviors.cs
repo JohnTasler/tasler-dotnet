@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Tasler.UI.Xaml.Behaviors
 {
-	using apFactory = AttachedPropertyFactory<ElementBehaviors>;
+	using attached = AttachedPropertyFactory<ElementBehaviors>;
 
 	// TODO: NEEDS_UNIT_TESTS
 
@@ -14,7 +14,7 @@ namespace Tasler.UI.Xaml.Behaviors
 
 		#region ClipThickness
 
-		public static readonly DependencyProperty ClipThicknessProperty = apFactory.Register<Thickness>(
+		public static readonly DependencyProperty ClipThicknessProperty = attached.Register<Thickness>(
 			"ClipThickness", new Thickness(double.NaN), ClipThicknessPropertyChanged);
 
 		public static Thickness GetClipThickness(FrameworkElement element)

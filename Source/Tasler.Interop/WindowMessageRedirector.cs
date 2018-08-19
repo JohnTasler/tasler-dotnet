@@ -9,10 +9,10 @@ namespace Tasler.Interop
 	public abstract class WindowMessageRedirector
 	{
 		#region Instance Fields
-		private WndProc wndProc;
-		private HandleRef windowProcedure;
-		private EventSubscriberDictionary<int, EventHandler<WindowMessageEventArgs>> eventSubscribers;
-		private bool hadEventSubscribers;
+		private WndProc _wndProc;
+		private HandleRef _windowProcedure;
+		private EventSubscriberDictionary<int, EventHandler<WindowMessageEventArgs>> _eventSubscribers;
+		private bool _hadEventSubscribers;
 		#endregion Instance Fields
 
 		#region Constructors
@@ -24,12 +24,12 @@ namespace Tasler.Interop
 		{
 			if (outerRedirector != null)
 			{
-				var eventSubscribers = outerRedirector.eventSubscribers;
+				var eventSubscribers = outerRedirector._eventSubscribers;
 				if (eventSubscribers != null && eventSubscribers.Count != 0)
 				{
-					this.eventSubscribers = eventSubscribers;
-					this.hadEventSubscribers = true;
-					this.eventSubscribers.PropertyChanged += this.eventSubscribers_PropertyChanged;
+					_eventSubscribers = eventSubscribers;
+					_hadEventSubscribers = true;
+					_eventSubscribers.PropertyChanged += this.eventSubscribers_PropertyChanged;
 					this.OnHasEventSubscribersChanged();
 				}
 			}
@@ -42,22 +42,22 @@ namespace Tasler.Interop
 		{
 			get
 			{
-				return this.eventSubscribers != null ? this.eventSubscribers[messageId] : null;
+				return _eventSubscribers != null ? _eventSubscribers[messageId] : null;
 			}
 
 			set
 			{
-				if (this.eventSubscribers == null)
+				if (_eventSubscribers == null)
 				{
 					if (value == null)
 						return;
 
-					this.eventSubscribers = new EventSubscriberDictionary<int, EventHandler<WindowMessageEventArgs>>(
+					_eventSubscribers = new EventSubscriberDictionary<int, EventHandler<WindowMessageEventArgs>>(
 						new SortedDictionary<int, EventSubscriber<EventHandler<WindowMessageEventArgs>>>());
-					this.eventSubscribers.PropertyChanged += this.eventSubscribers_PropertyChanged;
+					_eventSubscribers.PropertyChanged += this.eventSubscribers_PropertyChanged;
 				}
 
-				this.eventSubscribers[messageId] = value;
+				_eventSubscribers[messageId] = value;
 			}
 		}
 
@@ -71,13 +71,13 @@ namespace Tasler.Interop
 		{
 			get
 			{
-				if (this.windowProcedure.Handle == IntPtr.Zero)
+				if (_windowProcedure.Handle == IntPtr.Zero)
 				{
-					this.wndProc = this.WndProc;
-					this.windowProcedure = new HandleRef(this, Marshal.GetFunctionPointerForDelegate(this.wndProc));
+					_wndProc = this.WndProc;
+					_windowProcedure = new HandleRef(this, Marshal.GetFunctionPointerForDelegate(_wndProc));
 				}
 
-				return this.windowProcedure.Handle;
+				return _windowProcedure.Handle;
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace Tasler.Interop
 
 		protected bool HasEventSubscribers
 		{
-			get { return this.eventSubscribers != null && this.eventSubscribers.Count != 0; }
+			get { return _eventSubscribers != null && _eventSubscribers.Count != 0; }
 		}
 
 		#endregion Properties
@@ -93,7 +93,7 @@ namespace Tasler.Interop
 		#region Protected Methods
 		protected void ClearWindowProcedure()
 		{
-			this.wndProc = null;
+			_wndProc = null;
 		}
 		#endregion Protected Methods
 
@@ -116,7 +116,7 @@ namespace Tasler.Interop
 		#endregion Overridables
 
 		#region Private Implementation
-		
+
 		private IntPtr WndProc(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam)
 		{
 			var handled = false;
@@ -135,7 +135,7 @@ namespace Tasler.Interop
 			if (!wasHandled)
 			{
 				EventSubscriber<EventHandler<WindowMessageEventArgs>> subscriber = null;
-				if (this.eventSubscribers.TryGetValue(message, out subscriber))
+				if (_eventSubscribers.TryGetValue(message, out subscriber))
 				{
 					if (subscriber != null && subscriber.Handler != null)
 					{
@@ -180,9 +180,9 @@ namespace Tasler.Interop
 			if (e.PropertyName == "Count")
 			{
 				var hasEventSubscribers = this.HasEventSubscribers;
-				if (this.hadEventSubscribers != hasEventSubscribers)
+				if (_hadEventSubscribers != hasEventSubscribers)
 				{
-					this.hadEventSubscribers = hasEventSubscribers;
+					_hadEventSubscribers = hasEventSubscribers;
 					this.OnHasEventSubscribersChanged();
 				}
 			}

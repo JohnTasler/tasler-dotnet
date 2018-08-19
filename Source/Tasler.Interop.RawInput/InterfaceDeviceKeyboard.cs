@@ -75,26 +75,26 @@ namespace Tasler.Interop.RawInput
 
 	public class KeyboardInput : RawInputBase
 	{
-		private RAWINPUTKEYBOARD raw;
+		private RAWINPUTKEYBOARD _raw;
 
 		internal KeyboardInput(IntPtr pData)
 		{
-			this.raw = (RAWINPUTKEYBOARD)Marshal.PtrToStructure(
+			_raw = (RAWINPUTKEYBOARD)Marshal.PtrToStructure(
 				new IntPtr(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTKEYBOARD));
 		}
 
 		/// <summary>Scan code for key depression.</summary>
-		public short MakeCode { get { return this.raw.MakeCode; } }
+		public short MakeCode { get { return _raw.MakeCode; } }
 		/// <summary>Scan code information.</summary>
-		public KeyboardFlags Flags { get { return this.raw.Flags; } }
+		public KeyboardFlags Flags { get { return _raw.Flags; } }
 		/// <summary>Virtual key code.</summary>
-		public short VirtualKey { get { return this.raw.VirtualKey; } }
+		public short VirtualKey { get { return _raw.VirtualKey; } }
 		/// <summary>The display name of the scan code key.</summary>
 		public string KeyName { get { return UserApi.GetScanCodeKeyDisplayText(this.MakeCode); } }
 
 		/// <summary>Corresponding window message.</summary>
-		public int Message { get { return this.raw.Message; } }
+		public int Message { get { return _raw.Message; } }
 		/// <summary>Extra information.</summary>
-		public int ExtraInformation { get { return this.raw.ExtraInformation; } }
+		public int ExtraInformation { get { return _raw.ExtraInformation; } }
 	}
 }

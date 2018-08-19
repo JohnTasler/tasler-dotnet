@@ -26,8 +26,7 @@ namespace Tasler.Extensions
 
 		public static bool TryGetValueAsType<T, TKey>(this IDictionary<TKey, object> @this, TKey key, out T value, out InvalidCastException exception)
 		{
-			if (@this == null)
-				throw new ArgumentNullException("@this");
+			ValidateArgument.IsNotNull(@this, nameof(@this));
 			if (!typeof(TKey).IsValueType && object.Equals(key, default(TKey)))
 				throw new ArgumentNullException("key");
 
@@ -35,8 +34,7 @@ namespace Tasler.Extensions
 			value = default(T);
 			exception = null;
 
-			var result = default(object);
-			if (!@this.TryGetValue(key, out result))
+			if (!@this.TryGetValue(key, out var result))
 			{
 				return false;
 			}
@@ -54,6 +52,7 @@ namespace Tasler.Extensions
 				if (result == null)
 					createException = true;
 			}
+
 			if (createException)
 			{
 				exception = new InvalidCastException(

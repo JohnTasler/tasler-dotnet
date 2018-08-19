@@ -8,14 +8,14 @@ namespace Tasler.Interop.RawInput
 	public abstract class InterfaceDevice
 	{
 		#region Instance Fields
-		internal RAWINPUTDEVICELIST device;
-		private string name;
+		internal RAWINPUTDEVICELIST _device;
+		private string _name;
 		#endregion Instance Fields
 
 		#region Construction
 		public InterfaceDevice(RAWINPUTDEVICELIST device)
 		{
-			this.device = device;
+			_device = device;
 		}
 
 		public static InterfaceDevice FromRAWINPUTDEVICELIST(RAWINPUTDEVICELIST device)
@@ -37,23 +37,23 @@ namespace Tasler.Interop.RawInput
 		#region Properties
 		public InterfaceDeviceType DeviceType
 		{
-			get { return this.device.dwType; }
+			get { return _device.dwType; }
 		}
 
 		public IntPtr Handle
 		{
-			get { return this.device.hDevice; }
+			get { return _device.hDevice; }
 		}
 
 		public string Name
 		{
 			get
 			{
-				if (this.name == null)
+				if (_name == null)
 				{
 					// Get the size of buffer needed
 					var nameLength = 0;
-					RawInputApi.GetRawInputDeviceInfo(this.device.hDevice, DeviceInfoItem.DeviceName, IntPtr.Zero, ref nameLength);
+					RawInputApi.GetRawInputDeviceInfo(_device.hDevice, DeviceInfoItem.DeviceName, IntPtr.Zero, ref nameLength);
 
 					// Allocate an unmanaged buffer
 					var bufferByteCount = nameLength * Marshal.SystemDefaultCharSize;
@@ -62,10 +62,10 @@ namespace Tasler.Interop.RawInput
 					try
 					{
 						// Get the name string
-						RawInputApi.GetRawInputDeviceInfo(this.device.hDevice, DeviceInfoItem.DeviceName, buffer, ref nameLength);
+						RawInputApi.GetRawInputDeviceInfo(_device.hDevice, DeviceInfoItem.DeviceName, buffer, ref nameLength);
 
 						// Marshal the name string to a managed string
-						this.name = Marshal.PtrToStringAuto(buffer);
+						_name = Marshal.PtrToStringAuto(buffer);
 					}
 					finally
 					{
@@ -74,7 +74,7 @@ namespace Tasler.Interop.RawInput
 					}
 				}
 
-				return this.name;
+				return _name;
 			}
 		}
 
@@ -99,7 +99,7 @@ namespace Tasler.Interop.RawInput
 		public override bool Equals(object obj)
 		{
 			if (obj is RAWINPUTDEVICELIST)
-				return obj.Equals(this.device);
+				return obj.Equals(_device);
 			return base.Equals(obj);
 		}
 
@@ -132,7 +132,7 @@ namespace Tasler.Interop.RawInput
 				{
 					// Get the size of buffer needed
 					var byteCount = 0;
-					RawInputApi.GetRawInputDeviceInfo(base.device.hDevice, DeviceInfoItem.DeviceInfo, IntPtr.Zero, ref byteCount);
+					RawInputApi.GetRawInputDeviceInfo(base._device.hDevice, DeviceInfoItem.DeviceInfo, IntPtr.Zero, ref byteCount);
 
 					// Allocate an unmanaged buffer
 					var buffer = Marshal.AllocHGlobal(byteCount);
@@ -143,7 +143,7 @@ namespace Tasler.Interop.RawInput
 						Marshal.WriteInt32(buffer, byteCount);
 
 						// Get the device info
-						RawInputApi.GetRawInputDeviceInfo(base.device.hDevice, DeviceInfoItem.DeviceInfo, buffer, ref byteCount);
+						RawInputApi.GetRawInputDeviceInfo(base._device.hDevice, DeviceInfoItem.DeviceInfo, buffer, ref byteCount);
 
 						// Marshal the device info to a managed structure
 						this.deviceInfo = (T)Marshal.PtrToStructure(buffer, typeof(T));

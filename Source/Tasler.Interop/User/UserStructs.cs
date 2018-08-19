@@ -42,7 +42,7 @@ namespace Tasler.Interop.User
 		public static readonly int MarshalSizeOf =
 			Marshal.SizeOf(typeof(WINDOWPLACEMENT));
 
-		private int length = MarshalSizeOf;
+		private int _length = MarshalSizeOf;
 		public int flags;
 		public SW showCmd;
 		public POINT ptMinPosition;

@@ -7,7 +7,7 @@ namespace Tasler.Interop.Com
 	/// <summary>
 	/// Managed code wrapper for the standard Global Interface Table.
 	/// </summary>
-	public class GlobalInterfaceTable : IGlobalInterfaceTable
+	internal class GlobalInterfaceTable : IGlobalInterfaceTable
 	{
 		#region IGlobalInterfaceTable Method Delegates
 		private const int RegisterInterfaceInGlobalIndex = 3;
@@ -30,52 +30,52 @@ namespace Tasler.Interop.Com
 			out IntPtr ppv);
 		#endregion IGlobalInterfaceTable Method Delegates
 
-		#region Static Fields
-		private static Guid clsidStdGlobalInterfaceTable = typeof(StdGlobalInterfaceTable).GUID;
-		private static Guid iidIGlobalInterfaceTable = typeof(IGlobalInterfaceTable).GUID;
-		#endregion Static Fields
-
 		#region Instance Fields
-		private IntPtr pGit;
-		private IntPtr vtbl;
-		private RegisterInterfaceInGlobalDelegate fnRegisterInterfaceInGlobal;
-		private RevokeInterfaceFromGlobalDelegate fnRevokeInterfaceFromGlobal;
-		private GetInterfaceFromGlobalDelegate fnGetInterfaceFromGlobal;
+		private IntPtr _pGit;
+		private IntPtr _vtbl;
+		private RegisterInterfaceInGlobalDelegate _fnRegisterInterfaceInGlobal;
+		private RevokeInterfaceFromGlobalDelegate _fnRevokeInterfaceFromGlobal;
+		private GetInterfaceFromGlobalDelegate _fnGetInterfaceFromGlobal;
 		#endregion Instance Fields
 
 		#region Construction / Finalization
 		public GlobalInterfaceTable()
 		{
+			var clsidStdGlobalInterfaceTable = typeof(StdGlobalInterfaceTable).GUID;
+			var iidIGlobalInterfaceTable = typeof(IGlobalInterfaceTable).GUID;
+
 			int hr = ComApi.CoCreateInstance(ref clsidStdGlobalInterfaceTable, IntPtr.Zero,
-				ClsCtx.InprocServer, ref iidIGlobalInterfaceTable, out this.pGit);
+				ClsCtx.InprocServer, ref iidIGlobalInterfaceTable, out _pGit);
 			if (hr < 0)
 				Marshal.ThrowExceptionForHR(hr);
 
-			this.vtbl = Marshal.ReadIntPtr(this.pGit);
-			IntPtr pfnRegisterInterfaceInGlobal = Marshal.ReadIntPtr(this.vtbl, 3 * IntPtr.Size);
-			IntPtr pfnRevokeInterfaceFromGlobal = Marshal.ReadIntPtr(this.vtbl, 4 * IntPtr.Size);
-			IntPtr pfnGetInterfaceFromGlobal = Marshal.ReadIntPtr(this.vtbl, 5 * IntPtr.Size);
+			_vtbl = Marshal.ReadIntPtr(_pGit);
+			IntPtr pfnRegisterInterfaceInGlobal = Marshal.ReadIntPtr(_vtbl, IntPtr.Size * RegisterInterfaceInGlobalIndex);
+			IntPtr pfnRevokeInterfaceFromGlobal = Marshal.ReadIntPtr(_vtbl, IntPtr.Size * RevokeInterfaceFromGlobalIndex);
+			IntPtr pfnGetInterfaceFromGlobal    = Marshal.ReadIntPtr(_vtbl, IntPtr.Size * GetInterfaceFromGlobalIndex);
 
-			this.fnRegisterInterfaceInGlobal = (RegisterInterfaceInGlobalDelegate)
+			_fnRegisterInterfaceInGlobal = (RegisterInterfaceInGlobalDelegate)
 				Marshal.GetDelegateForFunctionPointer(pfnRegisterInterfaceInGlobal,
 					typeof(RegisterInterfaceInGlobalDelegate));
-			this.fnRevokeInterfaceFromGlobal = (RevokeInterfaceFromGlobalDelegate)
+			_fnRevokeInterfaceFromGlobal = (RevokeInterfaceFromGlobalDelegate)
 				Marshal.GetDelegateForFunctionPointer(pfnRevokeInterfaceFromGlobal,
 					typeof(RevokeInterfaceFromGlobalDelegate));
-			this.fnGetInterfaceFromGlobal = (GetInterfaceFromGlobalDelegate)
+			_fnGetInterfaceFromGlobal = (GetInterfaceFromGlobalDelegate)
 				Marshal.GetDelegateForFunctionPointer(pfnGetInterfaceFromGlobal,
 					typeof(GetInterfaceFromGlobalDelegate));
 		}
 
 		~GlobalInterfaceTable()
 		{
-			if (this.vtbl != IntPtr.Zero)
-				this.vtbl = IntPtr.Zero;
+			_vtbl = IntPtr.Zero;
+			_fnRegisterInterfaceInGlobal = null;
+			_fnRevokeInterfaceFromGlobal = null;
+			_fnGetInterfaceFromGlobal = null;
 
-			if (this.pGit != IntPtr.Zero)
+			if (_pGit != IntPtr.Zero)
 			{
-				Marshal.Release(this.pGit);
-				this.pGit = IntPtr.Zero;
+				Marshal.Release(_pGit);
+				_pGit = IntPtr.Zero;
 			}
 		}
 		#endregion Construction / Finalization
@@ -85,20 +85,19 @@ namespace Tasler.Interop.Com
 		public int RegisterInterfaceInGlobal(object pUnk, ref Guid riid, out int pdwCookie)
 		{
 			IntPtr pUnknown = Marshal.GetIUnknownForObject(pUnk);
-			int hr = this.fnRegisterInterfaceInGlobal(this.vtbl, pUnknown, ref riid, out pdwCookie);
+			int hr = _fnRegisterInterfaceInGlobal(_vtbl, pUnknown, ref riid, out pdwCookie);
 			Marshal.Release(pUnknown);
 			return hr;
 		}
 
 		public int RevokeInterfaceFromGlobal(int dwCookie)
 		{
-			return this.fnRevokeInterfaceFromGlobal(this.vtbl, dwCookie);
+			return _fnRevokeInterfaceFromGlobal(_vtbl, dwCookie);
 		}
 
 		public int GetInterfaceFromGlobal(int dwCookie, ref Guid riid, out object ppv)
 		{
-			IntPtr pUnknown;
-			int hr = this.fnGetInterfaceFromGlobal(this.vtbl, dwCookie, ref riid, out pUnknown);
+			int hr = _fnGetInterfaceFromGlobal(_vtbl, dwCookie, ref riid, out IntPtr pUnknown);
 			ppv = (hr >= 0 && pUnknown != IntPtr.Zero) ? Marshal.GetObjectForIUnknown(pUnknown) : null;
 			return hr;
 		}

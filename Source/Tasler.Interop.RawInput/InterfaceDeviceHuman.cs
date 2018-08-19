@@ -60,35 +60,35 @@ namespace Tasler.Interop.RawInput
 
 	public class HumanInput : RawInputBase
 	{
-		private RAWINPUTHID raw;
-		private byte[][] data;
+		private RAWINPUTHID _raw;
+		private byte[][] _data;
 
 		internal HumanInput(IntPtr pData)
 		{
-			this.raw = (RAWINPUTHID)Marshal.PtrToStructure(
+			_raw = (RAWINPUTHID)Marshal.PtrToStructure(
 				new IntPtr(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTHID));
 
-			this.data = new byte[this.raw.Count][];
-			for (int index = 0; index < this.data.Length; ++index)
+			_data = new byte[_raw.Count][];
+			for (int index = 0; index < _data.Length; ++index)
 			{
-				long offset = RAWINPUTHEADER.SizeOf + RAWINPUTHID.SizeOf + (index * this.raw.Size);
-				this.data[index] = new byte[this.raw.Size];
-				Marshal.Copy(new IntPtr(pData.ToInt64() + offset), data[index], 0, this.raw.Size);
+				long offset = RAWINPUTHEADER.SizeOf + RAWINPUTHID.SizeOf + (index * _raw.Size);
+				_data[index] = new byte[_raw.Size];
+				Marshal.Copy(new IntPtr(pData.ToInt64() + offset), _data[index], 0, _raw.Size);
 			}
 		}
 
-		public int Count { get { return this.raw.Count; } }
+		public int Count { get { return _raw.Count; } }
 
-		public int Size { get { return this.raw.Size; } }
+		public int Size { get { return _raw.Size; } }
 
-		public byte[][] Bytes { get { return this.data; } }
+		public byte[][] Bytes { get { return _data; } }
 
 		public string FormattedBytes
 		{
 			get
 			{
-				StringBuilder sb = new StringBuilder((this.raw.Count * 4) + (this.raw.Size * 3));
-				foreach (byte[] buffer in this.data)
+				StringBuilder sb = new StringBuilder((_raw.Count * 4) + (_raw.Size * 3));
+				foreach (byte[] buffer in _data)
 				{
 					if (sb.Length > 0)
 						sb.Append(',').Append('\n');

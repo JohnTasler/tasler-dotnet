@@ -7,37 +7,37 @@ namespace Tasler.Interop
 	public struct POINT
 	{
 		#region Instance Fields
-		private int x;
-		private int y;
+		private int _x;
+		private int _y;
 		#endregion Instance Fields
 
 		#region Constructors
 		public POINT(int x, int y)
 		{
-			this.x = x;
-			this.y = y;
+			_x = x;
+			_y = y;
 		}
 		#endregion Constructors
 
 		#region Properties
 		public int X
 		{
-			get { return this.x; }
-			set { this.x = value; }
+			get { return _x; }
+			set { _x = value; }
 		}
 
 		public int Y
 		{
-			get { return this.y; }
-			set { this.y = value; }
+			get { return _y; }
+			set { _y = value; }
 		}
 		#endregion Properties
 
 		#region Overrides
 		public override string ToString()
 		{
-			return "{X=" + this.x.ToString(CultureInfo.CurrentCulture)
-					+ ", Y=" + this.y.ToString(CultureInfo.CurrentCulture) + "}";
+			return "{X=" + _x.ToString(CultureInfo.CurrentCulture)
+					+ ", Y=" + _y.ToString(CultureInfo.CurrentCulture) + "}";
 		}
 		#endregion Overrides
 	}
@@ -46,45 +46,45 @@ namespace Tasler.Interop
 	public struct RECTstruct
 	{
 		#region Instance Fields
-		private int left;
-		private int top;
-		private int right;
-		private int bottom;
+		private int _left;
+		private int _top;
+		private int _right;
+		private int _bottom;
 		#endregion Instance Fields
 
 		#region Properties
 		public int Left
 		{
-			get { return this.left; }
-			set { this.left = value; }
+			get { return _left; }
+			set { _left = value; }
 		}
 
 		public int Top
 		{
-			get { return this.top; }
-			set { this.top = value; }
+			get { return _top; }
+			set { _top = value; }
 		}
 
 		public int Right
 		{
-			get { return this.right; }
-			set { this.right = value; }
+			get { return _right; }
+			set { _right = value; }
 		}
 
 		public int Bottom
 		{
-			get { return this.bottom; }
-			set { this.bottom = value; }
+			get { return _bottom; }
+			set { _bottom = value; }
 		}
 
 		public int Width
 		{
-			get { return this.right - this.left; }
+			get { return _right - _left; }
 		}
 
 		public int Height
 		{
-			get { return this.bottom - this.top; }
+			get { return _bottom - _top; }
 		}
 		#endregion Properties
 
@@ -151,41 +151,42 @@ namespace Tasler.Interop
 		}
 		#endregion Overrides
 	}
+
 	[StructLayout(LayoutKind.Sequential, Pack = 4)]
 	public struct SIZE
 	{
 		#region Instance Fields
-		private int width;
-		private int height;
+		private int _width;
+		private int _height;
 		#endregion Instance Fields
 
 		#region Construction
 		public SIZE(int width, int height)
 		{
-			this.width = width;
-			this.height = height;
+			_width = width;
+			_height = height;
 		}
 		#endregion Construction
 
 		#region Properties
 		public int Width
 		{
-			get { return this.width; }
-			set { this.width = value; }
+			get { return _width; }
+			set { _width = value; }
 		}
 
 		public int Height
 		{
-			get { return this.height; }
-			set { this.height = value; }
+			get { return _height; }
+			set { _height = value; }
 		}
 		#endregion Properties
 
 		#region Overrides
 		public override string ToString()
 		{
-			return "{Width=" + this.width.ToString(CultureInfo.CurrentCulture)
-				+ ", Height=" + this.height.ToString(CultureInfo.CurrentCulture) + "}";
+			return "{Width=" + _width.ToString(CultureInfo.CurrentCulture)
+				+ ", Height=" + _height.ToString(CultureInfo.CurrentCulture) + "}";
 		}
 		#endregion Overrides
 	}

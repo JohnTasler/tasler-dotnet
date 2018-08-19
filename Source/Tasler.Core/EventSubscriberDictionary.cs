@@ -5,7 +5,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using Tasler.ComponentModel;
-using Tasler.Extensions;
 
 namespace Tasler
 {
@@ -22,20 +21,20 @@ namespace Tasler
 		#endregion Constants
 
 		#region Instance Fields
-		private IDictionary<TKey, EventSubscriber<TDelegate>> innerDictionary;
+		private readonly IDictionary<TKey, EventSubscriber<TDelegate>> _innerDictionary;
 		#endregion Instance Fields
 
 		#region Constructors
+
 		/// <summary>
 		/// Initializes the <see cref="EventSubscriberDictionary{TDelegate}" /> class.
 		/// </summary>
 		/// <exception cref="System.InvalidCastException">The <typeparamref name="TDelegate"/> is not a <see cref="Delegate"/> type.</exception>
 		static EventSubscriberDictionary()
 		{
-			// Unfortunately, the C# compiler does not allow Delegate or MulticastDelegate as generic type constraints,
+			// Unfortunately, C# does not allow Delegate or MulticastDelegate as generic type constraints,
 			// so we have to check at runtime.
-			if (!typeof(TDelegate).Is<Delegate>())
-				throw new InvalidCastException(Properties.Resources.TDelegateMustBeDelegate);
+			ValidateArgument.IsOrIsDerivedFrom<Delegate, TDelegate>(nameof(TDelegate));
 		}
 
 		/// <summary>
@@ -44,11 +43,9 @@ namespace Tasler
 		/// <param name="innerDictionary">The inner dictionary on which this object implements its functionality.</param>
 		public EventSubscriberDictionary(IDictionary<TKey, EventSubscriber<TDelegate>> innerDictionary)
 		{
-			if (innerDictionary == null)
-				throw new ArgumentNullException("innerDictionary");
-
-			this.innerDictionary = innerDictionary;
+			_innerDictionary = ValidateArgument.IsNotNull(innerDictionary, nameof(innerDictionary));
 		}
+
 		#endregion Constructors
 
 		#region IDictionary<TKey, EventSubscriber<TDelegate>> Members
@@ -58,11 +55,11 @@ namespace Tasler
 			var existingValue = this[key];
 			if (existingValue != null)
 			{
-				this.innerDictionary[key] = value;
+				_innerDictionary[key] = value;
 			}
 			else
 			{
-				this.innerDictionary.Add(key, value);
+				_innerDictionary.Add(key, value);
 				this.CollectionChanged.RaiseAdd(this, key);
 
 				this.PropertyChanged.Raise(this, nameof(Count));
@@ -71,17 +68,17 @@ namespace Tasler
 
 		public bool ContainsKey(TKey key)
 		{
-			return this.innerDictionary.ContainsKey(key);
+			return _innerDictionary.ContainsKey(key);
 		}
 
 		public ICollection<TKey> Keys
 		{
-			get { return this.innerDictionary.Keys; }
+			get { return _innerDictionary.Keys; }
 		}
 
 		public bool Remove(TKey key)
 		{
-			var result = this.innerDictionary.Remove(key);
+			var result = _innerDictionary.Remove(key);
 			if (result)
 			{
 				this.CollectionChanged.RaiseRemove(this, key);
@@ -94,20 +91,19 @@ namespace Tasler
 
 		public bool TryGetValue(TKey key, out EventSubscriber<TDelegate> value)
 		{
-			return this.innerDictionary.TryGetValue(key, out value);
+			return _innerDictionary.TryGetValue(key, out value);
 		}
 
 		public ICollection<EventSubscriber<TDelegate>> Values
 		{
-			get { return this.innerDictionary.Values; }
+			get { return _innerDictionary.Values; }
 		}
 
 		public EventSubscriber<TDelegate> this[TKey key]
 		{
 			get
 			{
-				EventSubscriber<TDelegate> result = null;
-				this.innerDictionary.TryGetValue(key, out result);
+				_innerDictionary.TryGetValue(key, out EventSubscriber<TDelegate> result);
 				return result;
 			}
 			set
@@ -133,7 +129,7 @@ namespace Tasler
 			if (this.Count != 0)
 			{
 				var keys = this.Keys.ToList();
-				this.innerDictionary.Clear();
+				_innerDictionary.Clear();
 				this.CollectionChanged.RaiseRemove(this, keys);
 
 				if (this.PropertyChanged != null)
@@ -143,22 +139,22 @@ namespace Tasler
 
 		bool ICollection<KeyValuePair<TKey, EventSubscriber<TDelegate>>>.Contains(KeyValuePair<TKey, EventSubscriber<TDelegate>> item)
 		{
-			return this.innerDictionary.Contains(item);
+			return _innerDictionary.Contains(item);
 		}
 
 		void ICollection<KeyValuePair<TKey, EventSubscriber<TDelegate>>>.CopyTo(KeyValuePair<TKey, EventSubscriber<TDelegate>>[] array, int arrayIndex)
 		{
-			this.innerDictionary.CopyTo(array, arrayIndex);
+			_innerDictionary.CopyTo(array, arrayIndex);
 		}
 
 		public int Count
 		{
-			get { return this.innerDictionary.Count; }
+			get { return _innerDictionary.Count; }
 		}
 
 		public bool IsReadOnly
 		{
-			get { return this.innerDictionary.IsReadOnly; }
+			get { return _innerDictionary.IsReadOnly; }
 		}
 
 		bool ICollection<KeyValuePair<TKey, EventSubscriber<TDelegate>>>.Remove(KeyValuePair<TKey, EventSubscriber<TDelegate>> item)
@@ -172,7 +168,7 @@ namespace Tasler
 
 		public IEnumerator<KeyValuePair<TKey, EventSubscriber<TDelegate>>> GetEnumerator()
 		{
-			return this.innerDictionary.GetEnumerator();
+			return _innerDictionary.GetEnumerator();
 		}
 
 		#endregion IEnumerable<KeyValuePair<TKey, EventSubscriber<TDelegate>>> Members

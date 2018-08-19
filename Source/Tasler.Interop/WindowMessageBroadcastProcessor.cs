@@ -9,15 +9,11 @@ namespace Tasler.Interop
 {
 	public class WindowMessageBroadcastProcessor : WindowMessageRedirector
 	{
-		private const int maximumWaitForSystemEventsMilliseconds = 200;
-
-		#region Static Fields
-		private static WindowMessageBroadcastProcessor instance = new WindowMessageBroadcastProcessor();
-		#endregion Static Fields
+		private const int MaximumWaitForSystemEventsMilliseconds = 200;
 
 		#region Instance Fields
-		private WindowMessageProcessor innerProcessor;
-		private WindowUsage? windowUsage;
+		private WindowMessageProcessor _innerProcessor;
+		private WindowUsage? _windowUsage;
 		#endregion Instance Fields
 
 		#region Constructors
@@ -27,10 +23,7 @@ namespace Tasler.Interop
 		#endregion Constructors
 
 		#region Singleton Instance
-		public static WindowMessageBroadcastProcessor Instance
-		{
-			get { return instance; }
-		}
+		public static WindowMessageBroadcastProcessor Instance { get; } = new WindowMessageBroadcastProcessor();
 		#endregion Singleton Instance
 
 		#region Properties
@@ -39,8 +32,8 @@ namespace Tasler.Interop
 		{
 			get
 			{
-				return this.innerProcessor != null
-					? this.innerProcessor.WindowHandle
+				return this._innerProcessor != null
+					? this._innerProcessor.WindowHandle
 					: IntPtr.Zero;
 			}
 		}
@@ -53,8 +46,8 @@ namespace Tasler.Interop
 		{
 			get
 			{
-				return this.innerProcessor != null
-					? this.innerProcessor.WindowProcedure
+				return this._innerProcessor != null
+					? this._innerProcessor.WindowProcedure
 					: IntPtr.Zero;
 			}
 		}
@@ -63,13 +56,13 @@ namespace Tasler.Interop
 		{
 			if (this.HasEventSubscribers)
 			{
-				Debug.Assert(this.innerProcessor == null);
+				Debug.Assert(this._innerProcessor == null);
 				this.CreateInnerProcessor();
 			}
 			else
 			{
-				this.innerProcessor.Detach();
-				this.innerProcessor = null;
+				this._innerProcessor.Detach();
+				this._innerProcessor = null;
 			}
 		}
 
@@ -79,14 +72,14 @@ namespace Tasler.Interop
 
 		private void CreateInnerProcessor()
 		{
-			Debug.Assert(this.innerProcessor == null);
+			Debug.Assert(this._innerProcessor == null);
 
-			if (this.windowUsage == null)
-				this.windowUsage = WindowUsage.Auto;
+			if (this._windowUsage == null)
+				this._windowUsage = WindowUsage.Auto;
 
 			var windowHandleToSubclass = IntPtr.Zero;
 
-			if (this.windowUsage == WindowUsage.Auto)
+			if (this._windowUsage == WindowUsage.Auto)
 			{
 				var eventWaitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
 				Action action = () =>
@@ -123,7 +116,7 @@ namespace Tasler.Interop
 				try
 				{
 					SystemEvents.InvokeOnEventsThread(action);
-					eventWaitHandle.WaitOne(maximumWaitForSystemEventsMilliseconds);
+					eventWaitHandle.WaitOne(MaximumWaitForSystemEventsMilliseconds);
 				}
 				catch (InvalidOperationException) { }
 				catch (ExternalException)         { }
@@ -136,13 +129,13 @@ namespace Tasler.Interop
 
 			// Subclass whichever window handle we found or created
 			Debug.Assert(windowHandleToSubclass != IntPtr.Zero);
-			this.innerProcessor = new WindowMessageSubclass(this);
-			this.innerProcessor.Attach(windowHandleToSubclass);
+			this._innerProcessor = new WindowMessageSubclass(this);
+			this._innerProcessor.Attach(windowHandleToSubclass);
 		}
 
 		private void DestroyInnerProcessor()
 		{
-			Debug.Assert(this.innerProcessor != null);
+			Debug.Assert(this._innerProcessor != null);
 		}
 
 		#endregion Private Implementation

@@ -4,7 +4,7 @@ namespace Tasler
 {
 	// TODO: NEEDS_UNIT_TESTS
 
-	public class ScopeExitDisposable : IDisposable
+	public class DisposeScopeExit : IDisposable
 	{
 		#region Instance Fields
 		private Action _disposeAction;
@@ -12,21 +12,20 @@ namespace Tasler
 
 		#region Constructors / Finalizer
 
-		public ScopeExitDisposable(Action disposeAction)
+		public DisposeScopeExit(Action disposeAction)
 			: this(null, disposeAction)
 		{
 		}
 
-		public ScopeExitDisposable(Action initializeAction, Action disposeAction)
+		public DisposeScopeExit(Action initializeAction, Action disposeAction)
 		{
-			if (disposeAction == null)
-				throw new ArgumentNullException("disposeAction");
+			ValidateArgument.IsNotNull(disposeAction, nameof(disposeAction));
 
 			initializeAction?.Invoke();
 			_disposeAction = disposeAction;
 		}
 
-		~ScopeExitDisposable()
+		~DisposeScopeExit()
 		{
 			this.Dispose();
 		}

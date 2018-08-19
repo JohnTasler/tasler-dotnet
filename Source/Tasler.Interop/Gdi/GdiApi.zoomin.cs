@@ -199,7 +199,7 @@ namespace Tasler.Interop.Gdi
 			var previous = Private.SetStretchBltMode(hdc, stretchMode);
 			if ((int)previous == 0)
 				throw new Win32Exception();
-			return new ScopeExitDisposable(() => Private.SetStretchBltMode(hdc, previous));
+			return new DisposeScopeExit(() => Private.SetStretchBltMode(hdc, previous));
 		}
 
 		public static IDisposable SetROP2(SafeHdc hdc, ROP2 mixMode)
@@ -207,7 +207,7 @@ namespace Tasler.Interop.Gdi
 			var previous = Private.SetROP2(hdc, mixMode);
 			if ((int)previous == 0)
 				throw new Win32Exception();
-			return new ScopeExitDisposable(() => Private.SetROP2(hdc, previous));
+			return new DisposeScopeExit(() => Private.SetROP2(hdc, previous));
 		}
 
 		public static IDisposable SetBkColor(SafeHdc hdc, uint color)
@@ -215,7 +215,7 @@ namespace Tasler.Interop.Gdi
 			var previous = Private.SetBkColor(hdc, color);
 			if (previous == 0xFFFFFFFF)
 				throw new Win32Exception();
-			return new ScopeExitDisposable(() => Private.SetBkColor(hdc, previous));
+			return new DisposeScopeExit(() => Private.SetBkColor(hdc, previous));
 		}
 
 		public static IDisposable SetBkMode(SafeHdc hdc, BackgroundMode bkMode)
@@ -223,7 +223,7 @@ namespace Tasler.Interop.Gdi
 			var previous = Private.SetBkMode(hdc, bkMode);
 			if ((int)previous == 0)
 				throw new Win32Exception();
-			return new ScopeExitDisposable(() => Private.SetBkMode(hdc, previous));
+			return new DisposeScopeExit(() => Private.SetBkMode(hdc, previous));
 		}
 
 		public static void GdiFlush()
@@ -237,7 +237,7 @@ namespace Tasler.Interop.Gdi
 			var previous = Private.SelectObject(hdc, obj);
 			if (previous.IsInvalid)
 				throw new Win32Exception();
-			return new ScopeExitDisposable(() => { using (Private.SelectObject(hdc, previous)) {} });
+			return new DisposeScopeExit(() => { using (Private.SelectObject(hdc, previous)) {} });
 		}
 
 		[SecurityCritical]

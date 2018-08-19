@@ -167,16 +167,16 @@ namespace Tasler.ComponentModel
 			Func<TSourceItem, TResultItem> translationSelector
 			)
 			where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
+			where TSourceItem : class
 			where TResultItem : class
 		{
 			if (sourceCollection == null)
 				return null;
 
-			if (translationSelector == null)
-				throw new ArgumentNullException("translationSelector");
+			ValidateArgument.IsNotNull(translationSelector, nameof(translationSelector));
 
 			// Strong-type and count the sourceCollection items
-			var translatedItemsMap = new Dictionary<WeakReference, WeakReference>();
+			var translatedItemsMap = new Dictionary<WeakReference<TSourceItem>, WeakReference<TResultItem>>();
 			var sourceEnumerable = (sourceCollection as IEnumerable).OfType<TSourceItem>();
 			var sourceItemCount = sourceEnumerable.Count();
 
@@ -186,7 +186,7 @@ namespace Tasler.ComponentModel
 			foreach (var sourceItem in sourceEnumerable)
 			{
 				var translatedItem = translationSelector(sourceItem);
-				translatedItemsMap[new WeakReference(sourceItem)] = new WeakReference(translatedItem);
+				translatedItemsMap[new WeakReference<TSourceItem>(sourceItem)] = new WeakReference<TResultItem>(translatedItem);
 				translatedItems[index++] = translatedItem;
 			}
 
@@ -197,14 +197,14 @@ namespace Tasler.ComponentModel
 				// Add translations of the new items
 				foreach (var sourceItem in e.NewItems.OfType<TSourceItem>())
 				{
-					var sourceItemRef = new WeakReference(sourceItem);
-					var translatedItem = default(TResultItem);
-					var translatedItemRef = (WeakReference)null;
-					if (!translatedItemsMap.TryGetValue(sourceItemRef, out translatedItemRef) || (translatedItem = (TResultItem)translatedItemRef.Target) == null)
+					var sourceItemRef = new WeakReference<TSourceItem>(sourceItem);
+					if (!translatedItemsMap.TryGetValue(sourceItemRef, out var translatedItemRef) ||
+						!translatedItemRef.TryGetTarget(out var translatedItem) ||
+						translatedItem == null)
 					{
 						translatedItem = translationSelector(sourceItem);
-						translatedItemRef = new WeakReference(translatedItem);
-						translatedItemsMap[new WeakReference(sourceItem)] = new WeakReference(translatedItem);
+						translatedItemRef = new WeakReference<TResultItem>(translatedItem);
+						translatedItemsMap[new WeakReference<TSourceItem>(sourceItem)] = translatedItemRef;
 					}
 
 					if (e.Action == NotifyCollectionChangedAction.Add)
@@ -225,11 +225,13 @@ namespace Tasler.ComponentModel
 				// Remove translations of the new items
 				foreach (var sourceItem in e.OldItems.OfType<TSourceItem>())
 				{
-					var sourceItemRef = new WeakReference(sourceItem);
-					var translatedItem = default(TResultItem);
-					var translatedItemRef = (WeakReference)null;
-					if (translatedItemsMap.TryGetValue(sourceItemRef, out translatedItemRef) && (translatedItem = (TResultItem)translatedItemRef.Target) != null)
+					var sourceItemRef = new WeakReference<TSourceItem>(sourceItem);
+					if (translatedItemsMap.TryGetValue(sourceItemRef, out var translatedItemRef) &&
+						translatedItemRef.TryGetTarget(out var translatedItem) &&
+						translatedItem != default(TResultItem))
+					{
 						resultCollection.Remove(translatedItem);
+					}
 				}
 
 				// Handle the Reset action
@@ -244,14 +246,14 @@ namespace Tasler.ComponentModel
 					var resultItems = new TResultItem[newSourceItemCount];
 					foreach (var sourceItem in newSourceEnumerable)
 					{
-						var sourceItemRef = new WeakReference(sourceItem);
-						var translatedItem = default(TResultItem);
-						var translatedItemRef = (WeakReference)null;
-						if (!translatedItemsMap.TryGetValue(sourceItemRef, out translatedItemRef) || (translatedItem = (TResultItem)translatedItemRef.Target) == null)
+						var sourceItemRef = new WeakReference<TSourceItem>(sourceItem);
+						if (!translatedItemsMap.TryGetValue(sourceItemRef, out var translatedItemRef) ||
+							!translatedItemRef.TryGetTarget(out var translatedItem) ||
+							translatedItem == default(TResultItem))
 						{
 							translatedItem = translationSelector(sourceItem);
-							translatedItemRef = new WeakReference(translatedItem);
-							translatedItemsMap[new WeakReference(sourceItem)] = new WeakReference(translatedItem);
+							translatedItemRef = new WeakReference<TResultItem>(translatedItem);
+							translatedItemsMap[new WeakReference<TSourceItem>(sourceItem)] = translatedItemRef;
 						}
 						translatedItems[index++] = translatedItem;
 					}
@@ -274,8 +276,9 @@ namespace Tasler.ComponentModel
 			Expression<Func<TSourceObject, TSourceCollection>> sourcePropertySelectorExpression,
 			Func<TSourceItem, TResultItem> translationSelector
 			)
-			where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
 			where TSourceObject : class, INotifyPropertyChanged
+			where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
+			where TSourceItem : class
 			where TResultItem : class
 		{
 			var collectionTranslator =
@@ -284,7 +287,6 @@ namespace Tasler.ComponentModel
 
 			return collectionTranslator;
 		}
-
 
 		#region Nested Types
 
@@ -295,8 +297,9 @@ namespace Tasler.ComponentModel
 
 		private class CollectionTranslator<TSourceObject, TSourceCollection, TSourceItem, TResultItem>
 			: ICollectionTranslator<TResultItem>
-			where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
 			where TSourceObject : class, INotifyPropertyChanged
+			where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
+			where TSourceItem : class
 			where TResultItem : class
 		{
 			private IPropertyObserverItem _collectionPropertyObserverItem;
@@ -307,12 +310,9 @@ namespace Tasler.ComponentModel
 				Func<TSourceItem, TResultItem> translationSelector
 				)
 			{
-				if (sourceObject == null)
-					throw new ArgumentNullException("sourceObject");
-				if (sourcePropertySelectorExpression == null)
-					throw new ArgumentNullException("sourcePropertyExpression");
-				if (translationSelector == null)
-					throw new ArgumentNullException("translationSelector");
+				ValidateArgument.IsNotNull(sourceObject, nameof(sourceObject));
+				ValidateArgument.IsNotNull(sourcePropertySelectorExpression, nameof(sourcePropertySelectorExpression));
+				ValidateArgument.IsNotNull(translationSelector, nameof(translationSelector));
 
 				var propertyName = PropertySupport.ExtractPropertyName(sourcePropertySelectorExpression);
 				_collectionPropertyObserverItem = ((TSourceObject)sourceObject).Subscribe(propertyName, source =>
@@ -336,6 +336,5 @@ namespace Tasler.ComponentModel
 		#endregion Private Implementation
 
 		#endregion Translating Collection Creation
-
 	}
 }

@@ -8,18 +8,18 @@ namespace Tasler.Interop.Shell
 	public struct StrRet : IDisposable
 	{
 		#region Instance Fields
-		private STRRET_TYPE type;
+		private STRRET_TYPE _type;
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 260)]
-		private byte[] cStr;
+		private byte[] _cStr;
 		#endregion Instance Fields
 
 		#region IDisposable Members
 		public void Dispose()
 		{
-			if (this.type == STRRET_TYPE.WStr)
+			if (_type == STRRET_TYPE.WStr)
 			{
 				Marshal.FreeCoTaskMem(this.GetWStr());
-				Array.Clear(this.cStr, 0, IntPtr.Size);
+				Array.Clear(_cStr, 0, IntPtr.Size);
 			}
 		}
 		#endregion IDisposable Members
@@ -30,7 +30,7 @@ namespace Tasler.Interop.Shell
 			get
 			{
 				string value = null;
-				switch (this.type)
+				switch (_type)
 				{
 					case STRRET_TYPE.WStr:
 						{
@@ -39,8 +39,8 @@ namespace Tasler.Interop.Shell
 						}
 					case STRRET_TYPE.CStr:
 						{
-							char[] chars = new char[this.cStr.Length];
-							Encoding.ASCII.GetDecoder().GetChars(this.cStr, 0, this.cStr.Length, chars, 0, true);
+							char[] chars = new char[_cStr.Length];
+							Encoding.ASCII.GetDecoder().GetChars(_cStr, 0, _cStr.Length, chars, 0, true);
 							value = new string(chars);
 							break;
 						}
@@ -65,7 +65,7 @@ namespace Tasler.Interop.Shell
 		#region Private Implementation
 		private IntPtr GetWStr()
 		{
-			Int64 ptr = BitConverter.ToInt64(this.cStr, 0);
+			Int64 ptr = BitConverter.ToInt64(_cStr, 0);
 			if (IntPtr.Size == 4)
 				ptr &= 0x00000000FFFFFFFF;
 			return new IntPtr(ptr);
@@ -73,9 +73,9 @@ namespace Tasler.Interop.Shell
 
 		private string GetValue(IntPtr pidl)
 		{
-			if (this.type != STRRET_TYPE.Offset)
+			if (_type != STRRET_TYPE.Offset)
 				return this.Value;
-			uint offset = BitConverter.ToUInt32(this.cStr, 0);
+			uint offset = BitConverter.ToUInt32(_cStr, 0);
 			string value = Marshal.PtrToStringAnsi(new IntPtr(pidl.ToInt64() + offset));
 			return value;
 		}
