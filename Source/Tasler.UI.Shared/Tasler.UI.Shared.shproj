@@ -12,6 +12,6 @@
     <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Extensions\ThicknessExtensions.cs" />
   </ItemGroup>
-  <Import Project="Tasler.Shared.projitems" Label="Shared" />
+  <Import Project="Tasler.UI.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
 </Project>

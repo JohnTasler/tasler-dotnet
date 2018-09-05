@@ -141,6 +141,12 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
+      <Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
+      <Name>Tasler.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\Tasler.UI.Shared\Tasler.UI.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

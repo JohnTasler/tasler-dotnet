@@ -29,6 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.UI.Wpf", "Source\Tas
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Source\Tasler.UI.Shared\Tasler.UI.Shared.projitems*{5179c310-67ad-4274-bc8b-4630e18743ef}*SharedItemsImports = 13
 		Source\Tasler.UI.Shared\Tasler.UI.Shared.projitems*{cc6be222-de4b-412a-9743-80c187f43ee1}*SharedItemsImports = 4
 		Source\Tasler.UI.Shared\Tasler.UI.Shared.projitems*{e8bbbb77-0d9d-4101-90cd-2741970ce01a}*SharedItemsImports = 4
 	EndGlobalSection
