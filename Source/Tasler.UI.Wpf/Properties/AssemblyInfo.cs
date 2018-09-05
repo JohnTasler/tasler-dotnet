@@ -7,6 +7,6 @@ using System.Runtime.InteropServices;
 //     AssemblyInfoCopyright.cs
 //     AssemblyInfoVersion.cs
 
-[assembly: AssemblyTitle("Tasler.Wpf")]
+[assembly: AssemblyTitle("Tasler.UI.Wpf")]
 [assembly: AssemblyProduct("Tasler .NET Framework")]
 [assembly: Guid("4dd7ed0b-d1b6-4ecd-8028-71d13a3a4834")]
