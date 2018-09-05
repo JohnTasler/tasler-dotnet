@@ -21,16 +21,10 @@
     <Compile Include="Collections\Extensions\EnumerableExtensions.cs" />
     <Compile Include="Collections\Extensions\IDictionaryExtensions.cs" />
     <Compile Include="Collections\Extensions\IListExtensions.cs" />
-    <Compile Include="ComponentModel\Extensions\NotifyCollectionChangedExtensions.cs" />
-    <Compile Include="ComponentModel\Extensions\NotifyPropertyChangedExtensions.cs" />
-    <Compile Include="ComponentModel\Extensions\PropertyObserver.cs" />
-    <Compile Include="ComponentModel\Extensions\PropertySupport.cs" />
     <Compile Include="Converters\HexStringToByteArrayConverter.cs" />
     <Compile Include="Diagnostics\Extensions\DiagnosticExtensions.cs" />
     <Compile Include="DisposeScopeExit.cs" />
     <Compile Include="EnvironmentUtility.cs" />
-    <Compile Include="EventSubscriber.cs" />
-    <Compile Include="EventSubscriberDictionary.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
     <Compile Include="Extensions\ComparableExtensions.cs" />
     <Compile Include="Extensions\IntegerExtensions.cs" />

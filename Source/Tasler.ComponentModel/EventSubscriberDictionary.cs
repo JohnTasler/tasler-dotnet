@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using Tasler.ComponentModel;
 
-namespace Tasler
+namespace Tasler.ComponentModel
 {
 	// TODO: NEEDS_UNIT_TESTS
 
@@ -16,10 +15,6 @@ namespace Tasler
 		, INotifyPropertyChanged
 		where TDelegate : class
 	{
-		#region Constants
-		private const string CountPropertyName = "Count";
-		#endregion Constants
-
 		#region Instance Fields
 		private readonly IDictionary<TKey, EventSubscriber<TDelegate>> _innerDictionary;
 		#endregion Instance Fields
@@ -83,8 +78,7 @@ namespace Tasler
 			{
 				this.CollectionChanged.RaiseRemove(this, key);
 
-				if (this.PropertyChanged != null)
-					this.PropertyChanged(this, new PropertyChangedEventArgs(CountPropertyName));
+				this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
 			}
 			return result;
 		}
@@ -132,8 +126,7 @@ namespace Tasler
 				_innerDictionary.Clear();
 				this.CollectionChanged.RaiseRemove(this, keys);
 
-				if (this.PropertyChanged != null)
-					this.PropertyChanged(this, new PropertyChangedEventArgs(CountPropertyName));
+				this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
 			}
 		}
 

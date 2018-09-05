@@ -1,7 +1,7 @@
 ﻿using System;
 using Tasler.Extensions;
 
-namespace Tasler
+namespace Tasler.ComponentModel
 {
 	// TODO: NEEDS_UNIT_TESTS
 

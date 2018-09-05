@@ -94,6 +94,10 @@
     <EmbeddedResource Include="Properties\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj">
+      <Project>{2d4e35a3-754d-4e8e-b52c-aa2d0dd9e059}</Project>
+      <Name>Tasler.ComponentModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
       <Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
       <Name>Tasler.Core</Name>

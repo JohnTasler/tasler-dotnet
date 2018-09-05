@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using Tasler.ComponentModel;
 using Tasler.Interop.User;
 
 namespace Tasler.Interop

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using Tasler.Properties;
+using Tasler.ComponentModel.Properties;
 
 namespace Tasler.ComponentModel
 {
