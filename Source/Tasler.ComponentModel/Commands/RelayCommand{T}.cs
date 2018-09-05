@@ -18,7 +18,7 @@ namespace Tasler.ComponentModel
 	///     <code>
 	/// public MyClass()
 	/// {
-	///     this.submitCommand = new DelegateCommand&lt;int?&gt;(this.Submit, this.CanSubmit);
+	///     this.submitCommand = new RelayCommand&lt;int?&gt;(this.Submit, this.CanSubmit);
 	/// }
 	///
 	/// private bool CanSubmit(int? customerId)
@@ -28,28 +28,28 @@ namespace Tasler.ComponentModel
 	///     </code>
 	/// </example>
 	/// </remarks>
-	public class DelegateCommand<T> : RelayCommandBase
+	public class RelayCommand<T> : RelayCommandBase
 	{
 		readonly Action<T> _executeMethod;
 		Func<T, bool> _canExecuteMethod;
 
 		/// <summary>
-		/// Initializes a new instance of <see cref="DelegateCommand{T}"/>.
+		/// Initializes a new instance of <see cref="RelayCommand{T}"/>.
 		/// </summary>
 		/// <param name="executeMethod">Delegate to execute when Execute is called on the command. This can be null to just hook up a CanExecute delegate.</param>
 		/// <remarks><see cref="CanExecute(T)"/> will always return true.</remarks>
-		public DelegateCommand(Action<T> executeMethod)
+		public RelayCommand(Action<T> executeMethod)
 			: this(executeMethod, (o) => true)
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of <see cref="DelegateCommand{T}"/>.
+		/// Initializes a new instance of <see cref="RelayCommand{T}"/>.
 		/// </summary>
 		/// <param name="executeMethod">Delegate to execute when Execute is called on the command. This can be null to just hook up a CanExecute delegate.</param>
 		/// <param name="canExecuteMethod">Delegate to execute when CanExecute is called on the command. This can be null.</param>
 		/// <exception cref="ArgumentNullException">When both <paramref name="executeMethod"/> and <paramref name="canExecuteMethod"/> ar <see langword="null" />.</exception>
-		public DelegateCommand(Action<T> executeMethod, Func<T, bool> canExecuteMethod)
+		public RelayCommand(Action<T> executeMethod, Func<T, bool> canExecuteMethod)
 			: base()
 		{
 			ValidateArgument.IsNotNull(executeMethod, nameof(executeMethod));
@@ -57,13 +57,13 @@ namespace Tasler.ComponentModel
 
 			TypeInfo genericTypeInfo = typeof(T).GetTypeInfo();
 
-			// DelegateCommand allows object or Nullable<>.
+			// RelayCommand allows object or Nullable<>.
 			// note: Nullable<> is a struct so we cannot use a class constraint.
 			if (genericTypeInfo.IsValueType)
 			{
 				if ((!genericTypeInfo.IsGenericType) || (!typeof(Nullable<>).GetTypeInfo().IsAssignableFrom(genericTypeInfo.GetGenericTypeDefinition().GetTypeInfo())))
 				{
-					throw new InvalidCastException(/*Resources.DelegateCommandInvalidGenericPayloadType*/);
+					throw new InvalidCastException(/*Resources.RelayCommandInvalidGenericPayloadType*/);
 				}
 			}
 
@@ -112,23 +112,23 @@ namespace Tasler.ComponentModel
 		}
 
 		///// <summary>
-		///// Observes a property that implements INotifyPropertyChanged, and automatically calls DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
+		///// Observes a property that implements INotifyPropertyChanged, and automatically calls RelayCommandBase.RaiseCanExecuteChanged on property changed notifications.
 		///// </summary>
 		///// <typeparam name="TType">The type of the return value of the method that this delegate encapulates</typeparam>
 		///// <param name="propertyExpression">The property expression. Example: ObservesProperty(() => PropertyName).</param>
-		///// <returns>The current instance of DelegateCommand</returns>
-		//public DelegateCommand<T> ObservesProperty<TType>(Expression<Func<TType>> propertyExpression)
+		///// <returns>The current instance of RelayCommand</returns>
+		//public RelayCommand<T> ObservesProperty<TType>(Expression<Func<TType>> propertyExpression)
 		//{
 		//	ObservesPropertyInternal(propertyExpression);
 		//	return this;
 		//}
 
 		///// <summary>
-		///// Observes a property that is used to determine if this command can execute, and if it implements INotifyPropertyChanged it will automatically call DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
+		///// Observes a property that is used to determine if this command can execute, and if it implements INotifyPropertyChanged it will automatically call RelayCommandBase.RaiseCanExecuteChanged on property changed notifications.
 		///// </summary>
 		///// <param name="canExecuteExpression">The property expression. Example: ObservesCanExecute(() => PropertyName).</param>
-		///// <returns>The current instance of DelegateCommand</returns>
-		//public DelegateCommand<T> ObservesCanExecute(Expression<Func<bool>> canExecuteExpression)
+		///// <returns>The current instance of RelayCommand</returns>
+		//public RelayCommand<T> ObservesCanExecute(Expression<Func<bool>> canExecuteExpression)
 		//{
 		//	Expression<Func<T, bool>> expression = Expression.Lambda<Func<T, bool>>(canExecuteExpression.Body, Expression.Parameter(typeof(T), "o"));
 		//	_canExecuteMethod = expression.Compile();

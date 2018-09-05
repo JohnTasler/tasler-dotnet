@@ -37,7 +37,7 @@ namespace Tasler.ComponentModel
 			var propertyChanged = @this.SetPropertyNoRaise(sender, newValue, ref valueField, out oldValue);
 			if (propertyChanged)
 			{
-				@this.RaisePropertyChanged(sender, propertyNames);
+				@this.Raise(sender, propertyNames);
 			}
 			return propertyChanged;
 		}
@@ -99,7 +99,7 @@ namespace Tasler.ComponentModel
 			}
 		}
 
-		public static void RaisePropertyChanged(this PropertyChangedEventHandler @this,
+		public static void Raise(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, params string[] propertyNames)
 		{
 			if (@this != null && propertyNames != null)
@@ -145,7 +145,7 @@ namespace Tasler.ComponentModel
 				}
 				if (_propertyNames != null)
 				{
-					_handler.RaisePropertyChanged(_sender, _propertyNames);
+					_handler.Raise(_sender, _propertyNames);
 				}
 			}
 		}

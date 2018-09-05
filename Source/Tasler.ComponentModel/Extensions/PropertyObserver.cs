@@ -10,53 +10,6 @@ namespace Tasler.ComponentModel
 	public static class PropertyObserver
 	{
 		#region Methods
-		///// <summary>
-		///// Subscribes to property change notifications on the <paramref name="source"/>.
-		///// </summary>
-		///// <typeparam name="T">A class implementing the <see cref="INotifyPropertyChanged"/> interface.</typeparam>
-		///// <param name="source">The source object on which to observe property changes.</param>
-		///// <param name="propertyExpression">The lambda expression from which the property name is extracted.</param>
-		///// <param name="handlerAction">The action to be called when the <paramref name="source"/> object raises the
-		///// <see cref="INotifyPropertyChanged.PropertyChanged"/> event that indicates either the property whose name is
-		///// specified by the <paramref name="propertyExpression"/>, or one of <c>null</c>, <see cref="String.Empty"/>, or a
-		///// <see cref="String"/> containing only whitespace. Any of the latter three can be indicated when "all properties"
-		///// should be refreshed.</param>
-		///// <returns>
-		///// An <see cref="IPropertyObserverItem"/> that can be used to <see cref="IPropertyObserverItem.Unsubscribe"/>
-		///// from the notifications, and <see cref="IPropertyObserverItem.Refresh"/> the notification callback.
-		///// </returns>
-		//public static IPropertyObserverItem Subscribe<TSource, TProperty>(
-		//	this TSource source,
-		//	Expression<Func<TSource, TProperty>> propertyExpression,
-		//	Action<TSource> handlerAction)
-		//	where TSource : class, INotifyPropertyChanged
-		//{
-		//	return source.Subscribe(PropertySupport.ExtractPropertyName(propertyExpression), s => handlerAction((TSource)s));
-		//}
-
-		///// <summary>
-		///// Subscribes to property change notifications on the <paramref name="source"/>.
-		///// </summary>
-		///// <typeparam name="TSource">A class implementing the <see cref="INotifyPropertyChanged"/> interface.</typeparam>
-		///// <param name="source">The source object on which to observe property changes.</param>
-		///// <param name="propertyExpression">The lambda expression from which the property name is extracted.</param>
-		///// <param name="eventHandler">The event handler to be called when the <paramref name="source"/> object raises the
-		///// <see cref="INotifyPropertyChanged.PropertyChanged"/> event that indicates either the property whose name is
-		///// specified by the <paramref name="propertyExpression"/>, or one of <c>null</c>, <see cref="String.Empty"/>, or a
-		///// <see cref="String"/> containing only whitespace. Any of the latter three can be indicated when "all properties"
-		///// should be refreshed.</param>
-		///// <returns>
-		///// An <see cref="IPropertyObserverItem"/> that can be used to <see cref="IPropertyObserverItem.Unsubscribe"/>
-		///// from the notifications, and <see cref="IPropertyObserverItem.Refresh"/> the notification callback.
-		///// </returns>
-		//public static IPropertyObserverItem Subscribe<TSource, TProperty>(
-		//	this TSource source,
-		//	Expression<Func<TSource, TProperty>> propertyExpression,
-		//	PropertyChangedEventHandler eventHandler)
-		//	where TSource : class, INotifyPropertyChanged
-		//{
-		//	return source.Subscribe(PropertySupport.ExtractPropertyName(propertyExpression), eventHandler);
-		//}
 
 		/// <summary>
 		/// Subscribes to property change notifications on the <paramref name="source"/>.
@@ -73,9 +26,10 @@ namespace Tasler.ComponentModel
 		/// An <see cref="IPropertyObserverItem"/> that can be used to <see cref="IPropertyObserverItem.Unsubscribe"/>
 		/// from the notifications, and <see cref="IPropertyObserverItem.Refresh"/> the notification callback.
 		/// </returns>
-		public static IPropertyObserverItem Subscribe(this INotifyPropertyChanged source, string propertyName, Action<INotifyPropertyChanged> handlerAction)
+		public static IPropertyObserverItem Subscribe<T>(this T @this, string propertyName, Action<T> handlerAction)
+			where T : INotifyPropertyChanged
 		{
-			var observerItem = new ObserverItem(source, propertyName, handlerAction);
+			var observerItem = new ObserverItem<T>(@this, propertyName, handlerAction);
 			return observerItem;
 		}
 
@@ -94,16 +48,18 @@ namespace Tasler.ComponentModel
 		/// An <see cref="IPropertyObserverItem"/> that can be used to <see cref="IPropertyObserverItem.Unsubscribe"/>
 		/// from the notifications, and <see cref="IPropertyObserverItem.Refresh"/> the notification callback.
 		/// </returns>
-		public static IPropertyObserverItem Subscribe(this INotifyPropertyChanged source, string propertyName, PropertyChangedEventHandler eventHandler)
+		public static IPropertyObserverItem Subscribe<T>(this T @this, string propertyName, PropertyChangedEventHandler eventHandler)
+			where T : INotifyPropertyChanged
 		{
-			var observerItem = new ObserverItem(source, propertyName, eventHandler);
+			var observerItem = new ObserverItem<T>(@this, propertyName, eventHandler);
 			return observerItem;
 		}
 
 		#endregion Methods
 
 		#region Nested Types
-		private class ObserverItem : IPropertyObserverItem
+		private class ObserverItem<T> : IPropertyObserverItem
+			where T : INotifyPropertyChanged
 		{
 			#region Constructors
 			/// <summary>
@@ -112,7 +68,7 @@ namespace Tasler.ComponentModel
 			/// <param name="source">The source.</param>
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="handlerAction">The handler action.</param>
-			public ObserverItem(INotifyPropertyChanged source, string propertyName, Action<INotifyPropertyChanged> handlerAction)
+			public ObserverItem(T source, string propertyName, Action<T> handlerAction)
 			{
 				this.SourceReference = new WeakReference(source);
 				this.PropertyName = propertyName;
@@ -126,7 +82,7 @@ namespace Tasler.ComponentModel
 			/// <param name="source">The source.</param>
 			/// <param name="propertyName">Name of the property.</param>
 			/// <param name="eventHandler">The event handler.</param>
-			public ObserverItem(INotifyPropertyChanged source, string propertyName, PropertyChangedEventHandler eventHandler)
+			public ObserverItem(T source, string propertyName, PropertyChangedEventHandler eventHandler)
 			{
 				this.SourceReference = new WeakReference(source);
 				this.PropertyName = propertyName;
@@ -136,6 +92,9 @@ namespace Tasler.ComponentModel
 			#endregion Constructors
 
 			#region IPropertyObserverItem Members
+
+			public string PropertyName { get; }
+
 			/// <summary>
 			/// Refreshes the observed property notification by executing the subscribed callback.
 			/// </summary>
@@ -165,9 +124,7 @@ namespace Tasler.ComponentModel
 			#region Private Implementation
 			private WeakReference SourceReference { get; set; }
 
-			private string PropertyName { get; set; }
-
-			private Action<INotifyPropertyChanged> HandlerAction { get; set; }
+			private Action<T> HandlerAction { get; set; }
 
 			private PropertyChangedEventHandler EventHandler { get; set; }
 
@@ -203,11 +160,8 @@ namespace Tasler.ComponentModel
 			{
 				if (sender == this.Source && (string.IsNullOrWhiteSpace(e.PropertyName) || e.PropertyName == this.PropertyName))
 				{
-					if (this.HandlerAction != null)
-						this.HandlerAction(sender as INotifyPropertyChanged);
-
-					if (this.EventHandler != null)
-						this.EventHandler(sender, e);
+					this.HandlerAction?.Invoke((T)sender);
+					this.EventHandler?.Invoke(sender, e);
 				}
 			}
 			#endregion Event Handlers
@@ -220,6 +174,8 @@ namespace Tasler.ComponentModel
 	/// </summary>
 	public interface IPropertyObserverItem
 	{
+		string PropertyName { get; }
+
 		/// <summary>
 		/// Refreshes the observed property notification by executing the subscribed callback.
 		/// </summary>
