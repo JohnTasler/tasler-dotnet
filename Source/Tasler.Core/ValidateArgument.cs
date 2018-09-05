@@ -11,8 +11,8 @@ namespace Tasler
 		/// <param name="argument">The argument.</param>
 		/// <param name="argumentName">The argument name.</param>
 		/// <param name="message">A message that describes the error. Optional.</param>
-		/// <exception cref="ArgumentNullException">Either <paramref name="parameterName"/> or <paramref name="parameter"/> is <c>null</c>.</exception>
-		/// <returns><paramref name="parameter"/></returns>
+		/// <exception cref="ArgumentNullException">Either <paramref name="argumentName"/> or <paramref name="argument"/> is <c>null</c>.</exception>
+		/// <returns><paramref name="argument"/></returns>
 		public static T IsNotNull<T>(T argument, string argumentName, string message = null)
 			where T : class
 		{
