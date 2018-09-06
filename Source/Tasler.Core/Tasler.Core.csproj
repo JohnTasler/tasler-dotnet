@@ -25,10 +25,12 @@
     <Compile Include="Diagnostics\Extensions\DiagnosticExtensions.cs" />
     <Compile Include="DisposeScopeExit.cs" />
     <Compile Include="EnvironmentUtility.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
     <Compile Include="Extensions\ComparableExtensions.cs" />
     <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IO\Extensions\StreamExtensions.cs" />
     <Compile Include="IO\PathUtility.cs" />
@@ -38,6 +40,7 @@
     <Compile Include="Text\RegularExpressions\RegexUtility.cs" />
     <Compile Include="Threading\Extensions\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="Threading\ITimerAdapter.cs" />
+    <Compile Include="Threading\ReaderWriterLockSlimWrapper.cs" />
     <Compile Include="Threading\ThreadPoolTimerAdapter.cs" />
     <Compile Include="Threading\TimerDeferredAction.cs" />
     <Compile Include="ValidateArgument.cs" />

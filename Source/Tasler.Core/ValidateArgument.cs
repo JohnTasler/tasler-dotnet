@@ -73,7 +73,6 @@ namespace Tasler
 		}
 
 		public static TInterface ImplementsInterface<TInterface>(object parameter, string parameterName)
-			where TInterface : class
 		{
 			ValidateArgument.IsNotNull(parameterName, nameof(parameterName));
 			ValidateArgument.IsNotNull(parameter, parameterName);
@@ -84,14 +83,13 @@ namespace Tasler
 				throw new ArgumentException(message, nameof(TInterface));
 			}
 
-			var result = parameter as TInterface;
-			if (result == null)
+			if (!(parameter is TInterface))
 			{
 				var message = string.Format("Type of argument does not implement interface type {0}: {1}", typeof(TInterface), parameter.GetType());
 				throw new ArgumentException(message, parameterName);
 			}
 
-			return result;
+			return (TInterface)parameter;
 		}
 
 		private static void IsOrIsDerivedFromImpl<TBase>(Type type, string parameterName, Func<string> messageCreator)
@@ -147,6 +145,7 @@ namespace Tasler
 			ValidateArgument.IsDerivedFromImpl<TBase>(type, parameterName,
 				() => $"Specified type must be derived from type {typeof(TBase)}: {type}");
 		}
+
 		public static void IsDerivedFrom<T, TBase>(string parameterName)
 			where TBase : class
 		{
@@ -161,6 +160,39 @@ namespace Tasler
 				() => $"Type of argument is not derived from type ${typeof(TBase)}: {parameter.GetType()}");
 
 			return (TBase)parameter;
+		}
+
+		public static T IsInRange<T>(T argument, T minValue, string argumentName, string message = null)
+			where T : struct, IComparable
+		{
+			if (argument.CompareTo(minValue) < 0)
+			{
+				throw new ArgumentOutOfRangeException(argumentName, message);
+			}
+
+			return argument;
+		}
+
+		public static T IsInRange<T>(T argument, T minValue, T maxValue, string argumentName, string message = null)
+			where T : struct, IComparable
+		{
+			if (argument.CompareTo(minValue) < 0 || argument.CompareTo(maxValue) > 0)
+			{
+				throw new ArgumentOutOfRangeException(argumentName, message);
+			}
+
+			return argument;
+		}
+
+		public static T IsInHalfOpenRange<T>(T argument, T minValue, T endValue, string argumentName, string message = null)
+			where T : struct, IComparable
+		{
+			if (argument.CompareTo(minValue) < 0 || endValue.CompareTo(argument) <= 0)
+			{
+				throw new ArgumentOutOfRangeException(argumentName, message);
+			}
+
+			return argument;
 		}
 	}
 }

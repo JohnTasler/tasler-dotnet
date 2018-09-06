@@ -11,6 +11,16 @@ namespace Tasler.Windows.Converters
 {
 	public abstract class BaseValueConverter : ConverterBase
 	{
+		public static System.Globalization.CultureInfo GetCultureInfo(System.Globalization.CultureInfo culture)
+		{
+			return culture;
+		}
+
+		public static System.Globalization.CultureInfo GetCultureInfo(string culture)
+		{
+			return new System.Globalization.CultureInfo(culture);
+		}
+
 		#region Overridable IValueConverter Implementation
 
 		public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);

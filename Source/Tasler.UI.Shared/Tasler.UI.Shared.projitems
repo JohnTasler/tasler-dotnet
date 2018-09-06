@@ -6,11 +6,17 @@
     <SharedGUID>5179c310-67ad-4274-bc8b-4630e18743ef</SharedGUID>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanInversionConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ToBooleanConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanInverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ColorWithAlphaConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullableValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BaseValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\TypeValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtentRect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PointExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\RectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ThicknessExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\DispatcherThreadBase.cs" />
   </ItemGroup>
 </Project>

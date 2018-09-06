@@ -1,16 +1,9 @@
-﻿using System;
-
-#if WINDOWS_UWP
-
+﻿#if WINDOWS_UWP
 using Windows.Foundation;
 using Windows.UI.Xaml;
-
 namespace Tasler.UI.Xaml
-
 #elif WINDOWS_WPF
-
 using System.Windows;
-
 namespace Tasler.Windows
 #endif
 {
@@ -21,14 +14,14 @@ namespace Tasler.Windows
 	/// </summary>
 	public static class ThicknessExtensions
 	{
-		public static double GetWidth(this Thickness source)
+		public static double GetWidth(this Thickness @this)
 		{
-			return source.Left + source.Right;
+			return @this.Left + @this.Right;
 		}
 
-		public static double GetHeight(this Thickness source)
+		public static double GetHeight(this Thickness @this)
 		{
-			return source.Top + source.Bottom;
+			return @this.Top + @this.Bottom;
 		}
 
 		/// <summary>
@@ -51,33 +44,6 @@ namespace Tasler.Windows
 		public static bool IsNan(this Thickness @this)
 		{
 			return double.IsNaN(@this.Left) && double.IsNaN(@this.Top) && double.IsNaN(@this.Right) && double.IsNaN(@this.Bottom);
-		}
-
-		public static Rect OffsetTopLeft(this Rect source, Thickness thickness)
-		{
-			return new Rect(
-				source.X + thickness.Left,
-				source.Y + thickness.Top,
-				source.Width,
-				source.Height);
-		}
-
-		public static Rect Inflate(this Rect source, Thickness thickness)
-		{
-			return new Rect(
-				source.X - thickness.Left,
-				source.Y - thickness.Top,
-				source.Width + thickness.GetWidth(),
-				source.Height + thickness.GetHeight());
-		}
-
-		public static Rect Deflate(this Rect source, Thickness thickness)
-		{
-			return new Rect(
-				source.X + thickness.Left,
-				source.Y + thickness.Top,
-				Math.Max(0, source.Width - thickness.GetWidth()),
-				Math.Max(0, source.Height - thickness.GetHeight()));
 		}
 	}
 }

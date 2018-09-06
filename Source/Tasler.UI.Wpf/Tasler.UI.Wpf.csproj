@@ -53,6 +53,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyInfoVersion.tt</DependentUpon>
     </Compile>
+    <Compile Include="Threading\DispatcherThread.cs" />
+    <Compile Include="Threading\DispatcherTimerAdapter.cs" />
+    <Compile Include="Threading\DispatcherTimerDeferredAction.cs" />
     <None Include="..\AssemblyInfo\AssemblyInfoVersion.tt" Link="Properties\AssemblyInfoVersion.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>
