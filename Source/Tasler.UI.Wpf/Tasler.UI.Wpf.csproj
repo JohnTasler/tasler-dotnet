@@ -52,6 +52,7 @@
     <Compile Include="Converters\KeyInteropConverter.cs" />
     <Compile Include="Converters\SingletonValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threading\DispatcherExtensions.cs" />
     <Compile Include="Threading\DispatcherThread.cs" />
     <Compile Include="Threading\DispatcherTimerAdapter.cs" />
     <Compile Include="Threading\DispatcherTimerDeferredAction.cs" />

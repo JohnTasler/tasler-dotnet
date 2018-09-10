@@ -1,108 +1,256 @@
-﻿using System.Threading;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Tasler.Threading;
 
 #if WINDOWS_UWP
 using Dispatcher = Windows.UI.Core.CoreDispatcher;
+using DispatcherPriority = Windows.UI.Core.CoreDispatcherPriority;
 namespace Tasler.UI.Core
 #elif WINDOWS_WPF
 using System.Windows.Threading;
 namespace Tasler.Windows.Threading
 #endif
 {
-	public abstract class DispatcherThreadBase
-	{
-		#region Static Fields
-		private static int _count = 0;
-		#endregion Static Fields
+    // TODO: Needs unit tests
+    // TODO: Needs document comments
 
-		#region Instance Fields
-		private Dispatcher _dispatcher;
-		#endregion Instance Fields
+    public abstract class DispatcherThreadBase : IDisposable
+    {
+        #region Static Fields
+        private static int _count = 0;
+        #endregion Static Fields
 
-		protected DispatcherThreadBase() : this(null)
-		{
-		}
+        #region Instance Fields
+        private volatile Dispatcher _dispatcher;
+        private volatile Thread _thread;
+        #endregion Instance Fields
 
-		protected DispatcherThreadBase(string threadName)
-		{
-			this.ThreadName = threadName ??
-				$"{Interlocked.Increment(ref _count)} {this.GetType().Name}";
-		}
+        #region Constructors and Finalizer
 
-		#region Properties
+        protected DispatcherThreadBase() : this(null)
+        {
+        }
 
-		public Dispatcher Dispatcher
-		{
-			get { return this._dispatcher; }
-		}
+        protected DispatcherThreadBase(string threadName)
+        {
+            var instanceCount = Interlocked.Increment(ref _count);
+            this.ThreadName = threadName ??
+                $"{this.GetType().Name}[{instanceCount}]";
+        }
 
-		public string ThreadName { get; }
+        ~DispatcherThreadBase()
+        {
+            this.Dispose();
+        }
 
-		#endregion Properties
+        #endregion Constructors and Finalizer
 
-		#region Methods
+        #region Events
 
-		public void Start()
-		{
-			this.Start(ApartmentState.STA);
-		}
+        public event EventHandler<Dispatcher> DispatcherAttached;
 
-		public void Start(ApartmentState apartmentState)
-		{
-			if (this.Dispatcher == null)
-			{
-				AutoResetEvent dispatcherCreatedEvent = null;
+        public event EventHandler<Dispatcher> DispatcherDetached;
 
-				Thread thread = new Thread(this.ThreadProc);
-				thread.SetApartmentState(apartmentState);
-				thread.Name = this.ThreadName;
-				dispatcherCreatedEvent = new AutoResetEvent(false);
-				thread.Start(dispatcherCreatedEvent);
+        #endregion Events
 
-				if (dispatcherCreatedEvent != null)
-					dispatcherCreatedEvent.WaitOne();
-			}
-		}
+        #region Properties
 
-		public abstract void Shutdown();
+        public string ThreadName { get; }
 
-		public abstract void VerifyThreadAccess();
+        public bool HasThreadAccess
+        {
+            get { return this.GetHasThreadAccess(this.VerifyNotDisposed()); }
+        }
 
-		public abstract bool HasThreadAccess { get; }
+        #endregion Properties
 
-		#endregion Methods
+        #region Methods
 
-		#region Overridables
+        public void Start(ApartmentState apartmentState = ApartmentState.MTA)
+        {
+            if (_dispatcher == null)
+            {
+                var thread = ThreadExtensions.Create<AutoResetEvent>(this.ThreadProc);
+                thread.SetApartmentState(apartmentState);
+                thread.Name = this.ThreadName;
 
-		protected virtual void OnDispatcherAttached()
-		{
-		}
+                var dispatcherCreatedSignal = new AutoResetEvent(false);
+                thread.Start(dispatcherCreatedSignal);
+                dispatcherCreatedSignal.WaitOne();
+                _thread = thread;
+            }
+            else
+            {
+                throw new InvalidOperationException($"{this.GetType().FullName}.{nameof(this.Start)} called while already running: ThreadName={this.ThreadName}");
+            }
+        }
 
-		protected virtual void OnDispatcherDetaching()
-		{
-		}
+        public void Stop()
+        {
+            var dispatcher = _dispatcher;
+            if (dispatcher != null)
+                this.StopDispatcher(dispatcher);
+        }
 
-		protected abstract Dispatcher CreateDispatcher();
+        public void VerifyHasThreadAccess()
+        {
+            this.VerifyThreadAccess(_dispatcher);
+        }
 
-		protected abstract void EnterDispatcherLoop();
+        #endregion Methods
 
-		#endregion Overridables
+        #region Dispatcher Access Methods
 
-		#region Private Implementation
+        #region Non-waiting (fire-and-forget) Methods
 
-		private void ThreadProc(object dispatcherCreatedEventObject)
-		{
-			Interlocked.Exchange(ref _dispatcher, this.CreateDispatcher());
+        public void RunAsyncNoWait(Action action)
+        {
+            this.VerifyNotDisposed().RunAsyncNoWait(DispatcherPriority.Normal, action);
+        }
 
-			((EventWaitHandle)dispatcherCreatedEventObject).Set();
-			this.OnDispatcherAttached();
+        public void RunAsyncNoWait(DispatcherPriority priority, Action action)
+        {
+            var assignmentPreventsWarning = this.VerifyNotDisposed().RunAsync(priority, () => action());
+        }
 
-			this.EnterDispatcherLoop();
+        public void RunIdleAsyncNoWait(Action action)
+        {
+            var assignmentPreventsWarning = this.VerifyNotDisposed().RunIdleAsync(() => action());
+        }
 
-			this.OnDispatcherDetaching();
+        #endregion Non-waiting (fire-and-forget) Methods
 
-			Interlocked.Exchange(ref _dispatcher, null);
-		}
+        #region Awaitable Methods
 
-		#endregion Private Implementation
-	}
+        public Task RunAsync(Action action)
+        {
+            return this.VerifyNotDisposed().RunAsync(action);
+        }
+
+        public Task RunAsync(DispatcherPriority priority, Action action)
+        {
+            return this.VerifyNotDisposed().RunAsync(priority, action);
+        }
+
+        public Task RunIdleAsync(Action action)
+        {
+            return this.VerifyNotDisposed().RunIdleAsync(action);
+        }
+
+        #endregion Awaitable Methods
+
+        #region Awaitable Methods with result
+
+        public Task<TResult> RunAsync<TResult>(Func<TResult> func)
+        {
+            return this.VerifyNotDisposed().RunAsync(DispatcherPriority.Normal, func);
+        }
+
+        public Task<TResult> RunAsync<TResult>(DispatcherPriority priority, Func<TResult> func)
+        {
+            return this.VerifyNotDisposed().RunAsync(priority, func);
+        }
+
+        public Task<TResult> RunIdleAsync<TResult>(Func<TResult> func)
+        {
+            return this.VerifyNotDisposed().RunIdleAsync(func);
+        }
+
+        #endregion Awaitable Methods
+
+        #endregion Dispatcher Access Methods
+
+        #region Overridables
+
+        protected virtual void OnDispatcherAttached(Dispatcher dispatcher)
+        {
+        }
+
+        protected virtual void OnDispatcherDetached(Dispatcher dispatcher)
+        {
+        }
+
+        protected abstract Dispatcher CreateDispatcher();
+
+        protected abstract void EnterDispatcherLoop(Dispatcher dispatcher);
+
+        protected abstract void ExitDispatcherLoop(Dispatcher dispatcher);
+
+        protected abstract bool GetHasThreadAccess(Dispatcher dispatcher);
+
+        protected abstract void VerifyThreadAccess(Dispatcher dispatcher);
+
+        #endregion Overridables
+
+        #region Private Implementation
+
+        private void RaiseDispatcherAttached(Dispatcher dispatcher)
+        {
+            this.OnDispatcherAttached(dispatcher);
+            this.DispatcherAttached?.Invoke(this, dispatcher);
+        }
+
+        private void RaiseDispatcherDetached(Dispatcher dispatcher)
+        {
+            this.OnDispatcherDetached(dispatcher);
+            this.DispatcherDetached?.Invoke(this, dispatcher);
+        }
+
+        private void StopDispatcher(Dispatcher dispatcher)
+        {
+            if (dispatcher != null)
+                this.ExitDispatcherLoop(dispatcher);
+        }
+
+        private Dispatcher VerifyNotDisposed([CallerMemberName] string fromMethod = null)
+        {
+            var dispatcher = _dispatcher;
+            if (dispatcher == null)
+                throw new ObjectDisposedException($"{this.ThreadName}", $"Cannot access the ${fromMethod} member of a non-running {this.GetType().FullName} instance");
+
+            return dispatcher;
+        }
+
+        private void ThreadProc(AutoResetEvent dispatcherCreatedSignal)
+        {
+            var dispatcher = this.CreateDispatcher();
+            _dispatcher = dispatcher;
+
+            dispatcherCreatedSignal.Set();
+            this.RaiseDispatcherAttached(dispatcher);
+
+            try
+            {
+                this.EnterDispatcherLoop(dispatcher);
+            }
+            finally
+            {
+                _dispatcher = null;
+                this.RaiseDispatcherDetached(dispatcher);
+
+                _thread = null;
+            }
+        }
+
+        #endregion Private Implementation
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            var dispatcher = _dispatcher;
+            if (dispatcher != null)
+            {
+                this.StopDispatcher(dispatcher);
+                GC.SuppressFinalize(this);
+            }
+
+            this.DispatcherAttached = null;
+            this.DispatcherDetached = null;
+        }
+
+        #endregion IDisposable
+    }
 }

@@ -41,6 +41,7 @@
     <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="Text\Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Text\RegularExpressions\RegexUtility.cs" />
+    <Compile Include="Threading\Extensions\ThreadExtensions.cs" />
     <Compile Include="Threading\Extensions\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="Threading\ITimerAdapter.cs" />
     <Compile Include="Threading\ReaderWriterLockSlimWrapper.cs" />

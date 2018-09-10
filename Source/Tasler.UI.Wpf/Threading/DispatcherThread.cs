@@ -2,53 +2,44 @@
 
 namespace Tasler.Windows.Threading
 {
-	public class DispatcherThread : DispatcherThreadBase
-	{
-		#region Constructors
+    public class DispatcherThread : DispatcherThreadBase
+    {
+        #region Constructors
 
-		public DispatcherThread() : base() { }
+        public DispatcherThread() : base() { }
 
-		public DispatcherThread(string threadName) : base(threadName) { }
+        public DispatcherThread(string threadName) : base(threadName) { }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region Properties
+        #region Overrides
 
-		public override bool HasThreadAccess
-		{
-			get { return (this.Dispatcher?.CheckAccess()).Value; }
-		}
+        protected override Dispatcher CreateDispatcher()
+        {
+            return Dispatcher.CurrentDispatcher;
+        }
 
-		#endregion Properties
+        protected override void EnterDispatcherLoop(Dispatcher dispatcher)
+        {
+            Dispatcher.Run();
+        }
 
-		#region Methods
+        protected override void ExitDispatcherLoop(Dispatcher dispatcher)
+        {
+            if (dispatcher != null && !dispatcher.HasShutdownStarted && !dispatcher.HasShutdownFinished)
+                dispatcher.InvokeShutdown();
+        }
 
-		public override void Shutdown()
-		{
-			var dispatcher = this.Dispatcher;
-			if (dispatcher != null && !dispatcher.HasShutdownStarted && !dispatcher.HasShutdownFinished)
-				dispatcher.InvokeShutdown();
-		}
+        protected override bool GetHasThreadAccess(Dispatcher dispatcher)
+        {
+            return (dispatcher?.CheckAccess()).Value;
+        }
 
-		public override void VerifyThreadAccess()
-		{
-			this.Dispatcher?.VerifyAccess();
-		}
+        protected override void VerifyThreadAccess(Dispatcher dispatcher)
+        {
+            dispatcher?.VerifyAccess();
+        }
 
-		#endregion Methods
-
-		#region Overrides
-
-		protected override Dispatcher CreateDispatcher()
-		{
-			return Dispatcher.CurrentDispatcher;
-		}
-
-		protected override void EnterDispatcherLoop()
-		{
-			Dispatcher.Run();
-		}
-
-		#endregion Private Implementation
-	}
+        #endregion Private Implementation
+    }
 }
