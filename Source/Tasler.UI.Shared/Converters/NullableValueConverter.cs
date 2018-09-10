@@ -10,21 +10,21 @@ using ConverterBase = Tasler.Windows.Converters.SingletonValueConverter<Tasler.W
 namespace Tasler.Windows.Converters
 #endif
 {
-	public class NullableValueConverter : ConverterBase
-	{
-		#region Overrides
+    public class NullableValueConverter : ConverterBase
+    {
+        #region Overrides
 
-		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			if (value == null)
-				return value;
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return value;
 
-			var nullable = typeof(Nullable<>);
-			var nullableType = nullable.MakeGenericType(value.GetType());
-			var result = Activator.CreateInstance(nullableType, value);
-			return result;
-		}
+            var nullable = typeof(Nullable<>);
+            var nullableType = nullable.MakeGenericType(value.GetType());
+            var result = Activator.CreateInstance(nullableType, value);
+            return result;
+        }
 
-		#endregion Overrides
-	}
+        #endregion Overrides
+    }
 }

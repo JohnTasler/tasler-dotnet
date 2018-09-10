@@ -2,11 +2,11 @@
 
 namespace Tasler.ComponentModel
 {
-	public interface IMulitpleSelectionContainer
-	{
-		IEnumerable<object> SelectedItems { get; }
+    public interface IMulitpleSelectionContainer
+    {
+        IEnumerable<object> SelectedItems { get; }
 
-		void AddToSelectedItems(object item);
-		void RemoveFromSelectedItems(object item);
-	}
+        void AddToSelectedItems(object item);
+        void RemoveFromSelectedItems(object item);
+    }
 }

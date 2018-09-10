@@ -1,8 +1,8 @@
 ﻿
 namespace Tasler.ComponentModel
 {
-	public interface IModelContainer<TModel>
-	{
-		TModel Model { get; }
-	}
+    public interface IModelContainer<TModel>
+    {
+        TModel Model { get; }
+    }
 }

@@ -1,58 +1,58 @@
 ﻿namespace Tasler.ComponentModel
 {
-	public abstract class Child<TParent> : IChild<TParent>
-		where TParent : class
-	{
-		#region Constructors
-		protected Child()
-		{
-		}
+    public abstract class Child<TParent> : IChild<TParent>
+        where TParent : class
+    {
+        #region Constructors
+        protected Child()
+        {
+        }
 
-		protected Child(TParent parent)
-		{
-			this.Parent = parent;
-		}
-		#endregion Constructors
+        protected Child(TParent parent)
+        {
+            this.Parent = parent;
+        }
+        #endregion Constructors
 
-		#region Overridables
-		protected virtual bool OnParentSet()
-		{
-			return true;
-		}
-		#endregion Overridables
+        #region Overridables
+        protected virtual bool OnParentSet()
+        {
+            return true;
+        }
+        #endregion Overridables
 
-		#region IParentedObject<TParent> Members
+        #region IParentedObject<TParent> Members
 
-		public TParent Parent
-		{
-			get; private set;
-		}
+        public TParent Parent
+        {
+            get; private set;
+        }
 
-		public bool SetParent(TParent parent)
-		{
-			if (this.Parent != null)
-				return false;
+        public bool SetParent(TParent parent)
+        {
+            if (this.Parent != null)
+                return false;
 
-			this.Parent = parent;
+            this.Parent = parent;
 
-			return this.OnParentSet();
-		}
+            return this.OnParentSet();
+        }
 
-		#endregion IParentedObject<TParent> Members
+        #endregion IParentedObject<TParent> Members
 
-		#region IParentedObject Members
+        #region IParentedObject Members
 
-		object IChild.GetParent()
-		{
-			return this.Parent;
-		}
+        object IChild.GetParent()
+        {
+            return this.Parent;
+        }
 
-		bool IChild.SetParent(object parent)
-		{
-			var typedParent = (TParent)parent;
-			return this.SetParent(typedParent);
-		}
+        bool IChild.SetParent(object parent)
+        {
+            var typedParent = (TParent)parent;
+            return this.SetParent(typedParent);
+        }
 
-		#endregion IParentedObject Members
-	}
+        #endregion IParentedObject Members
+    }
 }

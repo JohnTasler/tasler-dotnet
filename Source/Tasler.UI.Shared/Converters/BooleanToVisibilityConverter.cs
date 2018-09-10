@@ -12,41 +12,41 @@ using ConverterBase = Tasler.Windows.Converters.SingletonValueConverter<Tasler.W
 namespace Tasler.Windows.Converters
 #endif
 {
-	/// <summary>
-	/// An imlementation of <see cref="IValueConverter"/> that converts a boolean value to one of two
-	/// <see cref="Visibility"/> values, specified by the <see cref="TrueValue"/> and <see cref="FalseValue"/>
-	/// properties.
-	/// </summary>
-	public class BooleanToVisibilityConverter : ConverterBase
-	{
-		#region Constructors
-		public BooleanToVisibilityConverter()
-			: this(Visibility.Visible, Visibility.Collapsed)
-		{
-		}
+    /// <summary>
+    /// An imlementation of <see cref="IValueConverter"/> that converts a boolean value to one of two
+    /// <see cref="Visibility"/> values, specified by the <see cref="TrueValue"/> and <see cref="FalseValue"/>
+    /// properties.
+    /// </summary>
+    public class BooleanToVisibilityConverter : ConverterBase
+    {
+        #region Constructors
+        public BooleanToVisibilityConverter()
+            : this(Visibility.Visible, Visibility.Collapsed)
+        {
+        }
 
-		public BooleanToVisibilityConverter(Visibility trueValue, Visibility falseValue)
-		{
-			this.TrueValue = trueValue;
-			this.FalseValue = falseValue;
-		}
-		#endregion Constructors
+        public BooleanToVisibilityConverter(Visibility trueValue, Visibility falseValue)
+        {
+            this.TrueValue = trueValue;
+            this.FalseValue = falseValue;
+        }
+        #endregion Constructors
 
-		#region Properties
-		public Visibility TrueValue { get; set; }
+        #region Properties
+        public Visibility TrueValue { get; set; }
 
-		public Visibility FalseValue { get; set; }
-		#endregion Properties
+        public Visibility FalseValue { get; set; }
+        #endregion Properties
 
-		#region IValueConverter Members
+        #region IValueConverter Members
 
-		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			bool boolValue = System.Convert.ToBoolean(value);
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool boolValue = System.Convert.ToBoolean(value);
 
-			return boolValue ? this.TrueValue : this.FalseValue;
-		}
+            return boolValue ? this.TrueValue : this.FalseValue;
+        }
 
-		#endregion IValueConverter Members
-	}
+        #endregion IValueConverter Members
+    }
 }

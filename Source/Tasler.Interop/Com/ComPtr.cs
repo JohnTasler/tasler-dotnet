@@ -22,41 +22,41 @@ namespace Tasler.Interop.Com
     /// </blockquote>
     /// </para>
     /// </remarks>
-	public class ComPtr<T> : IDisposable
-	    where T : class
-	{
-		public T Value;
+    public class ComPtr<T> : IDisposable
+        where T : class
+    {
+        public T Value;
 
         public ComPtr()
         {
         }
 
-		public ComPtr(T pointer)
-		{
-			this.Value = pointer;
-		}
+        public ComPtr(T pointer)
+        {
+            this.Value = pointer;
+        }
 
-		#region IDisposable Members
+        #region IDisposable Members
 
-		public void Dispose()
-		{
-			if (this.Value != default(T))
-			{
-//				Marshal.ReleaseComObject(this.Value);
+        public void Dispose()
+        {
+            if (this.Value != default(T))
+            {
+//                Marshal.ReleaseComObject(this.Value);
                 this.Value = default(T);
-			}
-		}
+            }
+        }
 
-		#endregion IDisposable Members
+        #endregion IDisposable Members
 
-		public bool HasValue
-		{
-			get { return !this.IsNull; }
-		}
+        public bool HasValue
+        {
+            get { return !this.IsNull; }
+        }
 
-		public bool IsNull
-		{
+        public bool IsNull
+        {
             get { return this.Value == default(T); }
-		}
-	}
+        }
+    }
 }

@@ -9,27 +9,27 @@ using ConverterBase = System.Windows.Data.IValueConverter;
 namespace Tasler.Windows.Converters
 #endif
 {
-	public abstract class BaseValueConverter : ConverterBase
-	{
-		public static System.Globalization.CultureInfo GetCultureInfo(System.Globalization.CultureInfo culture)
-		{
-			return culture;
-		}
+    public abstract class BaseValueConverter : ConverterBase
+    {
+        public static System.Globalization.CultureInfo GetCultureInfo(System.Globalization.CultureInfo culture)
+        {
+            return culture;
+        }
 
-		public static System.Globalization.CultureInfo GetCultureInfo(string culture)
-		{
-			return new System.Globalization.CultureInfo(culture);
-		}
+        public static System.Globalization.CultureInfo GetCultureInfo(string culture)
+        {
+            return new System.Globalization.CultureInfo(culture);
+        }
 
-		#region Overridable IValueConverter Implementation
+        #region Overridable IValueConverter Implementation
 
-		public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
+        public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
 
-		public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			throw new NotImplementedException();
-		}
+        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
 
-		#endregion Overridable IValueConverter Implementation
-	}
+        #endregion Overridable IValueConverter Implementation
+    }
 }

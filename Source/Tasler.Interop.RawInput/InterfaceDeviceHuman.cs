@@ -5,99 +5,99 @@ using Tasler.Interop.RawInput.User;
 
 namespace Tasler.Interop.RawInput
 {
-	public class InterfaceDeviceHuman : InterfaceDeviceBase<InterfaceDeviceHuman.Info>
-	{
-		#region Nested Types
-		[StructLayout(LayoutKind.Sequential)]
-		public class Info
-		{
-			public int Size;
-			public int DeviceType;
-			public int VendorId;
-			public int ProductId;
-			public int VersionNumber;
-			public short UsagePage;
-			public short Usage;
-		}
-		#endregion Nested Types
+    public class InterfaceDeviceHuman : InterfaceDeviceBase<InterfaceDeviceHuman.Info>
+    {
+        #region Nested Types
+        [StructLayout(LayoutKind.Sequential)]
+        public class Info
+        {
+            public int Size;
+            public int DeviceType;
+            public int VendorId;
+            public int ProductId;
+            public int VersionNumber;
+            public short UsagePage;
+            public short Usage;
+        }
+        #endregion Nested Types
 
-		#region Construction
-		public InterfaceDeviceHuman(RAWINPUTDEVICELIST device)
-			: base(device)
-		{
-		}
-		#endregion Construction
+        #region Construction
+        public InterfaceDeviceHuman(RAWINPUTDEVICELIST device)
+            : base(device)
+        {
+        }
+        #endregion Construction
 
-		#region Properties
-		public int VendorId
-		{
-			get { return base.DeviceInfo.VendorId; }
-		}
+        #region Properties
+        public int VendorId
+        {
+            get { return base.DeviceInfo.VendorId; }
+        }
 
-		public int ProductId
-		{
-			get { return base.DeviceInfo.ProductId; }
-		}
+        public int ProductId
+        {
+            get { return base.DeviceInfo.ProductId; }
+        }
 
-		public int VersionNumber
-		{
-			get { return base.DeviceInfo.VersionNumber; }
-		}
+        public int VersionNumber
+        {
+            get { return base.DeviceInfo.VersionNumber; }
+        }
 
-		public override short UsagePage
-		{
-			get { return base.DeviceInfo.UsagePage; }
-		}
+        public override short UsagePage
+        {
+            get { return base.DeviceInfo.UsagePage; }
+        }
 
-		public override short Usage
-		{
-			get { return base.DeviceInfo.Usage; }
-		}
+        public override short Usage
+        {
+            get { return base.DeviceInfo.Usage; }
+        }
 
-		#endregion Properties
-	}
+        #endregion Properties
+    }
 
 
-	public class HumanInput : RawInputBase
-	{
-		private RAWINPUTHID _raw;
-		private byte[][] _data;
+    public class HumanInput : RawInputBase
+    {
+        private RAWINPUTHID _raw;
+        private byte[][] _data;
 
-		internal HumanInput(IntPtr pData)
-		{
-			_raw = (RAWINPUTHID)Marshal.PtrToStructure(
-				new IntPtr(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTHID));
+        internal HumanInput(IntPtr pData)
+        {
+            _raw = (RAWINPUTHID)Marshal.PtrToStructure(
+                new IntPtr(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTHID));
 
-			_data = new byte[_raw.Count][];
-			for (int index = 0; index < _data.Length; ++index)
-			{
-				long offset = RAWINPUTHEADER.SizeOf + RAWINPUTHID.SizeOf + (index * _raw.Size);
-				_data[index] = new byte[_raw.Size];
-				Marshal.Copy(new IntPtr(pData.ToInt64() + offset), _data[index], 0, _raw.Size);
-			}
-		}
+            _data = new byte[_raw.Count][];
+            for (int index = 0; index < _data.Length; ++index)
+            {
+                long offset = RAWINPUTHEADER.SizeOf + RAWINPUTHID.SizeOf + (index * _raw.Size);
+                _data[index] = new byte[_raw.Size];
+                Marshal.Copy(new IntPtr(pData.ToInt64() + offset), _data[index], 0, _raw.Size);
+            }
+        }
 
-		public int Count { get { return _raw.Count; } }
+        public int Count { get { return _raw.Count; } }
 
-		public int Size { get { return _raw.Size; } }
+        public int Size { get { return _raw.Size; } }
 
-		public byte[][] Bytes { get { return _data; } }
+        public byte[][] Bytes { get { return _data; } }
 
-		public string FormattedBytes
-		{
-			get
-			{
-				StringBuilder sb = new StringBuilder((_raw.Count * 4) + (_raw.Size * 3));
-				foreach (byte[] buffer in _data)
-				{
-					if (sb.Length > 0)
-						sb.Append(',').Append('\n');
-					foreach (byte dataByte in buffer)
-						sb.AppendFormat("{0:X2} ", dataByte);
-				}
+        public string FormattedBytes
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder((_raw.Count * 4) + (_raw.Size * 3));
+                foreach (byte[] buffer in _data)
+                {
+                    if (sb.Length > 0)
+                        sb.Append(',').Append('\n');
+                    foreach (byte dataByte in buffer)
+                        sb.AppendFormat("{0:X2} ", dataByte);
+                }
 
-				return sb.ToString();
-			}
-		}
-	}
+                return sb.ToString();
+            }
+        }
+    }
 }

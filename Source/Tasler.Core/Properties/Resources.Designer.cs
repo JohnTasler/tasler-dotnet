@@ -71,8 +71,8 @@ namespace Tasler.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to Specified cast is not valid:
-        ///		From: {0}
-        ///			To: {1}.
+        ///        From: {0}
+        ///            To: {1}.
         /// </summary>
         internal static string InvalidCastExceptionFormat2 {
             get {
@@ -82,8 +82,8 @@ namespace Tasler.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to The given key was not present in the dictionary:
-        ///		key.GetType.FullName = {0}
-        ///		key.ToString() = {1}.
+        ///        key.GetType.FullName = {0}
+        ///        key.ToString() = {1}.
         /// </summary>
         internal static string KeyNotFoundExceptionFormat2 {
             get {

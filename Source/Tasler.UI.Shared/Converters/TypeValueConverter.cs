@@ -10,11 +10,11 @@ using ConverterBase = Tasler.Windows.Converters.SingletonValueConverter<Tasler.W
 namespace Tasler.Windows.Converters
 #endif
 {
-	public class TypeValueConverter : ConverterBase
-	{
-		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			return value?.GetType();
-		}
-	}
+    public class TypeValueConverter : ConverterBase
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value?.GetType();
+        }
+    }
 }

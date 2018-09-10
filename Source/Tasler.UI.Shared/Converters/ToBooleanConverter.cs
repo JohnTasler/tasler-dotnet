@@ -10,16 +10,16 @@ using ConverterBase = Tasler.Windows.Converters.SingletonValueConverter<Tasler.W
 namespace Tasler.Windows.Converters
 #endif
 {
-	public class ToBooleanConverter : ConverterBase
-	{
-		#region Overrides
+    public class ToBooleanConverter : ConverterBase
+    {
+        #region Overrides
 
-		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		{
-			bool boolValue = System.Convert.ToBoolean(value, GetCultureInfo(culture));
-			return boolValue;
-		}
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool boolValue = System.Convert.ToBoolean(value, GetCultureInfo(culture));
+            return boolValue;
+        }
 
-		#endregion Overrides
-	}
+        #endregion Overrides
+    }
 }

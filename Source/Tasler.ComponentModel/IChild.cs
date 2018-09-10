@@ -2,18 +2,18 @@
 
 namespace Tasler.ComponentModel
 {
-	public interface IChild
-	{
-		object GetParent();
+    public interface IChild
+    {
+        object GetParent();
 
-		bool SetParent(object parent);
-	}
+        bool SetParent(object parent);
+    }
 
-	public interface IChild<TParent> : IChild
-		where TParent : class
-	{
-		TParent Parent { get; }
+    public interface IChild<TParent> : IChild
+        where TParent : class
+    {
+        TParent Parent { get; }
 
-		bool SetParent(TParent parent);
-	}
+        bool SetParent(TParent parent);
+    }
 }

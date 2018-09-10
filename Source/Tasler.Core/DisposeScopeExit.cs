@@ -2,45 +2,45 @@
 
 namespace Tasler
 {
-	// TODO: NEEDS_UNIT_TESTS
+    // TODO: NEEDS_UNIT_TESTS
 
-	public class DisposeScopeExit : IDisposable
-	{
-		#region Instance Fields
-		private Action _disposeAction;
-		#endregion Instance Fields
+    public class DisposeScopeExit : IDisposable
+    {
+        #region Instance Fields
+        private Action _disposeAction;
+        #endregion Instance Fields
 
-		#region Constructors / Finalizer
+        #region Constructors / Finalizer
 
-		public DisposeScopeExit(Action disposeAction)
-			: this(null, disposeAction)
-		{
-		}
+        public DisposeScopeExit(Action disposeAction)
+            : this(null, disposeAction)
+        {
+        }
 
-		public DisposeScopeExit(Action initializeAction, Action disposeAction)
-		{
-			ValidateArgument.IsNotNull(disposeAction, nameof(disposeAction));
+        public DisposeScopeExit(Action initializeAction, Action disposeAction)
+        {
+            ValidateArgument.IsNotNull(disposeAction, nameof(disposeAction));
 
-			initializeAction?.Invoke();
-			_disposeAction = disposeAction;
-		}
+            initializeAction?.Invoke();
+            _disposeAction = disposeAction;
+        }
 
-		~DisposeScopeExit()
-		{
-			this.Dispose();
-		}
-		#endregion Constructors / Finalizer
+        ~DisposeScopeExit()
+        {
+            this.Dispose();
+        }
+        #endregion Constructors / Finalizer
 
-		#region IDisposable Members
+        #region IDisposable Members
 
-		public void Dispose()
-		{
-			_disposeAction?.Invoke();
-			_disposeAction = null;
+        public void Dispose()
+        {
+            _disposeAction?.Invoke();
+            _disposeAction = null;
 
-			GC.SuppressFinalize(this);
-		}
+            GC.SuppressFinalize(this);
+        }
 
-		#endregion IDisposable Members
-	}
+        #endregion IDisposable Members
+    }
 }
