@@ -65,6 +65,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.AssemblyInfo", "Sour
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Tasler.AssemblyInfo.Shared", "Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.shproj", "{E87C4D32-1BF6-420A-AA63-BEBAAB7928C2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{66A96D27-3414-4556-A57B-54283D7FBE69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.Core.Tests", "Tests\Tasler.Core.Tests\Tasler.Core.Tests.csproj", "{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{4090fb61-0858-4ae8-a30d-b34464a9505f}*SharedItemsImports = 4
@@ -253,6 +257,22 @@ Global
 		{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}.Release|x64.Build.0 = Release|Any CPU
 		{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}.Release|x86.ActiveCfg = Release|Any CPU
 		{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}.Release|x86.Build.0 = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|ARM.Build.0 = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|x64.Build.0 = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|x86.Build.0 = Debug|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|ARM.ActiveCfg = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|ARM.Build.0 = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|x64.ActiveCfg = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|x64.Build.0 = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -271,6 +291,7 @@ Global
 		{49CB11ED-DC8C-435C-8208-E9D42675C755} = {3F5CE956-8C39-4CE8-BBAA-526311C62EB1}
 		{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B} = {3F5CE956-8C39-4CE8-BBAA-526311C62EB1}
 		{E87C4D32-1BF6-420A-AA63-BEBAAB7928C2} = {3F5CE956-8C39-4CE8-BBAA-526311C62EB1}
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47} = {66A96D27-3414-4556-A57B-54283D7FBE69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F678DB90-5DA4-47D2-A8EF-F7251162BA7A}
