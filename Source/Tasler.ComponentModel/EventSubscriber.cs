@@ -1,5 +1,4 @@
 ﻿using System;
-using Tasler.Extensions;
 
 namespace Tasler.ComponentModel
 {

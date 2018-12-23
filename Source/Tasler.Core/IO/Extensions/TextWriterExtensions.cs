@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Tasler.IO.Extensions
+namespace Tasler.IO
 {
     public static class TextWriterExtensions
     {

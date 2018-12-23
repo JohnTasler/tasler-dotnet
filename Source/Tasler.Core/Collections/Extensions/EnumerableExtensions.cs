@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tasler.Extensions
+namespace Tasler
 {
     // TODO: NEEDS_UNIT_TESTS
 

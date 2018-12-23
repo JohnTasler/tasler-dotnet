@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Tasler.IO.Extensions;
+using Tasler.IO;
 
 namespace Tasler.Text
 {

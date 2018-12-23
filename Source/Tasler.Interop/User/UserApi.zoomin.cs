@@ -5,7 +5,6 @@ using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
-using Tasler.Extensions;
 using Tasler.Interop.Gdi;
 
 namespace Tasler.Interop.User

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tasler.Extensions
+namespace Tasler
 {
     // TODO: NEEDS_UNIT_TESTS
 
