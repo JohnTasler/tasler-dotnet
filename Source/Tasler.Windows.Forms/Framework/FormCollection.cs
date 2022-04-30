@@ -1,0 +1,263 @@
+namespace Tasler.Windows.ApplicationFramework
+{
+    using System;
+    using System.Windows.Forms;
+    using System.Collections;
+
+    /// <summary>
+    ///     <para>
+    ///       A collection that stores <see cref='System.Windows.Forms.Form'/> objects.
+    ///    </para>
+    /// </summary>
+    /// <seealso cref='Tasler.Windows.ApplicationFramework.FormCollection'/>
+    [Serializable()]
+    public class FormCollection : CollectionBase 
+    {
+        
+        /// <summary>
+        ///     <para>
+        ///       Initializes a new instance of <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/>.
+        ///    </para>
+        /// </summary>
+        public FormCollection() 
+        {
+        }
+        
+        /// <summary>
+        ///     <para>
+        ///       Initializes a new instance of <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> based on another <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/>.
+        ///    </para>
+        /// </summary>
+        /// <param name='value'>
+        ///       A <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> from which the contents are copied
+        /// </param>
+        public FormCollection(FormCollection value) 
+        {
+            this.AddRange(value);
+        }
+        
+        /// <summary>
+        ///     <para>
+        ///       Initializes a new instance of <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> containing any array of <see cref='System.Windows.Forms.Form'/> objects.
+        ///    </para>
+        /// </summary>
+        /// <param name='value'>
+        ///       A array of <see cref='System.Windows.Forms.Form'/> objects with which to intialize the collection
+        /// </param>
+        public FormCollection(Form[] value) 
+        {
+            this.AddRange(value);
+        }
+        
+        /// <summary>
+        /// <para>Represents the entry at the specified index of the <see cref='System.Windows.Forms.Form'/>.</para>
+        /// </summary>
+        /// <param name='index'><para>The zero-based index of the entry to locate in the collection.</para></param>
+        /// <value>
+        ///    <para> The entry at the specified index of the collection.</para>
+        /// </value>
+        /// <exception cref='System.ArgumentOutOfRangeException'><paramref name='index'/> is outside the valid range of indexes for the collection.</exception>
+        public Form this[int index] 
+        {
+            get 
+            {
+                return ((Form)(List[index]));
+            }
+            set 
+            {
+                List[index] = value;
+            }
+        }
+        
+        /// <summary>
+        ///    <para>Adds a <see cref='System.Windows.Forms.Form'/> with the specified value to the 
+        ///    <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> .</para>
+        /// </summary>
+        /// <param name='value'>The <see cref='System.Windows.Forms.Form'/> to add.</param>
+        /// <returns>
+        ///    <para>The index at which the new element was inserted.</para>
+        /// </returns>
+        /// <seealso cref='Tasler.Windows.ApplicationFramework.FormCollection.AddRange'/>
+        public int Add(Form value) 
+        {
+            return List.Add(value);
+        }
+        
+        /// <summary>
+        /// <para>Copies the elements of an array to the end of the <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/>.</para>
+        /// </summary>
+        /// <param name='value'>
+        ///    An array of type <see cref='System.Windows.Forms.Form'/> containing the objects to add to the collection.
+        /// </param>
+        /// <returns>
+        ///   <para>None.</para>
+        /// </returns>
+        /// <seealso cref='Tasler.Windows.ApplicationFramework.FormCollection.Add'/>
+        public void AddRange(Form[] value) 
+        {
+            for (int i = 0; (i < value.Length); i = (i + 1)) 
+            {
+                this.Add(value[i]);
+            }
+        }
+        
+        /// <summary>
+        ///     <para>
+        ///       Adds the contents of another <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> to the end of the collection.
+        ///    </para>
+        /// </summary>
+        /// <param name='value'>
+        ///    A <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> containing the objects to add to the collection.
+        /// </param>
+        /// <returns>
+        ///   <para>None.</para>
+        /// </returns>
+        /// <seealso cref='Tasler.Windows.ApplicationFramework.FormCollection.Add'/>
+        public void AddRange(FormCollection value) 
+        {
+            for (int i = 0; (i < value.Count); i = (i + 1)) 
+            {
+                this.Add(value[i]);
+            }
+        }
+        
+        /// <summary>
+        /// <para>Gets a value indicating whether the 
+        ///    <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> contains the specified <see cref='System.Windows.Forms.Form'/>.</para>
+        /// </summary>
+        /// <param name='value'>The <see cref='System.Windows.Forms.Form'/> to locate.</param>
+        /// <returns>
+        /// <para><see langword='true'/> if the <see cref='System.Windows.Forms.Form'/> is contained in the collection; 
+        ///   otherwise, <see langword='false'/>.</para>
+        /// </returns>
+        /// <seealso cref='Tasler.Windows.ApplicationFramework.FormCollection.IndexOf'/>
+        public bool Contains(Form value) 
+        {
+            return List.Contains(value);
+        }
+        
+        /// <summary>
+        /// <para>Copies the <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> values to a one-dimensional <see cref='System.Array'/> instance at the 
+        ///    specified index.</para>
+        /// </summary>
+        /// <param name='array'><para>The one-dimensional <see cref='System.Array'/> that is the destination of the values copied from <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> .</para></param>
+        /// <param name='index'>The index in <paramref name='array'/> where copying begins.</param>
+        /// <returns>
+        ///   <para>None.</para>
+        /// </returns>
+        /// <exception cref='System.ArgumentException'><para><paramref name='array'/> is multidimensional.</para> <para>-or-</para> <para>The number of elements in the <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> is greater than the available space between <paramref name='arrayIndex'/> and the end of <paramref name='array'/>.</para></exception>
+        /// <exception cref='System.ArgumentNullException'><paramref name='array'/> is <see langword='null'/>. </exception>
+        /// <exception cref='System.ArgumentOutOfRangeException'><paramref name='arrayIndex'/> is less than <paramref name='array'/>'s lowbound. </exception>
+        /// <seealso cref='System.Array'/>
+        public void CopyTo(Form[] array, int index) 
+        {
+            List.CopyTo(array, index);
+        }
+        
+        /// <summary>
+        ///    <para>Returns the index of a <see cref='System.Windows.Forms.Form'/> in 
+        ///       the <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> .</para>
+        /// </summary>
+        /// <param name='value'>The <see cref='System.Windows.Forms.Form'/> to locate.</param>
+        /// <returns>
+        /// <para>The index of the <see cref='System.Windows.Forms.Form'/> of <paramref name='value'/> in the 
+        /// <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/>, if found; otherwise, -1.</para>
+        /// </returns>
+        /// <seealso cref='Tasler.Windows.ApplicationFramework.FormCollection.Contains'/>
+        public int IndexOf(Form value) 
+        {
+            return List.IndexOf(value);
+        }
+        
+        /// <summary>
+        /// <para>Inserts a <see cref='System.Windows.Forms.Form'/> into the <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> at the specified index.</para>
+        /// </summary>
+        /// <param name='index'>The zero-based index where <paramref name='value'/> should be inserted.</param>
+        /// <param name=' value'>The <see cref='System.Windows.Forms.Form'/> to insert.</param>
+        /// <returns><para>None.</para></returns>
+        /// <seealso cref='Tasler.Windows.ApplicationFramework.FormCollection.Add'/>
+        public void Insert(int index, Form value) 
+        {
+            List.Insert(index, value);
+        }
+        
+        /// <summary>
+        ///    <para>Returns an enumerator that can iterate through 
+        ///       the <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> .</para>
+        /// </summary>
+        /// <returns><para>None.</para></returns>
+        /// <seealso cref='System.Collections.IEnumerator'/>
+        public new FormEnumerator GetEnumerator() 
+        {
+            return new FormEnumerator(this);
+        }
+        
+        /// <summary>
+        ///    <para> Removes a specific <see cref='System.Windows.Forms.Form'/> from the 
+        ///    <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> .</para>
+        /// </summary>
+        /// <param name='value'>The <see cref='System.Windows.Forms.Form'/> to remove from the <see cref='Tasler.Windows.ApplicationFramework.FormCollection'/> .</param>
+        /// <returns><para>None.</para></returns>
+        /// <exception cref='System.ArgumentException'><paramref name='value'/> is not found in the Collection. </exception>
+        public void Remove(Form value) 
+        {
+            List.Remove(value);
+        }
+        
+        /// <summary>Collection generator generated code.</summary>
+        public class FormEnumerator : object, IEnumerator 
+        {
+            
+            private IEnumerator baseEnumerator;
+            
+            private IEnumerable temp;
+            
+            /// <summary>Collection generator generated code.</summary>
+            public FormEnumerator(FormCollection mappings) 
+            {
+                this.temp = ((IEnumerable)(mappings));
+                this.baseEnumerator = temp.GetEnumerator();
+            }
+            
+            /// <summary>Collection generator generated code.</summary>
+            public Form Current 
+            {
+                get 
+                {
+                    return ((Form)(baseEnumerator.Current));
+                }
+            }
+            
+            object IEnumerator.Current 
+            {
+                get 
+                {
+                    return baseEnumerator.Current;
+                }
+            }
+            
+            /// <summary>Collection generator generated code.</summary>
+            public bool MoveNext() 
+            {
+                return baseEnumerator.MoveNext();
+            }
+            
+            bool IEnumerator.MoveNext() 
+            {
+                return baseEnumerator.MoveNext();
+            }
+            
+            /// <summary>Collection generator generated code.</summary>
+            public void Reset() 
+            {
+                baseEnumerator.Reset();
+            }
+            
+            void IEnumerator.Reset() 
+            {
+                baseEnumerator.Reset();
+            }
+        }
+    }
+
+}

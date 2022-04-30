@@ -1,0 +1,113 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:attachments="clr-namespace:Tasler.Windows.Attachments"
+	xmlns:controls="clr-namespace:Tasler.Windows.Controls"
+	xmlns:converters="clr-namespace:Tasler.Windows.Converters"
+	>
+
+	<converters:BooleanToVisibilityConverter x:Key="Converter.BooleanToVisibility"/>
+	<CircleEase x:Key="EasingFunction.Emerging" EasingMode="EaseOut"/>
+	<CircleEase x:Key="EasingFunction.Transitioning" EasingMode="EaseOut"/>
+	<CircleEase x:Key="EasingFunction.ReverseTransitioning" EasingMode="EaseOut"/>
+	<Duration x:Key="Duration.Emerging">0:0:1.60</Duration>
+	<Duration x:Key="Duration.Transitioning">0:0:0.60</Duration>
+	<Duration x:Key="Duration.ReverseTransitioning">0:0:0.60</Duration>
+
+	<Style TargetType="controls:TransitionContentControl">
+
+		<Setter Property="Clip">
+			<Setter.Value>
+				<RectangleGeometry Rect="{Binding BoundingRectangle, RelativeSource={RelativeSource Mode=Self}}" />
+			</Setter.Value>
+		</Setter>
+		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="controls:TransitionContentControl">
+					<Border
+						Padding="{TemplateBinding Padding}"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						>
+						<Grid
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							Clip="{TemplateBinding Clip}"
+							>
+							<controls:AnimationSizeableElement
+								x:Name="PART_OldContentHost"
+								Visibility="{Binding HasOldContent,Converter={StaticResource Converter.BooleanToVisibility},RelativeSource={RelativeSource Mode=TemplatedParent}}"
+								>
+								<ContentPresenter Content="{TemplateBinding OldContent}"/>
+							</controls:AnimationSizeableElement>
+
+							<controls:AnimationSizeableElement
+								x:Name="PART_ContentHost"
+								Visibility="{Binding HasContent,Converter={StaticResource Converter.BooleanToVisibility},RelativeSource={RelativeSource Mode=TemplatedParent}}"
+								>
+								<ContentPresenter Content="{TemplateBinding Content}"/>
+							</controls:AnimationSizeableElement>
+						</Grid>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup Name="AnimationStates">
+
+								<VisualState Name="Transitioned"/>
+
+								<VisualState Name="Emerging">
+									<Storyboard>
+										<DoubleAnimation
+											Storyboard.TargetName="PART_ContentHost" Storyboard.TargetProperty="Opacity"
+											Duration="{StaticResource Duration.Emerging}"
+											EasingFunction="{StaticResource EasingFunction.Emerging}"
+											From="0.0" To="1.0" FillBehavior="HoldEnd"
+											/>
+									</Storyboard>
+								</VisualState>
+
+								<VisualState Name="Transitioning">
+									<Storyboard>
+										<DoubleAnimation
+											Storyboard.TargetName="PART_OldContentHost" Storyboard.TargetProperty="ChildHorizontalOffsetMultiplier"
+											Duration="{StaticResource Duration.Transitioning}"
+											EasingFunction="{StaticResource EasingFunction.Transitioning}"
+											From="0.0" To="-1.0" FillBehavior="HoldEnd"
+											/>
+										<DoubleAnimation
+											Storyboard.TargetName="PART_ContentHost" Storyboard.TargetProperty="ChildHorizontalOffsetMultiplier"
+											Duration="{StaticResource Duration.Transitioning}"
+											EasingFunction="{StaticResource EasingFunction.Transitioning}"
+											From="1.0" To="0.0" FillBehavior="HoldEnd"
+											/>
+									</Storyboard>
+								</VisualState>
+
+								<VisualState Name="ReverseTransitioning">
+									<Storyboard>
+										<DoubleAnimation
+											Storyboard.TargetName="PART_OldContentHost" Storyboard.TargetProperty="ChildHorizontalOffsetMultiplier"
+											Duration="{StaticResource Duration.ReverseTransitioning}"
+											EasingFunction="{StaticResource EasingFunction.ReverseTransitioning}"
+											From="0.0" To="1.0" FillBehavior="HoldEnd"
+											/>
+										<DoubleAnimation
+											Storyboard.TargetName="PART_ContentHost" Storyboard.TargetProperty="ChildHorizontalOffsetMultiplier"
+											Duration="{StaticResource Duration.ReverseTransitioning}"
+											EasingFunction="{StaticResource EasingFunction.ReverseTransitioning}"
+											From="-1.0" To="0.0" FillBehavior="HoldEnd"
+											/>
+									</Storyboard>
+								</VisualState>
+
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

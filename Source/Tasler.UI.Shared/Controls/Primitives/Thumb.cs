@@ -1,6 +1,6 @@
 ﻿#if WINDOWS_UWP
 using Tasler.UI.Xaml.Input;
-using ThumbBase = Windows.UI.Xaml.Controls.Primitives.Thumb;
+using ThumbBase = Windows.UI.Xaml.Controls.Control;
 namespace Tasler.UI.Xaml.Controls.Primitives
 #elif WINDOWS_WPF
 using System.Windows;

@@ -24,6 +24,7 @@ namespace Tasler.Interop
         protected override bool ReleaseHandle()
         {
             Marshal.FreeCoTaskMem(base.handle);
+            base.handle = IntPtr.Zero;
             return true;
         }
         #endregion Overrides

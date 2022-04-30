@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{2FE53EBD-2283-4641-B20C-9B3194D72856}"
 EndProject
@@ -71,8 +71,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.Core.Tests", "Tests\
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{2d4e35a3-754d-4e8e-b52c-aa2d0dd9e059}*SharedItemsImports = 5
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{4090fb61-0858-4ae8-a30d-b34464a9505f}*SharedItemsImports = 4
 		Source\Tasler.UI.Shared\Tasler.UI.Shared.projitems*{5179c310-67ad-4274-bc8b-4630e18743ef}*SharedItemsImports = 13
+		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{6692957c-4e2b-415b-a03a-4b3dbcac071b}*SharedItemsImports = 5
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{921d82f1-b7a8-47f9-83e0-b576441057f7}*SharedItemsImports = 4
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{99015bcb-9b5e-4b3b-89a6-3b5b9f67e1dd}*SharedItemsImports = 4
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}*SharedItemsImports = 4

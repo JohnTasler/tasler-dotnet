@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="RiffTagGen" targetNamespace="uri:Tasler-Multimedia/RiffTagsGenerator.xsd" elementFormDefault="qualified" xmlns="uri:Tasler-Multimedia/RiffTagsGenerator.xsd" xmlns:mstns="uri:Tasler-Multimedia/RiffTagGenerator.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- This should be compiled by XSD.exe with the following command line
+	   xsd RiffTagsGeneratorSchema.xsd /classes /n:Tasler.Multimedia.RiffTagsGenerator
+	-->
+	
+	<xs:simpleType name="FourCC">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="4" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Tag">
+		<xs:sequence>
+			<xs:element name="Remarks" type="xs:string" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+
+		<xs:attribute name="FourCC" type="FourCC" use="required" />
+		<xs:attribute name="Name" type="xs:NCName" use="optional" />
+		<xs:attribute name="Summary" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="GroupBase" abstract="true">
+		<xs:sequence>
+			<xs:element name="Remarks" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Tag" type="Tag" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="TagGroup" type="TagGroup" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		
+		<xs:attribute name="Name" type="xs:NCName" use="required" />
+		<xs:attribute name="Summary" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="TagGroup">
+		<xs:complexContent>
+			<xs:extension base="GroupBase">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="RiffTags">
+		<xs:complexContent>
+			<xs:extension base="GroupBase">
+				<xs:attribute name="Namespace" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="RiffTags" type="RiffTags" />
+
+</xs:schema>

@@ -1,0 +1,31 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="clr-namespace:Tasler.Windows.Controls"
+	>
+
+	<Style TargetType="controls:SignalLevelMeter">
+		<Setter Property="FallbackTime" Value="0:0:0.550" />
+		
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="controls:SignalLevelMeter">
+					<Border
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						>
+						<controls:SegmentItemBar
+							Minimum="{TemplateBinding Minimum}"
+							Maximum="{TemplateBinding Maximum}"
+							Value="{TemplateBinding DisplayValue}"
+							Orientation="{TemplateBinding Orientation}"
+							>
+						</controls:SegmentItemBar>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

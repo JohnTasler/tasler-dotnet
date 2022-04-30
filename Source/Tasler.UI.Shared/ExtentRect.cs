@@ -129,9 +129,7 @@ namespace Tasler.Windows
         /// </returns>
         public static implicit operator Rect(ExtentRect extentRect)
         {
-            bool flippedHorizontal;
-            bool flippedVertical;
-            return extentRect.ToRect(out flippedHorizontal, out flippedVertical);
+            return extentRect.ToRect(out _, out _);
         }
 
         /// <summary>

@@ -1,0 +1,15 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="clr-namespace:Tasler.Windows.Controls"
+	>
+
+	<Style x:Key="{x:Type controls:Popup}" TargetType="controls:Popup">
+		<Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+		<Setter Property="TextOptions.TextHintingMode" Value="Fixed"/>
+		<Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+		<Setter Property="SnapsToDevicePixels" Value="True"/>
+		<Setter Property="AllowsTransparency" Value="True"/>
+	</Style>
+
+</ResourceDictionary>
