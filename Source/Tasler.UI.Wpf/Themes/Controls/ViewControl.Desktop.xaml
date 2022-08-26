@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:attachments="clr-namespace:Tasler.Windows.Attachments"
+	xmlns:controls="clr-namespace:Tasler.Windows.Controls"
+	>
+
+	<Style TargetType="{x:Type controls:ViewControl}" BasedOn="{StaticResource {x:Type UserControl}}">
+		<Setter Property="attachments:InputBindingService.InputElement" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+	</Style>
+
+</ResourceDictionary>

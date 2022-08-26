@@ -1,0 +1,7 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Include="..\Tasler.AssemblyInfo\AssemblyInfoConfiguration.cs" Link="Properties\AssemblyInfoConfiguration.cs" />
+    <Compile Include="..\Tasler.AssemblyInfo\AssemblyInfoCopyright.cs" Link="Properties\AssemblyInfoCopyright.cs" />
+    <Compile Include="..\Tasler.AssemblyInfo\AssemblyInfoVersion.cs" Link="Properties\AssemblyInfoVersion.cs" />
+  </ItemGroup>
+</Project>

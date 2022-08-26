@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Tasler</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Version />
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
+
+  <ItemGroup>
+    <Compile Include="Collections\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Collections\Extensions\IDictionaryExtensions.cs" />
+    <Compile Include="Collections\Extensions\IListExtensions.cs" />
+    <Compile Include="Converters\HexStringToByteArrayConverter.cs" />
+    <Compile Include="Diagnostics\Extensions\DiagnosticExtensions.cs" />
+    <Compile Include="DisposeScopeExit.cs" />
+    <Compile Include="EnvironmentUtility.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
+    <Compile Include="Extensions\ByteArrayExtensions.cs" />
+    <Compile Include="Extensions\ComparableExtensions.cs" />
+    <Compile Include="Extensions\IntegerExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="IO\Extensions\StreamExtensions.cs" />
+    <Compile Include="IO\Extensions\TextWriterExtensions.cs" />
+    <Compile Include="IO\IndentingTextWriter.cs" />
+    <Compile Include="IO\PathUtility.cs" />
+    <Compile Include="IO\StreamSection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Text\Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="Text\IndentationService.cs" />
+    <Compile Include="Text\RegularExpressions\RegexUtility.cs" />
+    <Compile Include="Threading\Extensions\ThreadExtensions.cs" />
+    <Compile Include="Threading\Extensions\ReaderWriterLockSlimExtensions.cs" />
+    <Compile Include="Threading\ITimerAdapter.cs" />
+    <Compile Include="Threading\ReaderWriterLockSlimWrapper.cs" />
+    <Compile Include="Threading\ThreadPoolTimerAdapter.cs" />
+    <Compile Include="Threading\TimerDeferredAction.cs" />
+    <Compile Include="ValidateArgument.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,44 @@
+﻿<ResourceDictionary
+	x:Class="Tasler.Windows.Input.MediaGestures"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:input="clr-namespace:Tasler.Windows.Input"
+	>
+	<input:HumanInputGesture x:Key="Media.Guide"       UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 8D00" />
+	<input:HumanInputGesture x:Key="Media.Play"        UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 B000" />
+	<input:HumanInputGesture x:Key="Media.Pause"       UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 B100" />
+	<input:HumanInputGesture x:Key="Media.Record"      UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 B200" />
+	<input:HumanInputGesture x:Key="Media.Forward"     UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 B300" />
+	<input:HumanInputGesture x:Key="Media.Rewind"      UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 B400" />
+	<input:HumanInputGesture x:Key="Media.Skip"        UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 B500" />
+	<input:HumanInputGesture x:Key="Media.Replay"      UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 B600" />
+	<input:HumanInputGesture x:Key="Media.Stop"        UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 B700" />
+	<input:HumanInputGesture x:Key="Media.Details"     UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 0902" />
+	<input:HumanInputGesture x:Key="Media.Back"        UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 2402" />
+
+	<input:HumanInputGesture x:Key="Media.eHome"       UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 0D" />
+	<input:HumanInputGesture x:Key="Media.DvdMenu"     UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 24" />
+	<input:HumanInputGesture x:Key="Media.LiveTV"      UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 25" />
+	<input:HumanInputGesture x:Key="Media.Aspect"      UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 27" />
+	<input:HumanInputGesture x:Key="Media.MyTV"        UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 46" />
+	<input:HumanInputGesture x:Key="Media.MyMusic"     UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 47" />
+	<input:HumanInputGesture x:Key="Media.RecordedTV"  UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 48" />
+	<input:HumanInputGesture x:Key="Media.MyPictures"  UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 49" />
+	<input:HumanInputGesture x:Key="Media.MyVideos"    UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 4A" />
+	<input:HumanInputGesture x:Key="Media.DvdAngle"    UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 4B" />
+	<input:HumanInputGesture x:Key="Media.DvdAudio"    UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 4C" />
+	<input:HumanInputGesture x:Key="Media.DvdSubtitle" UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 4D" />
+	<input:HumanInputGesture x:Key="Media.Radio"       UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 50" />
+
+	<input:HumanInputGesture x:Key="Media.TeleText"    UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 5A" />
+	<input:HumanInputGesture x:Key="Media.Red"         UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 5B" />
+	<input:HumanInputGesture x:Key="Media.Green"       UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 5C" />
+	<input:HumanInputGesture x:Key="Media.Yellow"      UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 5D" />
+	<input:HumanInputGesture x:Key="Media.Blue"        UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 5E" />
+
+	<input:HumanInputGesture x:Key="Media.OEM1"        UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 80" />
+	<input:HumanInputGesture x:Key="Media.OEM2"        UsagePage="0xFFBC" Usage="0x88" Mask="00 FF" Data="00 81" />
+
+	<input:HumanInputGesture x:Key="Media.NumInput"    UsagePage="0xFFBC" Usage="0x89" Mask="00 00000000 FF" Data="00 00000000 1C" />
+
+</ResourceDictionary>

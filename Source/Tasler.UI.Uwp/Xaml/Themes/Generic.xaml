@@ -1,0 +1,13 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	>
+
+	<!-- Please keep these included dictionaries sorted by name. -->
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="/Tasler.Windows;component/Themes/Controls/SegmentItemBar.Silverlight.xaml"/>
+		<ResourceDictionary Source="/Tasler.Windows;component/Themes/Controls/SegmentOpacityBar.Silverlight.xaml"/>
+		<ResourceDictionary Source="/Tasler.Windows;component/Themes/Controls/SignalLevelMeter.Silverlight.xaml"/>
+		<ResourceDictionary Source="/Tasler.Windows;component/Themes/Controls/TransitionContentControl.Silverlight.xaml"/>
+	</ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

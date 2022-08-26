@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tasler.Interop</RootNamespace>
+    <AssemblyName>Tasler.Interop</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj">
+      <Project>{2d4e35a3-754d-4e8e-b52c-aa2d0dd9e059}</Project>
+      <Name>Tasler.ComponentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
+      <Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
+      <Name>Tasler.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Com\ComApi.cs" />
+    <Compile Include="Com\ComEnums.cs" />
+    <Compile Include="Com\ComPtr.cs" />
+    <Compile Include="Com\GitHandle.cs" />
+    <Compile Include="Com\GlobalInterfaceTable.cs" />
+    <Compile Include="Com\RunningObjectTable.cs" />
+    <Compile Include="Gdi\GdiApi.cs" />
+    <Compile Include="Gdi\GdiApi.zoomin.cs" />
+    <Compile Include="Gdi\GdiEnums.cs" />
+    <Compile Include="Gdi\GdiStructs.cs" />
+    <Compile Include="Gdi\SafeGdiObject.cs" />
+    <Compile Include="Gdi\SafeHdc.cs" />
+    <Compile Include="Gdi\SafePrivateHdc.cs" />
+    <Compile Include="Kernel\KernelApi.cs" />
+    <Compile Include="NativeEventWaitHandle.cs" />
+    <Compile Include="NativeWaitHandle.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SafeCoTaskMemHandle.cs" />
+    <Compile Include="SafeHGlobalHandle.cs" />
+    <Compile Include="User\SafeWindowHdc.cs" />
+    <Compile Include="User\SystemMetrics.cs" />
+    <Compile Include="User\UserApi.cs" />
+    <Compile Include="User\UserApi.zoomin.cs" />
+    <Compile Include="User\UserEnums.cs" />
+    <Compile Include="User\UserStructs.cs" />
+    <Compile Include="User\VirtualKeys.cs" />
+    <Compile Include="User\WindowMessages.cs" />
+    <Compile Include="User\WindowStyles.cs" />
+    <Compile Include="WinDefMacros.cs" />
+    <Compile Include="WinDefStructs.cs" />
+    <Compile Include="WindowMessageBroadcastProcessor.cs" />
+    <Compile Include="WindowMessageEventArgs.cs" />
+    <Compile Include="WindowMessageProcessor.cs" />
+    <Compile Include="WindowMessageRedirector.cs" />
+    <Compile Include="WindowMessageSubclass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx" />
+  </ItemGroup>
+  <Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

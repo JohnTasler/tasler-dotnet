@@ -1,0 +1,33 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="clr-namespace:Tasler.Windows.Controls"
+	>
+
+	<Style TargetType="controls:SegmentOpacityBar">
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="Background" Value="#108010" />
+		<Setter Property="Foreground" Value="#3FDF3F" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Orientation" Value="Vertical" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="UseLayoutRounding" Value="True" />
+		<Setter Property="SegmentExtent" Value="2" />
+		<Setter Property="SegmentGapExtent" Value="1" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="controls:SegmentItemBar">
+					<Border
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						/>
+						<!-- Not yet implemented -->
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

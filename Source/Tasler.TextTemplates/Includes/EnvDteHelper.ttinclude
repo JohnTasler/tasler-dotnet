@@ -1,0 +1,250 @@
+﻿<#@ Assembly Name="System.Core" #>
+<#@ Assembly Name="EnvDTE" #>
+<#@ Assembly Name="EnvDTE80" #>
+<#@ Assembly Name="VsLangProj" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="EnvDTE"#>
+<#@ import namespace="EnvDTE80"#>
+<#@ import namespace="VSLangProj"#>
+<#+
+    /// <summary>
+    /// Helper class for EnvDTE object model.
+    /// </summary>
+    public static class EnvDteHelper
+    {
+        #region Static Fields
+        private static readonly Regex classNameGenericTypeReducerRegex =
+            new Regex(@"(?'fullName'([a-z_][a-z_0-9]*\.)*(?'name'[a-z_][a-z_0-9]*))\s*(<(?'params'.+)>)?",
+                RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
+
+        private static readonly Regex validIdentifierRegEx = new Regex("^[a-z_A-Z][a-z_A-Z0-9]*$");
+
+        private static readonly Regex genericParameterRegEx = new Regex("<.+>");
+
+        private static readonly string[] cSharpReservedWords =
+        {
+            "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class",
+            "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event",
+            "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if",
+            "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null",
+            "object", "operator", "out", "override", "params", "private", "protected", "public", "readonly", "ref",
+            "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static", "string", "struct", "switch",
+            "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using",
+            "virtual", "void", "volatile", "while",
+        };
+
+        private static readonly string[] cSharpContextualWords =
+        {
+            "add", "alias", "ascending", "descending", "dynamic", "from", "get", "global", "group", "into", "join",
+            "let", "orderby", "partial", "remove", "select", "set", "value", "var", "where", "yield",
+        };
+        #endregion Static Fields
+
+        #region Constructor
+        static EnvDteHelper()
+        {
+            Array.Sort(EnvDteHelper.cSharpReservedWords);
+            Array.Sort(EnvDteHelper.cSharpContextualWords);
+        }
+        #endregion Constructor
+
+        #region GetProjectItems
+        /// <summary>
+        /// Gets an enumeration of the project items, flattened with each project item's child project items.
+        /// </summary>
+        /// <param name="projectItems">A <see cref="ProjectItems"/> collection over which to recurse.</param>
+        /// <param name="recursePredicate">A predicate that controls the recursion. May be <c>null</c>. If the predicate
+        /// returns <c>true</c>, a project item's children are included; otherwise they are not.</param>
+        /// <returns>An <see cref="IEnumerable{ProjectItem}"/> containing the flattened project item tree.</returns>
+        public static IEnumerable<ProjectItem> GetProjectItems(ProjectItems projectItems, Predicate<ProjectItem> recursePredicate)
+        {
+            if (projectItems != null)
+                return GetProjectItems(projectItems.Cast<ProjectItem>(), recursePredicate);
+            else
+                return Enumerable.Empty<ProjectItem>();
+        }
+
+        /// <summary>
+        /// Gets an enumeration of the project items, flattened with each project item's child project items.
+        /// </summary>
+        /// <param name="projectItems">An enumeration of <see cref="ProjectItem"/> over which to recurse.</param>
+        /// <param name="recursePredicate">A predicate that controls the recursion. May be <c>null</c>. If the predicate
+        /// returns <c>true</c>, a project item's children are included; otherwise they are not.</param>
+        /// <returns>An <see cref="IEnumerable{ProjectItem}"/> containing the flattened project item tree.</returns>
+        public static IEnumerable<ProjectItem> GetProjectItems(IEnumerable<ProjectItem> projectItems, Predicate<ProjectItem> recursePredicate)
+        {
+            if (projectItems != null)
+            {
+                // Iterate through the specified project items
+                foreach (var projectItem in projectItems)
+                {
+                    // Yield the item
+                    yield return projectItem;
+
+                    // Recurse into the item's child project items
+                    if (recursePredicate == null || recursePredicate(projectItem))
+                        foreach (var childProjectItem in GetProjectItems(projectItem.ProjectItems, recursePredicate))
+                            yield return childProjectItem;
+                }
+            }
+        }
+        #endregion GetProjectItems
+
+        #region GetCodeNamespaces
+        public static IEnumerable<CodeNamespace> GetCodeNamespaces(CodeElements codeElements)
+        {
+            if (codeElements != null)
+                return GetCodeNamespaces(codeElements.Cast<CodeElement>());
+            else
+                return Enumerable.Empty<CodeNamespace>();
+        }
+
+        public static IEnumerable<CodeNamespace> GetCodeNamespaces(IEnumerable<CodeElement> codeElements)
+        {
+            if (codeElements != null)
+            {
+                // Iterate through the specified code elements
+                foreach (CodeElement codeElement in codeElements)
+                {
+                    // Yield the element if it's a CodeNamespace
+                    var codeNamespace = codeElement as CodeNamespace;
+                    if (codeNamespace != null)
+                    {
+                        yield return codeNamespace;
+
+                        // Recurse into the element's child code elements
+                        foreach (CodeNamespace childCodeNamespace in GetCodeNamespaces(codeNamespace.Members))
+                            yield return childCodeNamespace;
+                    }
+                }
+            }
+        }
+        #endregion GetCodeNamespaces
+
+        #region GetCodeClasses
+        public static IEnumerable<CodeClass2> GetCodeClasses(CodeElements codeElements)
+        {
+            if (codeElements != null)
+                return GetCodeClasses(codeElements.Cast<CodeElement>());
+            else
+                return Enumerable.Empty<CodeClass2>();
+        }
+
+        public static IEnumerable<CodeClass2> GetCodeClasses(IEnumerable<CodeElement> codeElements)
+        {
+            if (codeElements != null)
+            {
+                // Iterate through the specified code elements
+                foreach (CodeElement codeElement in codeElements)
+                {
+                    // Only process struct, class, or interface types
+                    if (codeElement.Kind == vsCMElement.vsCMElementClass
+                     || codeElement.Kind == vsCMElement.vsCMElementInterface
+                     || codeElement.Kind == vsCMElement.vsCMElementStruct)
+                    {
+                        // Yield the element if it's a CodeClass2
+                        var codeClass = codeElement as CodeClass2;
+                        if (codeClass != null)
+                        {
+                            yield return codeClass;
+
+                            // Recurse into the element's child code elements
+                            foreach (CodeClass2 childCodeClass in GetCodeClasses(codeClass.Members))
+                                yield return childCodeClass;
+                        }
+                    }
+                }
+            }
+        }
+        #endregion GetCodeClasses
+
+        public static IEnumerable<Reference> GetReferences(Project project)
+        {
+            var vsProject = (VSProject)project.Object;
+            return vsProject.References.Cast<Reference>();
+        }
+
+        #region Utility Methods
+
+        public static string GetClassNameWithReducedGenericTypes(string fullClassName)
+        {
+            // Return immediately if the class name does not have generic parameters
+            var match = classNameGenericTypeReducerRegex.Match(fullClassName);
+            var typeParameters = match.Groups["params"].Value;
+            if (string.IsNullOrWhiteSpace(typeParameters))
+                return fullClassName;
+
+            // Remove all generic type parameters
+            typeParameters = genericParameterRegEx.Replace(typeParameters, "");
+
+            // Split the parameters by commas
+            var splits = typeParameters.Split(',');
+
+            // The number of splits is the number of type parameters
+            return match.Groups["fullName"].Value + "`" + splits.Length;
+        }
+
+        public static string VisibilityFromAccess(vsCMAccess value)
+        {
+            switch (value)
+            {
+                case vsCMAccess.vsCMAccessPublic             : return "public";
+                case vsCMAccess.vsCMAccessPrivate            : return "private";
+                case vsCMAccess.vsCMAccessProject            : return "internal";
+                case vsCMAccess.vsCMAccessProtected          : return "protected";
+                case vsCMAccess.vsCMAccessProjectOrProtected : return "internal protected";
+                default                                      : return string.Empty;
+            }
+        }
+
+        public static bool IsValidIdentifier(string text)
+        {
+            return validIdentifierRegEx.IsMatch(text);
+        }
+
+        public static bool IsCSharpReservedWord(string text)
+        {
+            return Array.BinarySearch(EnvDteHelper.cSharpReservedWords, text) >= 0;
+        }
+
+        public static bool IsCSharpContextualWord(string text)
+        {
+            return Array.BinarySearch(EnvDteHelper.cSharpContextualWords, text) >= 0;
+        }
+
+        public static bool IsCSharpKeyword(string text)
+        {
+            return IsCSharpReservedWord(text) || IsCSharpContextualWord(text);
+        }
+
+        public static string GetClassName(CodeClass2 codeClass)
+        {
+            var match = classNameGenericTypeReducerRegex.Match(codeClass.FullName);
+            var name = match.Groups["name"].Value;
+            var typeParameters = match.Groups["params"].Value;
+            return string.IsNullOrWhiteSpace(typeParameters) ? name : name + "<" + typeParameters + ">";
+        }
+
+        public static string CommentizeClassName(string className)
+        {
+            // Return immediately if the class name does not have generic parameters
+            var match = classNameGenericTypeReducerRegex.Match(className);
+            var typeParameters = match.Groups["params"].Value;
+            if (string.IsNullOrWhiteSpace(typeParameters))
+                return className;
+
+            // Split the parameters by commas
+            var splits = typeParameters.Split(',');
+
+            // The number of splits is the number of type parameters
+            return match.Groups["name"].Value + "`" + splits.Length;
+        }
+
+        #endregion Utility Methods
+
+    }
+#>

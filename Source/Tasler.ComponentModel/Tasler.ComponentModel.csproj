@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Tasler.ComponentModel</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
+
+  <ItemGroup>
+    <Compile Include="ChildViewModel.cs" />
+    <Compile Include="Child.cs" />
+    <Compile Include="EventSubscriber.cs" />
+    <Compile Include="EventSubscriberDictionary.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\RelayCommandBase.cs" />
+    <Compile Include="Commands\RelayCommand{T}.cs" />
+    <Compile Include="Extensions\NotifyCollectionChangedExtensions.cs" />
+    <Compile Include="Extensions\NotifyPropertyChangedExtensions.cs" />
+    <Compile Include="Extensions\PropertyObserver.cs" />
+    <Compile Include="Extensions\PropertySupport.cs" />
+    <Compile Include="IChild.cs" />
+    <Compile Include="IModelContainer.cs" />
+    <Compile Include="IMultipleSelectionContainer.cs" />
+    <Compile Include="ISingleSelectionContainer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
