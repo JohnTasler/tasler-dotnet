@@ -20,7 +20,7 @@ using System.Windows.Markup;
 
 internal static class XmlNamespace
 {
-    public const string Tasler = "urn:tasler-dot-net-framework";
+    public const string Tasler = "urn:tasler-dotnet-framework";
 }
 
 internal static class XmlNamespacePrefix

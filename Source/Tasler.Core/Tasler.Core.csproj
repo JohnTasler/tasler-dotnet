@@ -2,7 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <ProjectGuid>{6692957C-4E2B-415B-A03A-4B3DBCAC071B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tasler</RootNamespace>
+    <AssemblyName>Tasler.Core</AssemblyName>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <Version />
     <LangVersion>7.3</LangVersion>
@@ -19,8 +23,11 @@
   </PropertyGroup>
 
   <Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
-
   <Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
+
+  <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Include="Collections\Extensions\EnumerableExtensions.cs" />
@@ -54,10 +61,6 @@
     <Compile Include="Threading\ThreadPoolTimerAdapter.cs" />
     <Compile Include="Threading\TimerDeferredAction.cs" />
     <Compile Include="ValidateArgument.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 
   <ItemGroup>
