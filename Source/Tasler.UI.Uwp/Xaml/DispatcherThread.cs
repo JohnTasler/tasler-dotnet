@@ -19,6 +19,7 @@ namespace Tasler.UI.Core
 
         protected override CoreDispatcher CreateDispatcher()
         {
+            // TODO: This doesn't work in Release builds. Still investigating.
             var coreDispatcherActivationFactory = WindowsRuntimeMarshal.GetActivationFactory(typeof(CoreDispatcher));
             var coreDispatcherStatics = (IInternalCoreDispatcherStatic)coreDispatcherActivationFactory;
             return coreDispatcherStatics.GetOrCreateForCurrentThread();

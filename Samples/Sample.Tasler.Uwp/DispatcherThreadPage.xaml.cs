@@ -22,7 +22,7 @@ namespace Sample.Tasler.Uwp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var unused = _dispatcherThread.RunAsync(CoreDispatcherPriority.Normal, () =>
+            _ = _dispatcherThread.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 Debug.WriteLine($"Running a dispatch request on a seconday dispatcher: {Thread.CurrentThread.Name}");
             });

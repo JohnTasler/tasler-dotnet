@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -73,7 +74,14 @@ namespace Tasler.Windows.Threading
             if (_dispatcher == null)
             {
                 var thread = ThreadExtensions.Create<AutoResetEvent>(this.ThreadProc);
-                thread.SetApartmentState(apartmentState);
+                try
+                {
+                    thread.SetApartmentState(apartmentState);
+                }
+                catch (PlatformNotSupportedException ex)
+                {
+                    Debug.WriteLine($"{ex.GetType().Name}: {thread.GetApartmentState()}");
+                }
                 thread.Name = this.ThreadName;
 
                 var dispatcherCreatedSignal = new AutoResetEvent(false);
