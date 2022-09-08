@@ -32,12 +32,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasler.Interop", "Source\Ta
 		{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B} = {8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.Interop.RawInput", "Source\Tasler.Interop.RawInput\Tasler.Interop.RawInput.csproj", "{921D82F1-B7A8-47F9-83E0-B576441057F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasler.Interop.RawInput", "Source\Tasler.Interop.RawInput\Tasler.Interop.RawInput.csproj", "{921D82F1-B7A8-47F9-83E0-B576441057F7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B} = {8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.Interop.Shell", "Source\Tasler.Interop.Shell\Tasler.Interop.Shell.csproj", "{4090FB61-0858-4AE8-A30D-B34464A9505F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasler.Interop.Shell", "Source\Tasler.Interop.Shell\Tasler.Interop.Shell.csproj", "{4090FB61-0858-4AE8-A30D-B34464A9505F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B} = {8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}
 	EndProjectSection
@@ -56,7 +56,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.UI.Wpf", "Source\Tas
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Text Templates", "Text Templates", "{3F5CE956-8C39-4CE8-BBAA-526311C62EB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasler.AssemblyInfo", "Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.csproj", "{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasler.AssemblyInfo", "Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.csproj", "{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{66A96D27-3414-4556-A57B-54283D7FBE69}"
 EndProject
@@ -286,7 +286,7 @@ Global
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{6692957c-4e2b-415b-a03a-4b3dbcac071b}*SharedItemsImports = 5
 		Source\Tasler.TextTemplates\Tasler.TextTemplates.Shared.projitems*{8c61cb5a-d566-46eb-bc87-8e733e3fce7b}*SharedItemsImports = 5
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{921d82f1-b7a8-47f9-83e0-b576441057f7}*SharedItemsImports = 5
-		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{99015bcb-9b5e-4b3b-89a6-3b5b9f67e1dd}*SharedItemsImports = 5
+		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{99015bcb-9b5e-4b3b-89a6-3b5b9f67e1dd}*SharedItemsImports = 4
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}*SharedItemsImports = 5
 		Source\Tasler.UI.Shared\Tasler.UI.Shared.projitems*{cc6be222-de4b-412a-9743-80c187f43ee1}*SharedItemsImports = 4
 		Source\Tasler.TextTemplates\Tasler.TextTemplates.Shared.projitems*{e87c4d32-1bf6-420a-aa63-bebaab7928c2}*SharedItemsImports = 13

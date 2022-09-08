@@ -1,32 +1,47 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{99015BCB-9B5E-4B3B-89A6-3B5B9F67E1DD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tasler.ApplicationModel.Singleton</RootNamespace>
     <AssemblyName>Tasler.ApplicationModel.Singleton</AssemblyName>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <Version />
-    <LangVersion>7.3</LangVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-
-  <Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
-  <Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
   <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
+      <Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
+      <Name>Tasler.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
-      <Project>{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}</Project>
+      <Project>{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}</Project>
       <Name>Tasler.Interop</Name>
     </ProjectReference>
   </ItemGroup>
@@ -40,9 +55,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Security.Permissions" Version="6.0.0" />
-    <Reference Include="System.Runtime.Remoting">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Runtime.Remoting.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net481">
+      <Version>1.0.3</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
+  <Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
