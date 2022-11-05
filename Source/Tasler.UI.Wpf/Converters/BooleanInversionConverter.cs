@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-
-namespace Tasler.Windows.Converters
+﻿namespace Tasler.Windows.Converters
 {
 	public class BooleanInversionConverter : SingletonValueConverter<BooleanInversionConverter>
 	{
@@ -9,9 +6,9 @@ namespace Tasler.Windows.Converters
 
 		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-		  if (value is bool)
-		    value = !(bool)value;
-		
+			if (value is bool)
+				value = !(bool)value;
+
 			return value;
 		}
 

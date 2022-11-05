@@ -54,13 +54,13 @@ namespace Tasler.Windows.Interop
 			if (newSource != null)
 				this.hwndSource = newSource;
 
-            if (this.Handle != previousHandle)
-            {
-                this.Attach(this.Handle);
+			if (this.Handle != previousHandle)
+			{
+				this.Attach(this.Handle);
 
-                if (this.HandleChanged != null)
-                    this.HandleChanged(this, EventArgs.Empty);
-            }
+				if (this.HandleChanged != null)
+					this.HandleChanged(this, EventArgs.Empty);
+			}
 		}
 		#endregion Event Handlers
 	}

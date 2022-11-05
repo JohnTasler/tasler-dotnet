@@ -32,7 +32,7 @@ namespace Tasler.ComponentModel
 
             var getMethod = propertyInfo.GetGetMethod(true);
             if (getMethod.IsStatic)
-                throw new ArgumentException(Resources.PropertySupport_StaticExpression_Exception, "propertyExpression");
+                throw new ArgumentException(Strings.PropertySupport_StaticExpression_Exception, "propertyExpression");
 
             return memberExpression.Member.Name;
         }
@@ -65,7 +65,7 @@ namespace Tasler.ComponentModel
 
             var getMethod = propertyInfo.GetGetMethod(true);
             if (getMethod.IsStatic)
-                throw new ArgumentException(Resources.PropertySupport_StaticExpression_Exception, "propertyExpression");
+                throw new ArgumentException(Strings.PropertySupport_StaticExpression_Exception, "propertyExpression");
 
             return memberExpression.Member.Name;
         }
