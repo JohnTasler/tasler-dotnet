@@ -187,7 +187,7 @@ namespace Tasler.Interop.User
         #endregion Unsafe Methods
 
         #region Nested Types
-        internal static class Private
+        internal static partial class Private
         {
             [SecurityCritical]
             [SuppressUnmanagedCodeSecurity]

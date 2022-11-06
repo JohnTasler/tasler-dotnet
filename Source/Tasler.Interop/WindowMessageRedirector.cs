@@ -178,7 +178,7 @@ namespace Tasler.Interop
         #region Event Handlers
         private void eventSubscribers_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Count")
+            if (e.PropertyName == nameof(_eventSubscribers.Count))
             {
                 var hasEventSubscribers = this.HasEventSubscribers;
                 if (_hadEventSubscribers != hasEventSubscribers)

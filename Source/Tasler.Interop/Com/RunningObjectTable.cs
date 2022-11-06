@@ -39,15 +39,7 @@ namespace Tasler.Interop.Com
             using (enumMoniker)
             {
                 _rot.EnumRunning(out enumMoniker.Value);
-
-                var monikers = new IMoniker[1];
-                int hr = 0;
-                do
-                {
-                    hr = enumMoniker.Value.Next(1, monikers, IntPtr.Zero);
-                    if (hr == 0)
-                        yield return monikers[0];
-                } while (hr == 0);
+                return enumMoniker.Value.AsEnumerable<IEnumMoniker, IMoniker>(ComEnumExtensions.FetchIMoniker).GetEnumerator();
             }
         }
 

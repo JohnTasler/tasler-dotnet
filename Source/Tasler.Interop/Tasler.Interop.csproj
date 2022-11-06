@@ -38,6 +38,7 @@
     <Compile Include="Com\ComApi.cs" />
     <Compile Include="Com\ComEnums.cs" />
     <Compile Include="Com\ComPtr.cs" />
+    <Compile Include="Com\Extensions\ComEnumExtensions.cs" />
     <Compile Include="Com\GitHandle.cs" />
     <Compile Include="Com\GlobalInterfaceTable.cs" />
     <Compile Include="Com\RunningObjectTable.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="WindowMessageSubclass.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.Platforms" Version="6.0.6" />
     <PackageReference Include="Microsoft.Win32.SystemEvents" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
