@@ -9,10 +9,6 @@ namespace Tasler.Interop.User
 {
 	public static partial class UserApi
 	{
-		//#region Constants
-		//private const string ApiLib = "user32.dll";
-		//#endregion Constants
-
 		public static IntPtr GetWindowLongPtr(HandleRef hwnd, GWLP index)
 		{
 			return Environment.Is64BitProcess

@@ -44,25 +44,89 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tasler.ApplicationModel.Singleton\Tasler.ApplicationModel.Singleton.csproj">
+      <Project>{99015bcb-9b5e-4b3b-89a6-3b5b9f67e1dd}</Project>
+      <Name>Tasler.ApplicationModel.Singleton</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj">
+      <Project>{2d4e35a3-754d-4e8e-b52c-aa2d0dd9e059}</Project>
+      <Name>Tasler.ComponentModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
       <Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
       <Name>Tasler.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationBroker.cs" />
+    <Compile Include="Attachments\InputBindingService.cs" />
+    <Compile Include="Attachments\MouseExtensions.cs" />
+    <Compile Include="Attachments\PopupManagement.cs" />
+    <Compile Include="Attachments\PopupManagement.PrivateBehavior.cs" />
+    <Compile Include="Attachments\PopupManagement.PrivateWindowBehavior.cs" />
+    <Compile Include="Behaviors\ContextMenuScopeBehavior.cs" />
+    <Compile Include="Behaviors\MouseBehavior.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\RelayCommandBase.cs" />
+    <Compile Include="Commands\WeakEventHandlerManager.Desktop.cs" />
+    <Compile Include="ComponentModel\ITreeNodeViewModel.cs" />
+    <Compile Include="ComponentModel\ParentedViewModelBase.cs" />
+    <Compile Include="ComponentModel\TreeNodeViewModel.cs" />
+    <Compile Include="ComponentModel\TreeRootNodeViewModelBase.cs" />
+    <Compile Include="Controls\AnimationSizeableElement.cs" />
+    <Compile Include="Controls\AnimationSizeableElement.Desktop.cs" />
+    <Compile Include="Controls\ClippedBorder.Desktop.cs" />
+    <Compile Include="Controls\Expander.Desktop.cs" />
+    <Compile Include="Controls\HorizontalToggleSwitch.Desktop.cs" />
+    <Compile Include="Controls\Popup.Desktop.cs" />
+    <Compile Include="Controls\SegmentBarBase.cs" />
+    <Compile Include="Controls\SegmentItemBar.cs" />
+    <Compile Include="Controls\SegmentOpacityBar.cs" />
+    <Compile Include="Controls\SignalLevelMeter.cs" />
+    <Compile Include="Controls\SizeableImage.cs" />
+    <Compile Include="Controls\ToggleGestureMode.Desktop.cs" />
+    <Compile Include="Controls\ToggleSwitchBase.Desktop.cs" />
+    <Compile Include="Controls\TransitionContentControl.cs" />
+    <Compile Include="Controls\ViewControl.Desktop.cs" />
+    <Compile Include="Controls\WindowPane.Desktop.cs" />
+    <Compile Include="Controls\WrapPanel.cs" />
+    <Compile Include="Converters\AsTypeValueConverter.cs" />
+    <Compile Include="Converters\BooleanInversionConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BrushAlphaConverter.cs" />
+    <Compile Include="Converters\EnumValueToNameConverter.cs" />
+    <Compile Include="Converters\IsTypeValueConverter.cs" />
     <Compile Include="Converters\KeyInteropConverter.cs" />
+    <Compile Include="Converters\MappingConverter.cs" />
+    <Compile Include="Converters\NullWhenDateTimeMinimumConverter.cs" />
+    <Compile Include="Converters\RelativeFontSizeConverter.cs" />
+    <Compile Include="Converters\SingleItemToCollectionConverter.cs" />
     <Compile Include="Converters\SingletonValueConverter.cs" />
+    <Compile Include="Converters\SingletonValueConverter_1.cs" />
+    <Compile Include="Converters\ThicknessModifierConverter.cs" />
+    <Compile Include="Converters\TypeValueConverter.cs" />
+    <Compile Include="Diagnostics\ThreadIdleCounter.cs" />
+    <Compile Include="ExportedResourceDictionary.cs" />
+    <Compile Include="Extensions\CommandSourceExtensions.cs" />
+    <Compile Include="Extensions\DependencyObjectExtensions.Desktop.cs" />
+    <Compile Include="Extensions\DiagnosticExtensions.cs" />
+    <Compile Include="Extensions\DispatcherExtensions.cs" />
+    <Compile Include="Extensions\Int32SizeExtensions.cs" />
+    <Compile Include="Extensions\PointExtensions.cs" />
+    <Compile Include="Extensions\PopupExtensions.cs" />
+    <Compile Include="Extensions\ThicknessExtensions.cs" />
+    <Compile Include="Extensions\WindowExtensions.cs" />
+    <Compile Include="Int32Size.cs" />
+    <Compile Include="Interop\HwndSourceMessageSubclass.cs" />
+    <Compile Include="Markup\LocateExtension.cs" />
+    <Compile Include="Media\GeometryBuilder.cs" />
+    <Compile Include="Media\Imaging\ISizableImageFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\DispatcherExtensions.cs" />
     <Compile Include="Threading\DispatcherThread.cs" />
     <Compile Include="Threading\DispatcherTimerAdapter.cs" />
     <Compile Include="Threading\DispatcherTimerDeferredAction.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Themes\generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="Threading\ThreadedDispatcherObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -88,6 +152,41 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Controls\HorizontalToggleSwitch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Controls\Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Controls\SegmentItemBar.Desktop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Controls\SegmentOpacityBar.Desktop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Controls\TransitionContentControl.Desktop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Controls\ViewControl.Desktop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.39</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="..\Tasler.UI.Shared\Tasler.UI.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

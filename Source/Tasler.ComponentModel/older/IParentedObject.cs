@@ -13,7 +13,7 @@ namespace Tasler.ComponentModel
 		where TParent : class, INotifyPropertyChanged
 	{
 		TParent Parent { get; }
-		
+
 		bool SetParent(TParent parent);
 	}
 }

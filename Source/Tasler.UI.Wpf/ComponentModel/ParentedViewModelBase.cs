@@ -3,7 +3,7 @@ using Tasler.ComponentModel;
 
 namespace Tasler.Windows.ComponentModel
 {
-	public abstract class ParentedViewModelBase<TParent> : ViewModelBase, IParentedObject<TParent>
+	public abstract class ParentedViewModelBase<TParent> : INotifyPropertyChanged, IChild<TParent>
 		where TParent : class, INotifyPropertyChanged
 	{
 		#region Constructors
@@ -15,47 +15,68 @@ namespace Tasler.Windows.ComponentModel
 		{
 			this.Parent = parent;
 		}
+
 		#endregion Constructors
 
 		#region Overridables
 		protected virtual bool OnParentSet()
-    {
+		{
 			return true;
-    }
+		}
 		#endregion Overridables
 
-		#region IParentedObject<TParent> Members
+		protected PropertyChangedEventHandler PropertyChanged;
+
+		#region INotifyPropertyChanged Members
+		event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+		{
+			add { this.PropertyChanged += value; }
+			remove { this.PropertyChanged -= value; }
+		}
+		#endregion INotifyPropertyChanged Members
+
+		#region IChild<TParent> Members
 
 		public TParent Parent
 		{
 			get; private set;
 		}
-		
+
 		public bool SetParent(TParent parent)
 		{
-		  if (this.Parent != null)
-		    return false;
+			if (this.Parent != null)
+				return false;
 
-      this.Parent = parent;
-      
-      return this.OnParentSet();
+			this.Parent = parent;
+
+			return this.OnParentSet();
 		}
 
-		#endregion IParentedObject<TParent> Members
+		#endregion IChild<TParent> Members
 
-		#region IParentedObject Members
+		#region IChild Members
 
-		object IParentedObject.GetParent()
+		object IChild.GetParent()
 		{
 			return this.Parent;
 		}
 
-		bool IParentedObject.SetParent(object parent)
+		bool IChild.SetParent(object parent)
 		{
 			var typedParent = (TParent)parent;
 			return this.SetParent(typedParent);
 		}
 
-		#endregion IParentedObject Members
+		public object GetParent()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		public bool SetParent(object parent)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		#endregion IChild Members
 	}
 }

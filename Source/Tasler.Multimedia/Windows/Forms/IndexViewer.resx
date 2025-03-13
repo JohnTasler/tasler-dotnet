@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -112,21 +112,9 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MustCreateChildCollectionOfTypeFormat1" xml:space="preserve">
-    <value>The TreeRootNodeViewModelBase.CreateChildCollection override must return a non-null collection of type '{0}'.</value>
-  </data>
-  <data name="PropertyNotAttachableToTypeFormat2" xml:space="preserve">
-    <value>Property '{0}' is not attachable to elements of type '{1}'</value>
-  </data>
-  <data name="RelayCommandDelegatesCannotBeNull" xml:space="preserve">
-    <value>Neither the executeMethod nor the canExecuteMethod delegates can be null.</value>
-  </data>
-  <data name="RelayCommandInvalidGenericPayloadType" xml:space="preserve">
-    <value>T for RelayCommand&amp;lt;T&amp;gt; is not an object nor Nullable.</value>
-  </data>
 </root>

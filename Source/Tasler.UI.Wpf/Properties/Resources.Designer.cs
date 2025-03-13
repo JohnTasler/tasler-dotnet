@@ -59,5 +59,41 @@ namespace Tasler.Windows.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The TreeRootNodeViewModelBase.CreateChildCollection override must return a non-null collection of type &apos;{0}&apos;..
+        /// </summary>
+        internal static string MustCreateChildCollectionOfTypeFormat1 {
+            get {
+                return ResourceManager.GetString("MustCreateChildCollectionOfTypeFormat1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property &apos;{0}&apos; is not attachable to elements of type &apos;{1}&apos;.
+        /// </summary>
+        internal static string PropertyNotAttachableToTypeFormat2 {
+            get {
+                return ResourceManager.GetString("PropertyNotAttachableToTypeFormat2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neither the executeMethod nor the canExecuteMethod delegates can be null..
+        /// </summary>
+        internal static string RelayCommandDelegatesCannotBeNull {
+            get {
+                return ResourceManager.GetString("RelayCommandDelegatesCannotBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to T for RelayCommand&amp;lt;T&amp;gt; is not an object nor Nullable..
+        /// </summary>
+        internal static string RelayCommandInvalidGenericPayloadType {
+            get {
+                return ResourceManager.GetString("RelayCommandInvalidGenericPayloadType", resourceCulture);
+            }
+        }
     }
 }

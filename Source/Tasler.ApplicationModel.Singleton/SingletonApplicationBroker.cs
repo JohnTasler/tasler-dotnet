@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Permissions;
-using Tasler.IO;
 
 namespace Tasler.ApplicationModel
 {

@@ -1,0 +1,17 @@
+Changing an enum:
+
+\/^77\n\/^2\n\[\n:b*uuid\({[\-0-9A-Fa-f]+}\)\,\n:b*helpstring\("{[^"]*}"\)\n\]\ntypedef \[v1_enum\] enum {:i}\n\{\n{([^\}]|\n)+}\} :i\;
+
+/// <summary>\n/// \2\n\n/// </summary>\n[Guid("\1")]\npublic enum \3 \n{\n\4\n}
+
+
+	MidiSubscriptionType_Device,   // Subscription is for system messages.
+	MidiSubscriptionType_Channel,  // Subscription is for events on a particular channel (or Omni).
+
+	/// <summary>Subscription is for system messages.</summary>
+	Device,
+
+^{[^\,]*,}:b*\/\/:b*{.*}$
+
+/// <summary>\2</summary>\n\1\n
+

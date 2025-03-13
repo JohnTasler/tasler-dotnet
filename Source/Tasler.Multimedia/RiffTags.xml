@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RiffTags xmlns="uri:Tasler-Multimedia/RiffTagsGenerator.xsd"
+	Namespace="Tasler.Multimedia" Name="RiffTags">
+
+	<TagGroup Name="Lists" Summary="Container tags.">
+		<Tag FourCC="LIST" />
+		<Tag FourCC="RIFF" />
+		<Tag FourCC="RIFX" Summary="A RIFF file with big-endian chunk lengths." />
+	</TagGroup>
+
+	<TagGroup Name="RiffTypes" Summary="RIFF file types.">
+		<Tag FourCC="AVI " Summary="Audio Video Interleave" />
+		<Tag FourCC="WAVE" Summary="Waveform Audio" />
+		<Tag FourCC="ACON" Summary="Animated Cursor" />
+		<Tag FourCC="PAL " Summary="Palette" />
+		<Tag FourCC="RDIB" Summary="Device Independent Bitmap" />
+		<Tag FourCC="RMID" Summary="MIDI" />
+		<Tag FourCC="RMMP" Summary="Multimedia Movie File" />
+	</TagGroup>
+
+	<TagGroup Name="ListTypes">
+		<Tag FourCC="INFO" />
+		<Tag FourCC="exif" />
+	</TagGroup>
+
+	<TagGroup Name="InfoTags" Summary="INFO tags">
+		<Tag FourCC="IARL" Name="ArchivalLocation" />
+		<Tag FourCC="IART" Name="Artist" />
+		<Tag FourCC="ICMS" Name="Commissioned" />
+		<Tag FourCC="ICMT" Name="Comment" />
+		<Tag FourCC="ICOP" Name="Copyright" />
+		<Tag FourCC="ICRD" Name="DateCreated" />
+		<Tag FourCC="ICRP" Name="Cropped" />
+		<Tag FourCC="IDIM" Name="Dimensions" />
+		<Tag FourCC="IDPI" Name="DotsPerInch" />
+		<Tag FourCC="IENG" Name="Engineer" />
+		<Tag FourCC="IGNR" Name="Genre" />
+		<Tag FourCC="IKEY" Name="Keywords" />
+		<Tag FourCC="ILGT" Name="Lightness" />
+		<Tag FourCC="IMED" Name="Medium" />
+		<Tag FourCC="INAM" Name="Title" />
+		<Tag FourCC="IPLT" Name="NumColors" />
+		<Tag FourCC="IPRD" Name="Product" />
+		<Tag FourCC="ISBJ" Name="Subject" />
+		<Tag FourCC="ISFT" Name="Software" />
+		<Tag FourCC="ISHP" Name="Sharpness" />
+		<Tag FourCC="ISRC" Name="Source" />
+		<Tag FourCC="ISRF" Name="SourceForm" />
+		<Tag FourCC="ITCH" Name="Technician" />
+	</TagGroup>
+
+	<TagGroup Name="AviTags" Summary="Used within an AVI file ('AVI ').">
+
+		<Tag FourCC="IDIT" Name="DateTimeOriginal" />
+		<Tag FourCC="ISMP" Name="TimeCode" />
+		<Tag FourCC="avih" Name="AVIHeader" />
+		<Tag FourCC="idx1" Name="AviIndex" Summary="AVI Index" />
+
+		<Tag FourCC="db" Name="TwoCC_UncompressedVideoFrame" Summary="Uncompressed Video Frame Two-character code">
+			<Remarks>This should be preceded be a two-character code for the stream number.</Remarks>
+		</Tag>
+		<Tag FourCC="dc" Name="TwoCC_CompressedVideoFrame" Summary="Compressed Video Frame Two-character code">
+			<Remarks>This should be preceded be a two-character code for the stream number.</Remarks>
+		</Tag>
+		<Tag FourCC="pc" Name="TwoCC_PaletteChange" Summary="Palette Change Two-character code">
+			<Remarks>This should be preceded be a two-character code for the stream number.</Remarks>
+		</Tag>
+		<Tag FourCC="wb" Name="TwoCC_AudioData" Summary="Audio Data Two-character code">
+			<Remarks>This should be preceded be a two-character code for the stream number.</Remarks>
+		</Tag>
+
+		<TagGroup Name="Lists" Summary="Container tags.">
+			<Tag FourCC="hdrl" Name="HeaderList" />
+			<Tag FourCC="strl" Name="StreamList" />
+			<Tag FourCC="movi" />
+			<Tag FourCC="rec " Summary="Read from disk all at once.">
+				<Remarks>This grouping implies that the grouped chunks should be read from disk all at once, and is intended for files that are interleaved to play from CD-ROM.</Remarks>
+			</Tag>
+		</TagGroup>
+
+		<TagGroup Name="StreamInfo">
+			<Tag FourCC="strh" Name="StreamHeader" />
+			<Tag FourCC="strd" Name="StreamData" />
+			<Tag FourCC="strf" Name="StreamFormat" />
+			<Tag FourCC="strn" Name="StreamName" />
+
+			<TagGroup Name="Types">
+				<Tag FourCC="auds" Name="Audio" Summary="Audio Stream" />
+				<Tag FourCC="mids" Name="MIDI" Summary="MIDI Stream" />
+				<Tag FourCC="txts" Name="Text" Summary="Text Stream" />
+				<Tag FourCC="vids" Name="Video" Summary="Video Stream" />
+			</TagGroup>
+		</TagGroup>
+
+	</TagGroup>
+
+	<TagGroup Name="AniTags" Summary="Used within an animated cursor file ('ACON').">
+
+		<Tag FourCC="anih" Name="ANIHeader" />
+		<Tag FourCC="icon" Name="IconData" Summary="The icon data for a single frame." />
+		<Tag FourCC="rate" Name="Rate" Summary="Each rate is a 32-bit value indicating the number of Jiffies (1/60th of second) for the corresponding frame." />
+		<Tag FourCC="seq " Name="Sequence" Summary="Each sequence is a 32-bit value." />
+
+		<TagGroup Name="Lists" Summary="Container tags.">
+			<Tag FourCC="fram" Summary="Animation frames." />
+		</TagGroup>
+	</TagGroup>
+
+	<TagGroup Name="StreamDataTags">
+		<Tag FourCC="AVIF">
+			<Remarks>This chunk contains EXIF information in FujiFilm F30 AVI files.</Remarks>
+		</Tag>
+	</TagGroup>
+
+</RiffTags>

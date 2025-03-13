@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Tasler.Multimedia  
+namespace Tasler.Multimedia
 {
 	[Serializable]
 	[StructLayout(LayoutKind.Sequential)]
@@ -31,12 +31,12 @@ namespace Tasler.Multimedia
 		#endregion
 
 		#region Construction
-		public FourCC(int value) 
+		public FourCC(int value)
 		{
 			this.m_value = value;
 		}
 
-		public FourCC(string chunkId) 
+		public FourCC(string chunkId)
 		{
 			FormatException exception;
 			if (!FourCC.TryParse(chunkId, out m_value, out exception))
@@ -47,7 +47,7 @@ namespace Tasler.Multimedia
 		#endregion
 
 		#region Comparison
-		public int CompareTo(object value) 
+		public int CompareTo(object value)
 		{
 			if (value == null)
 			{
@@ -69,7 +69,7 @@ namespace Tasler.Multimedia
 			return 0;
 		}
 
-		public int CompareTo(int value) 
+		public int CompareTo(int value)
 		{
 			if (this.m_value < value)
 			{
@@ -82,7 +82,7 @@ namespace Tasler.Multimedia
 			return 0;
 		}
 
-		public int CompareTo(FourCC value) 
+		public int CompareTo(FourCC value)
 		{
 			if (this.m_value < value.m_value)
 			{
@@ -97,7 +97,7 @@ namespace Tasler.Multimedia
 		#endregion
 
 		#region Equality
-		public override bool Equals(object obj) 
+		public override bool Equals(object obj)
 		{
 			if (obj is int)
 			{
@@ -110,34 +110,34 @@ namespace Tasler.Multimedia
 			return false;
 		}
 
-		public bool Equals(int obj) 
+		public bool Equals(int obj)
 		{
 			return (this.m_value == obj);
 		}
 
-		public bool Equals(FourCC obj) 
+		public bool Equals(FourCC obj)
 		{
 			return (this.m_value == obj.m_value);
 		}
 
-		public static bool operator ==(FourCC left, FourCC right) 
+		public static bool operator ==(FourCC left, FourCC right)
 		{
 			return left.Equals(right);
 		}
 
-		public static bool operator !=(FourCC left, FourCC right) 
+		public static bool operator !=(FourCC left, FourCC right)
 		{
 			return !left.Equals(right);
 		}
 
-		public override int GetHashCode() 
+		public override int GetHashCode()
 		{
 			return this.m_value;
 		}
 		#endregion
 
 		#region Formatting and Parsing
-		public override string ToString() 
+		public override string ToString()
 		{
 			char[] chars = new char[4];
 			chars[0] = (char)(this.m_value & 0xFF);
@@ -148,27 +148,27 @@ namespace Tasler.Multimedia
 			return new string(chars);
 		}
 
-		public string ToString(string format) 
+		public string ToString(string format)
 		{
 			return this.m_value.ToString(format);
 		}
 
-		public string ToString(IFormatProvider provider) 
+		public string ToString(IFormatProvider provider)
 		{
 			return this.m_value.ToString(provider);
 		}
 
-		public string ToString(string format, IFormatProvider provider) 
+		public string ToString(string format, IFormatProvider provider)
 		{
 			return this.m_value.ToString(format, provider);
 		}
 
-		public static FourCC Parse(string s) 
+		public static FourCC Parse(string s)
 		{
 			return new FourCC(s);
 		}
 
-		public static bool TryParse(string s, out int result, out FormatException exception) 
+		public static bool TryParse(string s, out int result, out FormatException exception)
 		{
 			result = 0;
 
@@ -197,13 +197,13 @@ namespace Tasler.Multimedia
 			return exception == null;
 		}
 
-		public static bool TryParse(string s, out int result) 
+		public static bool TryParse(string s, out int result)
 		{
 			FormatException exception;
 			return TryParse(s, out result, out exception);
 		}
 
-		public static bool TryParse(string s, out FourCC result) 
+		public static bool TryParse(string s, out FourCC result)
 		{
 			int value;
 			FormatException exception;
@@ -220,98 +220,98 @@ namespace Tasler.Multimedia
 		#endregion
 
 		#region IConvertible Implementation
-		public TypeCode GetTypeCode() 
+		public TypeCode GetTypeCode()
 		{
 			return TypeCode.Int32;
 		}
 
-		bool IConvertible.ToBoolean(IFormatProvider provider) 
+		bool IConvertible.ToBoolean(IFormatProvider provider)
 		{
 			return Convert.ToBoolean(this.m_value);
 		}
 
-		char IConvertible.ToChar(IFormatProvider provider) 
+		char IConvertible.ToChar(IFormatProvider provider)
 		{
 			return Convert.ToChar(this.m_value);
 		}
 
-		sbyte IConvertible.ToSByte(IFormatProvider provider) 
+		sbyte IConvertible.ToSByte(IFormatProvider provider)
 		{
 			return Convert.ToSByte(this.m_value);
 		}
 
-		byte IConvertible.ToByte(IFormatProvider provider) 
+		byte IConvertible.ToByte(IFormatProvider provider)
 		{
 			return Convert.ToByte(this.m_value);
 		}
 
-		short IConvertible.ToInt16(IFormatProvider provider) 
+		short IConvertible.ToInt16(IFormatProvider provider)
 		{
 			return Convert.ToInt16(this.m_value);
 		}
 
-		ushort IConvertible.ToUInt16(IFormatProvider provider) 
+		ushort IConvertible.ToUInt16(IFormatProvider provider)
 		{
 			return Convert.ToUInt16(this.m_value);
 		}
 
-		int IConvertible.ToInt32(IFormatProvider provider) 
+		int IConvertible.ToInt32(IFormatProvider provider)
 		{
 			return this.m_value;
 		}
 
-		uint IConvertible.ToUInt32(IFormatProvider provider) 
+		uint IConvertible.ToUInt32(IFormatProvider provider)
 		{
 			return Convert.ToUInt32(this.m_value);
 		}
 
-		long IConvertible.ToInt64(IFormatProvider provider) 
+		long IConvertible.ToInt64(IFormatProvider provider)
 		{
 			return Convert.ToInt64(this.m_value);
 		}
 
-		ulong IConvertible.ToUInt64(IFormatProvider provider) 
+		ulong IConvertible.ToUInt64(IFormatProvider provider)
 		{
 			return Convert.ToUInt64(this.m_value);
 		}
 
-		float IConvertible.ToSingle(IFormatProvider provider) 
+		float IConvertible.ToSingle(IFormatProvider provider)
 		{
 			return Convert.ToSingle(this.m_value);
 		}
 
-		double IConvertible.ToDouble(IFormatProvider provider) 
+		double IConvertible.ToDouble(IFormatProvider provider)
 		{
 			return Convert.ToDouble(this.m_value);
 		}
 
-		decimal IConvertible.ToDecimal(IFormatProvider provider) 
+		decimal IConvertible.ToDecimal(IFormatProvider provider)
 		{
 			return Convert.ToDecimal(this.m_value);
 		}
 
-		DateTime IConvertible.ToDateTime(IFormatProvider provider) 
+		DateTime IConvertible.ToDateTime(IFormatProvider provider)
 		{
 			throw new InvalidCastException("Invalid cast from FourCC to DateTime");
 		}
 
-		object IConvertible.ToType(Type type, IFormatProvider provider) 
+		object IConvertible.ToType(Type type, IFormatProvider provider)
 		{
 			return ((IConvertible)this.m_value).ToType(type, provider);
 		}
 		#endregion
 
 		#region Explicit Operators
-		public static explicit operator int(FourCC value) 
+		public static explicit operator int(FourCC value)
 		{
 			return value.m_value;
 		}
 		#endregion
 
 		#region Properties
-		public int Value 
+		public int Value
 		{
-			get 
+			get
 			{
 				return this.m_value;
 			}
