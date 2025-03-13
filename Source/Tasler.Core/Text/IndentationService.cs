@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using Tasler.IO;
@@ -20,7 +20,7 @@ namespace Tasler.Text
 
         private bool _isAtLineStart = true;
         private readonly IIndentationWriter _writer;
-        private readonly ValueTuple<string, string>[] _lineEndings = new ValueTuple<string, string>[]
+        private readonly ValueTuple<string, string?>[] _lineEndings = new ValueTuple<string, string?>[]
         {
             ValueTuple.Create(Environment.NewLine, Environment.NewLine),
             ValueTuple.Create("\n", default(string)),  // Initialized by constructor call to SubstituteNewLineForLineFeed
@@ -31,7 +31,7 @@ namespace Tasler.Text
 
         #region Constructors
 
-        public IndentationService(IIndentationWriter writer, string indentationString = null, string newLine = null)
+        public IndentationService(IIndentationWriter writer, string? indentationString = null, string? newLine = null)
         {
             ValidateArgument.IsNotNull(writer, nameof(writer));
             _writer = writer;
@@ -127,7 +127,7 @@ namespace Tasler.Text
 
         #region Private Implementation
 
-        private void WriteLineSegment(ReadOnlySpan<char> lineSegment, string lineEnd)
+        private void WriteLineSegment(ReadOnlySpan<char> lineSegment, string? lineEnd)
         {
             if (_isAtLineStart)
             {
@@ -142,7 +142,7 @@ namespace Tasler.Text
             }
         }
 
-        private int IndexOfLineEnd(ReadOnlySpan<char> text, out int lineEndLength, out string outputLineEnd)
+        private int IndexOfLineEnd(ReadOnlySpan<char> text, out int lineEndLength, out string? outputLineEnd)
         {
             foreach (var lineEnding in _lineEndings)
             {
@@ -178,7 +178,7 @@ namespace Tasler.Text
             public StringBuilderIndentWriter() : this(new StringBuilder()) { }
             public StringBuilderIndentWriter(StringBuilder stringBuilder) => _stringBuilder = stringBuilder;
             void IIndentationWriter.WriteLineSegment(ReadOnlySpan<char> lineSegment) => _stringBuilder.Append(lineSegment);
-            void IIndentationWriter.WriteLineEnd(string lineEnd) => _stringBuilder.Append(lineEnd);
+            void IIndentationWriter.WriteLineEnd(string? lineEnd) => _stringBuilder.Append(lineEnd);
         }
 
         private sealed class TextWriterIndentWriter : IIndentationWriter
@@ -186,7 +186,7 @@ namespace Tasler.Text
             private readonly TextWriter _textWriter;
             public TextWriterIndentWriter(TextWriter textWriter) => _textWriter = textWriter;
             void IIndentationWriter.WriteLineSegment(ReadOnlySpan<char> lineSegment) => _textWriter.Write(lineSegment);
-            void IIndentationWriter.WriteLineEnd(string lineEnd) => _textWriter.Write(lineEnd);
+            void IIndentationWriter.WriteLineEnd(string? lineEnd) => _textWriter.Write(lineEnd);
         }
 
         #endregion Nested Types
@@ -196,13 +196,13 @@ namespace Tasler.Text
     {
         void WriteLineSegment(ReadOnlySpan<char> lineSegment);
 
-        void WriteLineEnd(string lineEnd);
+        void WriteLineEnd(string? lineEnd);
     }
 
     public class DelegateIndentationWriter : IIndentationWriter
     {
         public delegate void WriteLineSegmentAction(ReadOnlySpan<char> lineSegment);
-        public delegate void WriteLineEndAction(string lineEnd);
+        public delegate void WriteLineEndAction(string? lineEnd);
 
         private readonly WriteLineSegmentAction _writeLineSegmentAction;
         private readonly WriteLineEndAction _writeLineEndAction;
@@ -220,7 +220,7 @@ namespace Tasler.Text
             _writeLineSegmentAction(lineSegment);
         }
 
-        public void WriteLineEnd(string text)
+        public void WriteLineEnd(string? text)
         {
             _writeLineEndAction(text);
         }

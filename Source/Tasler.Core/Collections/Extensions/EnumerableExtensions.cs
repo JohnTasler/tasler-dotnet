@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +58,7 @@ namespace Tasler
         /// otherwise, the default value for the <typeparamref name="TSource"/>. This parameter is passed uninitialized. </param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         /// <returns>The index of the first element if found in the sequence; otherwise, -1.</returns>
-        public static int FirstIndex<TSource>(this IEnumerable<TSource> @this, out TSource element, Func<TSource, bool> predicate)
+        public static int FirstIndex<TSource>(this IEnumerable<TSource> @this, out TSource? element, Func<TSource, bool> predicate)
         {
             var index = 0;
             foreach (var item in @this)
@@ -105,10 +105,10 @@ namespace Tasler
         /// otherwise, the default value for the <typeparamref name="TSource"/>. This parameter is passed uninitialized. </param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         /// <returns>The index of the last element if found in the sequence; otherwise, -1.</returns>
-        public static int LastIndex<TSource>(this IEnumerable<TSource> @this, out TSource element, Func<TSource, bool> predicate)
+        public static int LastIndex<TSource>(this IEnumerable<TSource> @this, out TSource? element, Func<TSource, bool> predicate)
         {
             var matchIndex = -1;
-            var matchElement = default(TSource);
+            TSource? matchElement = default(TSource);
             var index = 0;
             foreach (var item in @this)
             {

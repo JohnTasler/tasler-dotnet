@@ -333,7 +333,6 @@ Global
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{6692957c-4e2b-415b-a03a-4b3dbcac071b}*SharedItemsImports = 5
 		Source\Tasler.TextTemplates\Tasler.TextTemplates.Shared.projitems*{8c61cb5a-d566-46eb-bc87-8e733e3fce7b}*SharedItemsImports = 5
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{921d82f1-b7a8-47f9-83e0-b576441057f7}*SharedItemsImports = 5
-		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{99015bcb-9b5e-4b3b-89a6-3b5b9f67e1dd}*SharedItemsImports = 4
 		Source\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems*{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}*SharedItemsImports = 5
 		Source\Tasler.UI.Shared\Tasler.UI.Shared.projitems*{cc6be222-de4b-412a-9743-80c187f43ee1}*SharedItemsImports = 4
 		Source\Tasler.TextTemplates\Tasler.TextTemplates.Shared.projitems*{e87c4d32-1bf6-420a-aa63-bebaab7928c2}*SharedItemsImports = 13

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,28 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConvertFromExceptionFormat2" xml:space="preserve">
-    <value>{0} cannot convert from {1}</value>
+		<value>{0} cannot convert from {1}.</value>
   </data>
   <data name="InvalidCastExceptionFormat2" xml:space="preserve">
     <value>Specified cast is not valid:
-		From: {0}
-			To: {1}</value>
+    From: {0}
+    To: {1}</value>
   </data>
   <data name="KeyNotFoundExceptionFormat2" xml:space="preserve">
     <value>The given key was not present in the dictionary:
-		key.GetType.FullName = {0}
-		key.ToString() = {1}</value>
+	    key.GetType.FullName = {0}
+	key.ToString() = {1}</value>
   </data>
   <data name="TDelegateMustBeDelegate" xml:space="preserve">
     <value>The generic parameter TDelegate must be a delegate type.</value>
   </data>
   <data name="ToStringNull" xml:space="preserve">
     <value>(null)</value>
-  </data>
-  <data name="ExceptionMessage_SynchronizedInvokerNotRegistered" xml:space="preserve">
-    <value>A SynchronizedInvoker has not been registered.</value>
-  </data>
-  <data name="Hello" xml:space="preserve">
-    <value>Hello, {0}</value>
-  </data>
+	</data>
 </root>

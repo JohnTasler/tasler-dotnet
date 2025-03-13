@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 
 namespace Tasler
@@ -19,7 +19,7 @@ namespace Tasler
 
             // Set the new environment
             foreach (DictionaryEntry entry in newEnvironmentVariables)
-                Environment.SetEnvironmentVariable((string)entry.Key, (string)entry.Value);
+                Environment.SetEnvironmentVariable((string)entry.Key, (string?)entry.Value);
 
             // Return the previous set of environment variables
             return previousEnvironmentVariables;
