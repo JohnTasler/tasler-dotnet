@@ -1,4 +1,4 @@
-﻿#if WINDOWS_UWP
+#if WINDOWS_UWP
 using Windows.Foundation;
 using Windows.UI.Xaml;
 namespace Tasler.UI.Xaml
@@ -7,194 +7,194 @@ using System.Windows;
 namespace Tasler.Windows
 #endif
 {
-    // TODO: NEEDS_UNIT_TESTS
+	// TODO: NEEDS_UNIT_TESTS
 
-    /// <summary>
-    /// Describes the width, height, and location of a rectangle. This type is similiar to the
-    /// <see cref="System.Windows.Rect"/> structure. Unlike that system-provided type, however, the
-    /// <see cref="ExtentRect"/> supports both positive and negative extents in its
-    /// <see cref="Width"/> and <see cref="Height"/> properties.
-    /// </summary>
-    public struct ExtentRect
-    {
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExtentRect"/> struct.
-        /// </summary>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        public ExtentRect(double x, double y, double width, double height)
-            : this()
-        {
-            this.X = x;
-            this.Y = y;
-            this.Width = width;
-            this.Height = height;
-        }
+	/// <summary>
+	/// Describes the width, height, and location of a rectangle. This type is similiar to the
+	/// <see cref="System.Windows.Rect"/> structure. Unlike that system-provided type, however, the
+	/// <see cref="ExtentRect"/> supports both positive and negative extents in its
+	/// <see cref="Width"/> and <see cref="Height"/> properties.
+	/// </summary>
+	public struct ExtentRect
+	{
+		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ExtentRect"/> struct.
+		/// </summary>
+		/// <param name="x">The x.</param>
+		/// <param name="y">The y.</param>
+		/// <param name="width">The width.</param>
+		/// <param name="height">The height.</param>
+		public ExtentRect(double x, double y, double width, double height)
+			: this()
+		{
+			this.X = x;
+			this.Y = y;
+			this.Width = width;
+			this.Height = height;
+		}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExtentRect"/> struct.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
-        public ExtentRect(Rect rect)
-            : this(rect.X, rect.Y, rect.Width, rect.Height)
-        {
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ExtentRect"/> struct.
+		/// </summary>
+		/// <param name="rect">The rect.</param>
+		public ExtentRect(Rect rect)
+			: this(rect.X, rect.Y, rect.Width, rect.Height)
+		{
+		}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExtentRect"/> struct.
-        /// </summary>
-        /// <param name="topLeft">The top left.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        public ExtentRect(Point topLeft, double width, double height)
-            : this(topLeft.X, topLeft.Y, width, height)
-        {
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ExtentRect"/> struct.
+		/// </summary>
+		/// <param name="topLeft">The top left.</param>
+		/// <param name="width">The width.</param>
+		/// <param name="height">The height.</param>
+		public ExtentRect(Point topLeft, double width, double height)
+			: this(topLeft.X, topLeft.Y, width, height)
+		{
+		}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExtentRect"/> struct.
-        /// </summary>
-        /// <param name="topLeft">The top left.</param>
-        /// <param name="size">The size.</param>
-        public ExtentRect(Point topLeft, Size size)
-            : this(topLeft.X, topLeft.Y, size.Width, size.Height)
-        {
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ExtentRect"/> struct.
+		/// </summary>
+		/// <param name="topLeft">The top left.</param>
+		/// <param name="size">The size.</param>
+		public ExtentRect(Point topLeft, Size size)
+			: this(topLeft.X, topLeft.Y, size.Width, size.Height)
+		{
+		}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExtentRect"/> struct.
-        /// </summary>
-        /// <param name="topLeft">The top left.</param>
-        /// <param name="bottomRight">The bottom right.</param>
-        public ExtentRect(Point topLeft, Point bottomRight)
-            : this(topLeft.X, topLeft.Y, bottomRight.X - topLeft.X, bottomRight.Y - topLeft.Y)
-        {
-        }
-        #endregion Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ExtentRect"/> struct.
+		/// </summary>
+		/// <param name="topLeft">The top left.</param>
+		/// <param name="bottomRight">The bottom right.</param>
+		public ExtentRect(Point topLeft, Point bottomRight)
+			: this(topLeft.X, topLeft.Y, bottomRight.X - topLeft.X, bottomRight.Y - topLeft.Y)
+		{
+		}
+		#endregion Constructors
 
-        #region Properties
-        public double X { get; set; }
-        public double Y { get; set; }
-        public double Width { get; set; }
-        public double Height { get; set; }
+		#region Properties
+		public double X { get; set; }
+		public double Y { get; set; }
+		public double Width { get; set; }
+		public double Height { get; set; }
 
-        public double Left { get { return this.X; } }
-        public double Top { get { return this.Y; } }
-        public double Right { get { return this.X + this.Width; } }
-        public double Bottom { get { return this.Y + this.Height; } }
+		public double Left => this.X;
+		public double Top => this.Y;
+		public double Right => this.X + this.Width;
+		public double Bottom => this.Y + this.Height;
 
-        public Point TopLeft { get { return new Point(this.Left, this.Top); } }
-        public Point TopRight { get { return new Point(this.Right, this.Top); } }
-        public Point BottomLeft { get { return new Point(this.Left, this.Bottom); } }
-        public Point BottomRight { get { return new Point(this.Right, this.Bottom); } }
-        #endregion Properties
+		public Point TopLeft => new Point(this.Left, this.Top);
+		public Point TopRight => new Point(this.Right, this.Top);
+		public Point BottomLeft => new Point(this.Left, this.Bottom);
+		public Point BottomRight => new Point(this.Right, this.Bottom);
+		#endregion Properties
 
-        #region Methods
+		#region Methods
 
-        public void Inflate(double left, double top, double right, double bottom)
-        {
-            this.X -= left;
-            this.Y -= top;
-            this.Width += left + right;
-            this.Height += top + bottom;
-        }
+		public void Inflate(double left, double top, double right, double bottom)
+		{
+			this.X -= left;
+			this.Y -= top;
+			this.Width += left + right;
+			this.Height += top + bottom;
+		}
 
-        public void Inflate(double width, double height)
-        {
-            this.Inflate(width, height, width, height);
-        }
+		public void Inflate(double width, double height)
+		{
+			this.Inflate(width, height, width, height);
+		}
 
-        public void Inflate(Thickness thickness)
-        {
-            this.Inflate(thickness.Left, thickness.Top, thickness.Right, thickness.Bottom);
-        }
+		public void Inflate(Thickness thickness)
+		{
+			this.Inflate(thickness.Left, thickness.Top, thickness.Right, thickness.Bottom);
+		}
 
-        public void Deflate(Thickness thickness)
-        {
-            this.Inflate(-thickness.Left, -thickness.Top, -thickness.Right, -thickness.Bottom);
-        }
+		public void Deflate(Thickness thickness)
+		{
+			this.Inflate(-thickness.Left, -thickness.Top, -thickness.Right, -thickness.Bottom);
+		}
 
-        #endregion Methods
+		#endregion Methods
 
-        #region Implicit Conversion Operators
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="PixelInspector.Utility.ExtentRect"/> to <see cref="System.Windows.Rect"/>.
-        /// </summary>
-        /// <param name="extentRect">The extent rect.</param>
-        /// <returns>
-        /// The result of the conversion.
-        /// </returns>
-        public static implicit operator Rect(ExtentRect extentRect)
-        {
-            return extentRect.ToRect(out _, out _);
-        }
+		#region Implicit Conversion Operators
+		/// <summary>
+		/// Performs an implicit conversion from <see cref="PixelInspector.Utility.ExtentRect"/> to <see cref="System.Windows.Rect"/>.
+		/// </summary>
+		/// <param name="extentRect">The extent rect.</param>
+		/// <returns>
+		/// The result of the conversion.
+		/// </returns>
+		public static implicit operator Rect(ExtentRect extentRect)
+		{
+			return extentRect.ToRect(out _, out _);
+		}
 
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="System.Windows.Rect"/> to <see cref="PixelInspector.Utility.ExtentRect"/>.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
-        /// <returns>
-        /// The result of the conversion.
-        /// </returns>
-        public static implicit operator ExtentRect(Rect rect)
-        {
-            return new ExtentRect(rect);
-        }
+		/// <summary>
+		/// Performs an implicit conversion from <see cref="System.Windows.Rect"/> to <see cref="PixelInspector.Utility.ExtentRect"/>.
+		/// </summary>
+		/// <param name="rect">The rect.</param>
+		/// <returns>
+		/// The result of the conversion.
+		/// </returns>
+		public static implicit operator ExtentRect(Rect rect)
+		{
+			return new ExtentRect(rect);
+		}
 
-        #endregion Implicit Conversion Operators
+		#endregion Implicit Conversion Operators
 
-        #region Overrides
+		#region Overrides
 
-        public override bool Equals(object o)
-        {
-            if ((o == null) || !(o is ExtentRect))
-                return false;
+		public override bool Equals(object o)
+		{
+			if ((o == null) || !(o is ExtentRect))
+				return false;
 
-            var rect = (ExtentRect)o;
-            return Equals(this, rect);
-        }
+			var rect = (ExtentRect)o;
+			return Equals(this, rect);
+		}
 
-        public bool Equals(ExtentRect value)
-        {
-            return Equals(this, value);
-        }
+		public bool Equals(ExtentRect value)
+		{
+			return Equals(this, value);
+		}
 
-        public static bool Equals(ExtentRect rect1, ExtentRect rect2)
-        {
-            return rect1.X == rect2.X
-                && rect1.Y == rect2.Y
-                && rect1.Width == rect2.Width
-                && rect1.Height == rect2.Height;
-        }
+		public static bool Equals(ExtentRect rect1, ExtentRect rect2)
+		{
+			return rect1.X == rect2.X
+				&& rect1.Y == rect2.Y
+				&& rect1.Width == rect2.Width
+				&& rect1.Height == rect2.Height;
+		}
 
-        public override int GetHashCode()
-        {
-            return this.X.GetHashCode()
-                ^ this.Y.GetHashCode()
-                ^ this.Width.GetHashCode()
-                ^ this.Height.GetHashCode();
-        }
+		public override int GetHashCode()
+		{
+			return this.X.GetHashCode()
+				^ this.Y.GetHashCode()
+				^ this.Width.GetHashCode()
+				^ this.Height.GetHashCode();
+		}
 
-        #endregion Overrides
+		#endregion Overrides
 
-        #region Private Implementation
-        private Rect ToRect(out bool flippedHorizontal, out bool flippedVertical)
-        {
-            var width = this.Width;
-            flippedHorizontal = width < 0;
-            var x = flippedHorizontal ? this.X - (width = -width) : this.X;
+		#region Private Implementation
+		private Rect ToRect(out bool flippedHorizontal, out bool flippedVertical)
+		{
+			var width = this.Width;
+			flippedHorizontal = width < 0;
+			var x = flippedHorizontal ? this.X - (width = -width) : this.X;
 
-            var height = this.Height;
-            flippedVertical = height < 0;
-            var y = flippedVertical ? this.Y - (height = -height) : this.Y;
+			var height = this.Height;
+			flippedVertical = height < 0;
+			var y = flippedVertical ? this.Y - (height = -height) : this.Y;
 
-            return new Rect(x, y, width, height);
-        }
-        #endregion Private Implementation
-    }
+			return new Rect(x, y, width, height);
+		}
+		#endregion Private Implementation
+	}
 }
 
 #if false

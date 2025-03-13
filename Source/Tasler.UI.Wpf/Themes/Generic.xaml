@@ -1,6 +1,15 @@
 ﻿<ResourceDictionary
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:local="clr-namespace:Tasler.Wpf"
-  >
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	>
+
+	<!-- Please keep these included dictionaries sorted by name. -->
+	<ResourceDictionary.MergedDictionaries>
+		<!--<ResourceDictionary Source="Tasler.Windows;component/Themes/Controls/HorizontalToggleSwitch.xaml"/>-->
+		<!--<ResourceDictionary Source="Tasler.Windows;component/Themes/Controls/Popup.xaml"/>-->
+		<ResourceDictionary Source="Tasler.Windows;component/Themes/Controls/SegmentItemBar.Desktop.xaml"/>
+		<ResourceDictionary Source="Tasler.Windows;component/Themes/Controls/SegmentOpacityBar.Desktop.xaml"/>
+		<ResourceDictionary Source="Tasler.Windows;component/Themes/Controls/TransitionContentControl.Desktop.xaml"/>
+		<ResourceDictionary Source="Tasler.Windows;component/Themes/Controls/ViewControl.Desktop.xaml"/>
+	</ResourceDictionary.MergedDictionaries>
+
 </ResourceDictionary>

@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <ProductVersion>8.0.50727</ProductVersion>
@@ -7,6 +7,9 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Tasler.Multimedia.RiffTagsGenerator</RootNamespace>
     <AssemblyName>RiffTagsGenerator</AssemblyName>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>F:\src\JohnTasler\tasler-dotnet\Source\Tasler.Multimedia.RiffTagsGenerator\Backup\</UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

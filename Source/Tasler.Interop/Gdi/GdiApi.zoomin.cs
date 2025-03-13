@@ -12,10 +12,6 @@ namespace Tasler.Interop.Gdi
 {
     public static partial class GdiApi
     {
-        #region Constants
-        private const string ApiLib = "gdi32.dll";
-        #endregion Constants
-
         #region Properties
 
         /// <summary>

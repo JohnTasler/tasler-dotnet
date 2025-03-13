@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Microsoft.Practices.Prism.Commands;
+using Tasler.ComponentModel;
 using Tasler.Windows.Extensions;
 
 namespace Tasler.Windows.Controls
@@ -94,9 +94,9 @@ namespace Tasler.Windows.Controls
 
 		public ICommand CloseCommand
 		{
-			get { return this.closeCommand ?? (this.closeCommand = new DelegateCommand(() => this.Close())); }
+			get { return this.closeCommand ?? (this.closeCommand = new RelayCommand(() => this.Close())); }
 		}
-		private DelegateCommand closeCommand;
+		private RelayCommand closeCommand;
 
 		#endregion Commands
 

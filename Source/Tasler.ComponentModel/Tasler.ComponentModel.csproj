@@ -34,12 +34,19 @@
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="Extensions\NotifyCollectionChangedExtensions.cs" />
     <Compile Include="Extensions\NotifyPropertyChangedExtensions.cs" />
+    <Compile Include="Extensions\ParentedObjectExtensions.cs" />
     <Compile Include="Extensions\PropertyObserver.cs" />
     <Compile Include="Extensions\PropertySupport.cs" />
     <Compile Include="IChild.cs" />
     <Compile Include="IModelContainer.cs" />
     <Compile Include="IMultipleSelectionContainer.cs" />
     <Compile Include="ISingleSelectionContainer.cs" />
+    <Compile Include="older\IModelContainer.cs" />
+    <Compile Include="older\IMultipleSelectionContainer.cs" />
+    <Compile Include="older\IParentedObject.cs" />
+    <Compile Include="older\ISingleSelectionContainer.cs" />
+    <Compile Include="older\ModelBase.cs" />
+    <Compile Include="older\ParentedModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Strings.Designer.cs">
       <DesignTime>True</DesignTime>

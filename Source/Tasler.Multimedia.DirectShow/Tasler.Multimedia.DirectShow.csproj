@@ -1,17 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <ProjectGuid>{E7300354-16E9-4DAC-B25E-BCE33F9EC221}</ProjectGuid>
+    <AssemblyName>Tasler.Multimedia.DirectShow</AssemblyName>
+    <RootNamespace>Tasler.Multimedia.DirectShow</RootNamespace>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E7300354-16E9-4DAC-B25E-BCE33F9EC221}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tasler.Multimedia.DirectShow</RootNamespace>
-    <AssemblyName>Tasler.Multimedia.DirectShow</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +18,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +27,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -39,7 +38,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DvdPlayer.cs" />
+    <Compile Include="DvdTypes.cs" />
     <Compile Include="GraphUtility.cs" />
+    <Compile Include="ICreateDevEnum.cs" />
     <Compile Include="MediaEvents.cs" />
     <Compile Include="MediaEventsListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,17 +52,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\DirectShowLibV2-0\DirectShowLib-2005.csproj">
-      <Project>{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}</Project>
-      <Name>DirectShowLib-2005</Name>
+    <ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
+      <Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
+      <Name>Tasler.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Interop\Tasler.Interop.csproj">
-      <Project>{45B9385E-A455-413F-BAD6-5A94F03C03FB}</Project>
+    <ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
+      <Project>{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}</Project>
       <Name>Tasler.Interop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Tasler.csproj">
-      <Project>{4F4EF8BF-9989-4528-A0CC-350EEFD48252}</Project>
-      <Name>Tasler</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -70,8 +68,20 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DirectShowLib.Standard">
+      <Version>2.1.0</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

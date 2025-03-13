@@ -11,7 +11,7 @@ namespace Tasler
     {
         public static bool Is<T>(this Type @this)
         {
-            return typeof(T).IsAssignableFrom(@this);
+            return @this != null && typeof(T).IsAssignableFrom(@this);
         }
 
         public static bool Is(this Type @this, Type type)

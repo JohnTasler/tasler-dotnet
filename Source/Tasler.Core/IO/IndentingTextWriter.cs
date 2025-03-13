@@ -15,7 +15,7 @@ namespace Tasler.IO
 
         #region Constructors
 
-        public IndentingTextWriter(TextWriter innerTextWriter, string indentationString = "    ")
+        public IndentingTextWriter(TextWriter innerTextWriter, string indentationString = IndentationService.DefaultIndentationString)
             : base(innerTextWriter.FormatProvider)
         {
             ValidateArgument.IsNotNull(innerTextWriter, nameof(innerTextWriter));

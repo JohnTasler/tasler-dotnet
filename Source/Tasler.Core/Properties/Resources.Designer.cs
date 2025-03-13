@@ -19,7 +19,7 @@ namespace Tasler.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,7 +61,7 @@ namespace Tasler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} cannot convert from {1}..
+        ///   Looks up a localized string similar to {0} cannot convert from {1}.
         /// </summary>
         internal static string ConvertFromExceptionFormat2 {
             get {
@@ -70,9 +70,27 @@ namespace Tasler.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A SynchronizedInvoker has not been registered..
+        /// </summary>
+        internal static string ExceptionMessage_SynchronizedInvokerNotRegistered {
+            get {
+                return ResourceManager.GetString("ExceptionMessage_SynchronizedInvokerNotRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello, {0}.
+        /// </summary>
+        internal static string Hello {
+            get {
+                return ResourceManager.GetString("Hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specified cast is not valid:
-        ///        From: {0}
-        ///            To: {1}.
+        ///		From: {0}
+        ///			To: {1}.
         /// </summary>
         internal static string InvalidCastExceptionFormat2 {
             get {
@@ -82,48 +100,12 @@ namespace Tasler.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to The given key was not present in the dictionary:
-        ///        key.GetType.FullName = {0}
-        ///        key.ToString() = {1}.
+        ///		key.GetType.FullName = {0}
+        ///		key.ToString() = {1}.
         /// </summary>
         internal static string KeyNotFoundExceptionFormat2 {
             get {
                 return ResourceManager.GetString("KeyNotFoundExceptionFormat2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The expression body is not a unary expression..
-        /// </summary>
-        internal static string PropertySupport_BodyNotUnaryExpression_Exception {
-            get {
-                return ResourceManager.GetString("PropertySupport_BodyNotUnaryExpression_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The member access expression does not access a property.
-        /// </summary>
-        internal static string PropertySupport_ExpressionNotProperty_Exception {
-            get {
-                return ResourceManager.GetString("PropertySupport_ExpressionNotProperty_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The expression is not a member access expression..
-        /// </summary>
-        internal static string PropertySupport_NotMemberAccessExpression_Exception {
-            get {
-                return ResourceManager.GetString("PropertySupport_NotMemberAccessExpression_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The referenced property is a static property..
-        /// </summary>
-        internal static string PropertySupport_StaticExpression_Exception {
-            get {
-                return ResourceManager.GetString("PropertySupport_StaticExpression_Exception", resourceCulture);
             }
         }
         

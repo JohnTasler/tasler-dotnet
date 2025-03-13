@@ -14,7 +14,7 @@ namespace Tasler.Windows.ComponentModel
 		public bool IsExpanded
 		{
 			get { return this.isExpanded; }
-			set { this.SetProperty(ref this.isExpanded, value, () => IsExpanded); }
+			set { this.PropertyChanged.SetProperty(this, value, ref this.isExpanded); }
 		}
 		private bool isExpanded;
 
