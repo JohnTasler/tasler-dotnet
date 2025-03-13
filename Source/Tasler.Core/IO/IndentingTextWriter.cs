@@ -1,110 +1,117 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using Tasler.Text;
 
 namespace Tasler.IO
 {
-    public class IndentingTextWriter : TextWriter
-    {
-        #region Fields
-        private readonly TextWriter _innerTextWriter;
-        private readonly StringBuilder _stringBuilder;
-        private readonly IndentationService _indenter;
-        #endregion Fields
+	public class IndentingTextWriter : TextWriter
+	{
+		#region Fields
+		private readonly TextWriter _innerTextWriter;
+		private readonly StringBuilder? _stringBuilder;
+		private readonly IndentationService _indenter;
+		#endregion Fields
 
-        #region Constructors
+		#region Constructors
 
-        public IndentingTextWriter(TextWriter innerTextWriter, string indentationString = IndentationService.DefaultIndentationString)
-            : base(innerTextWriter.FormatProvider)
-        {
-            ValidateArgument.IsNotNull(innerTextWriter, nameof(innerTextWriter));
+		public IndentingTextWriter(TextWriter innerTextWriter, string indentationString = "    ")
+			: base(innerTextWriter.FormatProvider)
+		{
+			ValidateArgument.IsNotNull(innerTextWriter, nameof(innerTextWriter));
 
-            _innerTextWriter = innerTextWriter;
+			_innerTextWriter = innerTextWriter;
 
-            DelegateIndentationWriter.WriteLineSegmentAction writeLineSegmentAction;
-            DelegateIndentationWriter.WriteLineEndAction writeLineEndAction;
+			DelegateIndentationWriter.WriteLineSegmentAction writeLineSegmentAction;
+			DelegateIndentationWriter.WriteLineEndAction writeLineEndAction;
 
-            _stringBuilder = (_innerTextWriter as StringWriter)?.GetStringBuilder();
-            if (_stringBuilder != null)
-            {
-                writeLineSegmentAction = span => _stringBuilder.Append(span);
-                writeLineEndAction = lineEnd => _stringBuilder.Append(lineEnd);
-            }
-            else
-            {
-                writeLineSegmentAction = span => _innerTextWriter.Write(span.ToArray());
-                writeLineEndAction = lineEnd => _innerTextWriter.Write(lineEnd);
-            }
+			if (_innerTextWriter is StringWriter writer)
+			{
+				_stringBuilder = writer.GetStringBuilder();
+				writeLineSegmentAction = span => _stringBuilder.Append(span);
+				writeLineEndAction = lineEnd => _stringBuilder.Append(lineEnd);
+			}
+			else
+			{
+				writeLineSegmentAction = span => _innerTextWriter.Write(span.ToArray());
+				writeLineEndAction = lineEnd => _innerTextWriter.Write(lineEnd);
+			}
 
-            var indenterWriter = new DelegateIndentationWriter(writeLineSegmentAction, writeLineEndAction);
-            _indenter = new IndentationService(indenterWriter, indentationString, this.NewLine);
+			var indenterWriter = new DelegateIndentationWriter(writeLineSegmentAction, writeLineEndAction);
+			_indenter = new IndentationService(indenterWriter, indentationString, this.NewLine);
 
-            this.SubstituteNewLineForCarriageReturn = true;
-            this.SubstituteNewLineForLineFeed = true;
-        }
+			this.SubstituteNewLineForCarriageReturn = true;
+			this.SubstituteNewLineForLineFeed = true;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string IndentationString => _indenter.IndentationString;
+		public string IndentationString => _indenter.IndentationString;
 
-        public int IndentationLevel => _indenter.IndentationLevel;
+		public int IndentationLevel => _indenter.IndentationLevel;
 
-        public bool SubstituteNewLineForLineFeed
-        {
-            get => _indenter.SubstituteNewLineForLineFeed;
-            set => _indenter.SubstituteNewLineForLineFeed = value;
-        }
+		public bool SubstituteNewLineForLineFeed
+		{
+			get => _indenter.SubstituteNewLineForLineFeed;
+			set => _indenter.SubstituteNewLineForLineFeed = value;
+		}
 
-        public bool SubstituteNewLineForCarriageReturn
-        {
-            get => _indenter.SubstituteNewLineForCarriageReturn;
-            set => _indenter.SubstituteNewLineForCarriageReturn = value;
-        }
+		public bool SubstituteNewLineForCarriageReturn
+		{
+			get => _indenter.SubstituteNewLineForCarriageReturn;
+			set => _indenter.SubstituteNewLineForCarriageReturn = value;
+		}
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Methods
+		#region Methods
 
-        public IDisposable CreateIndentationScope(int indentLevelIncrement = 1) => _indenter.CreateIndentationScope(indentLevelIncrement);
+		public IDisposable CreateIndentationScope(int indentLevelIncrement = 1) => _indenter.CreateIndentationScope(indentLevelIncrement);
 
-        #endregion Methods
+		#endregion Methods
 
-        #region Overrides
+		#region Overrides
 
-        public override Encoding Encoding => _innerTextWriter.Encoding;
+		public override Encoding Encoding => _innerTextWriter.Encoding;
 
-        public override void Write(char value)
-        {
-            ReadOnlySpan<char> charSpan;
-            unsafe
-            {
-                charSpan = new ReadOnlySpan<char>(&value, 1);
-            }
+		public override void Write(char value)
+		{
+			ReadOnlySpan<char> charSpan;
+			unsafe
+			{
+				charSpan = new ReadOnlySpan<char>(&value, 1);
+			}
 
-            this.Write(charSpan);
-        }
+			this.Write(charSpan);
+		}
 
-        public override void Write(char[] buffer, int index, int count)
-        {
-            this.Write(new ReadOnlySpan<char>(buffer, index, count));
-        }
+		public override void Write(char[] buffer, int index, int count)
+		{
+			this.Write(new ReadOnlySpan<char>(buffer, index, count));
+		}
 
-        public override void Write(string value)
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                this.Write(value.AsSpan());
-            };
-        }
+		public override void Write(string? value)
+		{
+			if (!string.IsNullOrEmpty(value))
+			{
+				this.Write(value.AsSpan());
+			}
+		}
 
-        public void Write(ReadOnlySpan<char> value)
-        {
-            _indenter.Write(value);
-        }
+#if NET9_0_OR_GREATER
+		public override void Write(ReadOnlySpan<char> value)
+		{
+			_indenter.Write(value);
+		}
+#else
+		public void Write(ReadOnlySpan<char> value)
+		{
+			_indenter.Write(value);
+		}
+#endif
 
-        #endregion Overrides
-    }
+#endregion Overrides
+	}
 }
