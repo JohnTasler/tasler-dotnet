@@ -1,15 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <ProjectGuid>{4090FB61-0858-4AE8-A30D-B34464A9505F}</ProjectGuid>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tasler.Interop.Shell</RootNamespace>
     <AssemblyName>Tasler.Interop.Shell</AssemblyName>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <Version />
-    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
