@@ -28,7 +28,7 @@ public struct StrRet : IDisposable
 	{
 		get
 		{
-			string value = null;
+			string? value = null;
 			switch (_type)
 			{
 				case STRRET_TYPE.WStr:
@@ -44,7 +44,8 @@ public struct StrRet : IDisposable
 						break;
 					}
 			}
-			return value;
+
+			return value ?? string.Empty;
 		}
 	}
 	#endregion Properties

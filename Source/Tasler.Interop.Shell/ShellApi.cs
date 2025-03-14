@@ -18,53 +18,53 @@ public static class ShellApi
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 1)]
 	[DllImport(Shell32, ExactSpelling = true, PreserveSig = false)]
 	public static extern object SHCreateItemFromIDList(
-			ItemIdList pidl,
-			ref Guid iid);
+		ItemIdList pidl,
+		ref Guid iid);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 3)]
 	[DllImport(Shell32, ExactSpelling = true, PreserveSig = false)]
 	public static extern object SHCreateItemWithParent(
-			ItemIdList parentItemIdList,
-			IShellFolder parentShellFolder,
-			ChildItemIdList childItemIdList,
-			ref Guid riid);
+		ItemIdList parentItemIdList,
+		IShellFolder parentShellFolder,
+		ChildItemIdList childItemIdList,
+		ref Guid riid);
 
 	[DllImport(Shell32, ExactSpelling = true, PreserveSig = false)]
 	public static extern ItemIdList SHGetIDListFromObject(
-			[MarshalAs(UnmanagedType.IUnknown)]
-					object punk);
+		[MarshalAs(UnmanagedType.IUnknown)]
+		object punk);
 
 	[return: MarshalAs(UnmanagedType.Bool)]
 	[DllImport(Shell32, ExactSpelling = true)]
 	public static extern bool ILIsEqual(
-			ItemIdList pidl1,
-			ItemIdList pidl2);
+		ItemIdList pidl1,
+		ItemIdList pidl2);
 
 	[return: MarshalAs(UnmanagedType.Bool)]
 	[DllImport(Shell32, ExactSpelling = true)]
 	public static extern bool ILIsEqual(
-			ItemIdList pidl1,
-			ChildItemIdList pidl2);
+		ItemIdList pidl1,
+		ChildItemIdList pidl2);
 
 	[return: MarshalAs(UnmanagedType.Bool)]
 	[DllImport(Shell32, ExactSpelling = true)]
 	public static extern bool ILIsEqual(
-			ChildItemIdList pidl1,
-			ItemIdList pidl2);
+		ChildItemIdList pidl1,
+		ItemIdList pidl2);
 
 	[return: MarshalAs(UnmanagedType.Bool)]
 	[DllImport(Shell32, ExactSpelling = true)]
 	public static extern bool ILIsEqual(
-			ChildItemIdList pidl1,
-			ChildItemIdList pidl2);
+		ChildItemIdList pidl1,
+		ChildItemIdList pidl2);
 
 	[return: MarshalAs(UnmanagedType.Bool)]
 	[DllImport(Shell32, CharSet = CharSet.Auto)]
 	public static extern bool SHGetPathFromIDListEx(
-			ItemIdList pidl,
-			StringBuilder pszPath,
-			uint cchPath,
-			GPFIDL uOpts);
+		ItemIdList pidl,
+		StringBuilder pszPath,
+		uint cchPath,
+		GPFIDL uOpts);
 
 	public static string GetFolderParseName(ItemIdList folderIdList)
 	{
@@ -76,8 +76,9 @@ public static class ShellApi
 			IShellFolder folderParent = (IShellFolder)ShellApi.GetDesktopFolder();
 			if (!folderParentIdList.IsEmpty)
 				folderParent = (IShellFolder)folderParent.BindToObject(folderParentIdList, null, ref iid);
-			using (StrRet strRet = folderParent.GetDisplayNameOf(folderInParentIdList, SHGDNF.ForParsing))
-				return strRet.Value;
+
+			using StrRet strRet = folderParent.GetDisplayNameOf(folderInParentIdList, SHGDNF.ForParsing);
+			return strRet.Value;
 		}
 	}
 
@@ -98,16 +99,16 @@ public static class ShellApi
 
 	[DllImport(Shell32, CharSet = CharSet.Auto, PreserveSig = true)]
 	public static extern int SHGetKnownFolderIDList(
-			KnownFolderId rfid,
-			KnownFolderFlags dwFlags,
-			IntPtr hToken,
-			out ItemIdList ppidl);
+		KnownFolderId rfid,
+		KnownFolderFlags dwFlags,
+		IntPtr hToken,
+		out ItemIdList ppidl);
 
 	[DllImport(Shell32, CharSet = CharSet.Auto, PreserveSig = false)]
 	public static extern ItemIdList SHGetKnownFolderIDList(
-			KnownFolderId rfid,
-			KnownFolderFlags dwFlags,
-			IntPtr hToken);
+		KnownFolderId rfid,
+		KnownFolderFlags dwFlags,
+		IntPtr hToken);
 
 } // End: ShellApi
 
