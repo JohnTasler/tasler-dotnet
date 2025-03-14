@@ -89,75 +89,75 @@ public interface IShellFolder
 {
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	void ParseDisplayName(
-			IntPtr hwnd,
-			IBindCtx pbc,
-			[MarshalAs(UnmanagedType.LPWStr)]
-					string pszDisplayName,
-			out uint pchEaten,
-			out ItemIdList ppidl, // IntPtr
-			ref SFGAOF pdwAttributes);
+		IntPtr hwnd,
+		IBindCtx pbc,
+		[MarshalAs(UnmanagedType.LPWStr)]
+		string pszDisplayName,
+		out uint pchEaten,
+		out ItemIdList ppidl, // IntPtr
+		ref SFGAOF pdwAttributes);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	IEnumIDList EnumObjects(
-			IntPtr hwnd,
-			SHCONTF grfFlags);
+		IntPtr hwnd,
+		SHCONTF grfFlags);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 2)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object BindToObject(
-			ItemIdList pidl,
-			IBindCtx pbc,
-			ref Guid riid);
+		ItemIdList pidl,
+		IBindCtx? pbc,
+		ref Guid riid);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 2)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object BindToStorage(
-			ItemIdList pidl,
-			IBindCtx pbc,
-			ref Guid riid);
+		ItemIdList pidl,
+		IBindCtx? pbc,
+		ref Guid riid);
 
 	[PreserveSig]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	int CompareIDs(
-			IntPtr lParam,
-			ItemIdList pidl1,
-			ItemIdList pidl2);
+		IntPtr lParam,
+		ItemIdList pidl1,
+		ItemIdList pidl2);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 1)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object CreateViewObject(
-			IntPtr hwndOwner,
-			ref Guid riid);
+		IntPtr hwndOwner,
+		ref Guid riid);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	void GetAttributesOf(
-			uint cidl,
-			[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
-					ChildItemIdList[] apidl,
-			ref SFGAOF rgfInOut);
+		uint cidl,
+		[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
+		ChildItemIdList[] apidl,
+		ref SFGAOF rgfInOut);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 3)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object GetUIObjectOf(
-			IntPtr hwndOwner,
-			uint cidl,
-			[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
-					ItemIdList[] apidl,
-			ref Guid riid,
-			IntPtr rgfReserved);
+		IntPtr hwndOwner,
+		uint cidl,
+		[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
+		ItemIdList[] apidl,
+		ref Guid riid,
+		IntPtr rgfReserved);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	StrRet GetDisplayNameOf(
-			ChildItemIdList pidl,
-			SHGDNF uFlags);
+		ChildItemIdList pidl,
+		SHGDNF uFlags);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	IntPtr SetNameOf(
-			IntPtr hwnd,
-			ChildItemIdList pidl,
-			[MarshalAs(UnmanagedType.LPWStr)]
-					string pszName,
-			SHGDNF uFlags);
+		IntPtr hwnd,
+		ChildItemIdList pidl,
+		[MarshalAs(UnmanagedType.LPWStr)]
+		string pszName,
+		SHGDNF uFlags);
 }
 
 [ComImport]
@@ -167,75 +167,75 @@ public interface IShellFolder2
 {
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	void ParseDisplayName(
-			IntPtr hwnd,
-			IBindCtx pbc,
-			[MarshalAs(UnmanagedType.LPWStr)]
-					string pszDisplayName,
-			out uint pchEaten,
-			out ItemIdList ppidl, // IntPtr
-			ref SFGAOF pdwAttributes);
+		IntPtr hwnd,
+		IBindCtx? pbc,
+		[MarshalAs(UnmanagedType.LPWStr)]
+		string pszDisplayName,
+		out uint pchEaten,
+		out ItemIdList ppidl, // IntPtr
+		ref SFGAOF pdwAttributes);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	IEnumIDList EnumObjects(
-			IntPtr hwnd,
-			SHCONTF grfFlags);
+		IntPtr hwnd,
+		SHCONTF grfFlags);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 2)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object BindToObject(
-			ItemIdList pidl,
-			IBindCtx pbc,
-			ref Guid riid);
+		ItemIdList pidl,
+		IBindCtx? pbc,
+		ref Guid riid);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 2)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object BindToStorage(
-			ItemIdList pidl,
-			IBindCtx pbc,
-			ref Guid riid);
+		ItemIdList pidl,
+		IBindCtx? pbc,
+		ref Guid riid);
 
 	[PreserveSig]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	int CompareIDs(
-			IntPtr lParam,
-			ItemIdList pidl1,
-			ItemIdList pidl2);
+		IntPtr lParam,
+		ItemIdList pidl1,
+		ItemIdList pidl2);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 1)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object CreateViewObject(
-			IntPtr hwndOwner,
-			ref Guid riid);
+		IntPtr hwndOwner,
+		ref Guid riid);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	void GetAttributesOf(
-			uint cidl,
-			[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
-					ChildItemIdList[] apidl,
-			ref SFGAOF rgfInOut);
+		uint cidl,
+		[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
+		ChildItemIdList[] apidl,
+		ref SFGAOF rgfInOut);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 3)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object GetUIObjectOf(
-			IntPtr hwndOwner,
-			uint cidl,
-			[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
-					ChildItemIdList[] apidl,
-			ref Guid riid,
-			IntPtr rgfReserved);
+		IntPtr hwndOwner,
+		uint cidl,
+		[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
+		ChildItemIdList[] apidl,
+		ref Guid riid,
+		IntPtr rgfReserved);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	StrRet GetDisplayNameOf(
-			ChildItemIdList pidl,
-			SHGDNF uFlags);
+		ChildItemIdList pidl,
+		SHGDNF uFlags);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	IntPtr SetNameOf(
-			IntPtr hwnd,
-			ChildItemIdList pidl,
-			[MarshalAs(UnmanagedType.LPWStr)]
-					string pszName,
-			SHGDNF uFlags);
+		IntPtr hwnd,
+		ChildItemIdList pidl,
+		[MarshalAs(UnmanagedType.LPWStr)]
+		string pszName,
+		SHGDNF uFlags);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	Guid GetDefaultSearchGUID();
@@ -255,17 +255,17 @@ public interface IShellFolder2
 	[return: MarshalAs(UnmanagedType.Struct)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object GetDetailsEx(
-			ChildItemIdList pidl,
-			PropertyKey pscid);
+		ChildItemIdList pidl,
+		PropertyKey pscid);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	SHELLDETAILS GetDetailsOf(
-			ChildItemIdList pidl,
-			uint iColumn);
+		ChildItemIdList pidl,
+		uint iColumn);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	PropertyKey MapColumnToSCID(
-			uint iColumn);
+		uint iColumn);
 }
 
 
@@ -286,7 +286,7 @@ public struct SHELLDETAILS
 }
 
 [Flags]
-public enum LVCFMT
+public enum LVCFMT : uint
 {
 	/// <summary>Same as HDF_LEFT</summary>
 	Left = 0x0000,
@@ -336,15 +336,15 @@ public interface IEnumIDList
 	/// <param name="pceltFetched"></param>
 	[PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	int Next(
-			[In] uint celt,
-			[Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
-					IntPtr[] rgelt,
-			out uint pceltFetched);
+		[In] uint celt,
+		[Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
+		IntPtr[] rgelt,
+		out uint pceltFetched);
 
 	/// <param name="celt"></param>
 	[PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	int Skip(
-			[In] uint celt);
+		[In] uint celt);
 
 	[PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	int Reset();
@@ -352,8 +352,8 @@ public interface IEnumIDList
 	/// <param name="ppEnum"></param>
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	void Clone(
-			[MarshalAs(UnmanagedType.Interface)]
-					out IEnumIDList ppEnum);
+		[MarshalAs(UnmanagedType.Interface)]
+		out IEnumIDList ppEnum);
 }
 
 public class EnumIdList : IEnumerable<ChildItemIdList>
@@ -418,15 +418,15 @@ public interface IEnumExtraSearch
 	/// <param name="pceltFetched"></param>
 	[PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	int Next(
-			[In] uint celt,
-			[Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
-					EXTRASEARCH[] rgelt,
-			out uint pceltFetched);
+		[In] uint celt,
+		[Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
+		EXTRASEARCH[] rgelt,
+		out uint pceltFetched);
 
 	/// <param name="celt"></param>
 	[PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	int Skip(
-			[In] uint celt);
+		[In] uint celt);
 
 	[PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	int Reset();
@@ -434,8 +434,8 @@ public interface IEnumExtraSearch
 	/// <param name="ppEnum"></param>
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	void Clone(
-			[MarshalAs(UnmanagedType.Interface)]
-					out IEnumExtraSearch ppEnum);
+		[MarshalAs(UnmanagedType.Interface)]
+		out IEnumExtraSearch ppEnum);
 }
 
 [StructLayout(LayoutKind.Sequential)]
