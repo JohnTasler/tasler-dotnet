@@ -1,13 +1,12 @@
 
-namespace Tasler.Interop.Gdi
+namespace Tasler.Interop.Gdi;
+
+public class SafePrivateHdc : SafeHdc
 {
-    public class SafePrivateHdc : SafeHdc
-    {
-        #region Overrides
-        protected override bool ReleaseHandle()
-        {
-            return GdiApi.DeleteDC(base.handle);
-        }
-        #endregion Overrides
-    }
+	#region Overrides
+	protected override bool ReleaseHandle()
+	{
+		return this.DeleteDC();
+	}
+	#endregion Overrides
 }

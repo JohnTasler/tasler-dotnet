@@ -77,23 +77,5 @@ namespace Tasler.Windows.Properties {
                 return ResourceManager.GetString("PropertyNotAttachableToTypeFormat2", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Neither the executeMethod nor the canExecuteMethod delegates can be null..
-        /// </summary>
-        internal static string RelayCommandDelegatesCannotBeNull {
-            get {
-                return ResourceManager.GetString("RelayCommandDelegatesCannotBeNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to T for RelayCommand&amp;lt;T&amp;gt; is not an object nor Nullable..
-        /// </summary>
-        internal static string RelayCommandInvalidGenericPayloadType {
-            get {
-                return ResourceManager.GetString("RelayCommandInvalidGenericPayloadType", resourceCulture);
-            }
-        }
     }
 }

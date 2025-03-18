@@ -1,4 +1,4 @@
-﻿using System.Windows.Threading;
+using System.Windows.Threading;
 
 namespace Tasler.Windows.Threading
 {
@@ -32,7 +32,7 @@ namespace Tasler.Windows.Threading
 
         protected override bool GetHasThreadAccess(Dispatcher dispatcher)
         {
-            return (dispatcher?.CheckAccess()).Value;
+            return (dispatcher?.CheckAccess()!).Value;
         }
 
         protected override void VerifyThreadAccess(Dispatcher dispatcher)

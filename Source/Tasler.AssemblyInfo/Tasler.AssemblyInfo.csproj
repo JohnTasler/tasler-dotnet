@@ -1,62 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <ProjectGuid>{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tasler.AssemblyInfo</RootNamespace>
-    <AssemblyName>Tasler.AssemblyInfo</AssemblyName>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <Version />
-    <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<PropertyGroup>
+		<ProjectName>Tasler.AssemblyInfo</ProjectName>
+		<AssemblyName>Tasler.AssemblyInfo</AssemblyName>
+		<RootNamespace>Tasler.AssemblyInfo</RootNamespace>
+		<ProjectGuid>{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<TargetFramework>netstandard2.0</TargetFramework>
+	</PropertyGroup>
 
-  <Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
+	<!-- Shared Project References -->
+	<Import Project="..\Tasler.TextTemplates\Tasler.TextTemplates.Shared.projitems" Label="Shared" />
+	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 
-  <PropertyGroup>
-    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
-    <TransformOnBuild>true</TransformOnBuild>
-    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
-    <BeforeTransform>CustomPreTransform</BeforeTransform>
-    <AfterTransform>CustomPostTransform</AfterTransform>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="AssemblyInfoVersion.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AssemblyInfoVersion.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AssemblyInfoVersion.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <!--<OutputFileName>AssemblyInfoVersion.cs</OutputFileName>-->
-      <LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AssemblyInfoConfiguration.cs" />
-    <None Include="AssemblyInfoCopyright.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <Import Project="..\Tasler.TextTemplates\Tasler.TextTemplates.Shared.projitems" Label="Shared" />
-  <Target Name="CustomPreTransform">
-    <Message Text="In CustomPreTransform..." Importance="High" />
-  </Target>
-  <Target Name="CustomPostTransform">
-    <Message Text="In CustomPostTransform..." Importance="High" />
-    <!--<GeneratedFiles />-->
-    <!--<NonGeneratedFiles />-->
-  </Target>
+	<Target Name="CustomPreTransform">
+		<Message Text="In CustomPreTransform..." Importance="High" />
+	</Target>
+	<Target Name="CustomPostTransform">
+		<Message Text="In CustomPostTransform..." Importance="High" />
+		<!--<GeneratedFiles />-->
+		<!--<NonGeneratedFiles />-->
+	</Target>
+
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets" />
 </Project>

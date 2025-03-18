@@ -1,27 +1,23 @@
-﻿using System.Runtime.InteropServices;
-using System.Security;
+using System.Runtime.InteropServices;
 
-namespace Tasler.Interop.Kernel
+namespace Tasler.Interop.Kernel;
+
+public static partial class KernelApi
 {
-	public static class KernelApi
+	#region Constants
+	private const string ApiLib = "kernel32.dll";
+	#endregion Constants
+
+	public static int GetCurrentProcessId() => NativeMethods.GetCurrentProcessId();
+
+	public static int GetCurrentThreadId() => NativeMethods.GetCurrentThreadId();
+
+	internal static partial class NativeMethods
 	{
-		#region Constants
-		private const string ApiLib = "kernel32.dll";
-		#endregion Constants
+		[LibraryImport(ApiLib)]
+		public static partial int GetCurrentProcessId();
 
-		#region Safe Methods
-		[SecuritySafeCritical]
-		[DllImport(ApiLib, ExactSpelling = true)]
-		public static extern int GetCurrentProcessId();
-
-		[SecuritySafeCritical]
-		[DllImport(ApiLib, ExactSpelling = true)]
-		public static extern int GetCurrentThreadId();
-
-		#endregion Safe Methods
-
-		#region Unsafe Methods
-
-		#endregion Unsafe Methods
+		[LibraryImport(ApiLib)]
+		public static partial int GetCurrentThreadId();
 	}
 }

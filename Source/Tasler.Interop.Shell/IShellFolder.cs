@@ -89,17 +89,17 @@ public interface IShellFolder
 {
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	void ParseDisplayName(
-		IntPtr hwnd,
+		nint hwnd,
 		IBindCtx pbc,
 		[MarshalAs(UnmanagedType.LPWStr)]
 		string pszDisplayName,
 		out uint pchEaten,
-		out ItemIdList ppidl, // IntPtr
+		out ItemIdList ppidl, // nint
 		ref SFGAOF pdwAttributes);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	IEnumIDList EnumObjects(
-		IntPtr hwnd,
+		nint hwnd,
 		SHCONTF grfFlags);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 2)]
@@ -119,14 +119,14 @@ public interface IShellFolder
 	[PreserveSig]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	int CompareIDs(
-		IntPtr lParam,
+		nint lParam,
 		ItemIdList pidl1,
 		ItemIdList pidl2);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 1)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object CreateViewObject(
-		IntPtr hwndOwner,
+		nint hwndOwner,
 		ref Guid riid);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
@@ -139,12 +139,12 @@ public interface IShellFolder
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 3)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object GetUIObjectOf(
-		IntPtr hwndOwner,
+		nint hwndOwner,
 		uint cidl,
 		[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
 		ItemIdList[] apidl,
 		ref Guid riid,
-		IntPtr rgfReserved);
+		nint rgfReserved);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	StrRet GetDisplayNameOf(
@@ -152,8 +152,8 @@ public interface IShellFolder
 		SHGDNF uFlags);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-	IntPtr SetNameOf(
-		IntPtr hwnd,
+	nint SetNameOf(
+		nint hwnd,
 		ChildItemIdList pidl,
 		[MarshalAs(UnmanagedType.LPWStr)]
 		string pszName,
@@ -167,17 +167,17 @@ public interface IShellFolder2
 {
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	void ParseDisplayName(
-		IntPtr hwnd,
+		nint hwnd,
 		IBindCtx? pbc,
 		[MarshalAs(UnmanagedType.LPWStr)]
 		string pszDisplayName,
 		out uint pchEaten,
-		out ItemIdList ppidl, // IntPtr
+		out ItemIdList ppidl, // nint
 		ref SFGAOF pdwAttributes);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	IEnumIDList EnumObjects(
-		IntPtr hwnd,
+		nint hwnd,
 		SHCONTF grfFlags);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 2)]
@@ -197,14 +197,14 @@ public interface IShellFolder2
 	[PreserveSig]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	int CompareIDs(
-		IntPtr lParam,
+		nint lParam,
 		ItemIdList pidl1,
 		ItemIdList pidl2);
 
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 1)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object CreateViewObject(
-		IntPtr hwndOwner,
+		nint hwndOwner,
 		ref Guid riid);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
@@ -217,12 +217,12 @@ public interface IShellFolder2
 	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 3)]
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	object GetUIObjectOf(
-		IntPtr hwndOwner,
+		nint hwndOwner,
 		uint cidl,
 		[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
 		ChildItemIdList[] apidl,
 		ref Guid riid,
-		IntPtr rgfReserved);
+		nint rgfReserved);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
 	StrRet GetDisplayNameOf(
@@ -230,8 +230,8 @@ public interface IShellFolder2
 		SHGDNF uFlags);
 
 	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-	IntPtr SetNameOf(
-		IntPtr hwnd,
+	nint SetNameOf(
+		nint hwnd,
 		ChildItemIdList pidl,
 		[MarshalAs(UnmanagedType.LPWStr)]
 		string pszName,
@@ -338,7 +338,7 @@ public interface IEnumIDList
 	int Next(
 		[In] uint celt,
 		[Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)]
-		IntPtr[] rgelt,
+		nint[] rgelt,
 		out uint pceltFetched);
 
 	/// <param name="celt"></param>
@@ -360,7 +360,7 @@ public class EnumIdList : IEnumerable<ChildItemIdList>
 {
 	#region Static Fields
 	[ThreadStatic]
-	private static IntPtr[] _items = new IntPtr[512];
+	private static nint[] _items = new nint[512];
 	#endregion Static Fields
 
 	#region Instance Fields

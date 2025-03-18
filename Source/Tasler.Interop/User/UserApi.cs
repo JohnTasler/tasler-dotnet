@@ -1,221 +1,175 @@
-﻿using System;
+using System.Buffers;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Security;
-using System.Text;
 using Tasler.Interop.Gdi;
 
-namespace Tasler.Interop.User
+namespace Tasler.Interop.User;
+
+public static partial class UserApi
 {
-	public static partial class UserApi
+	public static string GetClipboardFormatName(uint format)
 	{
-		public static IntPtr GetWindowLongPtr(HandleRef hwnd, GWLP index)
+		var previousCch = 0;
+		var cch = 1;
+		var bufferLength = 16L;
+		char[] buffer = [];
+
+		do
 		{
-			return Environment.Is64BitProcess
-				? GetWindowLongPtr64(hwnd, index)
-				: GetWindowLongPtr32(hwnd, index);
-		}
+			using var bufferScope = new DisposeScopeExit(
+				() => ArrayPool<char>.Shared.Return(buffer));
 
-		public static IntPtr SetWindowLongPtr(HandleRef hwnd, GWLP index, IntPtr newValue)
-		{
-			return Environment.Is64BitProcess
-				? SetWindowLongPtr64(hwnd, index, newValue)
-				: SetWindowLongPtr32(hwnd, index, newValue);
-		}
-
-		#region Safe Methods
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern bool AnimateWindow(HandleRef hWnd, uint dwTime, uint dwFlags);
-
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern bool EnableWindow(HandleRef hWnd, bool enable);
-
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern bool GetClientRect(HandleRef hWnd, [In, Out] ref RECT rect);
-
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern int GetUpdateRgn(HandleRef hwnd, HandleRef hrgn, bool fErase);
-
-		[DllImport(ApiLib, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
-		public static extern bool GetWindowRect(HandleRef hWnd, [In, Out] ref RECT rect);
-
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern bool SetWindowPos(HandleRef hWnd, HandleRef hWndInsertAfter, int x, int y, int cx, int cy, SWP flags);
-
-		[DllImport(ApiLib)]
-		public static extern bool ShowWindow(HandleRef hWnd, SW nCmdShow);
-
-		[DllImport(ApiLib)]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool IsIconic(IntPtr hWnd);
-
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern bool ValidateRect(HandleRef hWnd, IntPtr rect);
-
-		public static string GetClipboardFormatName(short format)
-		{
-			var sb = new StringBuilder(256);
-			var cch = Private.GetClipboardFormatName(format, sb, sb.Capacity);
+			buffer = ArrayPool<char>.Shared.Rent(unchecked((int)bufferLength));
+			cch = NativeMethods.GetClipboardFormatName(format, buffer, unchecked((int)bufferLength));
+			var lastError = Marshal.GetLastPInvokeError();
 			if (cch == 0)
-				throw new Win32Exception();
-
-			return sb.ToString();
-		}
-
-		internal static partial class Private
-		{
-			[DllImport(ApiLib, EntryPoint = "GetClipboardFormatNameW", CharSet = CharSet.Unicode, SetLastError = true)]
-			public static extern int GetClipboardFormatName(int format, StringBuilder szFormatName, int cchMaxCount);
-		}
-
-		#endregion Safe Methods
-
-		#region Unsafe Methods
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern IntPtr GetForegroundWindow();
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib)]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool SetForegroundWindow(IntPtr hWnd);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern IntPtr BeginPaint(HandleRef hWnd, [In, Out] ref PAINTSTRUCT lpPaint);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern bool EndPaint(HandleRef hWnd, ref PAINTSTRUCT lpPaint);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true, SetLastError = true)]
-		public static extern bool UpdateLayeredWindow(HandleRef hWnd, IntPtr hdcDst,
-			IntPtr pptDst, ref SIZE psize, IntPtr hdcSrc, ref POINT pptSrc, uint crKey,
-			ref BLENDFUNCTION pblend, uint dwFlags);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern IntPtr GetWindow(HandleRef hWnd, GW uCmd);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto)]
-		public static extern IntPtr PostMessage(HandleRef hwnd, WM msg, IntPtr wparam, IntPtr lparam);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessage(HandleRef hwnd, WM msg, IntPtr wparam, IntPtr lparam);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern int MapWindowPoints(HandleRef hWndFrom, HandleRef hWndTo, [In, Out] ref RECT rect, int cPoints);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, EntryPoint = "GetWindowLongPtr", ExactSpelling = false)]
-		private static extern IntPtr GetWindowLongPtr64(HandleRef hwnd, GWLP index);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, EntryPoint = "GetWindowLong", ExactSpelling = false)]
-		private static extern IntPtr GetWindowLongPtr32(HandleRef hwnd, GWLP index);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, EntryPoint = "SetWindowLongPtr", ExactSpelling = false)]
-		private static extern IntPtr SetWindowLongPtr64(HandleRef hwnd, GWLP index, IntPtr newValue);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, EntryPoint = "SetWindowLong", ExactSpelling = false)]
-		private static extern IntPtr SetWindowLongPtr32(HandleRef hwnd, GWLP index, IntPtr newValue);
-
-		public static WS GetWindowStyle(HandleRef hwnd)
-		{
-			WS dwStyle = (WS)GetWindowLongPtr(hwnd, GWLP.Style).ToInt64();
-			return dwStyle;
-		}
-
-		public static bool ModifyStyle(HandleRef hwnd, WS remove, WS add)
-		{
-			return ModifyStyle(hwnd, remove, add, false);
-		}
-
-		public static bool ModifyStyle(HandleRef hwnd, WS remove, WS add, bool updateFrame)
-		{
-			WS dwStyle = GetWindowStyle(hwnd);
-			WS dwNewStyle = (dwStyle & ~remove) | add;
-			if (dwStyle == dwNewStyle)
-				return false;
-
-			SetWindowLongPtr(hwnd, GWLP.Style, (IntPtr)dwNewStyle);
-			if (updateFrame)
 			{
-				UserApi.SetWindowPos(hwnd, new HandleRef(), 0, 0, 0, 0,
-					SWP.NoSize | SWP.NoMove | SWP.NoZOrder | SWP.NoActivate | SWP.DrawFrame | SWP.FrameChanged);
+				if (lastError != 0 && lastError != WinError.InsufficientBuffer)
+					throw new Win32Exception(lastError);
 			}
 
-			return true;
-		}
-
-		public static WS_EX GetWindowStyleEx(HandleRef hwnd)
-		{
-			WS_EX dwStyle = (WS_EX)UserApi.GetWindowLongPtr(hwnd, GWLP.ExStyle).ToInt32();
-			return dwStyle;
-		}
-
-		public static bool ModifyStyleEx(HandleRef hwnd, WS_EX remove, WS_EX add)
-		{
-			return ModifyStyleEx(hwnd, remove, add, false);
-		}
-
-		public static bool ModifyStyleEx(HandleRef hwnd, WS_EX remove, WS_EX add, bool updateFrame)
-		{
-			WS_EX dwStyle = GetWindowStyleEx(hwnd);
-			WS_EX dwNewStyle = (dwStyle & ~remove) | add;
-			if (dwStyle == dwNewStyle)
-				return false;
-
-			UserApi.SetWindowLongPtr(hwnd, GWLP.ExStyle, (IntPtr)dwNewStyle);
-			if (updateFrame)
+			if ((bufferLength - 1) > cch || cch == previousCch)
 			{
-				UserApi.SetWindowPos(hwnd, new HandleRef(), 0, 0, 0, 0,
-					SWP.NoSize | SWP.NoMove | SWP.NoZOrder | SWP.NoActivate | SWP.DrawFrame | SWP.FrameChanged);
+				return new string(buffer, 0, unchecked(cch));
+			}
+			previousCch = cch;
+
+			// Double the buffer length and do a sanity range check
+			bufferLength <<= 1;
+			if ((bufferLength & 0x0040_0000) != 0)
+			{
+				Marshal.SetLastPInvokeError(WinError.InsufficientBuffer);
+				throw new OutOfMemoryException { HResult = Marshal.GetHRForLastWin32Error() };
 			}
 
-			return true;
-		}
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, ExactSpelling = true)]
-		public static extern IntPtr GetActiveWindow();
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
-		public static extern IntPtr SetActiveWindow(HandleRef hWnd);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, EntryPoint = "DefWindowProcW", CharSet = CharSet.Unicode)]
-		public static extern IntPtr DefWindowProc(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, EntryPoint = "DefWindowProcW", CharSet = CharSet.Unicode)]
-		public static extern IntPtr DefWindowProc(IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, EntryPoint = "CallWindowProcW", CharSet = CharSet.Unicode)]
-		public static extern IntPtr CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, EntryPoint = "CallWindowProcW", CharSet = CharSet.Unicode)]
-		public static extern IntPtr CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam);
-
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib, SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool AddClipboardFormatListener(IntPtr hwnd);
-
-		#endregion Unsafe Methods
+		} while (true);
 	}
 
-	#region Delegates
-	[SuppressUnmanagedCodeSecurity]
-	public delegate IntPtr WndProc(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam);
-	#endregion Delegates
+	internal static partial class NativeMethods
+	{
+		[DllImport(ApiLib)]
+		[LibraryImport(ApiLib)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool AnimateWindow(SafeHwnd hwnd, uint milliseconds, AW commands);
+
+		[DllImport(ApiLib)]
+		[LibraryImport(ApiLib)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool EnableWindow(SafeHwnd hwnd, [MarshalAs(UnmanagedType.Bool)] bool enable);
+
+		[DllImport(ApiLib)]
+		[LibraryImport(ApiLib)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool GetClientRect(SafeHwnd hwnd, ref RECT rect);
+
+		[DllImport(ApiLib)]
+		[LibraryImport(ApiLib)]
+		public static extern int GetUpdateRgn(SafeHwnd hwnd, SafeGdiRgn hrgn, [MarshalAs(UnmanagedType.Bool)] bool fErase);
+
+		[DllImport(ApiLib)]
+		[LibraryImport(ApiLib)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool GetWindowRect(SafeHwnd hwnd, [In, Out] ref RECT rect);
+
+		[LibraryImport(ApiLib)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool SetWindowPos(SafeHwnd hwnd, SafeHwnd hwndInsertAfter, int x, int y, int cx, int cy, SWP flags);
+
+		[DllImport(ApiLib)]
+		[LibraryImport(ApiLib)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool ShowWindow(SafeHwnd hwnd, SW nCmdShow);
+
+		[DllImport(ApiLib)]
+		[LibraryImport(ApiLib)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool IsIconic(SafeHwnd hWnd);
+
+		[DllImport(ApiLib)]
+		[LibraryImport(ApiLib)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool ValidateRect(SafeHwnd hwnd, RECT rect);
+
+		[DllImport(ApiLib, EntryPoint = "GetClipboardFormatNameW", CharSet = CharSet.Unicode, SetLastError = true)]
+		[LibraryImport(ApiLib, EntryPoint = "GetClipboardFormatNameW", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
+		public static extern int GetClipboardFormatName(uint format, [Out] char[] formatName, int cchMaxCount);
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode, ExactSpelling = true)]
+		[LibraryImport(ApiLib, StringMarshalling = StringMarshalling.Utf16)]
+		public static extern SafeHwnd GetForegroundWindow();
+
+		[DllImport(ApiLib)]
+		[LibraryImport(ApiLib)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool SetForegroundWindow(SafeHwnd hwnd);
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode, ExactSpelling = true)]
+		[LibraryImport(ApiLib, StringMarshalling = StringMarshalling.Utf16)]
+		public static extern SafeHdc BeginPaint(SafeHwnd hwnd, [In, Out] ref PAINTSTRUCT lpPaint);
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode, ExactSpelling = true)]
+		[LibraryImport(ApiLib, StringMarshalling = StringMarshalling.Utf16)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool EndPaint(SafeHwnd hwnd, ref PAINTSTRUCT lpPaint);
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+		[LibraryImport(ApiLib, StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool UpdateLayeredWindow(SafeHwnd hwnd, nint hdcDst,
+			nint pptDst, ref SIZE psize, nint hdcSrc, ref POINT pptSrc, uint crKey,
+			ref BLENDFUNCTION pblend, uint dwFlags);
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode, ExactSpelling = true)]
+		[LibraryImport(ApiLib, StringMarshalling = StringMarshalling.Utf16)]
+		public static extern nint GetWindow(SafeHwnd hwnd, GW uCmd);
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode)]
+		[LibraryImport(ApiLib, StringMarshalling = StringMarshalling.Utf16)]
+		public static extern nint PostMessage(SafeHwnd hwnd, WM msg, nint wparam, nint lparam);
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode)]
+		[LibraryImport(ApiLib, StringMarshalling = StringMarshalling.Utf16)]
+		public static extern partial nint SendMessage(SafeHwnd hwnd, WM msg, nint wparam, nint lparam);
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode, ExactSpelling = true)]
+		[LibraryImport(ApiLib, StringMarshalling = StringMarshalling.Utf16)]
+		public static extern int MapWindowPoints(SafeHwnd hwndFrom, SafeHwnd hwndTo, [In, Out] ref RECT rect, int cPoints);
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongPtrW")]
+		[LibraryImport(ApiLib, EntryPoint = "SetWindowLongPtrW", StringMarshalling = StringMarshalling.Utf16)]
+		private static extern nint SetWindowLongPtr(SafeHwnd hwnd, GWLP index, nint newValue);
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode, ExactSpelling = true)]
+		[LibraryImport(ApiLib, StringMarshalling = StringMarshalling.Utf16)]
+		public static extern nint GetActiveWindow();
+
+		[DllImport(ApiLib, CharSet = CharSet.Unicode, SetLastError = true, ExactSpelling = true)]
+		[LibraryImport(ApiLib, StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
+		public static extern nint SetActiveWindow(SafeHwnd hwnd);
+
+		[DllImport(ApiLib, EntryPoint = "DefWindowProcW", CharSet = CharSet.Unicode)]
+		[LibraryImport(ApiLib, EntryPoint = "DefWindowProcW", StringMarshalling = StringMarshalling.Utf16)]
+		public static extern nint DefWindowProc(SafeHwnd hwnd, int Msg, nint wParam, nint lParam);
+
+		[DllImport(ApiLib, EntryPoint = "DefWindowProcW", CharSet = CharSet.Unicode)]
+		[LibraryImport(ApiLib, EntryPoint = "DefWindowProcW", StringMarshalling = StringMarshalling.Utf16)]
+		public static extern nint DefWindowProc(SafeHwnd hwnd, WM Msg, nint wParam, nint lParam);
+
+		[DllImport(ApiLib, EntryPoint = "CallWindowProcW", CharSet = CharSet.Unicode)]
+		[LibraryImport(ApiLib, EntryPoint = "CallWindowProcW", StringMarshalling = StringMarshalling.Utf16)]
+		public static extern nint CallWindowProc(nint lpPrevWndFunc, SafeHwnd hwnd, int Msg, nint wParam, nint lParam);
+
+		[DllImport(ApiLib, EntryPoint = "CallWindowProcW", CharSet = CharSet.Unicode)]
+		[LibraryImport(ApiLib, EntryPoint = "CallWindowProcW", StringMarshalling = StringMarshalling.Utf16)]
+		public static extern nint CallWindowProc(nint lpPrevWndFunc, SafeHwnd hwnd, WM Msg, nint wParam, nint lParam);
+
+		[DllImport(ApiLib, SetLastError = true)]
+		[LibraryImport(ApiLib, SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool AddClipboardFormatListener(SafeHwnd hwnd);
+	}
 }
+
+#region Delegates
+public delegate nint WndProc(SafeHwnd hwnd, int message, nint wParam, nint lParam);
+#endregion Delegates

@@ -1,23 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<ProjectName>Tasler.ComponentModel</ProjectName>
+		<AssemblyName>Tasler.ComponentModel</AssemblyName>
+		<RootNamespace>Tasler.ComponentModel</RootNamespace>
 		<ProjectGuid>{2D4E35A3-754D-4E8E-B52C-AA2D0DD9E059}</ProjectGuid>
 		<OutputType>Library</OutputType>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<RootNamespace>Tasler.ComponentModel</RootNamespace>
-		<AssemblyName>Tasler.ComponentModel</AssemblyName>
-		<LangVersion>latest</LangVersion>
-		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
+		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
-
-	<Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
-	<Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
-
-	<ItemGroup>
-		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\Strings.resx">
@@ -25,11 +18,21 @@
 			<LastGenOutput>Strings.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 
-		<Compile Include="Properties\Strings.Designer.cs">
+		<Compile Update="Properties\Strings.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Strings.resx</DependentUpon>
 		</Compile>
 	</ItemGroup>
+
+	<!-- Project References -->
+	<ItemGroup>
+		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj" />
+	</ItemGroup>
+
+	<!-- Shared Project References -->
+	<ImportGroup>
+		<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
+	</ImportGroup>
 
 </Project>

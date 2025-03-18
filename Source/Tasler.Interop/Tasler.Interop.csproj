@@ -1,79 +1,43 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<ProjectName>Tasler.Interop</ProjectName>
+		<AssemblyName>Tasler.Interop</AssemblyName>
+		<RootNamespace>Tasler.Interop</RootNamespace>
 		<ProjectGuid>{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}</ProjectGuid>
 		<OutputType>Library</OutputType>
+		<TargetFrameworks>netstandard2.0;net9.0-windows</TargetFrameworks>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<RootNamespace>Tasler.Interop</RootNamespace>
-		<AssemblyName>Tasler.Interop</AssemblyName>
-		<LangVersion>latest</LangVersion>
-		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
+		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
-	<Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
-	<Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
-
-	<ItemGroup>
-		<ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj">
-			<Project>{2d4e35a3-754d-4e8e-b52c-aa2d0dd9e059}</Project>
-			<Name>Tasler.ComponentModel</Name>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Include="Properties\AssemblyInfo.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Include="Com\ComApi.cs" />
-		<Compile Include="Com\ComEnums.cs" />
-		<Compile Include="Com\ComPtr.cs" />
-		<Compile Include="Com\Extensions\ComEnumExtensions.cs" />
-		<Compile Include="Com\GitHandle.cs" />
-		<Compile Include="Com\GlobalInterfaceTable.cs" />
-		<Compile Include="Com\RunningObjectTable.cs" />
-		<Compile Include="Gdi\GdiApi.cs" />
-		<Compile Include="Gdi\GdiApi.zoomin.cs" />
-		<Compile Include="Gdi\GdiEnums.cs" />
-		<Compile Include="Gdi\GdiStructs.cs" />
-		<Compile Include="Gdi\SafeGdiObject.cs" />
-		<Compile Include="Gdi\SafeHdc.cs" />
-		<Compile Include="Gdi\SafePrivateHdc.cs" />
-		<Compile Include="Kernel\KernelApi.cs" />
-		<Compile Include="NativeEventWaitHandle.cs" />
-		<Compile Include="NativeWaitHandle.cs" />
-		<Compile Include="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-		<Compile Include="SafeCoTaskMemHandle.cs" />
-		<Compile Include="SafeHGlobalHandle.cs" />
-		<Compile Include="User\SafeWindowHdc.cs" />
-		<Compile Include="User\SystemMetrics.cs" />
-		<Compile Include="User\UserApi.cs" />
-		<Compile Include="User\UserApi.zoomin.cs" />
-		<Compile Include="User\UserEnums.cs" />
-		<Compile Include="User\UserStructs.cs" />
-		<Compile Include="User\VirtualKeys.cs" />
-		<Compile Include="User\WindowMessages.cs" />
-		<Compile Include="User\WindowStyles.cs" />
-		<Compile Include="WinDefMacros.cs" />
-		<Compile Include="WinDefStructs.cs" />
-		<Compile Include="WindowMessageBroadcastProcessor.cs" />
-		<Compile Include="WindowMessageEventArgs.cs" />
-		<Compile Include="WindowMessageProcessor.cs" />
-		<Compile Include="WindowMessageRedirector.cs" />
-		<Compile Include="WindowMessageSubclass.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Microsoft.NETCore.Platforms" Version="6.0.6" />
-		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="6.0.1" />
-	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\Resources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
+
+	<!-- Package References -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.3" />
+	</ItemGroup>
+
+	<!-- Project References -->
+	<ItemGroup>
+		<ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj">
+			<Name>Tasler.ComponentModel</Name>
+			<Project>{2d4e35a3-754d-4e8e-b52c-aa2d0dd9e059}</Project>
+		</ProjectReference>
+	</ItemGroup>
+
+	<!-- Shared Project References -->
+	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
+
 </Project>

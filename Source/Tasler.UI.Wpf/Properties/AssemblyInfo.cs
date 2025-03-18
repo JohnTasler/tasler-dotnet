@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Markup;
 
@@ -8,15 +8,21 @@ using System.Windows.Markup;
 //     AssemblyInfoCopyright.cs
 //     AssemblyInfoVersion.cs
 
-[assembly: AssemblyTitle("Tasler.UI.Wpf")]
+[assembly: AssemblyTitle("Tasler.Windows")]
+[assembly: AssemblyDescription("Application-neutral .NET Windows Presentation Foundation framework.")]
 [assembly: AssemblyProduct("Tasler .NET Framework")]
-[assembly: Guid("4dd7ed0b-d1b6-4ecd-8028-71d13a3a4834")]
+[assembly: Guid("A3F179FE-71EC-49BE-812D-6A03C63B17FF")]
 
 // Declaration for the XAML parser. These allow multiple CLR namespaces defined in this assembly to
 // be collapsed into a single XML namespace.
 [assembly: XmlnsPrefix(XmlNamespace.Tasler, XmlNamespacePrefix.Tasler)]
-//[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Controls")]
+[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows")]
+[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Attachments")]
+[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Behaviors")]
+[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Controls")]
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Converters")]
+[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Extensions")]
+//[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Markup")]
 
 internal static class XmlNamespace
 {

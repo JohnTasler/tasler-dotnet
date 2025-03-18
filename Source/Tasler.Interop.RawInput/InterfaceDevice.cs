@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Tasler.Interop.RawInput.User;
@@ -40,7 +40,7 @@ namespace Tasler.Interop.RawInput
             get { return _device.dwType; }
         }
 
-        public IntPtr Handle
+        public nint Handle
         {
             get { return _device.hDevice; }
         }
@@ -53,7 +53,7 @@ namespace Tasler.Interop.RawInput
                 {
                     // Get the size of buffer needed
                     var nameLength = 0;
-                    RawInputApi.GetRawInputDeviceInfo(_device.hDevice, DeviceInfoItem.DeviceName, IntPtr.Zero, ref nameLength);
+                    RawInputApi.GetRawInputDeviceInfo(_device.hDevice, DeviceInfoItem.DeviceName, nint.Zero, ref nameLength);
 
                     // Allocate an unmanaged buffer
                     var bufferByteCount = nameLength * Marshal.SystemDefaultCharSize;
@@ -132,7 +132,7 @@ namespace Tasler.Interop.RawInput
                 {
                     // Get the size of buffer needed
                     var byteCount = 0;
-                    RawInputApi.GetRawInputDeviceInfo(base._device.hDevice, DeviceInfoItem.DeviceInfo, IntPtr.Zero, ref byteCount);
+                    RawInputApi.GetRawInputDeviceInfo(base._device.hDevice, DeviceInfoItem.DeviceInfo, nint.Zero, ref byteCount);
 
                     // Allocate an unmanaged buffer
                     var buffer = Marshal.AllocHGlobal(byteCount);
@@ -163,12 +163,12 @@ namespace Tasler.Interop.RawInput
 
     public abstract class RawInputBase
     {
-        public static RawInputBase FromHandle(IntPtr hRawInput, out RAWINPUTHEADER header)
+        public static RawInputBase FromHandle(nint hRawInput, out RAWINPUTHEADER header)
         {
             return RawInputBase.FromHandle(hRawInput, out header, false);
         }
 
-        public static RawInputBase FromHandle(IntPtr hRawInput, out RAWINPUTHEADER header, bool headerOnly)
+        public static RawInputBase FromHandle(nint hRawInput, out RAWINPUTHEADER header, bool headerOnly)
         {
             // Get the header
             int size = RAWINPUTHEADER.SizeOf;
@@ -178,13 +178,13 @@ namespace Tasler.Interop.RawInput
             return headerOnly ? null : RawInputBase.FromHandle(hRawInput, header);
         }
 
-        public static RawInputBase FromHandle(IntPtr hRawInput, RAWINPUTHEADER header)
+        public static RawInputBase FromHandle(nint hRawInput, RAWINPUTHEADER header)
         {
             // Get the buffer size needed and allocate the buffer
             int size = 0;
-            int result = RawInputApi.GetRawInputData(hRawInput, Command.Input, IntPtr.Zero, ref size, RAWINPUTHEADER.SizeOf);
+            int result = RawInputApi.GetRawInputData(hRawInput, Command.Input, nint.Zero, ref size, RAWINPUTHEADER.SizeOf);
             Debug.Assert(result != -1);
-            IntPtr pData = Marshal.AllocHGlobal(size);
+            nint pData = Marshal.AllocHGlobal(size);
             try
             {
                 // Get the data

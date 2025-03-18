@@ -1,68 +1,68 @@
-﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace Tasler.Interop.Com
+namespace Tasler.Interop.Com;
+
+public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 {
-    public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
-    {
-        #region Instance Fields
-        private IRunningObjectTable _rot = ComApi.GetRunningObjectTable();
-        #endregion Instance Fields
+	#region Instance Fields
+	private IRunningObjectTable? _rot = ComApi.GetRunningObjectTable();
+	#endregion Instance Fields
 
-        #region Finalizer
-        ~RunningObjectTable()
-        {
-            this.Dispose();
-        }
-        #endregion Finalizer
+	#region Finalizer
+	~RunningObjectTable()
+	{
+		this.Dispose();
+	}
+	#endregion Finalizer
 
-        #region IDisposable Members
-        public void Dispose()
-        {
-            if (_rot != null)
-            {
-                GC.SuppressFinalize(this);
-                Marshal.ReleaseComObject(_rot);
-                _rot = null;
-            }
-        }
-        #endregion IDisposable Members
+	#region IDisposable Members
+	public void Dispose()
+	{
+		if (_rot is not null)
+		{
+			GC.SuppressFinalize(this);
+			Marshal.ReleaseComObject(_rot);
+			_rot = null;
+		}
+	}
+	#endregion IDisposable Members
 
-        #region IEnumerable<IMoniker> Members
+	#region IEnumerable<IMoniker> Members
 
-        public IEnumerator<IMoniker> GetEnumerator()
-        {
-            var enumMoniker = new ComPtr<IEnumMoniker>();
-            using (enumMoniker)
-            {
-                _rot.EnumRunning(out enumMoniker.Value);
-                return enumMoniker.Value.AsEnumerable<IEnumMoniker, IMoniker>(ComEnumExtensions.FetchIMoniker).GetEnumerator();
-            }
-        }
+	public IEnumerator<IMoniker> GetEnumerator()
+	{
+		using (var enumMoniker = new ComPtr<IEnumMoniker>())
+		{
+			_rot?.EnumRunning(out enumMoniker.Value);
+			return enumMoniker.Value?.AsEnumerator<IEnumMoniker, IMoniker>(ComEnumExtensions.FetchIMoniker) ?? throw new COMException();
+		}
+	}
 
-        #endregion IEnumerable<IMoniker> Members
+	#endregion IEnumerable<IMoniker> Members
 
-        #region IEnumerable Members
+	#region IEnumerable Members
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+	IEnumerator IEnumerable.GetEnumerator()
+	{
+		return this.GetEnumerator();
+	}
 
-        #endregion IEnumerable Members
+	#endregion IEnumerable Members
 
-        public T GetObject<T>(IMoniker moniker)
-            where T : class
-        {
-            object runningObject;
-            _rot.GetObject(moniker, out runningObject);
-            T result = runningObject as T;
-            if (result == null)
-                Marshal.ReleaseComObject(runningObject);
-            return result;
-        }
-    }
+	public T? GetObject<T>(IMoniker moniker)
+			where T : class
+	{
+		object? runningObject = null;
+		_rot?.GetObject(moniker, out runningObject);
+
+		if (runningObject is T result)
+		{
+			Marshal.ReleaseComObject(runningObject);
+			return result;
+		}
+
+		return null;
+	}
 }

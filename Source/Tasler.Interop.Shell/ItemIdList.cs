@@ -48,7 +48,7 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 	#endregion Construction
 
 	#region Properties
-	public IntPtr Value
+	public nint Value
 	{
 		get { return base.handle; }
 	}
@@ -109,7 +109,7 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 		} while (cb != 0);
 
 		byte[] buffer = new byte[cbPrev + sizeof(ushort)];
-		Marshal.Copy(new IntPtr(base.handle.ToInt64() + offsetPrev), buffer, 0, buffer.Length);
+		Marshal.Copy(new nint(base.handle.ToInt64() + offsetPrev), buffer, 0, buffer.Length);
 		child = new ChildItemIdList(buffer);
 
 		buffer = new byte[offsetPrev + sizeof(ushort)];
@@ -125,7 +125,7 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 	/// </summary>
 	/// <param name="pidl"></param>
 	/// <returns></returns>
-	public static int GetByteLength(IntPtr pidl)
+	public static int GetByteLength(nint pidl)
 	{
 		int offset = 0;
 		if (!ItemIdList.GetIsEmpty(pidl))
@@ -142,7 +142,7 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 		return offset + sizeof(ushort);
 	}
 
-	internal static int GetHashCode(IntPtr pidl)
+	internal static int GetHashCode(nint pidl)
 	{
 		int hashCode = 0;
 		if (!ItemIdList.GetIsEmpty(pidl))
@@ -161,9 +161,9 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 		return hashCode;
 	}
 
-	internal static bool GetIsEmpty(IntPtr pidl)
+	internal static bool GetIsEmpty(nint pidl)
 	{
-		return (pidl == IntPtr.Zero) || (Marshal.ReadInt16(pidl) == 0);
+		return (pidl == nint.Zero) || (Marshal.ReadInt16(pidl) == 0);
 	}
 	#endregion Methods
 
@@ -266,7 +266,7 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 			}
 
 			byte[] childPidl = new byte[cb + sizeof(ushort)];
-			Marshal.Copy(new IntPtr(base.handle.ToInt64() + offset), childPidl, 0, childPidl.Length - sizeof(ushort));
+			Marshal.Copy(new nint(base.handle.ToInt64() + offset), childPidl, 0, childPidl.Length - sizeof(ushort));
 
 			return new ChildItemIdList(childPidl);
 		}
@@ -343,7 +343,7 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 			if (cb != 0)
 			{
 				byte[] childPidl = new byte[cb + sizeof(ushort)];
-				Marshal.Copy(new IntPtr(base.handle.ToInt64() + offset), childPidl, 0, childPidl.Length - sizeof(ushort));
+				Marshal.Copy(new nint(base.handle.ToInt64() + offset), childPidl, 0, childPidl.Length - sizeof(ushort));
 				yield return new ChildItemIdList(childPidl);
 			}
 
@@ -365,7 +365,7 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 public class ChildItemIdList : SafeCoTaskMemHandle
 {
 	#region Construction
-	public ChildItemIdList(IntPtr pidl)
+	public ChildItemIdList(nint pidl)
 	{
 		base.SetHandle(pidl);
 	}
@@ -393,7 +393,7 @@ public class ChildItemIdList : SafeCoTaskMemHandle
 	#endregion Construction
 
 	#region Properties
-	public IntPtr Value => base.handle;
+	public nint Value => base.handle;
 
 	public int ByteLength => ItemIdList.GetByteLength(base.handle);
 	#endregion Properties
@@ -404,7 +404,7 @@ public class ChildItemIdList : SafeCoTaskMemHandle
 		int offset = includeByteCountPrefix ? 0 : sizeof(ushort);
 		int byteLength = this.ByteLength - offset;
 		byte[] bytes = new byte[byteLength];
-		Marshal.Copy(new IntPtr(base.handle.ToInt64() + offset), bytes, 0, byteLength);
+		Marshal.Copy(new nint(base.handle.ToInt64() + offset), bytes, 0, byteLength);
 		return bytes;
 	}
 	#endregion Methods

@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace Tasler.ComponentModel
 {
     public interface IChild
     {
-        object GetParent();
+        object? GetParent();
 
         bool SetParent(object parent);
     }
@@ -12,7 +12,7 @@ namespace Tasler.ComponentModel
     public interface IChild<TParent> : IChild
         where TParent : class
     {
-        TParent Parent { get; }
+        TParent? Parent { get; }
 
         bool SetParent(TParent parent);
     }

@@ -5,6 +5,13 @@
     <HasSharedItems>true</HasSharedItems>
     <SharedGUID>5179c310-67ad-4274-bc8b-4630e18743ef</SharedGUID>
   </PropertyGroup>
+	<PropertyGroup>
+		<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+		<TransformOnBuild>true</TransformOnBuild>
+		<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+		<BeforeTransform>CustomPreTransform</BeforeTransform>
+		<AfterTransform>CustomPostTransform</AfterTransform>
+	</PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IsEqualConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ToBooleanConverter.cs" />

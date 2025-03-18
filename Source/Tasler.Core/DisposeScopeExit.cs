@@ -23,6 +23,8 @@ public class DisposeScopeExit : IDisposable
 		_disposeAction = disposeAction;
 	}
 
+	public void DetachDisposeAction() => _disposeAction = null;
+
 	~DisposeScopeExit()
 	{
 		this.Dispose();

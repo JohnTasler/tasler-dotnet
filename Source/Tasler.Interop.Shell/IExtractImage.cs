@@ -14,14 +14,14 @@ namespace Tasler.Interop.Shell
 			[In][Out][MarshalAs(UnmanagedType.LPWStr, SizeParamIndex = 1)]
 			StringBuilder pszPathBuffer,
 			int cch,
-			IntPtr pdwPriority,
+			nint pdwPriority,
 			[In] ref Size prgSize,
 			uint dwRecClrDepth,
 			ref IEIFlags pdwFlags);
 
 		[PreserveSig]
 		int Extract(
-			out IntPtr phBmpThumbnail);
+			out nint phBmpThumbnail);
 	}
 
 	[Flags]

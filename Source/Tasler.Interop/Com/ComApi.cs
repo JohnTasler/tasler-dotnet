@@ -1,75 +1,78 @@
-﻿using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Security;
 
-namespace Tasler.Interop.Com
+namespace Tasler.Interop.Com;
+
+public static partial class ComApi
 {
-	public static class ComApi
+	public static TClass? CoCreateInstance<TClass>(string clsid)
+		where TClass : class
 	{
-		#region Constants
+		return (TClass?)Activator.CreateInstance(
+			Type.GetTypeFromCLSID(new Guid(clsid)) ?? throw new InvalidCastException());
+	}
+
+	public static nint CoCreateInstance(Guid clsid, Guid iid, ClsCtx dwClsContext = ClsCtx.Default)
+	{
+		int hr = NativeMehods.CoCreateInstance(ref clsid, nint.Zero, dwClsContext, ref iid, out nint ppv);
+		if (hr < 0)
+			Marshal.ThrowExceptionForHR(hr);
+
+		return ppv;
+	}
+
+	public static TInterface CoCreateInstance<TInterface>(Guid clsid, ClsCtx dwClsContext = ClsCtx.Default)
+		where TInterface : class
+	{
+		return (TInterface)Marshal.GetObjectForIUnknown(CoCreateInstance(clsid, typeof(TInterface).GUID, dwClsContext));
+	}
+
+	public static TInterface CoCreateInstance<TClass, TInterface>(ClsCtx dwClsContext = ClsCtx.Default)
+		where TClass : class
+		where TInterface : class
+	{
+		return CoCreateInstance<TInterface>(typeof(TClass).GUID, dwClsContext);
+	}
+
+	public static IRunningObjectTable GetRunningObjectTable()
+	{
+		var hr = NativeMehods.GetRunningObjectTable(0, out nint rot);
+		if (hr != 0)
+			Marshal.ThrowExceptionForHR(hr);
+
+		return (IRunningObjectTable)Marshal.GetObjectForIUnknown(rot);
+	}
+
+	public static IBindCtx CreateBindCtx()
+	{
+		var hr = NativeMehods.CreateBindCtx(0, out nint ctx);
+		if (hr != 0)
+			Marshal.ThrowExceptionForHR(hr);
+
+		return (IBindCtx)Marshal.GetObjectForIUnknown(ctx);
+	}
+
+	#region Nested Types
+
+	private static partial class NativeMehods
+	{
 		private const string ApiLib = "ole32.dll";
-		#endregion Constants
 
-		#region Safe Methods
-
-		public static T CoCreateInstance<T>(string clsid)
-		{
-			return (T)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(clsid)));
-		}
-
-		public static IRunningObjectTable GetRunningObjectTable()
-		{
-			IRunningObjectTable result;
-			var hr = Private.GetRunningObjectTable(0, out result);
-			if (hr != 0)
-				Marshal.ThrowExceptionForHR(hr);
-
-			return result;
-		}
-
-		public static IBindCtx CreateBindCtx()
-		{
-			IBindCtx result;
-			var hr = Private.CreateBindCtx(0, out result);
-			if (hr != 0)
-				Marshal.ThrowExceptionForHR(hr);
-
-			return result;
-		}
-
-		#endregion Safe Methods
-
-		#region Unsafe Methods
-
-		[SecurityCritical]
-		[SuppressUnmanagedCodeSecurity]
-		[DllImport(ApiLib)]
-		public static extern int CoCreateInstance(
+		[LibraryImport(ApiLib)]
+		public static partial int CoCreateInstance(
 			ref Guid rclsid,
-			IntPtr pUnkOuter,
+			nint pUnkOuter,
 			ClsCtx dwClsContext,
 			ref Guid riid,
-			out IntPtr ppv);
+			out nint ppv);
 
-		#endregion Unsafe Methods
+		[LibraryImport(ApiLib)]
+		public static partial int GetRunningObjectTable(int reserved, out nint pprot);
 
-		#region Nested Types
-		private static class Private
-		{
-			[SecurityCritical]
-			[SuppressUnmanagedCodeSecurity]
-			[DllImport(ApiLib, ExactSpelling = true)]
-			public static extern int GetRunningObjectTable(
-				int reserved,
-				out IRunningObjectTable pprot);
+		[LibraryImport(ApiLib)]
+		public static partial int CreateBindCtx(int reserved, out nint ppbc);
 
-			[SecurityCritical]
-			[SuppressUnmanagedCodeSecurity]
-			[DllImport(ApiLib, ExactSpelling = true)]
-			public static extern int CreateBindCtx(int reserved, out IBindCtx ppbc);
-
-		}
-		#endregion Nested Types
 	}
+
+	#endregion Nested Types
 }

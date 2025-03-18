@@ -84,14 +84,14 @@ public static class ShellApi
 
 
 	[DllImport(Shell32, CharSet = CharSet.Auto, PreserveSig = false)]
-	private static extern IntPtr SHGetNameFromIDList(
+	private static extern nint SHGetNameFromIDList(
 			ItemIdList pidlAbsolute,
 			SIGDN sigdnName);
 
 	public static string GetNameFromIDList(ItemIdList pidlAbsolute, SIGDN sigdnName)
 	{
-		IntPtr pszName = ShellApi.SHGetNameFromIDList(pidlAbsolute, sigdnName);
-		string name = (pszName != IntPtr.Zero) ? Marshal.PtrToStringAuto(pszName) : string.Empty;
+		nint pszName = ShellApi.SHGetNameFromIDList(pidlAbsolute, sigdnName);
+		string name = (pszName != nint.Zero) ? Marshal.PtrToStringAuto(pszName) : string.Empty;
 		Marshal.FreeCoTaskMem(pszName);
 		return name;
 	}
@@ -101,14 +101,14 @@ public static class ShellApi
 	public static extern int SHGetKnownFolderIDList(
 		KnownFolderId rfid,
 		KnownFolderFlags dwFlags,
-		IntPtr hToken,
+		nint hToken,
 		out ItemIdList ppidl);
 
 	[DllImport(Shell32, CharSet = CharSet.Auto, PreserveSig = false)]
 	public static extern ItemIdList SHGetKnownFolderIDList(
 		KnownFolderId rfid,
 		KnownFolderFlags dwFlags,
-		IntPtr hToken);
+		nint hToken);
 
 } // End: ShellApi
 

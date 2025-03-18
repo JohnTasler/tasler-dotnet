@@ -18,7 +18,7 @@ public struct StrRet : IDisposable
 		if (_type == STRRET_TYPE.WStr)
 		{
 			Marshal.FreeCoTaskMem(this.GetWStr());
-			Array.Clear(_cStr, 0, IntPtr.Size);
+			Array.Clear(_cStr, 0, nint.Size);
 		}
 	}
 	#endregion IDisposable Members
@@ -63,20 +63,20 @@ public struct StrRet : IDisposable
 	#endregion Methods
 
 	#region Private Implementation
-	private IntPtr GetWStr()
+	private nint GetWStr()
 	{
 		Int64 ptr = BitConverter.ToInt64(_cStr, 0);
-		if (IntPtr.Size == 4)
+		if (nint.Size == 4)
 			ptr &= 0x00000000FFFFFFFF;
-		return new IntPtr(ptr);
+		return new nint(ptr);
 	}
 
-	private string GetValue(IntPtr pidl)
+	private string GetValue(nint pidl)
 	{
 		if (_type != STRRET_TYPE.Offset)
 			return this.Value;
 		uint offset = BitConverter.ToUInt32(_cStr, 0);
-		string value = Marshal.PtrToStringAnsi(new IntPtr(pidl.ToInt64() + offset));
+		string value = Marshal.PtrToStringAnsi(new nint(pidl.ToInt64() + offset));
 		return value;
 	}
 	#endregion Private Implementation

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Interop;
@@ -28,11 +28,11 @@ namespace Tasler.Windows.Interop
 		#endregion Construction
 
 		#region Properties
-		public IntPtr Handle
+		public nint Handle
 		{
 			get
 			{
-				return (this.hwndSource != null) ? this.hwndSource.Handle : IntPtr.Zero;
+				return (this.hwndSource != null) ? this.hwndSource.Handle : nint.Zero;
 			}
 		}
 		#endregion Properties
