@@ -1,28 +1,25 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net481</TargetFramework>
-		<LangVersion>latest</LangVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    <ProjectGuid>{99015BCB-9B5E-4B3B-89A6-3B5B9F67E1DD}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tasler.ApplicationModel.Singleton</RootNamespace>
-    <AssemblyName>Tasler.ApplicationModel.Singleton</AssemblyName>
-  </PropertyGroup>
+	<PropertyGroup>
+		<ProjectName>Tasler.ApplicationModel.Singleton</ProjectName>
+		<AssemblyName>Tasler.ApplicationModel.Singleton</AssemblyName>
+		<RootNamespace>Tasler.ApplicationModel.Singleton</RootNamespace>
+		<ProjectGuid>{99015BCB-9B5E-4B3B-89A6-3B5B9F67E1DD}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net481</TargetFramework>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.csproj" />
-    <ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.csproj" />
+		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj" />
+		<ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Runtime.Remoting">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8.1\System.Runtime.Remoting.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.Runtime.Remoting">
+			<HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8.1\System.Runtime.Remoting.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

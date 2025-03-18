@@ -1,65 +1,63 @@
-﻿using System;
 using Tasler.Interop.User;
 
-namespace Tasler.Interop
+namespace Tasler.Interop;
+
+public abstract class WindowMessageProcessor : WindowMessageRedirector
 {
-    public abstract class WindowMessageProcessor : WindowMessageRedirector
-    {
-        #region Constructors
-        protected WindowMessageProcessor()
-        {
-        }
+	#region Constructors
+	protected WindowMessageProcessor()
+	{
+	}
 
-        protected WindowMessageProcessor(WindowMessageRedirector outerRedirector)
-            : base(outerRedirector)
-        {
-        }
-        #endregion Constructors
+	protected WindowMessageProcessor(WindowMessageRedirector outerRedirector)
+		: base(outerRedirector)
+	{
+	}
+	#endregion Constructors
 
-        #region Properties
-        public IntPtr WindowHandle { get; private set; }
-        #endregion Properties
+	#region Properties
+	public nint WindowHandle { get; private set; }
+	#endregion Properties
 
-        #region Methods
-        public void Attach(IntPtr hwnd)
-        {
-            if (this.WindowHandle != hwnd)
-                this.Detach();
+	#region Methods
+	public void Attach(nint hwnd)
+	{
+		if (this.WindowHandle != hwnd)
+			this.Detach();
 
-            if (hwnd != IntPtr.Zero)
-            {
-                this.WindowHandle = hwnd;
-                this.OnAttached();
-            }
-        }
+		if (hwnd != nint.Zero)
+		{
+			this.WindowHandle = hwnd;
+			this.OnAttached();
+		}
+	}
 
-        public void Detach()
-        {
-            if (this.WindowHandle != IntPtr.Zero)
-            {
-                this.OnDetaching();
-                this.WindowHandle = IntPtr.Zero;
-            }
-        }
-        #endregion Methods
+	public void Detach()
+	{
+		if (this.WindowHandle != nint.Zero)
+		{
+			this.OnDetaching();
+			this.WindowHandle = nint.Zero;
+		}
+	}
+	#endregion Methods
 
-        #region Protected Abstract Methods
-        protected abstract void OnAttached();
+	#region Protected Abstract Methods
+	protected abstract void OnAttached();
 
-        protected abstract void OnDetaching();
-        #endregion Protected Abstract Methods
+	protected abstract void OnDetaching();
+	#endregion Protected Abstract Methods
 
-        #region Overrides
-        protected override IntPtr OnRedirected(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            if (message == (int)WM.NCDESTROY)
-            {
-                this.Detach();
-                this.ClearWindowProcedure();
-            }
+	#region Overrides
+	protected override nint OnRedirected(nint hwnd, int message, nint wParam, nint lParam, ref bool handled)
+	{
+		if (message == (int)WM.NCDESTROY)
+		{
+			this.Detach();
+			this.ClearWindowProcedure();
+		}
 
-            return IntPtr.Zero;
-        }
-        #endregion Overrides
-    }
+		return nint.Zero;
+	}
+	#endregion Overrides
 }

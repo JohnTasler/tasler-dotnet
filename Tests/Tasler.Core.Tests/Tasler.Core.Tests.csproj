@@ -1,13 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <IsPackable>false</IsPackable>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+		<IsPackable>false</IsPackable>
 		<ProjectGuid>{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}</ProjectGuid>
 		<RootNamespace>Tasler.Core.Tests</RootNamespace>
 		<AssemblyName>Tasler.Core.Tests</AssemblyName>
+		<InformationalVersion>1.0.0.0</InformationalVersion>
 	</PropertyGroup>
 
   <ItemGroup>

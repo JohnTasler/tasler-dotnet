@@ -1,17 +1,17 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Tasler.ComponentModel;
 
 namespace Tasler.Windows.ComponentModel
 {
-	public abstract class ParentedViewModelBase<TParent> : INotifyPropertyChanged, IChild<TParent>
+	public abstract class ChildViewModelBase<TParent> : INotifyPropertyChanged, IChild<TParent>
 		where TParent : class, INotifyPropertyChanged
 	{
 		#region Constructors
-		protected ParentedViewModelBase()
+		protected ChildViewModelBase()
 		{
 		}
 
-		protected ParentedViewModelBase(TParent parent)
+		protected ChildViewModelBase(TParent parent)
 		{
 			this.Parent = parent;
 		}
@@ -25,10 +25,10 @@ namespace Tasler.Windows.ComponentModel
 		}
 		#endregion Overridables
 
-		protected PropertyChangedEventHandler PropertyChanged;
+		protected PropertyChangedEventHandler? PropertyChanged;
 
 		#region INotifyPropertyChanged Members
-		event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+		event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged
 		{
 			add { this.PropertyChanged += value; }
 			remove { this.PropertyChanged -= value; }
@@ -37,7 +37,7 @@ namespace Tasler.Windows.ComponentModel
 
 		#region IChild<TParent> Members
 
-		public TParent Parent
+		public TParent? Parent
 		{
 			get; private set;
 		}
@@ -56,7 +56,7 @@ namespace Tasler.Windows.ComponentModel
 
 		#region IChild Members
 
-		object IChild.GetParent()
+		object? IChild.GetParent()
 		{
 			return this.Parent;
 		}

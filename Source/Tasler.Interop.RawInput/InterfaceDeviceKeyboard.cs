@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using Tasler.Interop.RawInput.User;
 using Tasler.Interop.User;
@@ -77,10 +77,10 @@ namespace Tasler.Interop.RawInput
     {
         private RAWINPUTKEYBOARD _raw;
 
-        internal KeyboardInput(IntPtr pData)
+        internal KeyboardInput(nint pData)
         {
             _raw = (RAWINPUTKEYBOARD)Marshal.PtrToStructure(
-                new IntPtr(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTKEYBOARD));
+                new nint(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTKEYBOARD));
         }
 
         /// <summary>Scan code for key depression.</summary>

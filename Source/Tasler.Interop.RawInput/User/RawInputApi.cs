@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Tasler.Interop.RawInput.User
@@ -35,7 +35,7 @@ namespace Tasler.Interop.RawInput.User
         [DllImport(ApiLib)]
         public static extern int
         GetRawInputData(
-            IntPtr hRawInput,
+            nint hRawInput,
             Command uiCommand,
             out RAWINPUT pData,
             ref int pcbSize,
@@ -53,9 +53,9 @@ namespace Tasler.Interop.RawInput.User
         [DllImport(ApiLib)]
         public static extern int
         GetRawInputData(
-            IntPtr hRawInput,
+            nint hRawInput,
             Command uiCommand,
-            IntPtr pData,
+            nint pData,
             ref int pcbSize,
             int cbSizeHeader);
 
@@ -71,7 +71,7 @@ namespace Tasler.Interop.RawInput.User
         [DllImport(ApiLib)]
         public static extern int
         GetRawInputData(
-            IntPtr hRawInput,
+            nint hRawInput,
             Command uiCommand,
             out RAWINPUTHEADER pData,
             ref int pcbSize,
@@ -106,7 +106,7 @@ namespace Tasler.Interop.RawInput.User
         [DllImport(ApiLib)]
         public static extern int
         GetRawInputDeviceList(
-            IntPtr pRawInputDeviceList,
+            nint pRawInputDeviceList,
             ref int puiNumDevices,
             int cbSize);
 
@@ -117,7 +117,7 @@ namespace Tasler.Interop.RawInput.User
 
             // Get the number of raw input devices on the system
             var deviceCount = 0;
-            GetRawInputDeviceList(IntPtr.Zero, ref deviceCount, sizeOfRAWINPUTDEVICELIST);
+            GetRawInputDeviceList(nint.Zero, ref deviceCount, sizeOfRAWINPUTDEVICELIST);
 
             // Allocate a buffer to hold the list
             var bufferByteCount = deviceCount * sizeOfRAWINPUTDEVICELIST;
@@ -132,7 +132,7 @@ namespace Tasler.Interop.RawInput.User
                 var deviceList = new RAWINPUTDEVICELIST[deviceCount];
                 for (int deviceIndex = 0; deviceIndex < deviceCount; ++deviceIndex)
                 {
-                    var offsetBuffer = new IntPtr(buffer.ToInt64() + deviceIndex * sizeOfRAWINPUTDEVICELIST);
+                    var offsetBuffer = new nint(buffer.ToInt64() + deviceIndex * sizeOfRAWINPUTDEVICELIST);
                     deviceList[deviceIndex] = (RAWINPUTDEVICELIST)
                         Marshal.PtrToStructure(offsetBuffer, typeof(RAWINPUTDEVICELIST));
                 }
@@ -158,7 +158,7 @@ namespace Tasler.Interop.RawInput.User
         [DllImport(ApiLib, CharSet = CharSet.Auto)]
         public static extern uint
         GetRawInputDeviceInfo(
-            IntPtr deviceHandle,
+            nint deviceHandle,
             DeviceInfoItem command,
             ref DeviceInfo data,
             ref int dataSize);
@@ -166,13 +166,13 @@ namespace Tasler.Interop.RawInput.User
         [DllImport(ApiLib, CharSet = CharSet.Auto)]
         public static extern uint
         GetRawInputDeviceInfo(
-            IntPtr deviceHandle,
+            nint deviceHandle,
             DeviceInfoItem command,
-            IntPtr pData,
+            nint pData,
             ref int dataSize);
 
         //[DllImport(ApiLib)]
-        //public static extern IntPtr
+        //public static extern nint
         //DefRawInputProc(
         //    [MarshalAs(UnmanagedType.
         //    __in_ecount(nInput) PRAWINPUT* paRawInput,

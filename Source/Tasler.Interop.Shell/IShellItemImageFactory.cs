@@ -13,7 +13,7 @@ public interface IShellItemImageFactory
 	int GetImage(
 		SIZE size,
 		SIIGB flags,
-		out IntPtr hBitmap);
+		out nint hBitmap);
 }
 
 [Flags]

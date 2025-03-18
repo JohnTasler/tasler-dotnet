@@ -1,78 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <ProjectGuid>{4090FB61-0858-4AE8-A30D-B34464A9505F}</ProjectGuid>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <OutputType>Library</OutputType>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<PropertyGroup>
+		<ProjectName>Tasler.Interop.Shell</ProjectName>
+		<AssemblyName>Tasler.Interop.Shell</AssemblyName>
+		<RootNamespace>Tasler.Interop.Shell</RootNamespace>
+		<ProjectGuid>{4090FB61-0858-4AE8-A30D-B34464A9505F}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tasler.Interop.Shell</RootNamespace>
-    <AssemblyName>Tasler.Interop.Shell</AssemblyName>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-  </PropertyGroup>
+	</PropertyGroup>
+	<Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
+	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
+			<Project>{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}</Project>
+			<Name>Tasler.Interop</Name>
+		</ProjectReference>
+	</ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<ItemGroup>
+	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
 
-  <Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
-  <Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
-      <Project>{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}</Project>
-      <Name>Tasler.Interop</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="IExtractImage.cs" />
-    <Compile Include="IShellFolder.cs" />
-    <Compile Include="IShellItem.cs" />
-    <Compile Include="IShellItemImageFactory.cs" />
-    <Compile Include="ItemIdList.cs" />
-    <Compile Include="KnownFolderId.cs" />
-    <Compile Include="PropertyKey.cs" />
-    <Compile Include="PropertyKeys\Audio.cs" />
-    <Compile Include="PropertyKeys\Calendar.cs" />
-    <Compile Include="PropertyKeys\Communication.cs" />
-    <Compile Include="PropertyKeys\Computer.cs" />
-    <Compile Include="PropertyKeys\Contact.cs" />
-    <Compile Include="PropertyKeys\Core.cs" />
-    <Compile Include="PropertyKeys\Document.cs" />
-    <Compile Include="PropertyKeys\DRM.cs" />
-    <Compile Include="PropertyKeys\GPS.cs" />
-    <Compile Include="PropertyKeys\Image.cs" />
-    <Compile Include="PropertyKeys\Journal.cs" />
-    <Compile Include="PropertyKeys\Link.cs" />
-    <Compile Include="PropertyKeys\Media.cs" />
-    <Compile Include="PropertyKeys\Message.cs" />
-    <Compile Include="PropertyKeys\Music.cs" />
-    <Compile Include="PropertyKeys\Note.cs" />
-    <Compile Include="PropertyKeys\Photo.cs" />
-    <Compile Include="PropertyKeys\PropGroup.cs" />
-    <Compile Include="PropertyKeys\PropList.cs" />
-    <Compile Include="PropertyKeys\RecordedTV.cs" />
-    <Compile Include="PropertyKeys\Search.cs" />
-    <Compile Include="PropertyKeys\Shell.cs" />
-    <Compile Include="PropertyKeys\Software.cs" />
-    <Compile Include="PropertyKeys\Sync.cs" />
-    <Compile Include="PropertyKeys\Task.cs" />
-    <Compile Include="PropertyKeys\Video.cs" />
-    <Compile Include="PropertyKeys\Volume.cs" />
-    <Compile Include="PropSysApi.cs" />
-    <Compile Include="ShellApi.cs" />
-    <Compile Include="StrRet.cs" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Content Update="F:\src\JohnTasler\tasler-dotnet\Source\Tasler.AssemblyInfo.Shared\AssemblyInfoVersion.tt">
+	    <LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>
+	  </Content>
+	</ItemGroup>
 </Project>

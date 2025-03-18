@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using Tasler.Interop.RawInput.User;
@@ -63,17 +63,17 @@ namespace Tasler.Interop.RawInput
         private RAWINPUTHID _raw;
         private byte[][] _data;
 
-        internal HumanInput(IntPtr pData)
+        internal HumanInput(nint pData)
         {
             _raw = (RAWINPUTHID)Marshal.PtrToStructure(
-                new IntPtr(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTHID));
+                new nint(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTHID));
 
             _data = new byte[_raw.Count][];
             for (int index = 0; index < _data.Length; ++index)
             {
                 long offset = RAWINPUTHEADER.SizeOf + RAWINPUTHID.SizeOf + (index * _raw.Size);
                 _data[index] = new byte[_raw.Size];
-                Marshal.Copy(new IntPtr(pData.ToInt64() + offset), _data[index], 0, _raw.Size);
+                Marshal.Copy(new nint(pData.ToInt64() + offset), _data[index], 0, _raw.Size);
             }
         }
 

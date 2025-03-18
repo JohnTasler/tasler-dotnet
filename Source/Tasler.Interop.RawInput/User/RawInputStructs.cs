@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Tasler.Interop.RawInput.User
@@ -6,7 +6,7 @@ namespace Tasler.Interop.RawInput.User
     [StructLayout(LayoutKind.Sequential)]
     public struct RAWINPUTDEVICELIST
     {
-        public IntPtr hDevice;
+        public nint hDevice;
         public InterfaceDeviceType dwType;
 
         public override bool Equals(object obj)
@@ -33,7 +33,7 @@ namespace Tasler.Interop.RawInput.User
         /// <summary>Mode flag that specifies how to interpret the information provided by UsagePage and Usage.</summary>
         public RegistrationFlags Flags;
         /// <summary>Handle to the target device. If NULL, it follows the keyboard focus.</summary>
-        public IntPtr WindowHandle;
+        public nint WindowHandle;
     }
 
     /// <summary>
@@ -47,9 +47,9 @@ namespace Tasler.Interop.RawInput.User
         /// <summary>Size of the packet of data.</summary>
         public int Size;
         /// <summary>Handle to the device sending the data.</summary>
-        public IntPtr Device;
+        public nint Device;
         /// <summary>wParam from the window message.</summary>
-        public IntPtr wParam;
+        public nint wParam;
 
         public static readonly int SizeOf = Marshal.SizeOf(typeof(RAWINPUTHEADER));
     }
@@ -107,7 +107,7 @@ namespace Tasler.Interop.RawInput.User
         /// <summary>Number of HID in Data.</summary>
         public int Count;
         //      /// <summary>Data for the HID.</summary>
-        //      public IntPtr Data;
+        //      public nint Data;
 
         public static readonly int SizeOf = Marshal.SizeOf(typeof(RAWINPUTHID));
     }

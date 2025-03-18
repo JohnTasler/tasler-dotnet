@@ -102,10 +102,10 @@ public static class ValidateArgument
 		ValidateArgument.IsOrIsDerivedFrom<TBase>(typeof(T), parameterName);
 	}
 
-	public static TBase IsOrIsDerivedFrom<TBase>(object parameter, string parameterName)
+	public static TBase IsOrIsDerivedFrom<TBase>(object? parameter, string parameterName)
 	{
 		ValidateArgument.IsNotNull(parameter, parameterName);
-		ValidateArgument.IsOrIsDerivedFromImpl<TBase>(parameter.GetType(), parameterName,
+		ValidateArgument.IsOrIsDerivedFromImpl<TBase>(parameter!.GetType(), parameterName,
 				() => $"Type of argument is not derived from type ${typeof(TBase)}: {parameter.GetType()}");
 
 		return (TBase)parameter;

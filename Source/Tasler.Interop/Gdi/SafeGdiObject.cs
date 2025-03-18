@@ -1,47 +1,30 @@
-using System;
 using System.Runtime.InteropServices;
 
-namespace Tasler.Interop.Gdi
+namespace Tasler.Interop.Gdi;
+
+public class SafeGdiObject : SafeHandleZeroIsInvalid
 {
-    public class SafeGdiObject : SafeHandle
-    {
-        #region Constructors
-        public SafeGdiObject()
-            : this(false)
-        {
-        }
+	#region Constructors
+	public SafeGdiObject()
+		: this(false)
+	{
+	}
 
-        protected SafeGdiObject(bool ownsHandle)
-            : base(IntPtr.Zero, ownsHandle)
-        {
-        }
-        #endregion Constructors
+	protected SafeGdiObject(bool ownsHandle)
+		: base(ownsHandle)
+	{
+	}
+	#endregion Constructors
 
-        #region Properties
-        public IntPtr Handle
-        {
-            get { return base.handle; }
-        }
-        #endregion Properties
+	#region Overrides
+	protected override bool ReleaseHandle() => this.DeleteObject();
+	#endregion Overrides
+}
 
-        #region Overrides
-        public override bool IsInvalid
-        {
-            get { return base.handle == IntPtr.Zero; }
-        }
-
-        protected override bool ReleaseHandle()
-        {
-            return GdiApi.DeleteObject(base.handle);
-        }
-        #endregion Overrides
-    }
-
-    public class SafeGdiObjectOwned : SafeGdiObject
-    {
-        public SafeGdiObjectOwned()
-            : base(true)
-        {
-        }
-    }
+public class SafeGdiObjectOwned : SafeGdiObject
+{
+	public SafeGdiObjectOwned()
+		: base(true)
+	{
+	}
 }

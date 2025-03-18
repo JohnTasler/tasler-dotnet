@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using Tasler.Interop.RawInput.User;
 
@@ -64,10 +64,10 @@ namespace Tasler.Interop.RawInput
     {
         private RAWINPUTMOUSE _raw;
 
-        internal MouseInput(IntPtr pData)
+        internal MouseInput(nint pData)
         {
             _raw = (RAWINPUTMOUSE)Marshal.PtrToStructure(
-                new IntPtr(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTMOUSE));
+                new nint(pData.ToInt64() + RAWINPUTHEADER.SizeOf), typeof(RAWINPUTMOUSE));
         }
 
         /// <summary>Flags for the event.</summary>

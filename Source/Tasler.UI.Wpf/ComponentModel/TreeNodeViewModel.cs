@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -6,7 +5,7 @@ using Tasler.ComponentModel;
 
 namespace Tasler.Windows.ComponentModel
 {
-	public abstract class TreeTerminalNodeViewModel<TParent> : ParentedViewModelBase<TParent>, ITreeNodeViewModel
+	public abstract class TreeTerminalNodeViewModel<TParent> : ChildViewModelBase<TParent>, ITreeNodeViewModel
 		where TParent : class, INotifyPropertyChanged
 	{
 		#region ITreeNodeViewModel Members

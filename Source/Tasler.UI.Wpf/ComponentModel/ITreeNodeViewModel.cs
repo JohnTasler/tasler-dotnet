@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace Tasler.Windows.ComponentModel
 {
@@ -6,6 +6,6 @@ namespace Tasler.Windows.ComponentModel
 	{
 		bool IsExpanded { get; set; }
 		bool IsSelected { get; set; }
-		ICollectionView Children { get; }
+		ICollectionView? Children { get; }
 	}
 }
