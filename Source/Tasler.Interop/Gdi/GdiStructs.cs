@@ -5,31 +5,55 @@ namespace Tasler.Interop.Gdi;
 [StructLayout(LayoutKind.Sequential)]
 public struct BITMAP
 {
-	public int type;
-	public int width;
-	public int height;
-	public int widthBytes;
-	public ushort planes;
-	public ushort bitsPixel;
-	public nint bits;
+	private int _type = 0;
+	public int Width;
+	public int Height;
+	public int WidthInBytes;
+	public ushort Planes;
+	public ushort BitsPerPixel;
+	public nint Bits;
+
+	public BITMAP()
+	{
+	}
+
+	public BITMAP(int width, int height, int widthInBytes, ushort planes, ushort bitsPerPixel, nint bits)
+		: this()
+	{
+		Width = width;
+		Height = height;
+		WidthInBytes = widthInBytes;
+		Planes = planes;
+		BitsPerPixel = bitsPerPixel;
+		Bits = (nint)bits;
+	}
+
+	public unsafe BITMAP(int width, int height, int widthInBytes, ushort planes, ushort bitsPerPixel, byte* bits)
+		: this(width, height, widthInBytes, planes, bitsPerPixel, (nint)bits)
+	{
+	}
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct BITMAPINFOHEADER
 {
-	public int size;
-	public int width;
-	public int height;
-	public ushort planes;
-	public ushort bitCount;
-	public uint compression;
-	public uint sizeImage;
-	public int xPelsPerMeter;
-	public int yPelsPerMeter;
-	public uint clrUsed;
-	public uint clrImportant;
+	private int _size = MarhalSizeOf;
+	public int Width;
+	public int Height;
+	public ushort Planes;
+	public ushort BitCount;
+	public uint Compression;
+	public uint SizeImage;
+	public int XPelsPerMeter;
+	public int YPelsPerMeter;
+	public uint ColorsUsed;
+	public uint ColorsImportant;
 
-	public static readonly int MarhalSizeOf = Marshal.SizeOf(typeof(BITMAPINFOHEADER));
+	public static readonly int MarhalSizeOf = Marshal.SizeOf<BITMAPINFOHEADER>();
+
+	public BITMAPINFOHEADER()
+	{
+	}
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -44,33 +68,30 @@ public struct BLENDFUNCTION
 [StructLayout(LayoutKind.Sequential)]
 public struct DIBSECTION
 {
-	public BITMAP bm;
-	public BITMAPINFOHEADER bmih;
-	public uint redBitfields;
-	public uint greenBitfields;
-	public uint blueBitfields;
-	public nint hSection;
-	public uint offset;
+	public BITMAP Bitmap;
+	public BITMAPINFOHEADER BitmapInfoHeader;
+	public uint RedBitfields;
+	public uint GreenBitfields;
+	public uint BlueBitfields;
+	public nint HSection;
+	public uint Offset;
 
-	public static readonly int MarhalSizeOf = Marshal.SizeOf(typeof(DIBSECTION));
+	public static readonly int MarhalSizeOf = Marshal.SizeOf<DIBSECTION>();
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct PAINTSTRUCT
 {
-	public nint hdc;
-	public bool fErase;
-	public RECT rcPaint;
-	public bool fRestore;
-	public bool fIncUpdate;
-	public int reserved1;
-	public int reserved2;
-	public int reserved3;
-	public int reserved4;
-	public int reserved5;
-	public int reserved6;
-	public int reserved7;
-	public int reserved8;
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Most natural name for interop type")]
+	public SafeHdc hdc;
+	public bool MustErase;
+	public RECT PaintRectangle;
+	private bool _fRestore;
+	private bool _fIncUpdate;
+	private ulong _reserved1;
+	private ulong _reserved2;
+	private ulong _reserved3;
+	private ulong _reserved4;
 }
 
 [StructLayout(LayoutKind.Sequential)]

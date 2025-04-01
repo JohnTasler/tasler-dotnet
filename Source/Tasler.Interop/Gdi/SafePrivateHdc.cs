@@ -6,7 +6,7 @@ public class SafePrivateHdc : SafeHdc
 	#region Overrides
 	protected override bool ReleaseHandle()
 	{
-		return this.DeleteDC();
+		return Gdi.GdiApi.NativeMethods.DeleteDC(this);
 	}
 	#endregion Overrides
 }

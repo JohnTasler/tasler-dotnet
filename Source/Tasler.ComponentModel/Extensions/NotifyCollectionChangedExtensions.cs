@@ -112,16 +112,16 @@ public static class NotifyCollectionChangedExtensions
 
 	public static ObservableCollection<TResultItem>
 	CreateTranslatingCollection<TSourceCollection, TSourceItem, TResultItem>(
-			this INotifyCollectionChanged sourceCollection,
-			Func<TSourceItem, TResultItem> translationSelector
-			)
-			where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
-			where TSourceItem : class
-			where TResultItem : class
+		this INotifyCollectionChanged sourceCollection,
+		Func<TSourceItem, TResultItem> translationSelector
+		)
+		where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
+		where TSourceItem : class
+		where TResultItem : class
 	{
 		// Strong-type and count the sourceCollection items
 		var translatedItemsMap = new Dictionary<WeakReference<TSourceItem>, WeakReference<TResultItem>>();
-		var sourceEnumerable = (sourceCollection as IEnumerable).OfType<TSourceItem>();
+		var sourceEnumerable = ((IEnumerable)sourceCollection).OfType<TSourceItem>();
 		var sourceItemCount = sourceEnumerable.Count();
 
 		// Translate each source item and maintain a map of source items to result items
@@ -139,42 +139,48 @@ public static class NotifyCollectionChangedExtensions
 		sourceCollection.CollectionChanged += (s, e) =>
 		{
 			// Add translations of the new items
-			foreach (var sourceItem in e.NewItems.OfType<TSourceItem>())
+			if (e.NewItems is not null)
 			{
-				var sourceItemRef = new WeakReference<TSourceItem>(sourceItem);
-				if (!translatedItemsMap.TryGetValue(sourceItemRef, out var translatedItemRef) ||
-									!translatedItemRef.TryGetTarget(out var translatedItem) ||
-									translatedItem == null)
+				foreach (var sourceItem in e.NewItems.OfType<TSourceItem>())
 				{
-					translatedItem = translationSelector(sourceItem);
-					translatedItemRef = new WeakReference<TResultItem>(translatedItem);
-					translatedItemsMap[new WeakReference<TSourceItem>(sourceItem)] = translatedItemRef;
-				}
+					var sourceItemRef = new WeakReference<TSourceItem>(sourceItem);
+					if (!translatedItemsMap.TryGetValue(sourceItemRef, out var translatedItemRef) ||
+						!translatedItemRef.TryGetTarget(out var translatedItem) ||
+						translatedItem == null)
+					{
+						translatedItem = translationSelector(sourceItem);
+						translatedItemRef = new WeakReference<TResultItem>(translatedItem);
+						translatedItemsMap[new WeakReference<TSourceItem>(sourceItem)] = translatedItemRef;
+					}
 
-				if (e.Action == NotifyCollectionChangedAction.Add)
-				{
-					resultCollection.Add(translatedItem);
-				}
-				else if (e.Action == NotifyCollectionChangedAction.Replace)
-				{
-					resultCollection[e.NewStartingIndex] = translatedItem;
-				}
-				else if (e.Action == NotifyCollectionChangedAction.Move)
-				{
-					resultCollection.RemoveAt(e.OldStartingIndex);
-					resultCollection.Insert(e.NewStartingIndex, translatedItem);
+					if (e.Action == NotifyCollectionChangedAction.Add)
+					{
+						resultCollection.Add(translatedItem);
+					}
+					else if (e.Action == NotifyCollectionChangedAction.Replace)
+					{
+						resultCollection[e.NewStartingIndex] = translatedItem;
+					}
+					else if (e.Action == NotifyCollectionChangedAction.Move)
+					{
+						resultCollection.RemoveAt(e.OldStartingIndex);
+						resultCollection.Insert(e.NewStartingIndex, translatedItem);
+					}
 				}
 			}
 
 			// Remove translations of the new items
-			foreach (var sourceItem in e.OldItems.OfType<TSourceItem>())
+			if (e.OldItems is not null)
 			{
-				var sourceItemRef = new WeakReference<TSourceItem>(sourceItem);
-				if (translatedItemsMap.TryGetValue(sourceItemRef, out var translatedItemRef) &&
-									translatedItemRef.TryGetTarget(out var translatedItem) &&
-									translatedItem != default(TResultItem))
+				foreach (var sourceItem in e.OldItems.OfType<TSourceItem>())
 				{
-					resultCollection.Remove(translatedItem);
+					var sourceItemRef = new WeakReference<TSourceItem>(sourceItem);
+					if (translatedItemsMap.TryGetValue(sourceItemRef, out var translatedItemRef) &&
+						translatedItemRef.TryGetTarget(out var translatedItem) &&
+						translatedItem != default(TResultItem))
+					{
+						resultCollection.Remove(translatedItem);
+					}
 				}
 			}
 
@@ -182,7 +188,7 @@ public static class NotifyCollectionChangedExtensions
 			if (e.Action == NotifyCollectionChangedAction.Reset)
 			{
 				// Strong-type and count the sourceCollection items
-				var newSourceEnumerable = (sourceCollection as IEnumerable).OfType<TSourceItem>();
+				var newSourceEnumerable = ((IEnumerable)sourceCollection).OfType<TSourceItem>();
 				var newSourceItemCount = newSourceEnumerable.Count();
 
 				// Rebuild the resultCollection
@@ -192,8 +198,8 @@ public static class NotifyCollectionChangedExtensions
 				{
 					var sourceItemRef = new WeakReference<TSourceItem>(sourceItem);
 					if (!translatedItemsMap.TryGetValue(sourceItemRef, out var translatedItemRef) ||
-										!translatedItemRef.TryGetTarget(out var translatedItem) ||
-										translatedItem == default(TResultItem))
+							!translatedItemRef.TryGetTarget(out var translatedItem) ||
+							translatedItem == default(TResultItem))
 					{
 						translatedItem = translationSelector(sourceItem);
 						translatedItemRef = new WeakReference<TResultItem>(translatedItem);
@@ -216,18 +222,18 @@ public static class NotifyCollectionChangedExtensions
 
 	private static ICollectionTranslator<TResultItem>
 	CreateCollectionTranslator<TSourceObject, TSourceCollection, TSourceItem, TResultItem>(
-			this INotifyPropertyChanged sourceObject,
-			Expression<Func<TSourceObject, TSourceCollection>> sourcePropertySelectorExpression,
-			Func<TSourceItem, TResultItem> translationSelector
-			)
-			where TSourceObject : class, INotifyPropertyChanged
-			where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
-			where TSourceItem : class
-			where TResultItem : class
+		this INotifyPropertyChanged sourceObject,
+		Expression<Func<TSourceObject, TSourceCollection>> sourcePropertySelectorExpression,
+		Func<TSourceItem, TResultItem> translationSelector
+		)
+		where TSourceObject : class, INotifyPropertyChanged
+		where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
+		where TSourceItem : class
+		where TResultItem : class
 	{
 		var collectionTranslator =
-				new CollectionTranslator<TSourceObject, TSourceCollection, TSourceItem, TResultItem>(
-						sourceObject, sourcePropertySelectorExpression, translationSelector);
+			new CollectionTranslator<TSourceObject, TSourceCollection, TSourceItem, TResultItem>(
+				sourceObject, sourcePropertySelectorExpression, translationSelector);
 
 		return collectionTranslator;
 	}
@@ -240,19 +246,19 @@ public static class NotifyCollectionChangedExtensions
 	}
 
 	private class CollectionTranslator<TSourceObject, TSourceCollection, TSourceItem, TResultItem>
-			: ICollectionTranslator<TResultItem>
-			where TSourceObject : class, INotifyPropertyChanged
-			where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
-			where TSourceItem : class
-			where TResultItem : class
+		: ICollectionTranslator<TResultItem>
+		where TSourceObject : class, INotifyPropertyChanged
+		where TSourceCollection : class, INotifyCollectionChanged, IEnumerable
+		where TSourceItem : class
+		where TResultItem : class
 	{
 		private IPropertyObserverItem _collectionPropertyObserverItem;
 
 		public CollectionTranslator(
-				INotifyPropertyChanged sourceObject,
-				Expression<Func<TSourceObject, TSourceCollection>> sourcePropertySelectorExpression,
-				Func<TSourceItem, TResultItem> translationSelector
-				)
+			INotifyPropertyChanged sourceObject,
+			Expression<Func<TSourceObject, TSourceCollection>> sourcePropertySelectorExpression,
+			Func<TSourceItem, TResultItem> translationSelector
+			)
 		{
 			var propertyName = PropertySupport.ExtractPropertyName(sourcePropertySelectorExpression);
 			_collectionPropertyObserverItem = ((TSourceObject)sourceObject).Subscribe(propertyName, source =>

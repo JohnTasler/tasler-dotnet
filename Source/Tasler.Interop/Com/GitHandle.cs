@@ -11,7 +11,7 @@ public class GitHandleBase : IDisposable
 
 	#region Properties
 
-	protected static IGlobalInterfaceTable Git { get; } = new GlobalInterfaceTable();
+	protected static IGlobalInterfaceTable Git { get; } = (IGlobalInterfaceTable)new StdGlobalInterfaceTable();
 
 	public int Cookie
 	{

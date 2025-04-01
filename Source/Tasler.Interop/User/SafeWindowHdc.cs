@@ -5,7 +5,7 @@ namespace Tasler.Interop.User;
 public class SafeWindowHdc : SafeHdc
 {
 	public SafeWindowHdc(SafeHwnd windowHandle)
-		: base(true)
+		: base(nint.Zero, true)
 	{
 		WindowHandle = windowHandle;
 	}
@@ -17,7 +17,7 @@ public class SafeWindowHdc : SafeHdc
 	#region Overrides
 	protected override bool ReleaseHandle()
 	{
-		return UserApi.NativeMethods.ReleaseDC(this.WindowHandle, this.Handle);
+		return (this.Handle != nint.Zero) ? UserApi.NativeMethods.ReleaseDC(this.WindowHandle, this) : true;
 	}
 	#endregion Overrides
 }

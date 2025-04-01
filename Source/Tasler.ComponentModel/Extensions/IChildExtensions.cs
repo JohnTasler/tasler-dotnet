@@ -28,11 +28,11 @@ public static class IChildExtensions
 		var ancestors = source.GetSelfAndAncestors();
 
 		var multipleSelectionContainer = ancestors.OfType<IMulitpleSelectionContainer>().FirstOrDefault();
-		if (multipleSelectionContainer != null)
+		if (multipleSelectionContainer is not null && multipleSelectionContainer.SelectedItems is not null)
 			return multipleSelectionContainer.SelectedItems.Contains(source);
 
 		var singleSelectionContainer = ancestors.OfType<ISingleSelectionContainer>().FirstOrDefault();
-		if (singleSelectionContainer != null)
+		if (singleSelectionContainer is not null)
 			return singleSelectionContainer.SelectedItem == source;
 
 		return false;

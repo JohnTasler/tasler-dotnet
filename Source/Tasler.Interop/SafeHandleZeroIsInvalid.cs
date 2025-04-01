@@ -5,12 +5,12 @@ namespace Tasler.Interop
 	public abstract class SafeHandleZeroIsInvalid : SafeHandle
 	{
 		public SafeHandleZeroIsInvalid()
-			: base(nint.Zero, false)
+			: this(nint.Zero, false)
 		{
 		}
 
-		public SafeHandleZeroIsInvalid(bool ownsHandle)
-			: base(nint.Zero, ownsHandle)
+		public SafeHandleZeroIsInvalid(nint handle, bool ownsHandle = false)
+			: base(handle, ownsHandle)
 		{
 		}
 

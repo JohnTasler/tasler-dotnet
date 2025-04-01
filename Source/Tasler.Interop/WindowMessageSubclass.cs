@@ -33,7 +33,7 @@ public class WindowMessageSubclass : WindowMessageProcessor
 
 	protected override void OnHasEventSubscribersChanged()
 	{
-		if (this.WindowHandle != nint.Zero)
+		if (this.WindowHandle.Handle != nint.Zero)
 		{
 			if (this.HasEventSubscribers)
 				this.Subclass();
@@ -48,31 +48,31 @@ public class WindowMessageSubclass : WindowMessageProcessor
 
 	private bool IsSubclassed
 	{
-		get { return this.OriginalWindowProcedure != nint.Zero; }
+		get { return this.OriginalWindowProcedure != null; }
 	}
 
 	private void Subclass()
 	{
-		Debug.Assert(this.WindowHandle != nint.Zero);
+		Debug.Assert(!this.WindowHandle.IsInvalid);
 		Debug.Assert(this.IsSubclassed == false);
 
-		// Save the window's existing window procedure and swap-in our own
-		var hwnd = new HandleRef(this, this.WindowHandle);
-		this.OriginalWindowProcedure = UserApi.GetWindowLongPtr(hwnd, GWLP.WndProc);
-		UserApi.SetWindowLongPtr(hwnd, GWLP.WndProc, this.WindowProcedure);
+		this.OriginalWindowProcedure = Marshal.GetDelegateForFunctionPointer<WndProcNative>(this.WindowHandle.GetWindowLongPtr(GWLP.WndProc));
+		this.WindowHandle.SetWindowLongPtr(GWLP.WndProc, this.WindowProcedure);
 	}
 
 	private void Unsubclass()
 	{
-		Debug.Assert(this.WindowHandle != nint.Zero);
+		Debug.Assert(this.WindowHandle.Handle != nint.Zero);
 		Debug.Assert(this.IsSubclassed == true);
 
 		// Restore the window's previous window procedure
-		var hwnd = new HandleRef(this, this.WindowHandle);
-		UserApi.SetWindowLongPtr(hwnd, GWLP.WndProc, this.OriginalWindowProcedure);
+		if (this.OriginalWindowProcedure is not null)
+		{
+			this.WindowHandle.SetWindowLongPtr(GWLP.WndProc, Marshal.GetFunctionPointerForDelegate(this.OriginalWindowProcedure));
+		}
 
 		// Clear our state
-		this.OriginalWindowProcedure = nint.Zero;
+		this.OriginalWindowProcedure = null;
 		this.ClearWindowProcedure();
 	}
 

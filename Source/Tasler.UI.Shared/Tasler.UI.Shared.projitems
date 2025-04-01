@@ -5,13 +5,13 @@
     <HasSharedItems>true</HasSharedItems>
     <SharedGUID>5179c310-67ad-4274-bc8b-4630e18743ef</SharedGUID>
   </PropertyGroup>
-	<PropertyGroup>
-		<OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
-		<TransformOnBuild>true</TransformOnBuild>
-		<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
-		<BeforeTransform>CustomPreTransform</BeforeTransform>
-		<AfterTransform>CustomPostTransform</AfterTransform>
-	</PropertyGroup>
+  <PropertyGroup>
+    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+    <TransformOnBuild>true</TransformOnBuild>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+    <BeforeTransform>CustomPreTransform</BeforeTransform>
+    <AfterTransform>CustomPostTransform</AfterTransform>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IsEqualConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ToBooleanConverter.cs" />
@@ -25,6 +25,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PointExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\RectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ThicknessExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IInteractionService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IConfigureHostBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InteractionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\DispatcherThreadBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ViewModelMapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelMapperExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)ComponentModel\" />
   </ItemGroup>
 </Project>

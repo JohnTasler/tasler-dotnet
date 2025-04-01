@@ -3,20 +3,9 @@ namespace Tasler.ComponentModel;
 // TODO: NEEDS_UNIT_TESTS
 
 public sealed class EventSubscriber<TDelegate>
-		where TDelegate : Delegate
+		where TDelegate : System.Delegate
 {
 	public TDelegate? Handler { get; private set; }
-
-	/// <summary>
-	/// Initializes the <see cref="EventSubscriber{TDelegate}" /> class.
-	/// </summary>
-	/// <exception cref="System.InvalidCastException">The <typeparamref name="TDelegate"/> is not a <see cref="Delegate"/> type.</exception>
-	//static EventSubscriber()
-	//{
-	//	// Unfortunately, C# does not allow Delegate or MulticastDelegate as generic type constraints,
-	//	// so we have to check at runtime.
-	//	ValidateArgument.IsOrIsDerivedFrom<TDelegate, Delegate>(nameof(TDelegate));
-	//}
 
 	private EventSubscriber(TDelegate? handler)
 	{
