@@ -6,10 +6,11 @@
 		<RootNamespace>Tasler.Interop</RootNamespace>
 		<ProjectGuid>{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}</ProjectGuid>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>netstandard2.0;net9.0-windows</TargetFrameworks>
+		<TargetFrameworks>net9.0-windows</TargetFrameworks>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>

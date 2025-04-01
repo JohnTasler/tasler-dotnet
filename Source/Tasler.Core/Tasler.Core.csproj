@@ -6,10 +6,11 @@
 		<RootNamespace>Tasler</RootNamespace>
 		<ProjectGuid>{6692957C-4E2B-415B-A03A-4B3DBCAC071B}</ProjectGuid>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>netstandard2.0;net481;net9.0</TargetFrameworks>
+		<TargetFramework>net9.0</TargetFramework>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -8,6 +8,7 @@
 		<OutputType>Library</OutputType>
 		<TargetFramework>net481</TargetFramework>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>

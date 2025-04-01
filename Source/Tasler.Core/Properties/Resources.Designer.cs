@@ -70,6 +70,15 @@ namespace Tasler.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot use enumeration type {0} as bit flags.
+        /// </summary>
+        internal static string EnumNotFlagsExceptionFormat1 {
+            get {
+                return ResourceManager.GetString("EnumNotFlagsExceptionFormat1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specified cast is not valid:
         ///    From: {0}
         ///    To: {1}.

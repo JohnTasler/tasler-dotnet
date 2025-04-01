@@ -30,7 +30,7 @@ public static class PropertySupport
 		var propertyInfo = ValidateArgument.IsOrIsDerivedFrom<PropertyInfo>(memberExpression.Member, nameof(propertyExpression));
 
 		var getMethod = propertyInfo.GetGetMethod(true);
-		if (getMethod.IsStatic)
+		if (getMethod is not null && getMethod.IsStatic)
 			throw new ArgumentException(Strings.PropertySupport_StaticExpression_Exception, "propertyExpression");
 
 		return memberExpression.Member.Name;
@@ -64,7 +64,7 @@ public static class PropertySupport
 		var propertyInfo = ValidateArgument.IsOrIsDerivedFrom<PropertyInfo>(bodyExpression?.Member, nameof(propertyExpression));
 
 		var getMethod = propertyInfo.GetGetMethod(true);
-		if (getMethod.IsStatic)
+		if (getMethod is not null && getMethod.IsStatic)
 			throw new ArgumentException(Strings.PropertySupport_StaticExpression_Exception, nameof(propertyExpression));
 
 		return memberExpression.Member.Name;

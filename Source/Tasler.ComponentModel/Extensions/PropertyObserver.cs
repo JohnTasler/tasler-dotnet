@@ -107,7 +107,7 @@ public static class PropertyObserver
 		public void Refresh()
 		{
 			var source = this.Source;
-			if (source != null)
+			if (source is not null)
 				this.Source_PropertyChanged(source, new PropertyChangedEventArgs(null));
 		}
 
@@ -120,7 +120,7 @@ public static class PropertyObserver
 			{
 				var source = this.Source;
 				if (source != null)
-					source.PropertyChanged -= this.Source_PropertyChanged;
+					source.PropertyChanged -= this.Source_PropertyChanged!;
 
 				this.Clear();
 			}
@@ -160,8 +160,8 @@ public static class PropertyObserver
 		private void Subscribe()
 		{
 			var source = this.Source;
-			if (source != null)
-				source.PropertyChanged += this.Source_PropertyChanged;
+			if (source is not null)
+				source.PropertyChanged += this.Source_PropertyChanged!;
 		}
 
 		private void Clear()

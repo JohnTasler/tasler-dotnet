@@ -1,10 +1,11 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
+using Tasler.Interop.Kernel;
 
 namespace Tasler.Interop;
 
-public class NativeEventWaitHandle : NativeWaitHandle
+public partial class NativeEventWaitHandle : NativeWaitHandle
 {
 	#region Construction
 
@@ -38,7 +39,7 @@ public class NativeEventWaitHandle : NativeWaitHandle
 	/// </summary>
 	public void Reset()
 	{
-		if (!NativeEventWaitHandle.ResetEvent(base.SafeWaitHandle))
+		if (!KernelApi.NativeMethods.ResetEvent(base.SafeWaitHandle))
 			throw new Win32Exception(Marshal.GetLastWin32Error());
 	}
 
@@ -47,23 +48,9 @@ public class NativeEventWaitHandle : NativeWaitHandle
 	/// </summary>
 	public void Set()
 	{
-		if (!NativeEventWaitHandle.SetEvent(base.SafeWaitHandle))
-			throw new Win32Exception(Marshal.GetLastWin32Error());
+		if (!KernelApi.NativeMethods.SetEvent(base.SafeWaitHandle))
+			throw new Win32Exception();
 	}
 
 	#endregion Methods
-
-	#region Platform Invoke
-
-	#region Imported Methods
-
-	[DllImport("kernel32.dll", SetLastError = true)]
-	private static extern bool ResetEvent(SafeWaitHandle handle);
-
-	[DllImport("kernel32.dll", SetLastError = true)]
-	internal static extern bool SetEvent(SafeWaitHandle handle);
-
-	#endregion Imported Methods
-
-	#endregion Platform Invoke
 }

@@ -1,27 +1,16 @@
 namespace Tasler.Interop.Gdi;
 
-public abstract class SafeHdc : SafeHandleZeroIsInvalid
+public class SafeHdc : SafeHandleZeroIsInvalid
 {
-	public static readonly SafeHdc Null = new NullHdc();
-
-	#region Constructors
-	protected SafeHdc(bool ownsHandle)
-		: base(ownsHandle)
+	public SafeHdc()
+		: this(nint.Zero, false)
 	{
 	}
-	#endregion Constructors
 
-	#region Overrides
-	public override bool IsInvalid => base.handle == nint.Zero;
-
-	#endregion Overrides
-
-	#region Nested Types
-	private class NullHdc : SafeHdc
+	public SafeHdc(nint handle, bool ownsHandle = false)
+		: base(handle, ownsHandle)
 	{
-		public NullHdc() : base(false) {}
-
-		protected override bool ReleaseHandle() => true;
 	}
-	#endregion Nested Types
+
+	protected override bool ReleaseHandle() => true;
 }

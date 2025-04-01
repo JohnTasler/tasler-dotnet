@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConvertFromExceptionFormat2" xml:space="preserve">
-		<value>{0} cannot convert from {1}.</value>
+    <value>{0} cannot convert from {1}.</value>
   </data>
   <data name="InvalidCastExceptionFormat2" xml:space="preserve">
     <value>Specified cast is not valid:
@@ -130,10 +130,13 @@
 	    key.GetType.FullName = {0}
 	key.ToString() = {1}</value>
   </data>
+  <data name="EnumNotFlagsExceptionFormat1" xml:space="preserve">
+    <value>Cannot use enumeration type {0} as bit flags</value>
+  </data>
   <data name="TDelegateMustBeDelegate" xml:space="preserve">
     <value>The generic parameter TDelegate must be a delegate type.</value>
   </data>
   <data name="ToStringNull" xml:space="preserve">
     <value>(null)</value>
-	</data>
+  </data>
 </root>

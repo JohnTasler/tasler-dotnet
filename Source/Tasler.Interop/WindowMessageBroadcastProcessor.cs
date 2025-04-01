@@ -26,13 +26,13 @@ public class WindowMessageBroadcastProcessor : WindowMessageRedirector
 
 	#region Properties
 
-	public nint WindowHandle
+	public SafeHwnd WindowHandle
 	{
 		get
 		{
-			return _innerProcessor != null
+			return _innerProcessor is not null
 				? _innerProcessor.WindowHandle
-				: nint.Zero;
+				: new SafeHwnd();
 		}
 	}
 
@@ -75,24 +75,24 @@ public class WindowMessageBroadcastProcessor : WindowMessageRedirector
 		if (_windowUsage == null)
 			_windowUsage = WindowUsage.Auto;
 
-		var windowHandleToSubclass = nint.Zero;
+		var windowHandleToSubclass = new SafeHwnd();
 
 		if (_windowUsage == WindowUsage.Auto)
 		{
 			var eventWaitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
 			Action action = () =>
 			{
-				var bestMatchWindowHandle = nint.Zero;
+				var bestMatchWindowHandle = new SafeHwnd();
 				UserApi.EnumCurrentThreadWindows(hwnd =>
 					{
-						var style = UserApi.GetWindowStyle(new HandleRef(null, hwnd));
+						var style = hwnd.GetWindowStyle();
 						if (style.HasFlag(WS.Popup | WS.Overlapped))
 						{
-							if (bestMatchWindowHandle == nint.Zero)
+							if (bestMatchWindowHandle.IsInvalid)
 								bestMatchWindowHandle = hwnd;
 
 							// Scan the window title for known name substring
-							if (UserApi.GetWindowText(hwnd).Contains("BroadcastEvent"))
+							if (hwnd.GetWindowText().Contains("BroadcastEvent"))
 							{
 								windowHandleToSubclass = hwnd;
 								return false;
@@ -104,7 +104,7 @@ public class WindowMessageBroadcastProcessor : WindowMessageRedirector
 					}
 				);
 
-				if (windowHandleToSubclass == nint.Zero)
+				if (windowHandleToSubclass.IsInvalid)
 					windowHandleToSubclass = bestMatchWindowHandle;
 
 				// Signal the waiting thread
@@ -120,13 +120,13 @@ public class WindowMessageBroadcastProcessor : WindowMessageRedirector
 			catch (ExternalException)         { }
 		}
 
-		if (windowHandleToSubclass == nint.Zero)
+		if (windowHandleToSubclass.IsInvalid)
 		{
 			// TODO: Create a STATIC window to subclass.
 		}
 
 		// Subclass whichever window handle we found or created
-		Debug.Assert(windowHandleToSubclass != nint.Zero);
+		Debug.Assert(!windowHandleToSubclass.IsInvalid);
 		_innerProcessor = new WindowMessageSubclass(this);
 		_innerProcessor.Attach(windowHandleToSubclass);
 	}

@@ -7,6 +7,7 @@
 		<ProjectGuid>{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}</ProjectGuid>
 		<OutputType>Library</OutputType>
 		<TargetFramework>netstandard2.0</TargetFramework>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<!-- Shared Project References -->

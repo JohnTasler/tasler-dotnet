@@ -16,16 +16,16 @@ public abstract class WindowMessageProcessor : WindowMessageRedirector
 	#endregion Constructors
 
 	#region Properties
-	public nint WindowHandle { get; private set; }
+	public SafeHwnd WindowHandle { get; private set; } = new SafeHwnd();
 	#endregion Properties
 
 	#region Methods
-	public void Attach(nint hwnd)
+	public void Attach(SafeHwnd hwnd)
 	{
 		if (this.WindowHandle != hwnd)
 			this.Detach();
 
-		if (hwnd != nint.Zero)
+		if (hwnd.Handle != nint.Zero)
 		{
 			this.WindowHandle = hwnd;
 			this.OnAttached();
@@ -34,10 +34,10 @@ public abstract class WindowMessageProcessor : WindowMessageRedirector
 
 	public void Detach()
 	{
-		if (this.WindowHandle != nint.Zero)
+		if (this.WindowHandle.Handle != nint.Zero)
 		{
 			this.OnDetaching();
-			this.WindowHandle = nint.Zero;
+			this.WindowHandle = new SafeHwnd();
 		}
 	}
 	#endregion Methods
@@ -49,7 +49,7 @@ public abstract class WindowMessageProcessor : WindowMessageRedirector
 	#endregion Protected Abstract Methods
 
 	#region Overrides
-	protected override nint OnRedirected(nint hwnd, int message, nint wParam, nint lParam, ref bool handled)
+	protected override nint OnRedirected(SafeHwnd hwnd, int message, nint wParam, nint lParam, ref bool handled)
 	{
 		if (message == (int)WM.NCDESTROY)
 		{

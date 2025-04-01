@@ -1,4 +1,5 @@
-using System.Runtime.InteropServices;
+
+using System.Drawing;
 
 namespace Tasler.Interop.User;
 
@@ -30,7 +31,82 @@ public enum GW
 	Child        = 5,
 	EnabledPopup = 6,
 }
+
 #endregion GetWindow() Constants
+
+[Flags]
+public enum DCX : uint
+{
+	Default          = 0,
+
+	// <summary>Returns a DC from the cache, rather than the OWNDC or CLASSDC window. Essentially overrides CS_OWNDC and CS_CLASSDC.</summary
+	Cache            = 0x00000002,
+
+	// <summary>Excludes the visible regions of all child windows below the window identified by hWnd.</summary
+	ClipChildren     = 0x00000008,
+
+	// <summary>Excludes the visible regions of all sibling windows above the window identified by hWnd.</summary
+	ClipSiblings     = 0x00000010,
+
+	// <summary>Uses the visible region of the parent window. The parent's WS_CLIPCHILDREN and CS_PARENTDC style bits are ignored. The origin is set to the upper-left corner of the window identified by hWnd.</summary
+	ParentClip       = 0x00000020,
+
+	// <summary>The clipping region identified by hrgnClip is excluded from the visible region of the returned DC.</summary
+	ExcludeRgn       = 0x00000040,
+
+	// <summary>The clipping region identified by hrgnClip is intersected with the visible region of the returned DC.</summary
+	IntersectRgn     = 0x00000080,
+
+	// <summary>Allows drawing even if there is a LockWindowUpdate call in effect that would otherwise exclude this window.Used for drawing during tracking.</summary
+	LockWindowUpdate = 0x00000400,
+}
+
+[Flags]
+public enum CS : uint
+{
+	/// <summary>Redraws the entire window if a movement or size adjustment changes the height of the client area.</summary>
+	VerticaRedraw    = 0x00000001,
+
+	/// <summary>Redraws the entire window if a movement or size adjustment changes the width of the client area.</summary>
+	HorizontalRedraw = 0x00000002,
+
+	/// <summary>Sends a double-click message to the window procedure when the user double-clicks the mouse while the cursor is within a window belonging to the class.</summary>
+	DoubleClicks     = 0x00000008,
+
+	/// <summary>Allocates a unique device context for each window in the class.</summary>
+	OwnDC            = 0x00000020,
+
+	/// <summary>Allocates one device context to be shared by all windows in the class. Because window classes are process specific, it is possible for multiple threads of an application to create a window of the same class. It is also possible for the threads to attempt to use the device context simultaneously. When this happens, the system allows only one thread to successfully finish its drawing operation.</summary>
+	ClassDC          = 0x00000040,
+
+	/// <summary>Sets the clipping rectangle of the child window to that of the parent window so that the child can draw on the parent. A window with the CS_PARENTDC style bit receives a regular device context from the system's cache of device contexts. It does not give the child the parent's device context or device context settings. Specifying CS_PARENTDC enhances an application's performance.</summary>
+	ParentDC         = 0x00000080,
+
+	/// <summary>Disables Close on the window menu.</summary>
+	NoClose          = 0x00000200,
+
+	/// <summary>
+	///   <para>Saves, as a bitmap, the portion of the screen image obscured by a window of this class. When the window is removed, the system uses the saved bitmap to restore the screen image, including other windows that were obscured. Therefore, the system does not send WM_PAINT messages to windows that were obscured if the memory used by the bitmap has not been discarded and if other screen actions have not invalidated the stored image.</para>
+	///   <para>This style is useful for small windows (for example, menus or dialog boxes) that are displayed briefly and then removed before other screen activity takes place. This style increases the time required to display the window, because the system must first allocate memory to store the bitmap.</para>
+	/// </summary>
+	SaveBits         = 0x00000800,
+
+	/// <summary>Aligns the window's client area on a byte boundary (in the x direction). This style affects the width of the window and its horizontal placement on the display.</summary>
+	ByteAlignClient  = 0x00001000,
+
+	/// <summary>Aligns the window on a byte boundary (in the x direction). This style affects the width of the window and its horizontal placement on the display.</summary>
+	ByteAlignWindow  = 0x00002000,
+
+	/// <summary>Indicates that the window class is an application global class. For more information, see the "Application Global Classes" section of About Window Classes.</summary>
+	GlobalClass      = 0x00004000,
+
+	/// <summary>The IME (Input Method Editor>.</summary>
+	IME              = 0x00010000,
+
+	/// <summary>Enables the drop shadow effect on a window. The effect is turned on and off through SPI_SETDROPSHADOW. Typically, this is enabled for small, short-lived windows such as menus to emphasize their Z-order relationship to other windows. Windows created from a class with this style must be top-level windows; they may not be child windows.</summary>
+	DropShadow       = 0x00020000,
+}
+
 
 #region GetWindowLongPtr/SetWindowLongPtr Indices
 public enum GWLP
@@ -45,7 +121,7 @@ public enum GWLP
 }
 #endregion GetWindowLongPtr/SetWindowLongPtr Indices
 
-#region SetWindowPos() Flags
+/// <summary>SetWindowPos() Flags</summary>
 [Flags]
 public enum SWP : uint
 {
@@ -73,9 +149,8 @@ public static class HWND
 	public static readonly SafeHwnd Topmost   = new SafeHwnd { Handle = (nint)(-1) };
 	public static readonly SafeHwnd NoTopmost = new SafeHwnd { Handle = (nint)(-2) };
 }
-#endregion SetWindowPos() Flags
 
-#region ShowWindow() Commands
+/// <summary>ShowWindow() Commands</summary>
 public enum SW
 {
 	/// <summary>
@@ -143,9 +218,8 @@ public enum SW
 	/// </summary>
 	ShowNormal = 1,
 }
-#endregion ShowWindow() Commands
 
-#region System Menu Commands
+/// <summary>System Menu Commands</summary>
 public enum SC
 {
 	Size            = 0xF000,
@@ -178,7 +252,31 @@ public enum SC
 	ContextHelp     = 0xF180,
 	Separator       = 0xF00F,
 }
-#endregion System Menu Commands
+
+[Flags]
+public enum KF : ushort
+{
+	/// <summary>Manipulates the extended key flag.</summary>
+	Extended = 0x0100,
+
+	/// <summary>Manipulates the "do not care" key flag.</summary>
+	DoNotCare = 0x0200,
+
+	/// <summary>Manipulates the dialog mode flag, which indicates whether a dialog box is active.</summary>
+	DlgMode  = 0x0800,
+
+	/// <summary>Manipulates the menu mode flag, which indicates whether a menu is active.</summary>
+	Menumode = 0x1000,
+
+	/// <summary>Manipulates the context code flag.</summary>
+	AltDown  = 0x2000,
+
+	/// <summary>Manipulates the previous key state flag.</summary>
+	Repeat   = 0x4000,
+
+	/// <summary>Manipulates the transition state flag.</summary>
+	Up       = 0x8000,
+}
 
 #region WM_ACTIVATE state values
 public enum WA
@@ -314,13 +412,13 @@ public enum DBT
 public enum ClipboardFormat : short
 {
 	/// <summary>CF_TEXT</summary>
-	TEXT = 1,
+	Text = 1,
 
 	/// <summary>CF_BITMAP</summary>
-	BITMAP = 2,
+	Bitmap = 2,
 
 	/// <summary>CF_METAFILEPICT</summary>
-	METAFILEPICT = 3,
+	MetafilePict = 3,
 
 	/// <summary>CF_SYLK</summary>
 	SYLK = 4,
@@ -332,16 +430,16 @@ public enum ClipboardFormat : short
 	TIFF = 6,
 
 	/// <summary>CF_OEMTEXT</summary>
-	OEMTEXT = 7,
+	OemText = 7,
 
 	/// <summary>CF_DIB</summary>
 	DIB = 8,
 
 	/// <summary>CF_PALETTE</summary>
-	PALETTE = 9,
+	Palette = 9,
 
 	/// <summary>CF_PENDATA</summary>
-	PENDATA = 10,
+	PenData = 10,
 
 	/// <summary>CF_RIFF</summary>
 	RIFF = 11,
@@ -350,44 +448,71 @@ public enum ClipboardFormat : short
 	WAVE = 12,
 
 	/// <summary>CF_UNICODETEXT</summary>
-	UNICODETEXT = 13,
+	UnicodeText = 13,
 
 	/// <summary>CF_ENHMETAFILE</summary>
-	ENHMETAFILE = 14,
+	EnhancedMetafile = 14,
 
 	/// <summary>CF_HDROP</summary>
 	HDROP = 15,
 
 	/// <summary>CF_LOCALE</summary>
-	LOCALE = 16,
+	Locale = 16,
 
 	/// <summary>CF_DIBV5</summary>
 	DIBV5 = 17,
 
 	/// <summary>CF_OWNERDISPLAY</summary>
-	OWNERDISPLAY = 0x0080,
+	OwnerDisplay = 0x0080,
 
 	/// <summary>CF_DSPTEXT</summary>
-	DSPTEXT = 0x0081,
+	DSPText = 0x0081,
 
 	/// <summary>CF_DSPBITMAP</summary>
-	DSPBITMAP = 0x0082,
+	DSPBitmap = 0x0082,
 
 	/// <summary>CF_DSPMETAFILEPICT</summary>
-	DSPMETAFILEPICT = 0x0083,
+	DSPMetafilePict = 0x0083,
 
 	/// <summary>CF_DSPENHMETAFILE</summary>
-	DSPENHMETAFILE = 0x008E,
+	DSPEnhancedMetafile = 0x008E,
 
 	/// <summary>CF_PRIVATEFIRST</summary>
-	PRIVATEFIRST = 0x0200,
+	PrivateFirst = 0x0200,
 
 	/// <summary>CF_PRIVATELAST</summary>
-	PRIVATELAST = 0x02FF,
+	PrivateLast = 0x02FF,
 
 	/// <summary>CF_GDIOBJFIRST</summary>
-	GDIOBJFIRST = 0x0300,
+	GdiObjectFirst = 0x0300,
 
 	/// <summary>CF_GDIOBJLAST</summary>
-	GDIOBJLAST = 0x03FF,
+	GdiObjectLast = 0x03FF,
+}
+
+public enum COLOR
+{
+	/// <summary>Face color for three-dimensional display elements and for dialog box backgrounds.</summary
+	ThreeDFace = 15,
+
+	/// <summary>Text on push buttons. The associated background color is COLOR_BTNFACE.</summary
+	ButtonText= 18,
+
+	/// <summary>Grayed (disabled) text. This color is set to 0 if the current display driver does not support a solid gray color.</summary
+	GrayText = 17,
+
+	/// <summary>Item(s) selected in a control. The associated foreground color is COLOR_HIGHLIGHTTEXT.</summary
+	Highlight = 13,
+
+	/// <summary>Text of item(s) selected in a control. The associated background color is COLOR_HIGHLIGHT.</summary
+	HighlightText = 14,
+
+	/// <summary>Color for a hyperlink or hot-tracked item. The associated background color is COLOR_WINDOW.</summary
+	HotLight = 26,
+
+	/// <summary>Window background. The associated foreground colors are COLOR_WINDOWTEXT and COLOR_HOTLITE.</summary
+	Window = 5,
+
+	/// <summary>Text in windows.The associated background color is COLOR_WINDOW.</summary
+	WindowText = 8,
 }

@@ -8,33 +8,28 @@ namespace Tasler.Interop;
 public abstract class WindowMessageRedirector
 {
 	#region Instance Fields
+	private readonly EventSubscriberDictionary<int, EventHandler<WindowMessageEventArgs>> _eventSubscribers;
 	private WndProc? _wndProc;
-	private HandleRef? _windowProcedure;
-	private EventSubscriberDictionary<int, EventHandler<WindowMessageEventArgs>> _eventSubscribers;
+	private nint _wndProcNative;
 	private bool _hadEventSubscribers;
 	#endregion Instance Fields
 
 	#region Constructors
 	protected WindowMessageRedirector()
 	{
-		_eventSubscribers = new EventSubscriberDictionary<int, EventHandler<WindowMessageEventArgs>>(
-			new SortedDictionary<int, EventSubscriber<EventHandler<WindowMessageEventArgs>>>());
+		_eventSubscribers = new(new SortedDictionary<int, EventSubscriber<EventHandler<WindowMessageEventArgs>>>()!);
 		_eventSubscribers.PropertyChanged += this.EventSubscribers_PropertyChanged;
 	}
 
 	protected WindowMessageRedirector(WindowMessageRedirector outerRedirector)
-		: this()
 	{
-		if (outerRedirector != null)
+		_eventSubscribers = outerRedirector._eventSubscribers;
+		if (_eventSubscribers.Count != 0)
 		{
-			var eventSubscribers = outerRedirector._eventSubscribers;
-			if (eventSubscribers != null && eventSubscribers.Count != 0)
-			{
-				_eventSubscribers = eventSubscribers;
-				_hadEventSubscribers = true;
-				_eventSubscribers.PropertyChanged += this.EventSubscribers_PropertyChanged;
-				this.OnHasEventSubscribersChanged();
-			}
+			_hadEventSubscribers = true;
+			_eventSubscribers.PropertyChanged += this.EventSubscribers_PropertyChanged;
+
+			this.OnHasEventSubscribersChanged();
 		}
 	}
 	#endregion Constructors
@@ -43,7 +38,7 @@ public abstract class WindowMessageRedirector
 
 	public EventSubscriber<EventHandler<WindowMessageEventArgs>> this[int messageId]
 	{
-		get => _eventSubscribers[messageId];
+		get => _eventSubscribers[messageId]!;
 		set => _eventSubscribers[messageId] = value;
 	}
 
@@ -57,21 +52,30 @@ public abstract class WindowMessageRedirector
 	{
 		get
 		{
-			if (_windowProcedure?.Handle == nint.Zero)
+			if (_wndProc is null)
 			{
 				_wndProc = this.WndProc;
-				_windowProcedure = new HandleRef(this, Marshal.GetFunctionPointerForDelegate(_wndProc));
 			}
 
-			return _windowProcedure?.Handle ?? nint.Zero;
+			if (_wndProcNative == nint.Zero)
+			{
+				nint wndProcNative(nint h, int m, nint w, nint l)
+				{
+					return _wndProc?.Invoke(new SafeHwnd { Handle = h }, m, w, l) ?? nint.Zero;
+				}
+
+				_wndProcNative = Marshal.GetFunctionPointerForDelegate(wndProcNative);
+			}
+
+			return _wndProcNative;
 		}
 	}
 
-	protected nint OriginalWindowProcedure { get; set; }
+	protected WndProcNative? OriginalWindowProcedure { get; set; }
 
 	protected bool HasEventSubscribers
 	{
-		get { return _eventSubscribers.Count != 0; }
+		get { return _eventSubscribers?.Count != 0; }
 	}
 
 	#endregion Properties
@@ -80,6 +84,7 @@ public abstract class WindowMessageRedirector
 	protected void ClearWindowProcedure()
 	{
 		_wndProc = null;
+		_wndProcNative = nint.Zero;
 	}
 	#endregion Protected Methods
 
@@ -89,12 +94,12 @@ public abstract class WindowMessageRedirector
 	{
 	}
 
-	protected virtual nint OnRedirecting(nint hwnd, int message, nint wParam, nint lParam, ref bool handled)
+	protected virtual nint OnRedirecting(SafeHwnd hwnd, int message, nint wParam, nint lParam, ref bool handled)
 	{
 		return nint.Zero;
 	}
 
-	protected virtual nint OnRedirected(nint hwnd, int message, nint wParam, nint lParam, ref bool handled)
+	protected virtual nint OnRedirected(SafeHwnd hwnd, int message, nint wParam, nint lParam, ref bool handled)
 	{
 		return nint.Zero;
 	}
@@ -103,13 +108,13 @@ public abstract class WindowMessageRedirector
 
 	#region Private Implementation
 
-	private nint WndProc(nint hwnd, int message, nint wParam, nint lParam)
+	private nint WndProc(SafeHwnd hwnd, int message, nint wParam, nint lParam)
 	{
 		var result = this.Redirect(hwnd, message, wParam, lParam, out var handled);
 		return result;
 	}
 
-	private nint Redirect(nint hwnd, int message, nint wParam, nint lParam, out bool handled)
+	private nint Redirect(SafeHwnd hwnd, int message, nint wParam, nint lParam, out bool handled)
 	{
 		var wasHandled = false;
 
@@ -119,11 +124,17 @@ public abstract class WindowMessageRedirector
 		// Only redirect the message if the pre-redirect virtual method did not indicate that it handled the message
 		if (!wasHandled)
 		{
-			if (_eventSubscribers.TryGetValue(message, out EventSubscriber<EventHandler<WindowMessageEventArgs>> subscriber))
+			EventSubscriber<EventHandler<WindowMessageEventArgs>> subscriber;
+			if (_eventSubscribers.TryGetValue(message, out subscriber!))
 			{
 				if (subscriber.Handler is not null)
 				{
-					var args = new WindowMessageEventArgs(this.OriginalWindowProcedure, hwnd, message, wParam, lParam);
+					nint originalWndProc(SafeHwnd h, int m, nint w, nint l)
+					{
+						return this.OriginalWindowProcedure?.Invoke(h.Handle, m, w, l) ?? nint.Zero;
+					}
+
+					var args = new WindowMessageEventArgs(originalWndProc, hwnd, message, wParam, lParam);
 					subscriber.Handler(this, args);
 					if (args.Handled)
 					{
@@ -143,10 +154,10 @@ public abstract class WindowMessageRedirector
 		// Call the default or original window procedure
 		if (!wasHandled)
 		{
-			if (this.OriginalWindowProcedure == nint.Zero)
+			if (this.OriginalWindowProcedure is null)
 				result = UserApi.DefWindowProc(hwnd, message, wParam, lParam);
 			else
-				result = UserApi.CallWindowProc(this.OriginalWindowProcedure, hwnd, message, wParam, lParam);
+				result = hwnd.CallWindowProc(this.OriginalWindowProcedure, message, wParam, lParam);
 
 			wasHandled = true;
 		}

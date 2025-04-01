@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
+using Tasler.Interop.Kernel;
 
 namespace Tasler.Interop;
 
@@ -28,11 +29,11 @@ public class NativeWaitHandle : WaitHandle
 	{
 		if (createDuplicate)
 		{
-			var hCurrentProcess = NativeWaitHandle.GetCurrentProcess();
+			var hCurrentProcess = KernelApi.GetCurrentProcess();
 
-			SafeWaitHandle duplicatedHandle;
-			bool succeeded = NativeWaitHandle.DuplicateHandle(
-					hCurrentProcess, nativeHandle, hCurrentProcess, out duplicatedHandle,
+			SafeWaitHandle duplicatedHandle = new();
+			bool succeeded = hCurrentProcess.DuplicateHandle(
+					nativeHandle, hCurrentProcess, ref duplicatedHandle,
 					0, false, DUPLICATE_SAME_ACCESS);
 
 			if (!succeeded)
@@ -46,32 +47,5 @@ public class NativeWaitHandle : WaitHandle
 
 	#endregion Construction
 
-	#region Platform Invoke
-
-	#region Constants
-
 	private const int DUPLICATE_SAME_ACCESS = 0x00000002;
-
-	#endregion Constants
-
-	#region Imported Methods
-
-	[DllImport("kernel32.dll", ExactSpelling = true)]
-	private extern static nint GetCurrentProcess();
-
-	[return: MarshalAs(UnmanagedType.Bool)]
-	[DllImport("kernel32.dll", ExactSpelling = true, SetLastError = true)]
-	private extern static bool DuplicateHandle(
-			nint hSourceProcessHandle,
-			SafeWaitHandle hSourceHandle,
-			nint hTargetProcessHandle,
-			out SafeWaitHandle lpTargetHandle,
-			int dwDesiredAccess,
-			[MarshalAs(UnmanagedType.Bool)]
-					bool bInheritHandle,
-			int dwOptions);
-
-	#endregion Imported Methods
-
-	#endregion Platform Invoke
 }

@@ -22,7 +22,7 @@ public class StructWrapperTypeDescriptionProvider : TypeDescriptionProvider
 		ValidateArgument.IsNotNull(instance, nameof(instance));
 
 		Type type = instance.GetType();
-		TypeDescriptionProvider provider;
+		TypeDescriptionProvider? provider;
 		if (!providerMap.TryGetValue(type, out provider))
 		{
 			provider = new StructWrapperTypeDescriptionProvider(type);
@@ -33,24 +33,24 @@ public class StructWrapperTypeDescriptionProvider : TypeDescriptionProvider
 	}
 	#endregion
 
-	public override ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object instance)
+	public override ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object? instance)
 	{
-		ICustomTypeDescriptor parent = base.GetTypeDescriptor(objectType, instance);
-		return new StructWrapperTypeDescriptor(parent, instance.GetType());
+		ICustomTypeDescriptor? parent = base.GetTypeDescriptor(objectType, instance);
+		return new StructWrapperTypeDescriptor(parent, instance?.GetType() ?? typeof(Type));
 	}
 
 	#region Nested Types
 	private class StructWrapperTypeDescriptor : CustomTypeDescriptor
 	{
 		#region Instance Fields
-		private Type type;
+		private Type _type;
 		#endregion
 
 		#region Construction
-		public StructWrapperTypeDescriptor(ICustomTypeDescriptor parent, Type type)
+		public StructWrapperTypeDescriptor(ICustomTypeDescriptor? parent, Type type)
 			: base(parent)
 		{
-			this.type = type;
+			_type = type;
 		}
 		#endregion
 
@@ -58,19 +58,19 @@ public class StructWrapperTypeDescriptionProvider : TypeDescriptionProvider
 		{
 			// Get the reflected instance fields of the object
 			BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
-			FieldInfo[] fields = this.type.GetFields(flags);
+			FieldInfo[] fields = _type.GetFields(flags);
 			PropertyDescriptor[] props = new PropertyDescriptor[fields.Length];
 			for (int i = 0; i < fields.Length; ++i)
 			{
 				FieldWrapperPropertyDescriptor prop =
-					new FieldWrapperPropertyDescriptor(this.type, fields[i]);
+					new FieldWrapperPropertyDescriptor(_type, fields[i]);
 				props[i] = prop;
 			}
 
 			return new PropertyDescriptorCollection(props);
 		}
 
-		public override PropertyDescriptorCollection GetProperties(Attribute[] attributes)
+		public override PropertyDescriptorCollection GetProperties(Attribute[]? attributes)
 		{
 			return this.GetProperties();
 		}
@@ -79,30 +79,32 @@ public class StructWrapperTypeDescriptionProvider : TypeDescriptionProvider
 	private class FieldWrapperPropertyDescriptor : PropertyDescriptor
 	{
 		#region Instance Fields
-		private bool isExpandable;
-		private Type componentType;
-		private FieldInfo fieldInfo;
+		private bool _isExpandable;
+		private Type _componentType;
+		private FieldInfo _fieldInfo;
 		#endregion
 
 		#region Construction
 		public FieldWrapperPropertyDescriptor(Type componentType, FieldInfo fieldInfo)
-			: this(componentType, fieldInfo, new Attribute[0])
+			: this(componentType, fieldInfo, [])
 		{
 		}
 
 		public FieldWrapperPropertyDescriptor(Type componentType, FieldInfo fieldInfo, Attribute[] attributes)
 			: base(fieldInfo.Name, attributes)
 		{
-			this.componentType = componentType;
-			this.fieldInfo = fieldInfo;
+			_componentType = componentType;
+			_fieldInfo = fieldInfo;
 
 			BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
-			this.isExpandable = this.PropertyType.GetFields(flags).Length > 0;
+			_isExpandable = this.PropertyType.GetFields(flags).Length > 0;
 
-			if (this.isExpandable)
+			if (_isExpandable)
 			{
-				List<Attribute> newAttributes = new List<Attribute>(this.AttributeArray);
-				newAttributes.Add(new TypeConverterAttribute(typeof(ExpandableObjectConverter)));
+				var newAttributes = new List<Attribute>(this.AttributeArray ?? [])
+				{
+					new TypeConverterAttribute(typeof(ExpandableObjectConverter))
+				};
 				this.AttributeArray = newAttributes.ToArray();
 			}
 		}
@@ -111,74 +113,45 @@ public class StructWrapperTypeDescriptionProvider : TypeDescriptionProvider
 		#region Overrides
 		public override bool CanResetValue(object component)
 		{
-			DefaultValueAttribute attribute = (DefaultValueAttribute)this.Attributes[typeof(DefaultValueAttribute)];
-			if (attribute == null)
+			var attribute = (DefaultValueAttribute?)this.Attributes[typeof(DefaultValueAttribute)];
+			if (attribute is null)
 			{
 				return false;
 			}
-			return attribute.Value.Equals(this.GetValue(component));
+			return attribute.Value!.Equals(this.GetValue(component));
 		}
 
 		public override void ResetValue(object component)
 		{
-			DefaultValueAttribute attribute = (DefaultValueAttribute)this.Attributes[typeof(DefaultValueAttribute)];
-			if (attribute != null)
+			var attribute = (DefaultValueAttribute?)this.Attributes[typeof(DefaultValueAttribute)];
+			if (attribute is not null)
 			{
-				this.SetValue(component, attribute.Value);
+				this.SetValue(component, attribute.Value!);
 			}
 		}
 
-		public override bool ShouldSerializeValue(object component)
-		{
-			return false;
-		}
+		public override bool ShouldSerializeValue(object component) => false;
 
-		public override Type ComponentType
-		{
-			get
-			{
-				return this.componentType;
-			}
-		}
+		public override Type ComponentType => _componentType;
 
-		public override bool IsReadOnly
-		{
-			get
-			{
-				return true;
-			}
-		}
+		public override bool IsReadOnly => true;
 
-		public override Type PropertyType
-		{
-			get
-			{
-				return this.fieldInfo.FieldType;
-			}
-		}
+		public override Type PropertyType => _fieldInfo.FieldType;
 
-		public override object GetValue(object component)
+		public override object? GetValue(object? component)
 		{
-			object value = this.fieldInfo.GetValue(component);
-			if (this.isExpandable)
+			var value = _fieldInfo.GetValue(component);
+			if (_isExpandable && value is not null)
 			{
 				StructWrapperTypeDescriptionProvider.AddInstanceProvider(value);
 			}
 			return value;
 		}
 
-		public override void SetValue(object component, object value)
-		{
-			this.fieldInfo.SetValue(component, value);
-		}
+		public override void SetValue(object? component, object? value)
+			=> _fieldInfo.SetValue(component, value);
 
-		public override AttributeCollection Attributes
-		{
-			get
-			{
-				return base.Attributes;
-			}
-		}
+		public override AttributeCollection Attributes => base.Attributes;
 		#endregion
 	}
 	#endregion

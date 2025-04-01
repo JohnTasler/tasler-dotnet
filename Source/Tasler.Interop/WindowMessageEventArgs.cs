@@ -4,74 +4,44 @@ namespace Tasler.Interop;
 
 public class WindowMessageEventArgs : EventArgs
 {
-	private nint previousWndProc;
+	private WndProc _previousWndProc;
 
 	#region Constructors
-	internal WindowMessageEventArgs(nint previousWndProc, nint hwnd, int message, nint wParam, nint lParam, int time, POINT pt)
+	internal WindowMessageEventArgs(WndProc previousWndProc, SafeHwnd hwnd, int message, nint wParam, nint lParam, uint time, POINT pt)
 	{
-		this.previousWndProc = previousWndProc;
-
-		this.hwnd = hwnd;
-		this.message = message;
-		this.wParam = wParam;
-		this.lParam = lParam;
-		this.time = time;
-		this.pt = pt;
+		this._previousWndProc = previousWndProc;
+		this.Hwnd = hwnd;
+		this.MessageValue = message;
+		this.WParam = wParam;
+		this.LParam = lParam;
+		this.Time = time;
+		this.Point = pt;
 	}
 
-	internal WindowMessageEventArgs(nint previousWndProc, nint hwnd, int message, nint wParam, nint lParam)
-		: this(previousWndProc, hwnd, message, wParam, lParam, UserApi.GetMessageTime(), UserApi.GetMessagePosAsPOINT())
+	internal WindowMessageEventArgs(WndProc previousWndProc, SafeHwnd hwnd, int message, nint wParam, nint lParam)
+		: this(previousWndProc, hwnd, message, wParam, lParam, UserApi.GetMessageTime(), UserApi.GetMessagePosition())
 	{
 	}
 	#endregion Constructors
 
-	#region Value Properties (named the same as in the Windows MSG struct)
+	#region Value Properties
 
-	public nint hwnd { get; private set; }
-	public int message { get; private set; }
-	public nint wParam { get; private set; }
-	public nint lParam { get; private set; }
-	public int time { get; private set; }
-	public POINT pt { get; private set; }
+	public SafeHwnd Hwnd { get; private set; }
+	public int MessageValue { get; private set; }
+	public nint WParam { get; private set; }
+	public nint LParam { get; private set; }
+	public uint Time { get; private set; }
+	public POINT Point { get; private set; }
 
-	#endregion Value Properties (named the same as in the Windows MSG struct)
+	#endregion Value Properties
 
 	#region Properties (with .NET names)
 
-	public nint WindowHandle
-	{
-		get { return this.hwnd; }
-	}
+	public WM Message => (WM)this.MessageValue;
 
-	public int MessageValue
-	{
-		get { return this.message; }
-	}
+	public uint MessageTime => this.Time;
 
-	public WM Message
-	{
-		get { return (WM)this.message; }
-	}
-
-	public nint WParam
-	{
-		get { return this.wParam; }
-	}
-
-	public nint LParam
-	{
-		get { return this.lParam; }
-	}
-
-	public int MessageTime
-	{
-		get { return this.time; }
-	}
-
-	public POINT MessagePosition
-	{
-		get { return this.pt; }
-	}
+	public POINT MessagePosition => this.Point;
 
 	public bool Handled { get; set; }
 
@@ -80,33 +50,30 @@ public class WindowMessageEventArgs : EventArgs
 	#endregion Properties (with .NET names)
 
 	public nint CallBaseWindowProc()
-	{
-		return CallBaseWindowProc(this.hwnd, this.MessageValue, this.wParam, this.lParam);
-	}
+		=> CallBaseWindowProc(this.Hwnd, this.MessageValue, this.WParam, this.LParam);
 
-	public nint CallBaseWindowProc(nint hWnd, WM Msg, nint wParam, nint lParam)
-	{
-		return this.CallBaseWindowProc(hWnd, (int)Msg, wParam, lParam);
-	}
+	public nint CallBaseWindowProc(SafeHwnd hWnd, WM Msg, nint wParam, nint lParam)
+		=> this.CallBaseWindowProc(hWnd, (int)Msg, wParam, lParam);
 
-	public nint CallBaseWindowProc(nint hWnd, int Msg, nint wParam, nint lParam)
+	public nint CallBaseWindowProc(SafeHwnd hWnd, int Msg, nint wParam, nint lParam)
 	{
 		this.Handled = true;
-		return UserApi.CallWindowProc(this.previousWndProc, hWnd, Msg, wParam, lParam);
-	}
 
+		nint previousWndProcNative(nint hwnd, int message, nint wParam, nint lParam)
+		{
+			return _previousWndProc(hWnd, message, wParam, lParam);
+		}
+
+		return hWnd.CallWindowProc(previousWndProcNative, Msg, wParam, lParam);
+	}
 
 	public nint CallDefaultWindowProc()
-	{
-		return this.CallDefaultWindowProc(this.hwnd, this.MessageValue, this.wParam, this.lParam);
-	}
+		=> this.CallDefaultWindowProc(this.Hwnd, this.MessageValue, this.WParam, this.LParam);
 
-	public nint CallDefaultWindowProc(nint hWnd, WM Msg, nint wParam, nint lParam)
-	{
-		return this.CallDefaultWindowProc(hWnd, (int)Msg, wParam, lParam);
-	}
+	public nint CallDefaultWindowProc(SafeHwnd hWnd, WM Msg, nint wParam, nint lParam)
+		=> this.CallDefaultWindowProc(hWnd, (int)Msg, wParam, lParam);
 
-	public nint CallDefaultWindowProc(nint hWnd, int Msg, nint wParam, nint lParam)
+	public nint CallDefaultWindowProc(SafeHwnd hWnd, int Msg, nint wParam, nint lParam)
 	{
 		this.Handled = true;
 		return UserApi.DefWindowProc(hWnd, Msg, wParam, lParam);
