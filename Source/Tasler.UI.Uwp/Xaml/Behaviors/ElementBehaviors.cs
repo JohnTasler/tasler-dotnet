@@ -1,66 +1,65 @@
-﻿using Windows.Foundation;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Tasler.UI.Xaml.Behaviors
+namespace Tasler.UI.Xaml.Behaviors;
+
+using Attached = AttachedPropertyFactory<ElementBehaviors>;
+
+// TODO: NEEDS_UNIT_TESTS
+
+public sealed class ElementBehaviors
 {
-    using attached = AttachedPropertyFactory<ElementBehaviors>;
+	public ElementBehaviors() { }
 
-    // TODO: NEEDS_UNIT_TESTS
+	#region ClipThickness
 
-    public sealed class ElementBehaviors
-    {
-        public ElementBehaviors() { }
+	public static readonly DependencyProperty ClipThicknessProperty = Attached.Register<Thickness>(
+		"ClipThickness", new Thickness(double.NaN), ClipThicknessPropertyChanged);
 
-        #region ClipThickness
+	public static Thickness GetClipThickness(FrameworkElement element)
+	{
+		return (Thickness)element.GetValue(ClipThicknessProperty);
+	}
 
-        public static readonly DependencyProperty ClipThicknessProperty = attached.Register<Thickness>(
-            "ClipThickness", new Thickness(double.NaN), ClipThicknessPropertyChanged);
+	public static void SetClipThickness(FrameworkElement element, Thickness value)
+	{
+		element.SetValue(ClipThicknessProperty, value);
+	}
 
-        public static Thickness GetClipThickness(FrameworkElement element)
-        {
-            return (Thickness)element.GetValue(ClipThicknessProperty);
-        }
+	private static void ClipThicknessPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var element = (FrameworkElement)d;
+		var newValue = (Thickness)e.NewValue;
+		var oldValue = (Thickness)e.OldValue;
 
-        public static void SetClipThickness(FrameworkElement element, Thickness value)
-        {
-            element.SetValue(ClipThicknessProperty, value);
-        }
+		if (!oldValue.IsNan())
+		{
+			element.ClearValue(UIElement.ClipProperty);
+			element.SizeChanged -= ClipThicknessElement_SizeChanged;
+		}
 
-        private static void ClipThicknessPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var element = (FrameworkElement)d;
-            var newValue = (Thickness)e.NewValue;
-            var oldValue = (Thickness)e.OldValue;
+		if (newValue.IsNan())
+		{
+			element.ClearValue(UIElement.ClipProperty);
+			element.SizeChanged -= ClipThicknessElement_SizeChanged;
+		}
+		else
+		{
+			element.SizeChanged += ClipThicknessElement_SizeChanged;
+			element.Clip = new RectangleGeometry { Rect = new Rect() };
+		}
+	}
 
-            if (!oldValue.IsNan())
-            {
-                element.ClearValue(UIElement.ClipProperty);
-                element.SizeChanged -= ClipThicknessElement_SizeChanged;
-            }
+	private static void ClipThicknessElement_SizeChanged(object sender, SizeChangedEventArgs e)
+	{
+		var element = (FrameworkElement)sender;
 
-            if (newValue.IsNan())
-            {
-                element.ClearValue(UIElement.ClipProperty);
-                element.SizeChanged -= ClipThicknessElement_SizeChanged;
-            }
-            else
-            {
-                element.SizeChanged += ClipThicknessElement_SizeChanged;
-                element.Clip = new RectangleGeometry { Rect = new Rect() };
-            }
-        }
+		element.Clip = new RectangleGeometry
+		{
+			Rect = new Rect(new Point(), e.NewSize).Deflate(GetClipThickness(element))
+		};
+	}
 
-        private static void ClipThicknessElement_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var element = (FrameworkElement)sender;
-
-            element.Clip = new RectangleGeometry
-            {
-                Rect = new Rect(new Point(), e.NewSize).Deflate(GetClipThickness(element))
-            };
-        }
-
-        #endregion ClipThickness
-    }
+	#endregion ClipThickness
 }

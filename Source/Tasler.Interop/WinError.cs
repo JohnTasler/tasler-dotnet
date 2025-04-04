@@ -1,8 +1,7 @@
 
-namespace Tasler.Interop
+namespace Tasler.Interop;
+
+public static class WinError
 {
-	public static class WinError
-	{
-		public const int InsufficientBuffer = 122;
-	}
+	public const int InsufficientBuffer = 122;
 }

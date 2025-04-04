@@ -1,19 +1,17 @@
-﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Tasler.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Tasler.Windows.Extensions;
-
+using PopupBase = System.Windows.Controls.Primitives.Popup;
 namespace Tasler.Windows.Controls
 {
-	public partial class Popup : System.Windows.Controls.Primitives.Popup
+	public partial class Popup : PopupBase
 	{
 		#region Instance Fields
-		private MouseButtonEventArgs captureLostMouseDownArgs;
-		private IInputElement previouslyFocusedElement;
+		private MouseButtonEventArgs _captureLostMouseDownArgs;
+		private IInputElement _previouslyFocusedElement;
 		#endregion Instance Fields
 
 		#region Constructors
@@ -92,11 +90,8 @@ namespace Tasler.Windows.Controls
 
 		#region Commands
 
-		public ICommand CloseCommand
-		{
-			get { return this.closeCommand ?? (this.closeCommand = new RelayCommand(() => this.Close())); }
-		}
-		private RelayCommand closeCommand;
+		[RelayCommand]
+		private void OnClose() => this.Close();
 
 		#endregion Commands
 
@@ -104,7 +99,7 @@ namespace Tasler.Windows.Controls
 
 		#region Opened
 		public static readonly RoutedEvent OpenedEvent =
-			EventManager.RegisterRoutedEvent("Opened", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(Popup));
+			EventManager.RegisterRoutedEvent(nameof(Opened), RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(Popup));
 		#endregion Opened
 
 		#endregion Routed Events
@@ -128,7 +123,7 @@ namespace Tasler.Windows.Controls
 				return;
 
 			// Save the keyboard focused element
-			this.previouslyFocusedElement = Keyboard.FocusedElement;
+			this._previouslyFocusedElement = Keyboard.FocusedElement;
 
 			// Set focus on the first focusable descendant
 			var firstFocusableDescendant =
@@ -144,7 +139,7 @@ namespace Tasler.Windows.Controls
 			// TODO: See if we can re-enable this feature without crashing on Window.DragMove.
 			// TODO: Perhaps control it with a bool property of PassThroughOnCloseClick (bad name)
 			// Save the event arguments if the mouse down was outside our own bounds
-			this.captureLostMouseDownArgs = (!StaysOpen && IsMouseOutsideMe(e)) ? e : null;
+			this._captureLostMouseDownArgs = (!StaysOpen && IsMouseOutsideMe(e)) ? e : null;
 
 			// Perform default processing
 			base.OnPreviewMouseDown(e);
@@ -159,11 +154,11 @@ namespace Tasler.Windows.Controls
 		protected override void OnClosed(EventArgs e)
 		{
 			Debug.WriteLine("Popup.OnClosed: this.captureLostMouseDownArgs={0} Mouse.LeftButton={1}",
-				this.captureLostMouseDownArgs.FormatNameAndType(),
+				this._captureLostMouseDownArgs.FormatNameAndType(),
 				Mouse.LeftButton);
 
 			// Check if we're closing due to a mouse down outside our bounds
-			if (this.captureLostMouseDownArgs != null && Mouse.LeftButton == MouseButtonState.Pressed)
+			if (this._captureLostMouseDownArgs != null && Mouse.LeftButton == MouseButtonState.Pressed)
 			{
 				// Must do this while Mouse.LeftButton == MouseButtonState.Pressed or else Window.DragMove() will throw
 
@@ -171,9 +166,9 @@ namespace Tasler.Windows.Controls
 				//{
 				// Copy event args for the PreviewMouseDown and MouseDown routed events
 				var args = new MouseButtonEventArgs(
-					this.captureLostMouseDownArgs.MouseDevice,
-					this.captureLostMouseDownArgs.Timestamp,
-					this.captureLostMouseDownArgs.ChangedButton);
+					this._captureLostMouseDownArgs.MouseDevice,
+					this._captureLostMouseDownArgs.Timestamp,
+					this._captureLostMouseDownArgs.ChangedButton);
 				args.RoutedEvent = PreviewMouseDownEvent;
 
 				// Hit-test the position of the mouse down event that caused the Popup to close
@@ -186,7 +181,7 @@ namespace Tasler.Windows.Controls
 					{
 						// TODO: hit test until source is non-null, iterating through all Owned, Owners, and Application.Windows
 
-						var position = this.captureLostMouseDownArgs.GetPosition(window);
+						var position = this._captureLostMouseDownArgs.GetPosition(window);
 						var originalSource = window.InputHitTest(position);
 						Debug.WriteLine("Popup.OnClosed: window={0} position={1} originalSource={2}",
 							window.FormatNameAndType(), position.Round(), originalSource.FormatNameAndType());
@@ -209,13 +204,13 @@ namespace Tasler.Windows.Controls
 				}
 
 				// Clear the mouse down event args that caused us to lose capture
-				this.captureLostMouseDownArgs = null;
+				this._captureLostMouseDownArgs = null;
 				//});
 			}
 
 			// Restore the previously focused element
-			if (this.previouslyFocusedElement != null)
-				Keyboard.Focus(this.previouslyFocusedElement);
+			if (this._previouslyFocusedElement != null)
+				Keyboard.Focus(this._previouslyFocusedElement);
 
 			// Perform default processing
 			base.OnClosed(e);

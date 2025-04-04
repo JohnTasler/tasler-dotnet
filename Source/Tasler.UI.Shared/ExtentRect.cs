@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 #if WINDOWS_UWP
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -148,9 +150,10 @@ public struct ExtentRect
 
 	#region Overrides
 
-	public override bool Equals(object o)
+	[SuppressMessage("Style", "IDE0251:Make member 'readonly'", Justification = "I prefer a single character to a shortened word")]
+	public override bool Equals(object? o)
 	{
-		if ((o == null) || !(o is ExtentRect))
+		if (o is null || o is not ExtentRect)
 			return false;
 
 		var rect = (ExtentRect)o;

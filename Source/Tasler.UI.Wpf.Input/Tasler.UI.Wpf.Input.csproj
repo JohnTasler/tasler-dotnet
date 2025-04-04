@@ -1,122 +1,60 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4D4B272C-D636-41A3-9726-5A442BDD0750}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tasler.Windows.Input</RootNamespace>
-    <AssemblyName>Tasler.Windows.Input</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\Common\AssemblyInfoConfiguration.cs">
-      <Link>Properties\AssemblyInfoConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\AssemblyInfoCopyright.cs">
-      <Link>Properties\AssemblyInfoCopyright.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\AssemblyInfoVersion.cs">
-      <Link>Properties\AssemblyInfoVersion.cs</Link>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AssemblyInfoVersion.tt</DependentUpon>
-    </Compile>
-    <Compile Include="..\Windows\Properties\AssemblyInfoTheme.cs">
-      <Link>Properties\AssemblyInfoTheme.cs</Link>
-    </Compile>
-    <Compile Include="HumanInputBinding.cs" />
-    <Compile Include="HumanInputEventArgs.cs" />
-    <Compile Include="HumanInputGesture.cs" />
-    <Compile Include="MediaGestures.xaml.cs">
-      <DependentUpon>MediaGestures.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="InterfaceDeviceCollection.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="MediaGestures.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Common\AssemblyInfoVersion.tt">
-      <Link>Properties\AssemblyInfoVersion.tt</Link>
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Tasler.Core\Tasler.Core.csproj">
-      <Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
-      <Name>Tasler.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Tasler.Interop.RawInput\Tasler.Interop.RawInput.csproj">
-      <Project>{921d82f1-b7a8-47f9-83e0-b576441057f7}</Project>
-      <Name>Tasler.Interop.RawInput</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Tasler.Interop\Tasler.Interop.csproj">
-      <Project>{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}</Project>
-      <Name>Tasler.Interop</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<UseWPF>true</UseWPF>
+		<ProjectName>Tasler.UI.Wpf.Input</ProjectName>
+		<AssemblyName>Tasler.UI.Wpf.Input</AssemblyName>
+		<RootNamespace>Tasler.Windows.Input</RootNamespace>
+		<ProjectGuid>{4D4B272C-D636-41A3-9726-5A442BDD0750}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>net9.0-windows</TargetFrameworks>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
+		<DefineConstants>WINDOWS_WPF</DefineConstants>
+		<Platforms>AnyCPU;x64;x86</Platforms>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="KeyboardFilterService.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="Properties\Resources.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<!-- Project References -->
+	<ItemGroup>
+		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
+			<Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
+			<Name>Tasler.Core</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\Tasler.Interop.RawInput\Tasler.Interop.RawInput.csproj" />
+		<ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
+			<Project>{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}</Project>
+			<Name>Tasler.Interop</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+	<!-- Shared Project References -->
+	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
+
+	<ItemGroup>
+		<Content Update="F:\src\JohnTasler\tasler-dotnet\Source\Tasler.AssemblyInfo.Shared\AssemblyInfoVersion.tt">
+			<LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>
+		</Content>
+	</ItemGroup>
 </Project>

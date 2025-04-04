@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -112,7 +112,7 @@ namespace Tasler.Windows.Attachments
 							{
 								// Find all descendant Popup's that are open
 								var logicalPopups = window.GetLogicalDescendantsRecursive().OfType<Popup>().Where(p => p.IsOpen);
-								var visualPopups = window.GetVisualDescendantsRecursive().OfType<Popup>().Where(p => p.IsOpen);
+								var visualPopups = window.GetVisualDescendantsDepthFirst().OfType<Popup>().Where(p => p.IsOpen);
 
 								// Using the ToList method to execute/snapshot the IEnumerable
 								var affectedPopups = logicalPopups.Union(visualPopups).Where(p => !PopupManagement.GetIsAlwaysAllowedToOpen(p)).ToList();

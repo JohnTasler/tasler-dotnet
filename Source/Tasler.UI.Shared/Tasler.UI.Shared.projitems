@@ -13,14 +13,20 @@
     <AfterTransform>CustomPostTransform</AfterTransform>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumValueToNameConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\GetTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IsEqualConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IsTypeValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\MappingConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\NullWhenDateTimeMinimumConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ToBooleanConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanInverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanInversionConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ColorWithAlphaConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullableValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BaseValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\TypeValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExtentRect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PointExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\RectExtensions.cs" />

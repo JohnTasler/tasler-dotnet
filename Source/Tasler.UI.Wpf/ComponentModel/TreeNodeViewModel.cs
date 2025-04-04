@@ -1,29 +1,23 @@
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Tasler.ComponentModel;
 
 namespace Tasler.Windows.ComponentModel
 {
-	public abstract class TreeTerminalNodeViewModel<TParent> : ChildViewModelBase<TParent>, ITreeNodeViewModel
+	public abstract partial class TreeTerminalNodeViewModel<TParent> : ChildViewModelBase<TParent>, ITreeNodeViewModel
 		where TParent : class, INotifyPropertyChanged
 	{
 		#region ITreeNodeViewModel Members
 
-		public bool IsExpanded
-		{
-			get { return this.isExpanded; }
-			set { this.PropertyChanged.SetProperty(this, value, ref this.isExpanded); }
-		}
-		private bool isExpanded;
+		[ObservableProperty]
+		private bool _isExpanded;
 
-		public bool IsSelected
-		{
-			get { return this.GetIsItemSelected(); }
-			set { this.SetIsItemSelected(value); }
-		}
+		[ObservableProperty]
+		private bool _isSelected;
 
-		ICollectionView ITreeNodeViewModel.Children
+		ICollectionView? ITreeNodeViewModel.Children
 		{
 			get { return null; }
 		}

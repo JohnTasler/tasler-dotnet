@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -14,7 +14,7 @@ namespace Tasler.Windows.Controls
 		public const string IncreasedState = "Increased";
 		#endregion Constants
 
-		private Storyboard storyboard;
+		private Storyboard? _storyboard;
 
 		#region Constructors
 
@@ -23,7 +23,7 @@ namespace Tasler.Windows.Controls
 		/// </summary>
 		public SignalLevelMeter()
 		{
-			this.SetDefaultStyleKeyValue(DefaultStyleKeyProperty);
+			this.SetDefaultStyleKey();
 		}
 
 		#endregion Constructors
@@ -61,9 +61,9 @@ namespace Tasler.Windows.Controls
 				var fallbackDelayKeyFrame = default(DiscreteDoubleKeyFrame);
 				var fallbackKeyFrame      = default(EasingDoubleKeyFrame);
 
-				if (this.storyboard == null)
+				if (this._storyboard == null)
 				{
-					this.storyboard = new Storyboard
+					this._storyboard = new Storyboard
 					{
 						FillBehavior = FillBehavior.Stop,
 						Children =
@@ -87,8 +87,8 @@ namespace Tasler.Windows.Controls
 				}
 				else
 				{
-					this.storyboard.Stop();
-					animation = (DoubleAnimationUsingKeyFrames)this.storyboard.Children[0];
+					this._storyboard.Stop();
+					animation = (DoubleAnimationUsingKeyFrames)this._storyboard.Children[0];
 					initialKeyFrame       = (DiscreteDoubleKeyFrame)animation.KeyFrames[0];
 					responseKeyFrame      = (EasingDoubleKeyFrame  )animation.KeyFrames[1];
 					fallbackDelayKeyFrame = (DiscreteDoubleKeyFrame)animation.KeyFrames[2];
@@ -108,7 +108,7 @@ namespace Tasler.Windows.Controls
 				fallbackKeyFrame.Value          = this.Minimum;
 				fallbackKeyFrame.EasingFunction = this.FallbackEasingFunction;
 
-				this.storyboard.Begin();
+				this._storyboard.Begin();
 			}
 		}
 

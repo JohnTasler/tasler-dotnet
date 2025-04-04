@@ -1,9 +1,3 @@
-using System;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using Tasler.Properties;
-
 namespace Tasler;
 
 // TODO: NEEDS_UNIT_TESTS
@@ -11,7 +5,6 @@ namespace Tasler;
 /// <summary>
 /// Provides extension methods for enum's.
 /// </summary>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
 public static class EnumExtensions
 {
 	#region Bit Flipping

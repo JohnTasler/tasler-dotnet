@@ -6,12 +6,14 @@
 		<RootNamespace>Tasler.Interop.Shell</RootNamespace>
 		<ProjectGuid>{4090FB61-0858-4AE8-A30D-B34464A9505F}</ProjectGuid>
 		<OutputType>Library</OutputType>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>net9.0-windows</TargetFrameworks>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
-	<Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
-	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 
+	<!-- Project References -->
 	<ItemGroup>
 		<ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
 			<Project>{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}</Project>
@@ -23,6 +25,8 @@
 	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 
+	<!-- Shared Project References -->
+	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 	<ItemGroup>
 	  <Content Update="F:\src\JohnTasler\tasler-dotnet\Source\Tasler.AssemblyInfo.Shared\AssemblyInfoVersion.tt">
 	    <LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>

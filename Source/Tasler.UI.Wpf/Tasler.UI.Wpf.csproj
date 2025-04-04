@@ -8,10 +8,10 @@
 		<ProjectGuid>{CC6BE222-DE4B-412A-9743-80C187F43EE1}</ProjectGuid>
 		<OutputType>Library</OutputType>
 		<TargetFrameworks>net9.0-windows</TargetFrameworks>
-		<EnableWindowsTargeting>true</EnableWindowsTargeting>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
 		<DefineConstants>WINDOWS_WPF</DefineConstants>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -39,7 +39,11 @@
 
 	<!-- Package References -->
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="9.3.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
 	</ItemGroup>
 
 	<!-- Project References -->
@@ -52,6 +56,7 @@
 			<Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
 			<Name>Tasler.Core</Name>
 		</ProjectReference>
+		<ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj" />
 	</ItemGroup>
 
 	<!-- Shared Project References -->

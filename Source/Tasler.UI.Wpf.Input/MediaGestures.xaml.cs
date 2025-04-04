@@ -1,190 +1,92 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Threading;
+namespace Tasler.Windows.Input;
 
-namespace Tasler.Windows.Input
+/// <summary>
+/// Interaction logic for App.xaml
+/// </summary>
+public partial class MediaGestures
 {
+	#region Static Fields
+	private static readonly MediaGestures _instance = new();
+	#endregion Static Fields
+
+	#region Construction
+
 	/// <summary>
-	/// Interaction logic for App.xaml
+	/// Initializes a new instance of the <see cref="MediaGestures"/> class.
 	/// </summary>
-	public partial class MediaGestures
-	{
-		#region Static Fields
-		private static readonly MediaGestures instance = new MediaGestures();
-		#endregion Static Fields
+	private MediaGestures() => this.InitializeComponent(); // Initialize from XAML
 
-		#region Construction
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MediaGestures"/> class.
-		/// </summary>
-		private MediaGestures()
-		{
-			// Initialize from XAML
-			this.InitializeComponent();
-		}
-		#endregion Construction
+	#endregion Construction
 
-		#region Properties
-		public static HumanInputGesture Guide
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Guide"]; }
-		}
+	#region Private Methods
+	private static HumanInputGesture GetGesture(string gestureSuffix) => (HumanInputGesture)_instance[$"Media.{gestureSuffix}"];
+	#endregion Private Methods
 
-		public static HumanInputGesture Play
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Play"]; }
-		}
+	#region Properties
 
-		public static HumanInputGesture Pause
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Pause"]; }
-		}
+	public static HumanInputGesture Guide => GetGesture(nameof(Guide));
 
-		public static HumanInputGesture Record
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Record"]; }
-		}
+	public static HumanInputGesture Play => GetGesture(nameof(Play));
 
-		public static HumanInputGesture Forward
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Forward"]; }
-		}
+	public static HumanInputGesture Pause => GetGesture(nameof(Pause));
 
-		public static HumanInputGesture Rewind
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Rewind"]; }
-		}
+	public static HumanInputGesture Record => GetGesture(nameof(Record));
 
-		public static HumanInputGesture Skip
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Skip"]; }
-		}
+	public static HumanInputGesture Forward => GetGesture(nameof(Forward));
 
-		public static HumanInputGesture Replay
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Replay"]; }
-		}
+	public static HumanInputGesture Rewind => GetGesture(nameof(Rewind));
 
-		public static HumanInputGesture Stop
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Stop"]; }
-		}
+	public static HumanInputGesture Skip => GetGesture(nameof(Skip));
 
-		public static HumanInputGesture Details
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Details"]; }
-		}
+	public static HumanInputGesture Replay => GetGesture(nameof(Replay));
 
-		public static HumanInputGesture Back
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Back"]; }
-		}
+	public static HumanInputGesture Stop => GetGesture(nameof(Stop));
 
-		public static HumanInputGesture eHome
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.eHome"]; }
-		}
+	public static HumanInputGesture Details => GetGesture(nameof(Details));
 
-		public static HumanInputGesture DvdMenu
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.DvdMenu"]; }
-		}
+	public static HumanInputGesture Back => GetGesture(nameof(Back));
 
-		public static HumanInputGesture LiveTV
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.LiveTV"]; }
-		}
+	public static HumanInputGesture eHome => GetGesture(nameof(eHome));
 
-		public static HumanInputGesture Aspect
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Aspect"]; }
-		}
+	public static HumanInputGesture DvdMenu => GetGesture(nameof(DvdMenu));
 
-		public static HumanInputGesture MyTV
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.MyTV"]; }
-		}
+	public static HumanInputGesture LiveTV => GetGesture(nameof(LiveTV));
 
-		public static HumanInputGesture MyMusic
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.MyMusic"]; }
-		}
+	public static HumanInputGesture Aspect => GetGesture(nameof(Aspect));
 
-		public static HumanInputGesture RecordedTV
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.RecordedTV"]; }
-		}
+	public static HumanInputGesture MyTV => GetGesture(nameof(MyTV));
 
-		public static HumanInputGesture MyPictures
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.MyPictures"]; }
-		}
+	public static HumanInputGesture MyMusic => GetGesture(nameof(MyMusic));
 
-		public static HumanInputGesture MyVideos
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.MyVideos"]; }
-		}
+	public static HumanInputGesture RecordedTV => GetGesture(nameof(RecordedTV));
 
-		public static HumanInputGesture DvdAngle
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.DvdAngle"]; }
-		}
+	public static HumanInputGesture MyPictures => GetGesture(nameof(MyPictures));
 
-		public static HumanInputGesture DvdAudio
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.DvdAudio"]; }
-		}
+	public static HumanInputGesture MyVideos => GetGesture(nameof(MyVideos));
 
-		public static HumanInputGesture DvdSubtitle
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.DvdSubtitle"]; }
-		}
+	public static HumanInputGesture DvdAngle => GetGesture(nameof(DvdAngle));
 
-		public static HumanInputGesture Radio
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Radio"]; }
-		}
+	public static HumanInputGesture DvdAudio => GetGesture(nameof(DvdAudio));
 
-		public static HumanInputGesture TeleText
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.TeleText"]; }
-		}
+	public static HumanInputGesture DvdSubtitle => GetGesture(nameof(DvdSubtitle));
 
-		public static HumanInputGesture Red
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Red"]; }
-		}
+	public static HumanInputGesture Radio => GetGesture(nameof(Radio));
 
-		public static HumanInputGesture Green
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Green"]; }
-		}
+	public static HumanInputGesture TeleText => GetGesture(nameof(TeleText));
 
-		public static HumanInputGesture Yellow
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Yellow"]; }
-		}
+	public static HumanInputGesture Red => GetGesture(nameof(Red));
 
-		public static HumanInputGesture Blue
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.Blue"]; }
-		}
+	public static HumanInputGesture Green => GetGesture(nameof(Green));
 
-		public static HumanInputGesture OEM1
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.OEM1"]; }
-		}
+	public static HumanInputGesture Yellow => GetGesture(nameof(Yellow));
 
-		public static HumanInputGesture OEM2
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.OEM2"]; }
-		}
+	public static HumanInputGesture Blue => GetGesture(nameof(Blue));
 
-		public static HumanInputGesture NumInput
-		{
-			get { return (HumanInputGesture)MediaGestures.instance["Media.NumInput"]; }
-		}
-		#endregion Properties
-	}
+	public static HumanInputGesture OEM1 => GetGesture(nameof(OEM1));
+
+	public static HumanInputGesture OEM2 => GetGesture(nameof(OEM2));
+
+	public static HumanInputGesture NumInput => GetGesture(nameof(NumInput));
+
+	#endregion Properties
 }
