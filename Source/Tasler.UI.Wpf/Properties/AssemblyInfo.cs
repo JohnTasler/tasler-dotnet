@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Markup;
 
@@ -22,14 +23,16 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Controls")]
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Converters")]
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Extensions")]
-//[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Markup")]
+[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Markup")]
+
+[assembly: InternalsVisibleTo("Tasler.Windows.Input")]
 
 internal static class XmlNamespace
 {
-    public const string Tasler = "urn:tasler-dotnet-framework";
+		public const string Tasler = "urn:tasler-dotnet-framework";
 }
 
 internal static class XmlNamespacePrefix
 {
-    public const string Tasler = "taz";
+		public const string Tasler = "taz";
 }

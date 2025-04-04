@@ -14,12 +14,19 @@
 		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
 		<DefaultLanguage>en-US</DefaultLanguage>
 		<DefineConstants>WINDOWS_UWP</DefineConstants>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+	</ItemGroup>
 
 	<!-- Package References -->
 
 	<!-- Project References -->
 	<ItemGroup>
+		<ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj" />
 		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
 			<Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
 			<Name>Tasler.Core</Name>

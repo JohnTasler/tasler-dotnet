@@ -1,12 +1,13 @@
 # Remove the line below if you want to inherit .editorconfig settings from higher directories
 root = true
 
-# C# files
-[*.cs]
+# All files
+[*]
 
 #### Core EditorConfig Options ####
 
 # Indentation and spacing
+charset = utf-8
 indent_size = 2
 indent_style = tab
 tab_width = 2
@@ -15,7 +16,13 @@ tab_width = 2
 end_of_line = crlf
 insert_final_newline = true
 
+# guidelines_style = 1px dotted C0ff0000
+guidelines = 99 1px solid FF00003F, 109 2px dotted, 119 dashed
+
 #### .NET Code Actions ####
+
+# C# files
+[*.cs]
 
 # Type members
 dotnet_hide_advanced_members = false

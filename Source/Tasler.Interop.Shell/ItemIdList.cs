@@ -7,7 +7,7 @@ namespace Tasler.Interop.Shell;
 public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 {
 	#region Static Fields
-	public static readonly ItemIdList Null = new ItemIdList();
+	public static readonly ItemIdList Null = new();
 	#endregion Static Fields
 
 	#region Construction
@@ -210,12 +210,12 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 	#endregion Equality Comparisons
 
 	#region Overrides
-	public override bool Equals(object o)
+	public override bool Equals(object? o)
 	{
-		if ((o == null) || !(o is ItemIdList || o is ChildItemIdList))
+		if ((o is null) || !(o is ItemIdList || o is ChildItemIdList))
 			return false;
 
-		return (o is ItemIdList) ? Equals(this, (ItemIdList)o) : Equals(this, (ChildItemIdList)o);
+		return (o is ItemIdList list) ? Equals(this, list) : Equals(this, (ChildItemIdList)o);
 	}
 
 	public override int GetHashCode()
@@ -359,7 +359,6 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 		return this.GetEnumerator();
 	}
 	#endregion IEnumerable Members
-
 }
 
 public class ChildItemIdList : SafeCoTaskMemHandle

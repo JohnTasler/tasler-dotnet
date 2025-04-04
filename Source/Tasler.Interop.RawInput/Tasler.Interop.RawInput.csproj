@@ -1,50 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <ProjectGuid>{921D82F1-B7A8-47F9-83E0-B576441057F7}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tasler.Interop.RawInput</RootNamespace>
-    <AssemblyName>Tasler.Interop.RawInput</AssemblyName>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <Version />
-    <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<UseWPF>true</UseWPF>
+		<ProjectName>Tasler.Interop.RawInput</ProjectName>
+		<AssemblyName>Tasler.Interop.RawInput</AssemblyName>
+		<RootNamespace>Tasler.Interop.RawInput</RootNamespace>
+		<ProjectGuid>{921D82F1-B7A8-47F9-83E0-B576441057F7}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>net9.0-windows</TargetFrameworks>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Platforms>AnyCPU;x64;x86</Platforms>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<!-- Project References -->
+	<ItemGroup>
+		<ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
+			<Project>{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}</Project>
+			<Name>Tasler.Interop</Name>
+		</ProjectReference>
+	</ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<ItemGroup>
+	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
 
-  <Import Project="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
-  <Import Project="..\Tasler.BuildTools\netstandard2.0.AssemblyVersion.props" />
-  <ItemGroup>
-    <ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
-      <Project>{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}</Project>
-      <Name>Tasler.Interop</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="InterfaceDevice.cs" />
-    <Compile Include="InterfaceDeviceHuman.cs" />
-    <Compile Include="InterfaceDeviceKeyboard.cs" />
-    <Compile Include="InterfaceDeviceMouse.cs" />
-    <Compile Include="User\RawInputApi.cs" />
-    <Compile Include="User\RawInputEnums.cs" />
-    <Compile Include="User\RawInputStructs.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Xaml">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xaml.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<!-- Shared Project References -->
+	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
+	<ItemGroup>
+	  <Content Update="F:\src\JohnTasler\tasler-dotnet\Source\Tasler.AssemblyInfo.Shared\AssemblyInfoVersion.tt">
+	    <LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>
+	  </Content>
+	</ItemGroup>
 </Project>

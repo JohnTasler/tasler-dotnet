@@ -3,9 +3,31 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace Tasler.Interop;
+
 public static class StringHelpers
 {
-	public static string GetVariableLengthString(Func<char[], int, int> func, int initialBufferLength = 16)
+	/// <summary>
+	///   <br />
+	/// </summary>
+	/// <param name="buffer">The buffer.</param>
+	/// <param name="bufferLength">Length of the buffer.</param>
+	/// <returns>
+	///   <br />
+	/// </returns>
+	public delegate int GetTextFunc(char[] buffer, int bufferLength);
+
+	/// <summary>Gets the variable length string.</summary>
+	/// <param name="getTextFunc">
+	///   The function that accepts a buffer and bufferLength as parameters, and that returns the number
+	///   of characters copied to the buffer.
+	/// </param>
+	/// <param name="initialBufferLength">Initial length of the buffer.</param>
+	/// <returns>
+	///   <br />
+	/// </returns>
+	/// <exception cref="System.ComponentModel.Win32Exception">The func returned zero and the last error was unexpected.</exception>
+	/// <exception cref="System.OutOfMemoryException">The buffer has grown pathelogically.</exception>
+	public static string GetVariableLengthString(GetTextFunc getTextFunc, int initialBufferLength = 16)
 	{
 		var previousCch = 0;
 		var cch = 1;
@@ -17,7 +39,7 @@ public static class StringHelpers
 			using var bufferScope = new DisposeScopeExit(() => ArrayPool<char>.Shared.Return(buffer));
 
 			buffer = ArrayPool<char>.Shared.Rent(bufferLength);
-			cch = func(buffer, bufferLength);
+			cch = getTextFunc(buffer, bufferLength);
 			var lastError = Marshal.GetLastPInvokeError();
 			if (cch == 0)
 			{

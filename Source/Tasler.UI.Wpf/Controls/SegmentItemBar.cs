@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +20,7 @@ namespace Tasler.Windows.Controls
 		/// </summary>
 		public SegmentItemBar()
 		{
-			this.SetDefaultStyleKeyValue(DefaultStyleKeyProperty);
+			this.SetDefaultStyleKey();
 
 			_segmentItems = new ObservableCollection<SegmentItem>();
 			this.SegmentItems = new ReadOnlyObservableCollection<SegmentItem>(_segmentItems);

@@ -25,20 +25,22 @@ public abstract class WindowMessageProcessor : WindowMessageRedirector
 		if (this.WindowHandle != hwnd)
 			this.Detach();
 
-		if (hwnd.Handle != nint.Zero)
+		if (!hwnd.IsInvalid)
 		{
 			this.WindowHandle = hwnd;
 			this.OnAttached();
 		}
 	}
 
-	public void Detach()
+	public SafeHwnd Detach()
 	{
-		if (this.WindowHandle.Handle != nint.Zero)
+		var result = this.WindowHandle;
+		if (!this.WindowHandle.IsInvalid)
 		{
 			this.OnDetaching();
 			this.WindowHandle = new SafeHwnd();
 		}
+		return result;
 	}
 	#endregion Methods
 

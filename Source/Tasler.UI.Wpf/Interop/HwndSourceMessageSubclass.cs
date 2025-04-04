@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Interop;
 using Tasler.Interop;
@@ -10,35 +8,29 @@ namespace Tasler.Windows.Interop
 	public class HwndSourceMessageSubclass : WindowMessageSubclass
 	{
 		#region Instance Fields
-		private IInputElement element;
-		private HwndSource hwndSource;
+		private IInputElement? _element;
+		private HwndSource? _hwndSource;
 		#endregion Instance Fields
 
 		#region Construction
-		public HwndSourceMessageSubclass(IInputElement element)
+		public HwndSourceMessageSubclass(IInputElement? element)
 		{
 			if (element == null)
 				throw new ArgumentNullException("element");
 
-			this.element = element;
-			this.hwndSource = (HwndSource)HwndSource.FromDependencyObject(element as DependencyObject);
+			_element = element;
+			_hwndSource = (HwndSource)HwndSource.FromDependencyObject(element as DependencyObject);
 
-			PresentationSource.AddSourceChangedHandler(this.element, this.PresentationSource_SourceChanged);
+			PresentationSource.AddSourceChangedHandler(_element, this.PresentationSource_SourceChanged);
 		}
 		#endregion Construction
 
 		#region Properties
-		public nint Handle
-		{
-			get
-			{
-				return (this.hwndSource != null) ? this.hwndSource.Handle : nint.Zero;
-			}
-		}
+		public SafeHwnd Handle => new() { Handle = _hwndSource?.Handle ?? nint.Zero };
 		#endregion Properties
 
 		#region Events
-		public event EventHandler HandleChanged;
+		public event EventHandler? HandleChanged;
 		#endregion Events
 
 		#region Event Handlers
@@ -46,20 +38,16 @@ namespace Tasler.Windows.Interop
 		{
 			var previousHandle = this.Handle;
 
-			var oldSource = e.OldSource as HwndSource;
-			if (oldSource != null)
-				this.hwndSource = null;
+			if (e.OldSource is HwndSource oldSource)
+				_hwndSource = null;
 
-			var newSource = e.NewSource as HwndSource;
-			if (newSource != null)
-				this.hwndSource = newSource;
+			if (e.NewSource is HwndSource newSource)
+				_hwndSource = newSource;
 
 			if (this.Handle != previousHandle)
 			{
 				this.Attach(this.Handle);
-
-				if (this.HandleChanged != null)
-					this.HandleChanged(this, EventArgs.Empty);
+				this.HandleChanged?.Invoke(this, EventArgs.Empty);
 			}
 		}
 		#endregion Event Handlers

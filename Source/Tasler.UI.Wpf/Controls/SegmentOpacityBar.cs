@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Tasler.Windows.Extensions;
 
 namespace Tasler.Windows.Controls
@@ -24,7 +24,7 @@ namespace Tasler.Windows.Controls
 		/// </summary>
 		public SegmentOpacityBar()
 		{
-			this.SetDefaultStyleKeyValue(DefaultStyleKeyProperty);
+			this.SetDefaultStyleKey();
 		}
 		#endregion Constructors
 
