@@ -1,8 +1,10 @@
+using CommunityToolkit.Diagnostics;
+
 namespace Tasler;
 
 // TODO: NEEDS_UNIT_TESTS
 
-public class DisposeScopeExit : IDisposable
+public struct DisposeScopeExit : IDisposable
 {
 	#region Instance Fields
 	private Action? _disposeAction;
@@ -17,7 +19,7 @@ public class DisposeScopeExit : IDisposable
 
 	public DisposeScopeExit(Action? initializeAction, Action disposeAction)
 	{
-		ValidateArgument.IsNotNull(disposeAction, nameof(disposeAction));
+		Guard.IsNotNull(disposeAction);
 
 		initializeAction?.Invoke();
 		_disposeAction = disposeAction;
@@ -25,10 +27,6 @@ public class DisposeScopeExit : IDisposable
 
 	public void DetachDisposeAction() => _disposeAction = null;
 
-	~DisposeScopeExit()
-	{
-		this.Dispose();
-	}
 	#endregion Constructors / Finalizer
 
 	#region IDisposable Members
@@ -37,8 +35,6 @@ public class DisposeScopeExit : IDisposable
 	{
 		_disposeAction?.Invoke();
 		_disposeAction = null;
-
-		GC.SuppressFinalize(this);
 	}
 
 	#endregion IDisposable Members

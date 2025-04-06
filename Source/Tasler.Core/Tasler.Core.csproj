@@ -48,7 +48,8 @@
 
 	<!-- Package References -->
 	<ItemGroup>
-		<PackageReference Include="System.Memory" Version="4.6.2" />
+		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
+		<PackageReference Include="System.Memory" Version="4.6.3" />
 	</ItemGroup>
 
 	<!-- Project References -->
