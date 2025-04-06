@@ -10,7 +10,7 @@ namespace Tasler.Threading;
 /// <remarks>
 /// <para>This class helps to coalesce multiple similar actions within a timeframe into a single action. The
 /// classic example is persisting a window's size/position when the user changes it. Rather than persisting the
-/// values each time one changes, the change events can simply trigger an instance of
+/// values each time one of these properties changes, the change events can simply trigger an instance of
 /// <see cref="TimerDeferredAction"/>. The interval timer is reset each time the <see cref="Trigger"/>
 /// method is called.</para>
 /// <para>When creating an instance of this class, you must specify a <see cref="TimeSpan"/> and an
