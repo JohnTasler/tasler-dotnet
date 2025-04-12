@@ -1,269 +1,267 @@
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Tasler.Windows.Extensions;
 
-namespace Tasler.Windows.Controls
+namespace Tasler.Windows.Controls;
+
+public class SignalLevelMeter : Control
 {
-	public class SignalLevelMeter : Control
+	#region Constants
+	public const string ValueChangeGroup = "ValueChange";
+	public const string DecreasedState = "Decreased";
+	public const string IncreasedState = "Increased";
+	#endregion Constants
+
+	private Storyboard? _storyboard;
+
+	#region Constructors
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="SignalLevelMeter"/> class.
+	/// </summary>
+	public SignalLevelMeter()
 	{
-		#region Constants
-		public const string ValueChangeGroup = "ValueChange";
-		public const string DecreasedState = "Decreased";
-		public const string IncreasedState = "Increased";
-		#endregion Constants
+		this.SetDefaultStyleKey();
+	}
 
-		private Storyboard? _storyboard;
+	#endregion Constructors
 
-		#region Constructors
+	#region Value
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SignalLevelMeter"/> class.
-		/// </summary>
-		public SignalLevelMeter()
+	public static readonly DependencyProperty ValueProperty =
+		DependencyProperty.Register(nameof(Value), typeof(double), typeof(SignalLevelMeter),
+			new PropertyMetadata(0.0, OnValuePropertyChanged));
+
+	public double Value
+	{
+		get => (double)this.GetValue(ValueProperty);
+		set => this.SetValue(ValueProperty, value);
+	}
+
+	private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var @this = (SignalLevelMeter)d;
+		var oldValue = (double)e.OldValue;
+		var newValue = (double)e.NewValue;
+		@this.OnValuePropertyChanged(oldValue, newValue);
+	}
+
+	private void OnValuePropertyChanged(double oldValue, double newValue)
+	{
+		var displayValue = this.DisplayValue;
+
+		if (newValue > displayValue)
 		{
-			this.SetDefaultStyleKey();
-		}
+			// Create or stop the storyboard and animation
+			var animation = default(DoubleAnimationUsingKeyFrames);
+			var initialKeyFrame       = default(DiscreteDoubleKeyFrame);
+			var responseKeyFrame      = default(EasingDoubleKeyFrame);
+			var fallbackDelayKeyFrame = default(DiscreteDoubleKeyFrame);
+			var fallbackKeyFrame      = default(EasingDoubleKeyFrame);
 
-		#endregion Constructors
-
-		#region Value
-
-		public static readonly DependencyProperty ValueProperty =
-			DependencyProperty.Register("Value", typeof(double), typeof(SignalLevelMeter),
-				new PropertyMetadata(0.0, OnValuePropertyChanged));
-
-		public double Value
-		{
-			get { return (double)this.GetValue(ValueProperty); }
-			set { this.SetValue(ValueProperty, value); }
-		}
-
-		private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			var instance = (SignalLevelMeter)d;
-			var oldValue = (double)e.OldValue;
-			var newValue = (double)e.NewValue;
-			instance.OnValuePropertyChanged(oldValue, newValue);
-		}
-
-		private void OnValuePropertyChanged(double oldValue, double newValue)
-		{
-			var displayValue = this.DisplayValue;
-
-			if (newValue > displayValue)
+			if (_storyboard is null)
 			{
-				// Create or stop the storyboard and animation
-				var animation = default(DoubleAnimationUsingKeyFrames);
-				var initialKeyFrame       = default(DiscreteDoubleKeyFrame);
-				var responseKeyFrame      = default(EasingDoubleKeyFrame);
-				var fallbackDelayKeyFrame = default(DiscreteDoubleKeyFrame);
-				var fallbackKeyFrame      = default(EasingDoubleKeyFrame);
-
-				if (this._storyboard == null)
+				_storyboard = new Storyboard
 				{
-					this._storyboard = new Storyboard
+					FillBehavior = FillBehavior.Stop,
+					Children =
 					{
-						FillBehavior = FillBehavior.Stop,
-						Children =
+						(animation = new DoubleAnimationUsingKeyFrames
 						{
-							(animation = new DoubleAnimationUsingKeyFrames
+							FillBehavior = FillBehavior.Stop,
+							KeyFrames =
 							{
-								FillBehavior = FillBehavior.Stop,
-								KeyFrames =
-								{
-									(initialKeyFrame       = new DiscreteDoubleKeyFrame { KeyTime = TimeSpan.Zero }),
-									(responseKeyFrame      = new EasingDoubleKeyFrame  ()),
-									(fallbackDelayKeyFrame = new DiscreteDoubleKeyFrame()),
-									(fallbackKeyFrame      = new EasingDoubleKeyFrame  ()),
-								}
-							})
-						}
+								(initialKeyFrame       = new DiscreteDoubleKeyFrame { KeyTime = TimeSpan.Zero }),
+								(responseKeyFrame      = new EasingDoubleKeyFrame  ()),
+								(fallbackDelayKeyFrame = new DiscreteDoubleKeyFrame()),
+								(fallbackKeyFrame      = new EasingDoubleKeyFrame  ()),
+							}
+						})
+					}
 
-					};
-					Storyboard.SetTarget(animation, this);
-					Storyboard.SetTargetProperty(animation, new PropertyPath(DisplayValueProperty));
-				}
-				else
-				{
-					this._storyboard.Stop();
-					animation = (DoubleAnimationUsingKeyFrames)this._storyboard.Children[0];
-					initialKeyFrame       = (DiscreteDoubleKeyFrame)animation.KeyFrames[0];
-					responseKeyFrame      = (EasingDoubleKeyFrame  )animation.KeyFrames[1];
-					fallbackDelayKeyFrame = (DiscreteDoubleKeyFrame)animation.KeyFrames[2];
-					fallbackKeyFrame      = (EasingDoubleKeyFrame  )animation.KeyFrames[3];
-				}
-
-				initialKeyFrame.Value           = displayValue;
-
-				responseKeyFrame.KeyTime        = this.ResponseTime;
-				responseKeyFrame.Value          = newValue;
-				responseKeyFrame.EasingFunction = this.ResponseEasingFunction;
-
-				fallbackDelayKeyFrame.KeyTime   = responseKeyFrame.KeyTime.TimeSpan + this.FallbackDelay;
-				fallbackDelayKeyFrame.Value     = newValue;
-
-				fallbackKeyFrame.KeyTime        = fallbackDelayKeyFrame.KeyTime.TimeSpan + this.FallbackTime;
-				fallbackKeyFrame.Value          = this.Minimum;
-				fallbackKeyFrame.EasingFunction = this.FallbackEasingFunction;
-
-				this._storyboard.Begin();
+				};
+				Storyboard.SetTarget(animation, this);
+				Storyboard.SetTargetProperty(animation, new PropertyPath(DisplayValueProperty));
 			}
+			else
+			{
+				_storyboard.Stop();
+				animation = (DoubleAnimationUsingKeyFrames)_storyboard.Children[0];
+				initialKeyFrame       = (DiscreteDoubleKeyFrame)animation.KeyFrames[0];
+				responseKeyFrame      = (EasingDoubleKeyFrame  )animation.KeyFrames[1];
+				fallbackDelayKeyFrame = (DiscreteDoubleKeyFrame)animation.KeyFrames[2];
+				fallbackKeyFrame      = (EasingDoubleKeyFrame  )animation.KeyFrames[3];
+			}
+
+			initialKeyFrame.Value           = displayValue;
+
+			responseKeyFrame.KeyTime        = this.ResponseTime;
+			responseKeyFrame.Value          = newValue;
+			responseKeyFrame.EasingFunction = this.ResponseEasingFunction;
+
+			fallbackDelayKeyFrame.KeyTime   = responseKeyFrame.KeyTime.TimeSpan + this.FallbackDelay;
+			fallbackDelayKeyFrame.Value     = newValue;
+
+			fallbackKeyFrame.KeyTime        = fallbackDelayKeyFrame.KeyTime.TimeSpan + this.FallbackTime;
+			fallbackKeyFrame.Value          = this.Minimum;
+			fallbackKeyFrame.EasingFunction = this.FallbackEasingFunction;
+
+			_storyboard.Begin();
 		}
+	}
 
-		#endregion Value
+	#endregion Value
 
-		#region DisplayValue
+	#region DisplayValue
 
-		public static readonly DependencyProperty DisplayValueProperty =
-			DependencyProperty.Register("DisplayValue", typeof(double), typeof(SignalLevelMeter),
-				new PropertyMetadata(0.0));
+	public static readonly DependencyProperty DisplayValueProperty =
+		DependencyProperty.Register(nameof(DisplayValue), typeof(double), typeof(SignalLevelMeter),
+			new PropertyMetadata(0.0));
 
-		public double DisplayValue
-		{
-			get { return (double)this.GetValue(DisplayValueProperty); }
-			/*private*/ set { this.SetValue(DisplayValueProperty, value); }
-		}
+	public double DisplayValue
+	{
+		get => (double)this.GetValue(DisplayValueProperty);
+		/*private*/ set => this.SetValue(DisplayValueProperty, value);
+	}
 
-		#endregion DisplayValue
+	#endregion DisplayValue
 
-		#region ResponseTime
+	#region ResponseTime
 
-		public static readonly DependencyProperty ResponseTimeProperty =
-			DependencyProperty.Register("ResponseTime", typeof(TimeSpan), typeof(SignalLevelMeter),
-				new PropertyMetadata(TimeSpan.Zero));
+	public static readonly DependencyProperty ResponseTimeProperty =
+		DependencyProperty.Register(nameof(ResponseTime), typeof(TimeSpan), typeof(SignalLevelMeter),
+			new PropertyMetadata(TimeSpan.Zero));
 
-		public TimeSpan ResponseTime
-		{
-			get { return (TimeSpan)this.GetValue(ResponseTimeProperty); }
-			set { this.SetValue(ResponseTimeProperty, value); }
-		}
+	public TimeSpan ResponseTime
+	{
+		get => (TimeSpan)this.GetValue(ResponseTimeProperty);
+		set => this.SetValue(ResponseTimeProperty, value);
+	}
 
-		#endregion ResponseTime
+	#endregion ResponseTime
 
-		#region FallbackDelay
+	#region FallbackDelay
 
-		public static readonly DependencyProperty FallbackDelayProperty =
-			DependencyProperty.Register("FallbackDelay", typeof(TimeSpan), typeof(SignalLevelMeter),
-				new PropertyMetadata(TimeSpan.Zero));
+	public static readonly DependencyProperty FallbackDelayProperty =
+		DependencyProperty.Register(nameof(FallbackDelay), typeof(TimeSpan), typeof(SignalLevelMeter),
+			new PropertyMetadata(TimeSpan.Zero));
 
-		public TimeSpan FallbackDelay
-		{
-			get { return (TimeSpan)this.GetValue(FallbackDelayProperty); }
-			set { this.SetValue(FallbackDelayProperty, value); }
-		}
+	public TimeSpan FallbackDelay
+	{
+		get => (TimeSpan)this.GetValue(FallbackDelayProperty);
+		set => this.SetValue(FallbackDelayProperty, value);
+	}
 
-		#endregion FallbackDelay
+	#endregion FallbackDelay
 
-		#region FallbackTime
+	#region FallbackTime
 
-		public static readonly DependencyProperty FallbackTimeProperty =
-			DependencyProperty.Register("FallbackTime", typeof(TimeSpan), typeof(SignalLevelMeter),
-				new PropertyMetadata(TimeSpan.Zero));
+	public static readonly DependencyProperty FallbackTimeProperty =
+		DependencyProperty.Register(nameof(FallbackTime), typeof(TimeSpan), typeof(SignalLevelMeter),
+			new PropertyMetadata(TimeSpan.Zero));
 
-		public TimeSpan FallbackTime
-		{
-			get { return (TimeSpan)this.GetValue(FallbackTimeProperty); }
-			set { this.SetValue(FallbackTimeProperty, value); }
-		}
+	public TimeSpan FallbackTime
+	{
+		get => (TimeSpan)this.GetValue(FallbackTimeProperty);
+		set => this.SetValue(FallbackTimeProperty, value);
+	}
 
-		#endregion FallbackTime
+	#endregion FallbackTime
 
-		#region ResponseEasingFunction
+	#region ResponseEasingFunction
 
-		public static readonly DependencyProperty ResponseEasingFunctionProperty =
-			DependencyProperty.Register("ResponseEasingFunction", typeof(IEasingFunction), typeof(SignalLevelMeter),
-				new PropertyMetadata(null));
+	public static readonly DependencyProperty ResponseEasingFunctionProperty =
+		DependencyProperty.Register(nameof(ResponseEasingFunction), typeof(IEasingFunction), typeof(SignalLevelMeter),
+			new PropertyMetadata(null));
 
-		public IEasingFunction ResponseEasingFunction
-		{
-			get { return (IEasingFunction)this.GetValue(ResponseEasingFunctionProperty); }
-			set { this.SetValue(ResponseEasingFunctionProperty, value); }
-		}
+	public IEasingFunction ResponseEasingFunction
+	{
+		get => (IEasingFunction)this.GetValue(ResponseEasingFunctionProperty);
+		set => this.SetValue(ResponseEasingFunctionProperty, value);
+	}
 
-		#endregion ResponseEasingFunction
+	#endregion ResponseEasingFunction
 
-		#region FallbackEasingFunction
+	#region FallbackEasingFunction
 
-		public static readonly DependencyProperty FallbackEasingFunctionProperty =
-			DependencyProperty.Register("FallbackEasingFunction", typeof(IEasingFunction), typeof(SignalLevelMeter),
-				new PropertyMetadata(null));
+	public static readonly DependencyProperty FallbackEasingFunctionProperty =
+		DependencyProperty.Register(nameof(FallbackEasingFunction), typeof(IEasingFunction), typeof(SignalLevelMeter),
+			new PropertyMetadata(null));
 
-		public IEasingFunction FallbackEasingFunction
-		{
-			get { return (IEasingFunction)this.GetValue(FallbackEasingFunctionProperty); }
-			set { this.SetValue(FallbackEasingFunctionProperty, value); }
-		}
+	public IEasingFunction FallbackEasingFunction
+	{
+		get => (IEasingFunction)this.GetValue(FallbackEasingFunctionProperty);
+		set => this.SetValue(FallbackEasingFunctionProperty, value);
+	}
 
-		#endregion FallbackEasingFunction
+	#endregion FallbackEasingFunction
 
-		#region Minimum
+	#region Minimum
 
-		public static readonly DependencyProperty MinimumProperty =
-			DependencyProperty.Register("Minimum", typeof(double), typeof(SignalLevelMeter),
+	public static readonly DependencyProperty MinimumProperty =
+		DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(SignalLevelMeter),
 			new PropertyMetadata(OnMinimumChanged));
 
-		public double Minimum
-		{
-			get { return (double)this.GetValue(MinimumProperty); }
-			set { this.SetValue(MinimumProperty, value); }
-		}
-
-		private static void OnMinimumChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			var instance = (SignalLevelMeter)d;
-			var oldValue = (double)e.OldValue;
-			var newValue = (double)e.NewValue;
-
-			instance.OnMinimumChanged(oldValue, newValue);
-		}
-
-		protected virtual void OnMinimumChanged(double oldValue, double newValue)
-		{
-		}
-
-		#endregion Minimum
-
-		#region Maximum
-
-		public static readonly DependencyProperty MaximumProperty =
-			DependencyProperty.Register("Maximum", typeof(double), typeof(SignalLevelMeter),
-				new PropertyMetadata(OnMaximumChanged));
-
-		public double Maximum
-		{
-			get { return (double)this.GetValue(MaximumProperty); }
-			set { this.SetValue(MaximumProperty, value); }
-		}
-
-		private static void OnMaximumChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			var instance = (SignalLevelMeter)d;
-			var oldValue = (double)e.OldValue;
-			var newValue = (double)e.NewValue;
-
-			instance.OnMaximumChanged(oldValue, newValue);
-		}
-
-		protected virtual void OnMaximumChanged(double oldValue, double newValue)
-		{
-		}
-
-		#endregion Maximum
-
-		#region Orientation
-
-		public static readonly DependencyProperty OrientationProperty =
-			DependencyProperty.Register("Orientation", typeof(Orientation), typeof(SignalLevelMeter),
-				new PropertyMetadata(Orientation.Horizontal));
-
-		public Orientation Orientation
-		{
-			get { return (Orientation)this.GetValue(OrientationProperty); }
-			set { this.SetValue(OrientationProperty, value); }
-		}
-
-		#endregion Orientation
+	public double Minimum
+	{
+		get => (double)this.GetValue(MinimumProperty);
+		set => this.SetValue(MinimumProperty, value);
 	}
+
+	private static void OnMinimumChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var @this = (SignalLevelMeter)d;
+		var oldValue = (double)e.OldValue;
+		var newValue = (double)e.NewValue;
+
+		@this.OnMinimumChanged(oldValue, newValue);
+	}
+
+	protected virtual void OnMinimumChanged(double oldValue, double newValue)
+	{
+	}
+
+	#endregion Minimum
+
+	#region Maximum
+
+	public static readonly DependencyProperty MaximumProperty =
+		DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(SignalLevelMeter),
+			new PropertyMetadata(OnMaximumChanged));
+
+	public double Maximum
+	{
+		get => (double)this.GetValue(MaximumProperty);
+		set => this.SetValue(MaximumProperty, value);
+	}
+
+	private static void OnMaximumChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var @this = (SignalLevelMeter)d;
+		var oldValue = (double)e.OldValue;
+		var newValue = (double)e.NewValue;
+
+		@this.OnMaximumChanged(oldValue, newValue);
+	}
+
+	protected virtual void OnMaximumChanged(double oldValue, double newValue)
+	{
+	}
+
+	#endregion Maximum
+
+	#region Orientation
+
+	public static readonly DependencyProperty OrientationProperty =
+		DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(SignalLevelMeter),
+			new PropertyMetadata(Orientation.Horizontal));
+
+	public Orientation Orientation
+	{
+		get => (Orientation)this.GetValue(OrientationProperty);
+		set => this.SetValue(OrientationProperty, value);
+	}
+
+	#endregion Orientation
 }

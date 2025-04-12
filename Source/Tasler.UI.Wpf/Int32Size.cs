@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Markup;
+using Tasler.Interop;
 
 namespace Tasler.Windows;
 
@@ -17,15 +18,15 @@ public struct Int32Size : IFormattable
 	#endregion Static Fields
 
 	#region Instance Fields
-	private int width;
-	private int height;
+	private int _width;
+	private int _height;
 	#endregion Instance Fields
 
 	#region Construction
 	public Int32Size(int width, int height)
 	{
-		this.width = width;
-		this.height = height;
+		_width = width;
+		_height = height;
 	}
 
 	public Int32Size(Size size)
@@ -42,19 +43,19 @@ public struct Int32Size : IFormattable
 	#region Properties
 	public int Width
 	{
-		get { return this.width; }
-		set { this.width = value; }
+		get { return _width; }
+		set { _width = value; }
 	}
 
 	public int Height
 	{
-		get { return this.height; }
-		set { this.height = value; }
+		get { return _height; }
+		set { _height = value; }
 	}
 
 	public bool IsEmpty
 	{
-		get { return (this.width == 0) && (this.height == 0); }
+		get { return (_width == 0) && (_height == 0); }
 	}
 	#endregion Properties
 
@@ -82,23 +83,18 @@ public struct Int32Size : IFormattable
 		return ((IFormattable)this).ToString(null, provider);
 	}
 
-	string IFormattable.ToString(string format, IFormatProvider provider)
+	string IFormattable.ToString(string? format, IFormatProvider? provider)
 	{
 		if (this.IsEmpty)
 			return "Empty";
 		char numericListSeparator = (NumberFormatInfo.GetInstance(provider).CurrencyDecimalSeparator == ",") ? ';' : ',';
-		return string.Format(provider, "{1:" + format + "}{0}{2:" + format + "}", numericListSeparator, this.width, this.height);
+		return string.Format(provider, "{1:" + format + "}{0}{2:" + format + "}", numericListSeparator, _width, _height);
 	}
 
-	public Size ToSize()
-	{
-		return new Size(this.width, this.height);
-	}
+	public readonly Size ToSize() => new(_width, _height);
 
-	public SIZE ToSIZE()
-	{
-		return new SIZE(this.width, this.height);
-	}
+	public readonly SIZE ToSIZE() => new(_width, _height);
+
 	#endregion Methods
 
 	#region Equality Comparisons

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Tasler.Windows.Extensions;
@@ -13,24 +10,16 @@ namespace Tasler.Windows.Attachments
 	{
 		#region InputElement
 		public static readonly DependencyProperty InputElementProperty =
-			DependencyProperty.RegisterAttached("InputElement", typeof(UIElement), typeof(InputBindingService),
-				new PropertyMetadata(null, InputElementPropertyChanged));
+			AttachedPropertyFactory.Register<UIElement>(typeof(InputBindingService), "InputElement", InputElementPropertyChanged);
 
-		public static UIElement GetInputElement(FrameworkElement d)
-		{
-			return (UIElement)d.GetValue(InputElementProperty);
-		}
+		public static UIElement GetInputElement(FrameworkElement d) => (UIElement)d.GetValue(InputElementProperty);
 
-		public static void SetInputElement(FrameworkElement d, UIElement value)
-		{
-			d.SetValue(InputElementProperty, value);
-		}
+		public static void SetInputElement(FrameworkElement d, UIElement value) => d.SetValue(InputElementProperty, value);
 
 		private static void InputElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			// Do nothing if invalid
-			var element = d as FrameworkElement;
-			if (element == null)
+			if (d is not FrameworkElement element)
 				return;
 
 			// Do nothing when in design mode
@@ -43,13 +32,13 @@ namespace Tasler.Windows.Attachments
 			if (element.IsLoaded)
 				InputElementPropertyChanged(element, oldValue, newValue);
 
-			RoutedEventHandler elementLoadedHandler = (sender, args) =>
+			RoutedEventHandler elementLoadedHandler = (_, _) =>
 				InputElementPropertyChanged(element, oldValue, newValue);
 
-			RoutedEventHandler elementUnloadedHandler = (sender, args) =>
+			RoutedEventHandler elementUnloadedHandler = (_, _) =>
 				InputElementPropertyChanged(element, null, null);
 
-			if (newValue != null)
+			if (newValue is not null)
 			{
 				element.Loaded += elementLoadedHandler;
 				element.Unloaded += elementUnloadedHandler;
@@ -61,7 +50,7 @@ namespace Tasler.Windows.Attachments
 			}
 		}
 
-		private static void InputElementPropertyChanged(FrameworkElement element, UIElement oldValue, UIElement newValue)
+		private static void InputElementPropertyChanged(FrameworkElement element, UIElement? oldValue, UIElement? newValue)
 		{
 			// Get the dictionary of inputBindings to clones we have in the Window's input bindings
 			var clones = GetClones(element);
@@ -70,7 +59,7 @@ namespace Tasler.Windows.Attachments
 			var inputBindings = element.InputBindings.OfType<InputBinding>();
 
 			EventHandler inputBindingChangedHandler =
-				(sender, unused) => UpdateInputBinding(element, newValue, sender as InputBinding);
+				(sender, _) => UpdateInputBinding(element, newValue, sender as InputBinding);
 
 			if (newValue != null)
 			{
@@ -116,7 +105,7 @@ namespace Tasler.Windows.Attachments
 					// Remove the clone we made of the input binding from the input element's collection
 					if (oldValue != null)
 					{
-						InputBinding clone;
+						InputBinding? clone;
 						if (clones.TryGetValue(inputBinding, out clone))
 							oldValue.InputBindings.Remove(clone);
 					}
@@ -193,18 +182,17 @@ namespace Tasler.Windows.Attachments
 			return clone;
 		}
 
-		private static void UpdateInputBinding(FrameworkElement element, UIElement inputElement, InputBinding inputBinding)
+		private static void UpdateInputBinding(FrameworkElement element, UIElement? inputElement, InputBinding? inputBinding)
 		{
 			// Do nothing if invalid
-			if (inputBinding == null || inputElement == null)
+			if (inputBinding is null || inputElement is null)
 				return;
 
 			// Get the dictionary of inputBindings to clones we have in the Window's input bindings
 			var clones = GetClones(element);
 
 			// Remove the existing clone from the window's input bindings
-			InputBinding clone;
-			if (clones.TryGetValue(inputBinding, out clone))
+			if (clones.TryGetValue(inputBinding, out var clone))
 				inputElement.InputBindings.Remove(clone);
 
 			// Create a new clone of the specified input binding
@@ -219,14 +207,13 @@ namespace Tasler.Windows.Attachments
 
 		private static void UpdateInputBindingCommandCanExecuteChanged(FrameworkElement element, InputBinding inputBinding)
 		{
-			if (inputBinding.Command != null)
+			if (inputBinding.Command is not null)
 			{
 				// Get the dictionary of inputBindings to clones we have in the input element's input bindings
 				var clones = GetClones(element);
 
 				// Change the clone's Command to null if the input binding's command cannot currently execute
-				InputBinding clone;
-				if (clones.TryGetValue(inputBinding, out clone))
+				if (clones.TryGetValue(inputBinding, out var clone))
 					clone.Command = inputBinding.CanExecuteCommandSource() ? inputBinding.Command : null;
 			}
 		}

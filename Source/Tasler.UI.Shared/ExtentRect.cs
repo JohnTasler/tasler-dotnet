@@ -1,11 +1,11 @@
-using System.Diagnostics.CodeAnalysis;
-
 #if WINDOWS_UWP
 using Windows.Foundation;
 using Windows.UI.Xaml;
+using Rect = Windows.Foundation.Rect;
 namespace Tasler.UI.Xaml;
 #elif WINDOWS_WPF
 using System.Windows;
+using Rect = System.Windows.Rect;
 namespace Tasler.Windows;
 #endif
 
@@ -13,7 +13,7 @@ namespace Tasler.Windows;
 
 /// <summary>
 /// Describes the width, height, and location of a rectangle. This type is similiar to the
-/// <see cref="System.Windows.Rect"/> structure. Unlike that system-provided type, however, the
+/// <see cref="Rect"/> structure. Unlike that system-provided type, however, the
 /// <see cref="ExtentRect"/> supports both positive and negative extents in its
 /// <see cref="Width"/> and <see cref="Height"/> properties.
 /// </summary>
@@ -83,15 +83,15 @@ public struct ExtentRect
 	public double Width { get; set; }
 	public double Height { get; set; }
 
-	public double Left => this.X;
-	public double Top => this.Y;
-	public double Right => this.X + this.Width;
-	public double Bottom => this.Y + this.Height;
+	public readonly double Left => this.X;
+	public readonly double Top => this.Y;
+	public readonly double Right => this.X + this.Width;
+	public readonly double Bottom => this.Y + this.Height;
 
-	public Point TopLeft => new(this.Left, this.Top);
-	public Point TopRight => new (this.Right, this.Top);
-	public Point BottomLeft => new(this.Left, this.Bottom);
-	public Point BottomRight => new(this.Right, this.Bottom);
+	public readonly Point TopLeft => new(this.Left, this.Top);
+	public readonly Point TopRight => new (this.Right, this.Top);
+	public readonly Point BottomLeft => new(this.Left, this.Bottom);
+	public readonly Point BottomRight => new(this.Right, this.Bottom);
 	#endregion Properties
 
 	#region Methods
@@ -123,7 +123,7 @@ public struct ExtentRect
 
 	#region Implicit Conversion Operators
 	/// <summary>
-	/// Performs an implicit conversion from <see cref="PixelInspector.Utility.ExtentRect"/> to <see cref="System.Windows.Rect"/>.
+	/// Performs an implicit conversion from <see cref="PixelInspector.Utility.ExtentRect"/> to <see cref="Rect"/>.
 	/// </summary>
 	/// <param name="extentRect">The extent rect.</param>
 	/// <returns>
@@ -135,7 +135,7 @@ public struct ExtentRect
 	}
 
 	/// <summary>
-	/// Performs an implicit conversion from <see cref="System.Windows.Rect"/> to <see cref="PixelInspector.Utility.ExtentRect"/>.
+	/// Performs an implicit conversion from <see cref="Rect"/> to <see cref="PixelInspector.Utility.ExtentRect"/>.
 	/// </summary>
 	/// <param name="rect">The rect.</param>
 	/// <returns>
@@ -150,20 +150,16 @@ public struct ExtentRect
 
 	#region Overrides
 
-	[SuppressMessage("Style", "IDE0251:Make member 'readonly'", Justification = "I prefer a single character to a shortened word")]
-	public override bool Equals(object? o)
+	public override readonly bool Equals(object? obj)
 	{
-		if (o is null || o is not ExtentRect)
+		if (obj is null || obj is not ExtentRect)
 			return false;
 
-		var rect = (ExtentRect)o;
+		var rect = (ExtentRect)obj;
 		return Equals(this, rect);
 	}
 
-	public bool Equals(ExtentRect value)
-	{
-		return Equals(this, value);
-	}
+	public readonly bool Equals(ExtentRect value) => Equals(this, value);
 
 	public static bool Equals(ExtentRect rect1, ExtentRect rect2)
 	{
@@ -173,7 +169,7 @@ public struct ExtentRect
 			&& rect1.Height == rect2.Height;
 	}
 
-	public override int GetHashCode()
+	public override readonly int GetHashCode()
 	{
 		return this.X.GetHashCode()
 			^ this.Y.GetHashCode()
@@ -184,7 +180,7 @@ public struct ExtentRect
 	#endregion Overrides
 
 	#region Private Implementation
-	private Rect ToRect(out bool flippedHorizontal, out bool flippedVertical)
+	private readonly Rect ToRect(out bool flippedHorizontal, out bool flippedVertical)
 	{
 		var width = this.Width;
 		flippedHorizontal = width < 0;
@@ -210,27 +206,27 @@ public struct ExtentRect
 
 #if false
 /// <summary>Indicates whether the specified rectangles are equal. </summary>
-/// <returns>true if the rectangles have the same <see cref="P:System.Windows.Rect.Location" /> and <see cref="P:System.Windows.Rect.Size" /> values; otherwise, false.</returns>
+/// <returns>true if the rectangles have the same <see cref="P:Rect.Location" /> and <see cref="P:Rect.Size" /> values; otherwise, false.</returns>
 /// <param name="rect1">The first rectangle to compare.</param>
 /// <param name="rect2">The second rectangle to compare.</param>
 public static bool Equals(Rect rect1, Rect rect2);
 /// <summary>Indicates whether the specified object is equal to the current rectangle.</summary>
-/// <returns>true if <paramref name="o" /> is a <see cref="T:System.Windows.Rect" /> and has the same <see cref="P:System.Windows.Rect.Location" /> and <see cref="P:System.Windows.Rect.Size" /> values as the current rectangle; otherwise, false.</returns>
+/// <returns>true if <paramref name="o" /> is a <see cref="T:Rect" /> and has the same <see cref="P:Rect.Location" /> and <see cref="P:Rect.Size" /> values as the current rectangle; otherwise, false.</returns>
 /// <param name="o">The object to compare to the current rectangle.</param>
 public override bool Equals(object o);
 /// <summary>Indicates whether the specified rectangle is equal to the current rectangle. </summary>
-/// <returns>true if the specified rectangle has the same <see cref="P:System.Windows.Rect.Location" /> and <see cref="P:System.Windows.Rect.Size" /> values as the current rectangle; otherwise, false.</returns>
+/// <returns>true if the specified rectangle has the same <see cref="P:Rect.Location" /> and <see cref="P:Rect.Size" /> values as the current rectangle; otherwise, false.</returns>
 /// <param name="value">The rectangle to compare to the current rectangle.</param>
 public bool Equals(Rect value);
 /// <summary>Creates a hash code for the rectangle. </summary>
-/// <returns>A hash code for the current <see cref="T:System.Windows.Rect" /> structure.</returns>
+/// <returns>A hash code for the current <see cref="T:Rect" /> structure.</returns>
 public override int GetHashCode();
 /// <summary>Creates a new rectangle from the specified string representation. </summary>
 /// <returns>The resulting rectangle.</returns>
 /// <param name="source">The string representation of the rectangle, in the form "x, y, width, height".</param>
 public static Rect Parse(string source);
 /// <summary>Returns a string representation of the rectangle. </summary>
-/// <returns>A string representation of the current rectangle. The string has the following form: "<see cref="P:System.Windows.Rect.X" />,<see cref="P:System.Windows.Rect.Y" />,<see cref="P:System.Windows.Rect.Width" />,<see cref="P:System.Windows.Rect.Height" />".</returns>
+/// <returns>A string representation of the current rectangle. The string has the following form: "<see cref="P:Rect.X" />,<see cref="P:Rect.Y" />,<see cref="P:Rect.Width" />,<see cref="P:Rect.Height" />".</returns>
 [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
 public override string ToString();
 /// <summary>Returns a string representation of the rectangle by using the specified format provider. </summary>
@@ -245,11 +241,11 @@ public string ToString(IFormatProvider provider);
 [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
 string IFormattable.ToString(string format, IFormatProvider provider);
 internal string ConvertToString(string format, IFormatProvider provider);
-/// <summary>Initializes a new instance of the <see cref="T:System.Windows.Rect" /> structure that has the specified top-left corner location and the specified width and height. </summary>
+/// <summary>Initializes a new instance of the <see cref="T:Rect" /> structure that has the specified top-left corner location and the specified width and height. </summary>
 /// <param name="location">A point that specifies the location of the top-left corner of the rectangle.</param>
-/// <param name="size">A <see cref="T:System.Windows.Size" /> structure that specifies the width and height of the rectangle.</param>
+/// <param name="size">A <see cref="T:BaseNamespace.Size" /> structure that specifies the width and height of the rectangle.</param>
 public Rect(Point location, Size size);
-/// <summary>Initializes a new instance of the <see cref="T:System.Windows.Rect" /> structure that has the specified x-coordinate, y-coordinate, width, and height. </summary>
+/// <summary>Initializes a new instance of the <see cref="T:Rect" /> structure that has the specified x-coordinate, y-coordinate, width, and height. </summary>
 /// <param name="x">The x-coordinate of the top-left corner of the rectangle.</param>
 /// <param name="y">The y-coordinate of the top-left corner of the rectangle.</param>
 /// <param name="width">The width of the rectangle.</param>
@@ -257,56 +253,56 @@ public Rect(Point location, Size size);
 /// <exception cref="T:System.ArgumentException">
 /// <paramref name="width" /> is a negative value.-or-<paramref name="height" /> is a negative value.</exception>
 public Rect(double x, double y, double width, double height);
-/// <summary>Initializes a new instance of the <see cref="T:System.Windows.Rect" /> structure that is exactly large enough to contain the two specified points. </summary>
+/// <summary>Initializes a new instance of the <see cref="T:Rect" /> structure that is exactly large enough to contain the two specified points. </summary>
 /// <param name="point1">The first point that the new rectangle must contain.</param>
 /// <param name="point2">The second point that the new rectangle must contain.</param>
 public Rect(Point point1, Point point2);
-/// <summary>Initializes a new instance of the <see cref="T:System.Windows.Rect" /> structure that is exactly large enough to contain the specified point and the sum of the specified point and the specified vector. </summary>
+/// <summary>Initializes a new instance of the <see cref="T:Rect" /> structure that is exactly large enough to contain the specified point and the sum of the specified point and the specified vector. </summary>
 /// <param name="point">The first point the rectangle must contain.</param>
 /// <param name="vector">The amount to offset the specified point. The resulting rectangle will be exactly large enough to contain both points.</param>
 public Rect(Point point, Vector vector);
-/// <summary>Initializes a new instance of the <see cref="T:System.Windows.Rect" /> structure that is of the specified size and is located at (0,0).  </summary>
-/// <param name="size">A <see cref="T:System.Windows.Size" /> structure that specifies the width and height of the rectangle.</param>
+/// <summary>Initializes a new instance of the <see cref="T:Rect" /> structure that is of the specified size and is located at (0,0).  </summary>
+/// <param name="size">A <see cref="T:BaseNamespace.Size" /> structure that specifies the width and height of the rectangle.</param>
 public Rect(Size size);
 /// <summary>Gets a special value that represents a rectangle with no position or area. </summary>
-/// <returns>The empty rectangle, which has <see cref="P:System.Windows.Rect.X" /> and <see cref="P:System.Windows.Rect.Y" /> property values of <see cref="F:System.Double.PositiveInfinity" />, and has <see cref="P:System.Windows.Rect.Width" /> and <see cref="P:System.Windows.Rect.Height" /> property values of <see cref="F:System.Double.NegativeInfinity" />.</returns>
+/// <returns>The empty rectangle, which has <see cref="P:Rect.X" /> and <see cref="P:Rect.Y" /> property values of <see cref="F:System.Double.PositiveInfinity" />, and has <see cref="P:Rect.Width" /> and <see cref="P:Rect.Height" /> property values of <see cref="F:System.Double.NegativeInfinity" />.</returns>
 public static Rect Empty { [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")] get; }
-/// <summary>Gets a value that indicates whether the rectangle is the <see cref="P:System.Windows.Rect.Empty" /> rectangle.</summary>
-/// <returns>true if the rectangle is the <see cref="P:System.Windows.Rect.Empty" /> rectangle; otherwise, false.</returns>
+/// <summary>Gets a value that indicates whether the rectangle is the <see cref="P:Rect.Empty" /> rectangle.</summary>
+/// <returns>true if the rectangle is the <see cref="P:Rect.Empty" /> rectangle; otherwise, false.</returns>
 public bool IsEmpty { get; }
 /// <summary>Gets or sets the position of the top-left corner of the rectangle.</summary>
 /// <returns>The position of the top-left corner of the rectangle. The default is (0, 0). </returns>
 /// <exception cref="T:System.InvalidOperationException">
-/// <see cref="P:System.Windows.Rect.Location" /> is set on an <see cref="P:System.Windows.Rect.Empty" /> rectangle. </exception>
+/// <see cref="P:Rect.Location" /> is set on an <see cref="P:Rect.Empty" /> rectangle. </exception>
 public Point Location { get; set; }
 /// <summary>Gets or sets the width and height of the rectangle. </summary>
-/// <returns>A <see cref="T:System.Windows.Size" /> structure that specifies the width and height of the rectangle.</returns>
+/// <returns>A <see cref="T:BaseNamespace.Size" /> structure that specifies the width and height of the rectangle.</returns>
 /// <exception cref="T:System.InvalidOperationException">
-/// <see cref="P:System.Windows.Rect.Size" /> is set on an <see cref="P:System.Windows.Rect.Empty" /> rectangle. </exception>
+/// <see cref="P:Rect.Size" /> is set on an <see cref="P:Rect.Empty" /> rectangle. </exception>
 public Size Size { get; set; }
 /// <summary>Gets or sets the x-axis value of the left side of the rectangle. </summary>
 /// <returns>The x-axis value of the left side of the rectangle.</returns>
 /// <exception cref="T:System.InvalidOperationException">
-/// <see cref="P:System.Windows.Rect.X" /> is set on an <see cref="P:System.Windows.Rect.Empty" /> rectangle. </exception>
+/// <see cref="P:Rect.X" /> is set on an <see cref="P:Rect.Empty" /> rectangle. </exception>
 public double X { [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")] get; set; }
 /// <summary>Gets or sets the y-axis value of the top side of the rectangle. </summary>
 /// <returns>The y-axis value of the top side of the rectangle.</returns>
 /// <exception cref="T:System.InvalidOperationException">
-/// <see cref="P:System.Windows.Rect.Y" /> is set on an <see cref="P:System.Windows.Rect.Empty" /> rectangle. </exception>
+/// <see cref="P:Rect.Y" /> is set on an <see cref="P:Rect.Empty" /> rectangle. </exception>
 public double Y { [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")] get; set; }
 /// <summary>Gets or sets the width of the rectangle.  </summary>
 /// <returns>A positive number that represents the width of the rectangle. The default is 0.</returns>
 /// <exception cref="T:System.ArgumentException">
-/// <see cref="P:System.Windows.Rect.Width" /> is set to a negative value.</exception>
+/// <see cref="P:Rect.Width" /> is set to a negative value.</exception>
 /// <exception cref="T:System.InvalidOperationException">
-/// <see cref="P:System.Windows.Rect.Width" /> is set on an <see cref="P:System.Windows.Rect.Empty" /> rectangle. </exception>
+/// <see cref="P:Rect.Width" /> is set on an <see cref="P:Rect.Empty" /> rectangle. </exception>
 public double Width { [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")] get; set; }
 /// <summary>Gets or sets the height of the rectangle. </summary>
 /// <returns>A positive number that represents the height of the rectangle. The default is 0.</returns>
 /// <exception cref="T:System.ArgumentException">
-/// <see cref="P:System.Windows.Rect.Height" /> is set to a negative value.</exception>
+/// <see cref="P:Rect.Height" /> is set to a negative value.</exception>
 /// <exception cref="T:System.InvalidOperationException">
-/// <see cref="P:System.Windows.Rect.Height" /> is set on an <see cref="P:System.Windows.Rect.Empty" /> rectangle. </exception>
+/// <see cref="P:Rect.Height" /> is set on an <see cref="P:Rect.Empty" /> rectangle. </exception>
 public double Height { [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")] get; set; }
 /// <summary>Gets the x-axis value of the left side of the rectangle. </summary>
 /// <returns>The x-axis value of the left side of the rectangle.</returns>
@@ -353,7 +349,7 @@ public bool IntersectsWith(Rect rect);
 /// <param name="rect">The rectangle to intersect with the current rectangle.</param>
 public void Intersect(Rect rect);
 /// <summary>Returns the intersection of the specified rectangles. </summary>
-/// <returns>The intersection of the two rectangles, or <see cref="P:System.Windows.Rect.Empty" /> if no intersection exists.</returns>
+/// <returns>The intersection of the two rectangles, or <see cref="P:Rect.Empty" /> if no intersection exists.</returns>
 /// <param name="rect1">The first rectangle to compare.</param>
 /// <param name="rect2">The second rectangle to compare.</param>
 public static Rect Intersect(Rect rect1, Rect rect2);
@@ -375,19 +371,19 @@ public void Union(Point point);
 public static Rect Union(Rect rect, Point point);
 /// <summary>Moves the rectangle by the specified vector. </summary>
 /// <param name="offsetVector">A vector that specifies the horizontal and vertical amounts to move the rectangle.</param>
-/// <exception cref="T:System.InvalidOperationException">This method is called on the <see cref="P:System.Windows.Rect.Empty" /> rectangle.</exception>
+/// <exception cref="T:System.InvalidOperationException">This method is called on the <see cref="P:Rect.Empty" /> rectangle.</exception>
 public void Offset(Vector offsetVector);
 /// <summary>Moves the rectangle by the specified horizontal and vertical amounts. </summary>
 /// <param name="offsetX">The amount to move the rectangle horizontally.</param>
 /// <param name="offsetY">The amount to move the rectangle vertically.</param>
-/// <exception cref="T:System.InvalidOperationException">This method is called on the <see cref="P:System.Windows.Rect.Empty" /> rectangle.</exception>
+/// <exception cref="T:System.InvalidOperationException">This method is called on the <see cref="P:Rect.Empty" /> rectangle.</exception>
 public void Offset(double offsetX, double offsetY);
 /// <summary>Returns a rectangle that is offset from the specified rectangle by using the specified vector. </summary>
 /// <returns>The resulting rectangle.</returns>
 /// <param name="rect">The original rectangle.</param>
 /// <param name="offsetVector">A vector that specifies the horizontal and vertical offsets for the new rectangle.</param>
 /// <exception cref="T:System.InvalidOperationException">
-/// <paramref name="rect" /> is <see cref="P:System.Windows.Rect.Empty" />.</exception>
+/// <paramref name="rect" /> is <see cref="P:Rect.Empty" />.</exception>
 public static Rect Offset(Rect rect, Vector offsetVector);
 /// <summary>Returns a rectangle that is offset from the specified rectangle by using the specified horizontal and vertical amounts. </summary>
 /// <returns>The resulting rectangle.</returns>
@@ -395,31 +391,31 @@ public static Rect Offset(Rect rect, Vector offsetVector);
 /// <param name="offsetX">The horizontal offset for the new rectangle.</param>
 /// <param name="offsetY">The vertical offset for the new rectangle.</param>
 /// <exception cref="T:System.InvalidOperationException">
-/// <paramref name="rect" /> is <see cref="P:System.Windows.Rect.Empty" />.</exception>
+/// <paramref name="rect" /> is <see cref="P:Rect.Empty" />.</exception>
 public static Rect Offset(Rect rect, double offsetX, double offsetY);
-/// <summary>Expands the rectangle by using the specified <see cref="T:System.Windows.Size" />, in all directions. </summary>
-/// <param name="size">Specifies the amount to expand the rectangle. The <see cref="T:System.Windows.Size" /> structure's <see cref="P:System.Windows.Size.Width" /> property specifies the amount to increase the rectangle's <see cref="P:System.Windows.Rect.Left" /> and <see cref="P:System.Windows.Rect.Right" /> properties. The <see cref="T:System.Windows.Size" /> structure's <see cref="P:System.Windows.Size.Height" /> property specifies the amount to increase the rectangle's <see cref="P:System.Windows.Rect.Top" /> and <see cref="P:System.Windows.Rect.Bottom" /> properties. </param>
-/// <exception cref="T:System.InvalidOperationException">This method is called on the <see cref="P:System.Windows.Rect.Empty" /> rectangle.</exception>
+/// <summary>Expands the rectangle by using the specified <see cref="T:BaseNamespace.Size" />, in all directions. </summary>
+/// <param name="size">Specifies the amount to expand the rectangle. The <see cref="T:BaseNamespace.Size" /> structure's <see cref="P:BaseNamespace.Size.Width" /> property specifies the amount to increase the rectangle's <see cref="P:Rect.Left" /> and <see cref="P:Rect.Right" /> properties. The <see cref="T:BaseNamespace.Size" /> structure's <see cref="P:BaseNamespace.Size.Height" /> property specifies the amount to increase the rectangle's <see cref="P:Rect.Top" /> and <see cref="P:Rect.Bottom" /> properties. </param>
+/// <exception cref="T:System.InvalidOperationException">This method is called on the <see cref="P:Rect.Empty" /> rectangle.</exception>
 public void Inflate(Size size);
 /// <summary>Expands or shrinks the rectangle by using the specified width and height amounts, in all directions. </summary>
 /// <param name="width">The amount by which to expand or shrink the left and right sides of the rectangle.</param>
 /// <param name="height">The amount by which to expand or shrink the top and bottom sides of the rectangle.</param>
-/// <exception cref="T:System.InvalidOperationException">This method is called on the <see cref="P:System.Windows.Rect.Empty" /> rectangle.</exception>
+/// <exception cref="T:System.InvalidOperationException">This method is called on the <see cref="P:Rect.Empty" /> rectangle.</exception>
 public void Inflate(double width, double height);
-/// <summary>Returns the rectangle that results from expanding the specified rectangle by the specified <see cref="T:System.Windows.Size" />, in all directions. </summary>
+/// <summary>Returns the rectangle that results from expanding the specified rectangle by the specified <see cref="T:BaseNamespace.Size" />, in all directions. </summary>
 /// <returns>The resulting rectangle.</returns>
-/// <param name="rect">The <see cref="T:System.Windows.Rect" /> structure to modify.</param>
-/// <param name="size">Specifies the amount to expand the rectangle. The <see cref="T:System.Windows.Size" /> structure's <see cref="P:System.Windows.Size.Width" /> property specifies the amount to increase the rectangle's <see cref="P:System.Windows.Rect.Left" /> and <see cref="P:System.Windows.Rect.Right" /> properties. The <see cref="T:System.Windows.Size" /> structure's <see cref="P:System.Windows.Size.Height" /> property specifies the amount to increase the rectangle's <see cref="P:System.Windows.Rect.Top" /> and <see cref="P:System.Windows.Rect.Bottom" /> properties.</param>
+/// <param name="rect">The <see cref="T:Rect" /> structure to modify.</param>
+/// <param name="size">Specifies the amount to expand the rectangle. The <see cref="T:BaseNamespace.Size" /> structure's <see cref="P:BaseNamespace.Size.Width" /> property specifies the amount to increase the rectangle's <see cref="P:Rect.Left" /> and <see cref="P:Rect.Right" /> properties. The <see cref="T:BaseNamespace.Size" /> structure's <see cref="P:BaseNamespace.Size.Height" /> property specifies the amount to increase the rectangle's <see cref="P:Rect.Top" /> and <see cref="P:Rect.Bottom" /> properties.</param>
 /// <exception cref="T:System.InvalidOperationException">
-/// <paramref name="rect" /> is an <see cref="P:System.Windows.Rect.Empty" /> rectangle.</exception>
+/// <paramref name="rect" /> is an <see cref="P:Rect.Empty" /> rectangle.</exception>
 public static Rect Inflate(Rect rect, Size size);
 /// <summary>Creates a rectangle that results from expanding or shrinking the specified rectangle by the specified width and height amounts, in all directions. </summary>
 /// <returns>The resulting rectangle. </returns>
-/// <param name="rect">The <see cref="T:System.Windows.Rect" /> structure to modify.</param>
+/// <param name="rect">The <see cref="T:Rect" /> structure to modify.</param>
 /// <param name="width">The amount by which to expand or shrink the left and right sides of the rectangle.</param>
 /// <param name="height">The amount by which to expand or shrink the top and bottom sides of the rectangle.</param>
 /// <exception cref="T:System.InvalidOperationException">
-/// <paramref name="rect" /> is an <see cref="P:System.Windows.Rect.Empty" /> rectangle.</exception>
+/// <paramref name="rect" /> is an <see cref="P:Rect.Empty" /> rectangle.</exception>
 public static Rect Inflate(Rect rect, double width, double height);
 /// <summary>Returns the rectangle that results from applying the specified matrix to the specified rectangle. </summary>
 /// <returns>The rectangle that results from the operation.</returns>

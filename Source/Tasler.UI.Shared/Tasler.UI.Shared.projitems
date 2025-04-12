@@ -1,8 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <SharedGUID>5179c310-67ad-4274-bc8b-4630e18743ef</SharedGUID>
   </PropertyGroup>
   <PropertyGroup>
@@ -13,12 +14,16 @@
     <AfterTransform>CustomPostTransform</AfterTransform>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AttachedPropertyFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumValueToNameConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\GetTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IsEqualConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IsTypeValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\MappingConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullWhenDateTimeMinimumConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\RelativeFontSizeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\SingleItemToCollectionConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ThicknessModifierConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ToBooleanConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanInversionConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BooleanToVisibilityConverter.cs" />
@@ -26,6 +31,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullableValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BaseValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\TypeValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DependencyPropertyFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DependencyPropertyKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExtentRect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PointExtensions.cs" />
@@ -36,9 +43,27 @@
     <Compile Include="$(MSBuildThisFileDirectory)InteractionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\DispatcherThreadBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ViewModelMapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeConverters\FontSizeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeConverters\LengthConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModelMapperExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ComponentModel\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Properties\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Themes\Controls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--ss
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\Resources.Shared.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.Shared.resx</DependentUpon>
+    </Compile>
+  -->
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Properties\Resources.Shared.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Shared.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

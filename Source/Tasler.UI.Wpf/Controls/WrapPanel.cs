@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using CommunityToolkit.Diagnostics;
 using Tasler.Windows.Extensions;
 
 namespace Tasler.Windows.Controls
@@ -126,8 +127,7 @@ namespace Tasler.Windows.Controls
 
 		public static int GetLineIndex(UIElement d)
 		{
-			if (d == null)
-				throw new ArgumentNullException("d");
+			Guard.IsNotNull(d);
 			return (int)d.GetValue(LineIndexProperty);
 		}
 
@@ -140,7 +140,7 @@ namespace Tasler.Windows.Controls
 
 		public static int GetItemIndexOnLine(UIElement d)
 		{
-			if (d == null)
+			if (d is null)
 				throw new ArgumentNullException("d");
 			return (int)d.GetValue(ItemIndexOnLineProperty);
 		}
@@ -154,7 +154,7 @@ namespace Tasler.Windows.Controls
 
 		public static bool GetIsOnFirstLine(UIElement d)
 		{
-			if (d == null)
+			if (d is null)
 				throw new ArgumentNullException("d");
 			return (bool)d.GetValue(IsOnFirstLineProperty);
 		}
@@ -168,7 +168,7 @@ namespace Tasler.Windows.Controls
 
 		public static bool GetIsOnLastLine(UIElement d)
 		{
-			if (d == null)
+			if (d is null)
 				throw new ArgumentNullException("d");
 			return (bool)d.GetValue(IsOnLastLineProperty);
 		}
@@ -182,7 +182,7 @@ namespace Tasler.Windows.Controls
 
 		public static bool GetIsFirstItemOnLine(UIElement d)
 		{
-			if (d == null)
+			if (d is null)
 				throw new ArgumentNullException("d");
 			return (bool)d.GetValue(IsFirstItemOnLineProperty);
 		}
@@ -196,7 +196,7 @@ namespace Tasler.Windows.Controls
 
 		public static bool GetIsLastItemOnLine(UIElement d)
 		{
-			if (d == null)
+			if (d is null)
 				throw new ArgumentNullException("d");
 			return (bool)d.GetValue(IsLastItemOnLineProperty);
 		}
@@ -244,7 +244,7 @@ namespace Tasler.Windows.Controls
 				for (var childIndex = 0; childIndex < childCount; ++childIndex)
 				{
 					var child = children[childIndex];
-					if (child != null && child.Visibility != Visibility.Collapsed)
+					if (child is not null && child.Visibility != Visibility.Collapsed)
 					{
 						// Measure the child
 						child.Measure(availableSize);
@@ -340,7 +340,7 @@ namespace Tasler.Windows.Controls
 				for (var end = 0; end < childCount; ++end)
 				{
 					var child = children[end];
-					if (child != null && child.Visibility != Visibility.Collapsed)
+					if (child is not null && child.Visibility != Visibility.Collapsed)
 					{
 						// Use the child's DesiredSize unless we're using a uniform extent
 						var childSize = new UVSize(this.Orientation,
@@ -386,7 +386,7 @@ namespace Tasler.Windows.Controls
 							lineExtent.V = Math.Max(childSize.V, lineExtent.V);
 						}
 					}
-					else
+					else if (child is not null)
 					{
 						child.ClearValue(LineIndexProperty);
 						child.ClearValue(ItemIndexOnLineProperty);
@@ -429,12 +429,12 @@ namespace Tasler.Windows.Controls
 			var children = base.Children;
 			var indexOnLine = 0;
 			var isOnFirstLine = lineIndex == 0;
-			var isOnLastLine = children.OfType<UIElement>().Reverse().Where(e => e != null && e.Visibility != Visibility.Collapsed).FirstOrDefault() == children[end - 1];
+			var isOnLastLine = children.OfType<UIElement>().Reverse().Where(e => e is not null && e.Visibility != Visibility.Collapsed).FirstOrDefault() == children[end - 1];
 			var isFirstItemOnLine = true;
 			for (var i = start; i < end; ++i)
 			{
 				var child = children[i];
-				if (child != null && child.Visibility != Visibility.Collapsed)
+				if (child is not null && child.Visibility != Visibility.Collapsed)
 				{
 					// Set attached properties on the child
 					SetValue(LineIndexProperty, lineIndex);

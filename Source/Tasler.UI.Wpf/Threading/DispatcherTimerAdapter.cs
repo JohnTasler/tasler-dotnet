@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Tasler.Threading;
 using System.Diagnostics;
 
@@ -35,30 +35,21 @@ namespace Tasler.Windows.Threading
 
         public TimeSpan Interval
         {
-            get { return this._timer.Interval; }
-            set { this._timer.Interval = value; }
+            get => this._timer.Interval;
+            set => this._timer.Interval = value;
         }
 
-        public bool IsRunning
-        {
-            get { return this._timer.IsEnabled; }
-        }
+        public bool IsRunning => this._timer.IsEnabled;
 
         public event EventHandler Tick
         {
-            add { this._timer.Tick += value; }
-            remove { this._timer.Tick -= value; }
+            add => this._timer.Tick += value;
+            remove => this._timer.Tick -= value;
         }
 
-        public void Start()
-        {
-            this._timer.Start();
-        }
+        public void Start() => this._timer.Start();
 
-        public void Stop()
-        {
-            this.PlatformStop();
-        }
+        public void Stop() => this.PlatformStop();
 
         #endregion ITimerAdapter Members
 

@@ -180,14 +180,13 @@ public static class DependencyObjectExtensions
 		return d.GetDescendantsDepthFirst<DependencyObject>(GetLogicalChildren, true);
 	}
 
-	private static IEnumerable<DependencyObject> GetLogicalChildren<DependencyObject>(DependencyObject node)
+	private static IEnumerable<DependencyObject> GetLogicalChildren(DependencyObject node)
 	{
 		foreach (var child in LogicalTreeHelper.GetChildren(node))
 		{
 			if (child is not null && child is DependencyObject dependencyChild)
 			{
-				if (dependencyChild is not null)
-					yield return dependencyChild;
+				yield return dependencyChild;
 			}
 		}
 	}
@@ -342,7 +341,7 @@ public static class DependencyObjectExtensions
 	/// To get a descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
 	/// <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
 	/// </remarks>
-	private static IEnumerable<DependencyObject> GetVisualChildren(this DependencyObject d)
+	public static IEnumerable<DependencyObject> GetVisualChildren(this DependencyObject d)
 	{
 		var childCount = VisualTreeHelper.GetChildrenCount(d);
 		for (int childIndex = 0; childIndex < childCount; ++childIndex)

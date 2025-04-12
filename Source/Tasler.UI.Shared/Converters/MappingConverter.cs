@@ -3,16 +3,16 @@ using System.Diagnostics;
 using CommunityToolkit.Diagnostics;
 
 #if WINDOWS_UWP
-using Windows.UI.Xaml;
+using Windows.UI.Xaml.Markup;
 using ConverterBase = Tasler.UI.Xaml.Converters.BaseValueConverter;
 using CultureInfo = System.String;
+using ImageSource = Windows.UI.Xaml.Media.ImageSource;
 namespace Tasler.UI.Xaml.Converters;
 #elif WINDOWS_WPF
-using System.Windows;
 using System.Globalization;
-using ConverterBase = Tasler.Windows.Converters.BaseValueConverter;
-using System.Windows.Data;
 using System.Windows.Markup;
+using ConverterBase = Tasler.Windows.Converters.BaseValueConverter;
+using ImageSource = System.Windows.Media.ImageSource;
 namespace Tasler.Windows.Converters;
 #endif
 
@@ -30,7 +30,7 @@ namespace Tasler.Windows.Converters;
 /// </remarks>
 /// <example>
 /// <para>The following C# code defines an enumeration type and a mapping of that enumeration type to an
-/// <see cref="System.Windows.Media.ImageSource"/>:</para>
+/// <see cref="ImageSource"/>:</para>
 /// <code>
 ///     public enum Severity
 ///     {

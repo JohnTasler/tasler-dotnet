@@ -10,7 +10,7 @@ using ConverterBase = Tasler.Windows.Converters.SingletonValueConverter<Tasler.W
 namespace Tasler.Windows.Converters;
 #endif
 
-public class IsTypeValueConverter : BaseValueConverter
+public partial class IsTypeValueConverter : ConverterBase
 {
 	public override object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
 	{

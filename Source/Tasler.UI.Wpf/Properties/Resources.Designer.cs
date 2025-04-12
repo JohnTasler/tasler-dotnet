@@ -77,5 +77,14 @@ namespace Tasler.Windows.Properties {
                 return ResourceManager.GetString("PropertyNotAttachableToTypeFormat2", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter type {0} does not derive from {1}.
+        /// </summary>
+        internal static string UnexpectedParameterTypeExceptionFormat_2 {
+            get {
+                return ResourceManager.GetString("UnexpectedParameterTypeExceptionFormat_2", resourceCulture);
+            }
+        }
     }
 }

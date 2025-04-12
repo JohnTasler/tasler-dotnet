@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -64,7 +64,7 @@ namespace Tasler.Windows.Threading
             return await @this.InvokeAsync<TResult>(func, priority);
         }
 
-        public static async Task<TResult> RunIdleAsync<TResult>(this Dispatcher @this, Func<TResult> func)
+        public static async Task<TResult?> RunIdleAsync<TResult>(this Dispatcher @this, Func<TResult> func)
         {
             ValidateArgument.IsNotNull(@this, nameof(@this));
             ValidateArgument.IsNotNull(func, nameof(func));
