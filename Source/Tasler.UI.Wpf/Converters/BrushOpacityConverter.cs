@@ -10,8 +10,6 @@ namespace Tasler.Windows.Converters;
 /// </summary>
 public partial class BrushOpacityConverter : SingletonValueConverter<BrushOpacityConverter>
 {
-	#region IValueConverter Members
-
 	/// <summary>
 	/// Converts a value.
 	/// </summary>
@@ -44,5 +42,4 @@ public partial class BrushOpacityConverter : SingletonValueConverter<BrushOpacit
 		newBrush.Opacity *= Math.Clamp(opacity, 0.0, 1.0);
 		return newBrush;
 	}
-	#endregion IValueConverter Members
 }

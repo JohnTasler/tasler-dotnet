@@ -1,21 +1,16 @@
-﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Tasler.Windows.Extensions;
 
-namespace Tasler.Windows.Controls
+namespace Tasler.Windows.Controls;
+
+/// <summary>
+/// </summary>
+public class ViewControl : UserControl
 {
-	/// <summary>
-	/// </summary>
-	public class ViewControl : UserControl
+	public ViewControl()
 	{
-		static ViewControl()
-		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(ViewControl), new FrameworkPropertyMetadata(typeof(ViewControl)));
-		}
-
-		public ViewControl()
-		{
-			this.Loaded += (s, e) => this.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-		}
+		this.SetDefaultStyleKey();
+		this.Loaded += (s, e) => this.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
 	}
 }

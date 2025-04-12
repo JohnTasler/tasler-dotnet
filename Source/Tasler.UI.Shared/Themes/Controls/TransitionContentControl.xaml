@@ -1,9 +1,13 @@
-﻿<ResourceDictionary
+<!-- WINDOWS_WPF:true -->
+<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
 	xmlns:attachments="clr-namespace:Tasler.Windows.Attachments"
 	xmlns:controls="clr-namespace:Tasler.Windows.Controls"
 	>
+	<ResourceDictionary.xmlns:h="hello" />
+	<!-- end WINDOWS_WPF:true -->
 
 	<Style TargetType="{x:Type controls:TransitionContentControl}" BasedOn="{StaticResource {x:Type ContentControl}}">
 		<Style.Resources>

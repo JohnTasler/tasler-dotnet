@@ -1,11 +1,10 @@
 using System.ComponentModel;
 
-namespace Tasler.Windows.ComponentModel
+namespace Tasler.Windows.ComponentModel;
+
+public interface ITreeNodeViewModel
 {
-	public interface ITreeNodeViewModel
-	{
-		bool IsExpanded { get; set; }
-		bool IsSelected { get; set; }
-		ICollectionView? Children { get; }
-	}
+	bool IsExpanded { get; set; }
+	bool IsSelected { get; set; }
+	ICollectionView? Children { get; }
 }

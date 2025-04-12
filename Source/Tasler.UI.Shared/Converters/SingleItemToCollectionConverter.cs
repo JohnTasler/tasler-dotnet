@@ -8,14 +8,15 @@ using ConverterBase = Tasler.Windows.Converters.SingletonValueConverter<Tasler.W
 namespace Tasler.Windows.Converters;
 #endif
 
-public partial class ToBooleanConverter : ConverterBase
+public partial class SingleItemToCollectionConverter : ConverterBase
 {
 	#region Overrides
 
 	public override object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
 	{
-		bool boolValue = System.Convert.ToBoolean(value, GetCultureInfo(culture));
-		return boolValue;
+		return value is not null
+			? new object[] { value }
+			: [];
 	}
 
 	#endregion Overrides

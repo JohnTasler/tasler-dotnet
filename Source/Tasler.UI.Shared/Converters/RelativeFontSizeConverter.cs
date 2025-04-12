@@ -1,66 +1,45 @@
-﻿using System;
+#if WINDOWS_UWP
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Documents;
+using Tasler.UI.Xaml.Extensions;
+using ConverterBase = Tasler.UI.Xaml.Converters.BaseValueConverter;
+using CultureInfo = System.String;
+namespace Tasler.UI.Xaml.Converters;
+
+#elif WINDOWS_WPF
 using System.Globalization;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Media;
+using ConverterBase = Tasler.Windows.Converters.SingletonValueConverter<Tasler.Windows.Converters.RelativeFontSizeConverter>;
+using Tasler.Windows.Extensions;
+namespace Tasler.Windows.Converters;
 
-namespace Tasler.Windows.Data
+#endif
+
+public partial class RelativeFontSizeConverter : ConverterBase
 {
-  public class RelativeFontSizeConverter : IValueConverter
-  {
-    #region Singleton Implementation
-    private static readonly IValueConverter instance = new RelativeFontSizeConverter();
-    private RelativeFontSizeConverter()
-    {
-    }
+	public override object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+	{
+		if (value is DependencyObject d)
+		{
+			if (new FontSizeConverter().ConvertFrom(null, GetCultureInfo(culture), parameter ?? double.NaN) is double convertedValue)
+			{
+				// Walk the visual tree from the specified Visual
+				var textualElement = d.GetSelfAndVisualAncestors().FirstOrDefault(HasFontSizeProperty);
+				if (textualElement is not null)
+				{
+					var originalFontSize = (double)textualElement.GetValue(TextElement.FontSizeProperty);
+					var relativeFontSize = convertedValue;
+					return originalFontSize + relativeFontSize;
+				}
+			}
+		}
 
-    /// <summary>
-    /// Gets the singleton instance of the <see cref="TextFormatValueConverter"/> class.
-    /// </summary>
-    public static IValueConverter Instance
-    {
-      get
-      {
-        return instance;
-      }
-    }
-    #endregion Singleton Implementation
+		return null;
+	}
 
-    #region IValueConverter Members
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-      Visual visual = value as Visual;
-      if (visual != null)
-      {
-        DependencyObject d = value as DependencyObject;
-        if (d != null)
-        {
-          object convertedParameter = new FontSizeConverter().ConvertFrom(null, culture, parameter);
-          if (convertedParameter is double)
-          {
-            // Walk the visual tree from the specified Visual
-            while (d != null && !(d.GetValue(TextElement.FontSizeProperty) is double))
-              d = VisualTreeHelper.GetParent(d);
-
-            if (d != null)
-            {
-              double fontSize = (double)d.GetValue(TextElement.FontSizeProperty);
-              double relativeFontSize = (double)convertedParameter;
-              return fontSize + relativeFontSize;
-            }
-          }
-        }
-      }
-
-      return null;
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-      throw new NotImplementedException();
-    }
-
-    #endregion IValueConverter Members
-  }
+	private static bool HasFontSizeProperty(DependencyObject d)
+	{
+		return d.GetValue(TextElement.FontSizeProperty) is double;
+	}
 }

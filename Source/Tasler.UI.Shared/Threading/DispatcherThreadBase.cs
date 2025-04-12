@@ -21,8 +21,8 @@ public abstract class DispatcherThreadBase : IDisposable
 	#endregion Static Fields
 
 	#region Instance Fields
-	private volatile Dispatcher _dispatcher;
-	private volatile Thread _thread;
+	private volatile Dispatcher? _dispatcher;
+	private volatile Thread? _thread;
 	#endregion Instance Fields
 
 	#region Constructors and Finalizer
@@ -98,7 +98,8 @@ public abstract class DispatcherThreadBase : IDisposable
 
 	public void VerifyHasThreadAccess()
 	{
-		this.VerifyThreadAccess(_dispatcher);
+		if (_dispatcher is not null)
+			this.VerifyThreadAccess(_dispatcher);
 	}
 
 	#endregion Methods
@@ -145,17 +146,17 @@ public abstract class DispatcherThreadBase : IDisposable
 
 	#region Awaitable Methods with result
 
-	public Task<TResult> RunAsync<TResult>(Func<TResult> func)
+	public Task<TResult?> RunAsync<TResult>(Func<TResult?> func)
 	{
 		return this.VerifyNotDisposed().RunAsync(DispatcherPriority.Normal, func);
 	}
 
-	public Task<TResult> RunAsync<TResult>(DispatcherPriority priority, Func<TResult> func)
+	public Task<TResult?> RunAsync<TResult>(DispatcherPriority priority, Func<TResult?> func)
 	{
 		return this.VerifyNotDisposed().RunAsync(priority, func);
 	}
 
-	public Task<TResult> RunIdleAsync<TResult>(Func<TResult> func)
+	public Task<TResult?> RunIdleAsync<TResult>(Func<TResult?> func)
 	{
 		return this.VerifyNotDisposed().RunIdleAsync(func);
 	}
@@ -206,23 +207,21 @@ public abstract class DispatcherThreadBase : IDisposable
 			this.ExitDispatcherLoop(dispatcher);
 	}
 
-	private Dispatcher VerifyNotDisposed([CallerMemberName] string fromMethod = null)
+	private Dispatcher VerifyNotDisposed([CallerMemberName] string fromMethod = null!)
 	{
 		var dispatcher = _dispatcher;
-		if (dispatcher == null)
-			throw new ObjectDisposedException($"{this.ThreadName}", $"Cannot access the ${fromMethod} member of a non-running {this.GetType().FullName} instance");
-
-		return dispatcher;
+		return dispatcher is not null
+			? dispatcher
+			: throw new ObjectDisposedException($"{this.ThreadName}",
+				$"Cannot access the ${fromMethod} member of a non-running {this.GetType().FullName} instance");
 	}
 
 	private void ThreadProc(AutoResetEvent? dispatcherCreatedSignal)
 	{
-
-
 		var dispatcher = this.CreateDispatcher();
 		_dispatcher = dispatcher;
 
-		dispatcherCreatedSignal.Set();
+		dispatcherCreatedSignal?.Set();
 		this.RaiseDispatcherAttached(dispatcher);
 
 		try
