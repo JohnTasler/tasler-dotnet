@@ -187,8 +187,8 @@ public class LengthConverter : TypeConverter
 
 #elif WINDOWS_WPF
 
-namespace Tasler.Windows;
+//namespace Tasler.Windows;
 
-public class LengthConverter : System.Windows.LengthConverter {}
+//public class LengthConverter : System.Windows.LengthConverter {}
 
 #endif

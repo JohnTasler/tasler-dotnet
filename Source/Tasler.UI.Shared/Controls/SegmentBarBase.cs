@@ -1,18 +1,33 @@
+#if WINDOWS_UWP
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
+using OrientationType = Windows.UI.Xaml.Controls.Orientation;
+namespace Tasler.UI.Xaml.Controls;
+
+#elif WINDOWS_WPF
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-
+using OrientationType = System.Windows.Controls.Orientation;
 namespace Tasler.Windows.Controls;
+#endif
 
-[TemplateVisualState(GroupName = OrientationStateGroupName, Name = OrientationStateHorizontal)]
-[TemplateVisualState(GroupName = OrientationStateGroupName, Name = OrientationStateVertical)]
+using DPFactory = DependencyPropertyFactory<SegmentBarBase>;
+
+[TemplateVisualState(GroupName = OrientationStates.GroupName, Name = OrientationStates.Horizontal)]
+[TemplateVisualState(GroupName = OrientationStates.GroupName, Name = OrientationStates.Vertical)]
 public abstract class SegmentBarBase : RangeBase
 {
 	#region Constants
-	private const string OrientationStateGroupName = "OrientationStates";
-	private const string OrientationStateHorizontal = "Horizontal";
-	private const string OrientationStateVertical = "Vertical";
+	private static class OrientationStates
+	{
+		public const string GroupName = nameof(OrientationStates);
+		public const string Horizontal = nameof(Horizontal);
+		public const string Vertical = nameof(Vertical);
+	}
 	#endregion Constants
 
 	#region Constructors
@@ -28,12 +43,11 @@ public abstract class SegmentBarBase : RangeBase
 	#region Orientation
 
 	public static readonly DependencyProperty OrientationProperty =
-		DependencyProperty.Register(nameof(Orientation), typeof(System.Windows.Controls.Orientation), typeof(SegmentBarBase),
-			new PropertyMetadata(System.Windows.Controls.Orientation.Horizontal, OrientationPropertyChanged));
+		DPFactory.Register<Orientation>(nameof(Orientation), OrientationType.Horizontal, OrientationPropertyChanged);
 
-	public System.Windows.Controls.Orientation Orientation
+	public Orientation Orientation
 	{
-		get => (System.Windows.Controls.Orientation)this.GetValue(OrientationProperty);
+		get => (Orientation)this.GetValue(OrientationProperty);
 		set => this.SetValue(OrientationProperty, value);
 	}
 
@@ -45,23 +59,21 @@ public abstract class SegmentBarBase : RangeBase
 		@this.OnOrientationChanged(oldValue, newValue);
 	}
 
-	private string OrientationStateName
-	{
-		get { return this.Orientation == Orientation.Horizontal ? OrientationStateHorizontal : OrientationStateVertical; }
-	}
+	private string OrientationStateName => this.Orientation == Orientation.Horizontal
+		? OrientationStates.Horizontal
+		: OrientationStates.Vertical;
 
 	#endregion Orientation
 
 	#region SegmentExtent
 
 	public static readonly DependencyProperty SegmentExtentProperty =
-		DependencyProperty.Register(nameof(SegmentExtent), typeof(double), typeof(SegmentBarBase),
-			new PropertyMetadata(4.0, SegmentExtentPropertyChanged));
+		DPFactory.Register<double>(nameof(SegmentExtent), 4.0d, SegmentExtentPropertyChanged);
 
 	public double SegmentExtent
 	{
-		get => (double)GetValue(SegmentExtentProperty);
-		set => SetValue(SegmentExtentProperty, value);
+		get => (double)this.GetValue(SegmentExtentProperty);
+		set => this.SetValue(SegmentExtentProperty, value);
 	}
 
 	private static void SegmentExtentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -77,13 +89,12 @@ public abstract class SegmentBarBase : RangeBase
 	#region SegmentGapExtent
 
 	public static readonly DependencyProperty SegmentGapExtentProperty =
-		DependencyProperty.Register(nameof(SegmentGapExtent), typeof(double), typeof(SegmentBarBase),
-			new PropertyMetadata(1.0, SegmentGapExtentPropertyChanged));
+		DPFactory.Register<double>(nameof(SegmentGapExtent), 1.0d, SegmentGapExtentPropertyChanged);
 
 	public double SegmentGapExtent
 	{
-		get => (double)GetValue(SegmentGapExtentProperty);
-		set => SetValue(SegmentGapExtentProperty, value);
+		get => (double)this.GetValue(SegmentGapExtentProperty);
+		set => this.SetValue(SegmentGapExtentProperty, value);
 	}
 
 	private static void SegmentGapExtentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -99,13 +110,12 @@ public abstract class SegmentBarBase : RangeBase
 	#region PeakHoldDuration
 
 	public static readonly DependencyProperty PeakHoldDurationProperty =
-		DependencyProperty.Register(nameof(PeakHoldDuration), typeof(TimeSpan), typeof(SegmentBarBase),
-			new PropertyMetadata(TimeSpan.Zero, PeakHoldDurationPropertyChanged));
+		DPFactory.Register<TimeSpan>(nameof(PeakHoldDuration), TimeSpan.Zero, PeakHoldDurationPropertyChanged);
 
 	public TimeSpan PeakHoldDuration
 	{
-		get => (TimeSpan)GetValue(PeakHoldDurationProperty);
-		set => SetValue(PeakHoldDurationProperty, value);
+		get => (TimeSpan)this.GetValue(PeakHoldDurationProperty);
+		set => this.SetValue(PeakHoldDurationProperty, value);
 	}
 
 	private static void PeakHoldDurationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -121,13 +131,12 @@ public abstract class SegmentBarBase : RangeBase
 	#region PeakHoldBrush
 
 	public static readonly DependencyProperty PeakHoldBrushProperty =
-		DependencyProperty.Register("PeakHoldBrush", typeof(Brush), typeof(SegmentBarBase),
-			new PropertyMetadata(null, PeakHoldBrushPropertyChanged));
+		DPFactory.Register<Brush>(nameof(PeakHoldBrush), PeakHoldBrushPropertyChanged);
 
 	public Brush PeakHoldBrush
 	{
-		get { return (Brush)GetValue(PeakHoldBrushProperty); }
-		set { SetValue(PeakHoldBrushProperty, value); }
+		get => (Brush)this.GetValue(PeakHoldBrushProperty);
+		set => this.SetValue(PeakHoldBrushProperty, value);
 	}
 
 	private static void PeakHoldBrushPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -143,13 +152,12 @@ public abstract class SegmentBarBase : RangeBase
 	#region PeakValue
 
 	public static readonly DependencyProperty PeakValueProperty =
-		DependencyProperty.Register("PeakValue", typeof(double), typeof(SegmentBarBase),
-			new PropertyMetadata(0.0, PeakValuePropertyChanged));
+		DPFactory.Register<double>(nameof(PeakValue), 0.0d, PeakValuePropertyChanged);
 
 	public double PeakValue
 	{
-		get { return (double)GetValue(PeakValueProperty); }
-		set { SetValue(PeakValueProperty, value); }
+		get => (double)this.GetValue(PeakValueProperty);
+		set => this.SetValue(PeakValueProperty, value);
 	}
 
 	private static void PeakValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -193,12 +201,6 @@ public abstract class SegmentBarBase : RangeBase
 		this.OnUpdatePeak();
 	}
 
-	protected override void OnValueChanged(double oldValue, double newValue)
-	{
-		base.OnValueChanged(oldValue, newValue);
-		this.OnUpdateSegments();
-	}
-
 	protected abstract void OnUpdateSegments();
 
 	protected virtual void OnUpdatePeak()
@@ -209,16 +211,26 @@ public abstract class SegmentBarBase : RangeBase
 
 	#region Overrides
 
+	protected override void OnValueChanged(double oldValue, double newValue)
+	{
+		base.OnValueChanged(oldValue, newValue);
+		this.OnUpdateSegments();
+	}
+
 	/// <summary>
 	/// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call
-	/// <see cref="M:System.Windows.Controls.Control.ApplyTemplate" />. In simplest terms, this means the
+	/// <see cref="ApplyTemplate" />. In simplest terms, this means the
 	/// method is called just before a UI element displays in an application.
 	/// </summary>
+#if WINDOWS_UWP
+	protected override void OnApplyTemplate()
+#elif WINDOWS_WPF
 	public override void OnApplyTemplate()
+#endif
 	{
 		base.OnApplyTemplate();
 		VisualStateManager.GoToState(this, this.OrientationStateName, false);
 	}
 
-	#endregion Overrides
+#endregion Overrides
 }

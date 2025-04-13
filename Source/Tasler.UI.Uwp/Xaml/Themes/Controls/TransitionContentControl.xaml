@@ -1,31 +1,30 @@
-<!-- WINDOWS_WPF:true -->
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-
-	xmlns:attachments="clr-namespace:Tasler.Windows.Attachments"
-	xmlns:controls="clr-namespace:Tasler.Windows.Controls"
+	xmlns:controls="using:Tasler.UI.Xaml.Controls"
+	xmlns:converters="using:Tasler.UI.Xaml.Converters"
 	>
-	<ResourceDictionary.xmlns:h="hello" />
-	<!-- end WINDOWS_WPF:true -->
 
-	<Style TargetType="{x:Type controls:TransitionContentControl}" BasedOn="{StaticResource {x:Type ContentControl}}">
-		<Style.Resources>
-			<BooleanToVisibilityConverter x:Key="Converter.BooleanToVisibility"/>
-			<CircleEase x:Key="EasingFunction.Emerging" EasingMode="EaseOut"/>
-			<CircleEase x:Key="EasingFunction.Transitioning" EasingMode="EaseOut"/>
-			<CircleEase x:Key="EasingFunction.ReverseTransitioning" EasingMode="EaseOut"/>
-			<Duration x:Key="Duration.Emerging">0:0:1.60</Duration>
-			<Duration x:Key="Duration.Transitioning">0:0:0.60</Duration>
-			<Duration x:Key="Duration.ReverseTransitioning">0:0:0.60</Duration>
-		</Style.Resources>
+	<converters:BooleanToVisibilityConverter x:Key="Converter.BooleanToVisibility"/>
+	<CircleEase x:Key="EasingFunction.Emerging" EasingMode="EaseOut"/>
+	<CircleEase x:Key="EasingFunction.Transitioning" EasingMode="EaseOut"/>
+	<CircleEase x:Key="EasingFunction.ReverseTransitioning" EasingMode="EaseOut"/>
+	<Duration x:Key="Duration.Emerging">0:0:1.60</Duration>
+	<Duration x:Key="Duration.Transitioning">0:0:0.60</Duration>
+	<Duration x:Key="Duration.ReverseTransitioning">0:0:0.60</Duration>
 
-		<Setter Property="ClipToBounds" Value="True"/>
+	<Style TargetType="controls:TransitionContentControl">
+
+		<Setter Property="Clip">
+			<Setter.Value>
+				<RectangleGeometry Rect="{Binding BoundingRectangle, RelativeSource={RelativeSource Mode=Self}}" />
+			</Setter.Value>
+		</Setter>
 		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type controls:TransitionContentControl}">
+				<ControlTemplate TargetType="controls:TransitionContentControl">
 					<Border
 						Padding="{TemplateBinding Padding}"
 						Background="{TemplateBinding Background}"
@@ -35,29 +34,29 @@
 						<Grid
 							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-							ClipToBounds="{TemplateBinding ClipToBounds}"
+							Clip="{TemplateBinding Clip}"
 							>
 							<controls:AnimationSizeableElement
 								x:Name="PART_OldContentHost"
-								Visibility="{TemplateBinding HasOldContent,Converter={StaticResource Converter.BooleanToVisibility}}"
+								Visibility="{Binding HasOldContent,Converter={StaticResource Converter.BooleanToVisibility},RelativeSource={RelativeSource Mode=TemplatedParent}}"
 								>
-								<ContentPresenter ContentSource="OldContent"/>
+								<ContentPresenter Content="{TemplateBinding OldContent}"/>
 							</controls:AnimationSizeableElement>
 
 							<controls:AnimationSizeableElement
 								x:Name="PART_ContentHost"
-								Visibility="{TemplateBinding HasContent,Converter={StaticResource Converter.BooleanToVisibility}}"
+								Visibility="{Binding HasContent,Converter={StaticResource Converter.BooleanToVisibility},RelativeSource={RelativeSource Mode=TemplatedParent}}"
 								>
-								<ContentPresenter />
+								<ContentPresenter Content="{TemplateBinding Content}"/>
 							</controls:AnimationSizeableElement>
 						</Grid>
 
 						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup Name="{x:Static controls:TransitionContentControl.AnimationStates}">
+							<VisualStateGroup x:Name="AnimationStates">
 
-								<VisualState Name="{x:Static controls:TransitionContentControl.Transitioned}"/>
+								<VisualState x:Name="Transitioned"/>
 
-								<VisualState Name="{x:Static controls:TransitionContentControl.Emerging}">
+								<VisualState x:Name="Emerging">
 									<Storyboard>
 										<DoubleAnimation
 											Storyboard.TargetName="PART_ContentHost" Storyboard.TargetProperty="Opacity"
@@ -68,7 +67,7 @@
 									</Storyboard>
 								</VisualState>
 
-								<VisualState Name="{x:Static controls:TransitionContentControl.Transitioning}">
+								<VisualState x:Name="Transitioning">
 									<Storyboard>
 										<DoubleAnimation
 											Storyboard.TargetName="PART_OldContentHost" Storyboard.TargetProperty="ChildHorizontalOffsetMultiplier"
@@ -85,7 +84,7 @@
 									</Storyboard>
 								</VisualState>
 
-								<VisualState Name="{x:Static controls:TransitionContentControl.ReverseTransitioning}">
+								<VisualState x:Name="ReverseTransitioning">
 									<Storyboard>
 										<DoubleAnimation
 											Storyboard.TargetName="PART_OldContentHost" Storyboard.TargetProperty="ChildHorizontalOffsetMultiplier"

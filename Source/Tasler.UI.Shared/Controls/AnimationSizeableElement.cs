@@ -1,8 +1,16 @@
+#if WINDOWS_UWP
+using System.ComponentModel;
+using Windows.Foundation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+namespace Tasler.UI.Xaml.Controls;
+
+#elif WINDOWS_WPF
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Markup;
-
+using System.Windows.Controls;
 namespace Tasler.Windows.Controls;
+#endif
 
 /// <summary>
 /// A framework element that provides properties to easily animate the width, height, and offsets of a
@@ -17,8 +25,7 @@ namespace Tasler.Windows.Controls;
 /// easily be animated (using a <see cref="T:System.Windows.Media.Animation.DoubleAnimation"/> to produce the
 /// desired animation effects.
 /// </remarks>
-[ContentProperty("Child")]
-public partial class AnimationSizeableElement : FrameworkElement
+public partial class AnimationSizeableElement : Panel
 {
 	#region Instance Fields
 	private Size _cachedAvailableSize;
@@ -27,15 +34,20 @@ public partial class AnimationSizeableElement : FrameworkElement
 	#region Dependency Properties
 
 	#region Child
+	public static partial DependencyProperty ChildProperty { get; }
+
 	[Category("Content")]
-	public FrameworkElement Child
+	public FrameworkElement? Child
 	{
-		get => (FrameworkElement)base.GetValue(ChildProperty);
+		get => (FrameworkElement?)base.GetValue(ChildProperty);
 		set => base.SetValue(ChildProperty, value);
 	}
 	#endregion Child
 
 	#region ChildHorizontalOffsetMultiplier
+
+	public static partial DependencyProperty ChildHorizontalOffsetMultiplierProperty { get; }
+
 	public double ChildHorizontalOffsetMultiplier
 	{
 		get => (double)this.GetValue(ChildHorizontalOffsetMultiplierProperty);
@@ -44,6 +56,8 @@ public partial class AnimationSizeableElement : FrameworkElement
 	#endregion ChildHorizontalOffsetMultiplier
 
 	#region ChildVerticalOffsetMultiplier
+	public static partial DependencyProperty ChildVerticalOffsetMultiplierProperty { get; }
+
 	public double ChildVerticalOffsetMultiplier
 	{
 		get => (double)this.GetValue(ChildVerticalOffsetMultiplierProperty);
@@ -52,6 +66,8 @@ public partial class AnimationSizeableElement : FrameworkElement
 	#endregion ChildVerticalOffsetMultiplier
 
 	#region WidthMultiplier
+	public static partial DependencyProperty WidthMultiplierProperty { get; }
+
 	public double WidthMultiplier
 	{
 		get => (double)this.GetValue(WidthMultiplierProperty);
@@ -60,6 +76,8 @@ public partial class AnimationSizeableElement : FrameworkElement
 	#endregion WidthMultiplier
 
 	#region HeightMultiplier
+	public static partial DependencyProperty HeightMultiplierProperty { get; }
+
 	public double HeightMultiplier
 	{
 		get => (double)this.GetValue(HeightMultiplierProperty);
@@ -68,6 +86,8 @@ public partial class AnimationSizeableElement : FrameworkElement
 	#endregion HeightMultiplier
 
 	#region UseMinWidth
+	public static partial DependencyProperty UseMinWidthProperty { get; }
+
 	public bool UseMinWidth
 	{
 		get => (bool)this.GetValue(UseMinWidthProperty);
@@ -76,6 +96,8 @@ public partial class AnimationSizeableElement : FrameworkElement
 	#endregion UseMinWidth
 
 	#region UseMinHeight
+	public static partial DependencyProperty UseMinHeightProperty { get; }
+
 	public bool UseMinHeight
 	{
 		get => (bool)this.GetValue(UseMinHeightProperty);
@@ -86,10 +108,11 @@ public partial class AnimationSizeableElement : FrameworkElement
 	#endregion Dependency Properties
 
 	#region Overrides
+
 	protected override Size ArrangeOverride(Size arrangeSize)
 	{
 		var child = this.Child;
-		if (child != null)
+		if (child is not null)
 		{
 			var childSize = child.DesiredSize;
 
@@ -112,7 +135,7 @@ public partial class AnimationSizeableElement : FrameworkElement
 		_cachedAvailableSize = availableSize;
 
 		var child = this.Child;
-		if (child == null)
+		if (child is null)
 			return availableSize;
 
 		// Measure the child
@@ -142,5 +165,6 @@ public partial class AnimationSizeableElement : FrameworkElement
 		// Return the new size
 		return new Size(width, height);
 	}
+
 	#endregion Overrides
 }

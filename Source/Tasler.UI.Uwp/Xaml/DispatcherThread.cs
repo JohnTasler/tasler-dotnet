@@ -38,7 +38,7 @@ public class DispatcherThread : DispatcherThreadBase
 
 	protected override bool GetHasThreadAccess(CoreDispatcher dispatcher)
 	{
-		return (dispatcher?.HasThreadAccess).Value;
+		return dispatcher.HasThreadAccess;
 	}
 
 	protected override void VerifyThreadAccess(CoreDispatcher dispatcher)

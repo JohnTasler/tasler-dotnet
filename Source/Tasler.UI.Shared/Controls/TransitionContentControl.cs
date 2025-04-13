@@ -1,29 +1,46 @@
+#if WINDOWS_UWP
+using System.ComponentModel;
+using Windows.Foundation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
+using Tasler.UI.Xaml.Extensions;
+namespace Tasler.UI.Xaml.Controls;
+using DPFactory = DependencyPropertyFactory<TransitionContentControl>;
+
+#elif WINDOWS_WPF
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Tasler.Windows.Extensions;
-
 namespace Tasler.Windows.Controls;
+using DPFactory = DependencyPropertyFactory<TransitionContentControl>;
+
+#endif
+
 
 /// <summary>
 /// </summary>
-[TemplateVisualState(GroupName = AnimationStates, Name = Emerging)]
-[TemplateVisualState(GroupName = AnimationStates, Name = Transitioned)]
-[TemplateVisualState(GroupName = AnimationStates, Name = Transitioning)]
-[TemplateVisualState(GroupName = AnimationStates, Name = ReverseTransitioning)]
+[TemplateVisualState(GroupName = AnimationStates.GroupName, Name = AnimationStates.Emerging)]
+[TemplateVisualState(GroupName = AnimationStates.GroupName, Name = AnimationStates.Transitioned)]
+[TemplateVisualState(GroupName = AnimationStates.GroupName, Name = AnimationStates.Transitioning)]
+[TemplateVisualState(GroupName = AnimationStates.GroupName, Name = AnimationStates.ReverseTransitioning)]
 [TemplatePart(Name = PART_ContentHost, Type = typeof(AnimationSizeableElement))]
 [TemplatePart(Name = PART_OldContentHost, Type = typeof(AnimationSizeableElement))]
-public class TransitionContentControl : ContentControl
+public partial class TransitionContentControl : ContentControl
 {
 	#region Constants
-	public const string AnimationStates      = "AnimationStates";
-	public const string Emerging             = "Emerging";
-	public const string Transitioned         = "Transitioned";
-	public const string Transitioning        = "Transitioning";
-	public const string ReverseTransitioning = "ReverseTransitioning";
-	public const string PART_ContentHost     = "PART_ContentHost";
-	public const string PART_OldContentHost  = "PART_OldContentHost";
+	public static class AnimationStates
+	{
+		public const string GroupName            = nameof(AnimationStates);
+		public const string Emerging             = nameof(Emerging);
+		public const string Transitioned         = nameof(Transitioned);
+		public const string Transitioning        = nameof(Transitioning);
+		public const string ReverseTransitioning = nameof(ReverseTransitioning);
+	}
+	public const string PART_ContentHost     = nameof(PART_ContentHost);
+	public const string PART_OldContentHost  = nameof(PART_OldContentHost);
 	#endregion Constants
 
 	#region Constructors
@@ -43,7 +60,7 @@ public class TransitionContentControl : ContentControl
 	/// Identifies the <see cref="BoundingRectangle"/> dependency property.
 	/// </summary>
 	private static readonly DependencyPropertyKey BoundingRectanglePropertyKey =
-		DependencyPropertyFactory<TransitionContentControl>.RegisterReadOnly<Rect>(nameof(BoundingRectangle));
+		DPFactory.RegisterReadOnly<Rect>(nameof(BoundingRectangle));
 
 	/// <summary>
 	/// Identifies the <see cref="BoundingRectangle"/> dependency property.
@@ -61,7 +78,7 @@ public class TransitionContentControl : ContentControl
 	public Rect BoundingRectangle
 	{
 		get => (Rect)this.GetValue(BoundingRectangleProperty);
-		private set => this.SetValue(BoundingRectanglePropertyKey, value);
+		private set => this.SetValue(BoundingRectangleProperty, value);
 	}
 	#endregion BoundingRectangle
 
@@ -70,8 +87,7 @@ public class TransitionContentControl : ContentControl
 	/// Identifies the <see cref="HasOldContent"/> dependency property.
 	/// </summary>
 	private static readonly DependencyPropertyKey HasOldContentPropertyKey =
-			DependencyPropertyFactory<TransitionContentControl>.RegisterReadOnly<bool>(
-				nameof(HasOldContent), false);
+		DPFactory.RegisterReadOnly<bool>(nameof(HasOldContent), false);
 
 	/// <summary>
 	/// Identifies the <see cref="HasOldContent"/> dependency property.
@@ -89,7 +105,7 @@ public class TransitionContentControl : ContentControl
 	public bool HasOldContent
 	{
 		get => (bool)this.GetValue(HasOldContentProperty);
-		private set => this.SetValue(HasOldContentPropertyKey, value);
+		private set => this.SetValue(HasOldContentProperty, value);
 	}
 	#endregion HasOldContent
 
@@ -98,8 +114,7 @@ public class TransitionContentControl : ContentControl
 	/// Identifies the <see cref="OldContent"/> dependency property.
 	/// </summary>
 	private static readonly DependencyPropertyKey OldContentPropertyKey =
-		DependencyPropertyFactory<TransitionContentControl>.RegisterReadOnly<object>(
-			nameof(OldContent), OnOldContentChanged);
+		DPFactory.RegisterReadOnly<object>(nameof(OldContent), OnOldContentChanged);
 
 	/// <summary>
 	/// Identifies the <see cref="OldContent"/> dependency property.
@@ -127,7 +142,7 @@ public class TransitionContentControl : ContentControl
 		@this.OnOldContentChanged(e.OldValue, e.NewValue);
 
 		if (e.NewValue is null)
-			VisualStateManager.GoToState(@this, Transitioned, false);
+			VisualStateManager.GoToState(@this, AnimationStates.Transitioned, false);
 	}
 
 	/// <summary>
@@ -139,7 +154,7 @@ public class TransitionContentControl : ContentControl
 	public object? OldContent
 	{
 		get => this.GetValue(OldContentProperty);
-		private set => this.SetValue(OldContentPropertyKey, value);
+		private set => this.SetValue(OldContentProperty, value);
 	}
 	#endregion OldContent
 
@@ -148,7 +163,7 @@ public class TransitionContentControl : ContentControl
 	/// Identifies the <see cref="IsReversed"/> dependency property.
 	/// </summary>
 	public static readonly DependencyProperty IsReversedProperty =
-		DependencyPropertyFactory<TransitionContentControl>.Register<bool>(nameof(IsReversed), false);
+		DPFactory.Register<bool>(nameof(IsReversed), false);
 
 	/// <summary>
 	/// Gets a value that indicates whether the transition should be reversed.
@@ -173,11 +188,19 @@ public class TransitionContentControl : ContentControl
 		if (oldContent is not null)
 			this.OldContent = oldContent;
 
-		var state = this.OldContent is null ? Emerging : this.IsReversed ? ReverseTransitioning : Transitioning;
+		var state = this.OldContent is null
+			? AnimationStates.Emerging
+			: this.IsReversed
+				? AnimationStates.ReverseTransitioning
+				: AnimationStates.Transitioning;
 		VisualStateManager.GoToState(this, state, false);
 	}
 
+#if WINDOWS_UWP
+	protected override void OnApplyTemplate()
+#elif WINDOWS_WPF
 	public override void OnApplyTemplate()
+#endif
 	{
 		// Perform default processing
 		base.OnApplyTemplate();
@@ -190,19 +213,18 @@ public class TransitionContentControl : ContentControl
 			var stateGroups = VisualStateManager.GetVisualStateGroups(templateChild).OfType<VisualStateGroup>();
 
 			// Get the AnimationStates group
-			var stateGroup = stateGroups.FirstOrDefault(vsm => vsm.Name == AnimationStates);
+			var stateGroup = stateGroups.FirstOrDefault(vsm => vsm.Name == AnimationStates.GroupName);
 			if (stateGroup != null)
 			{
 				// Subscribe to the Storyboard.Completed event of the states of interest
 				foreach (var state in stateGroup.States.OfType<VisualState>())
-					if (state.Storyboard != null && state.Name != Transitioned)
+					if (state.Storyboard != null && state.Name != AnimationStates.Transitioned)
 						state.Storyboard.Completed += this.Storyboard_Completed;
 
 				// Subscribe to the Storyboard.Completed event of the transtitions of interest
 				foreach (var transition in stateGroup.Transitions.OfType<VisualTransition>())
-					if (transition.Storyboard != null && transition.To != Transitioned)
-						transition.Storyboard.Completed += (sender, e) =>
-							this.OldContent = null;
+					if (transition.Storyboard != null && transition.To != AnimationStates.Transitioned)
+						transition.Storyboard.Completed += (sender, e) => this.OldContent = null;
 			}
 		}
 	}
@@ -215,7 +237,7 @@ public class TransitionContentControl : ContentControl
 	}
 	#endregion Overrides
 
-	private void Storyboard_Completed(object? sender, EventArgs e)
+	private void Storyboard_Completed(object? sender, object e)
 	{
 		var currentState = ClockState.Stopped;
 

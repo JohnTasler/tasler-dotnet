@@ -1,8 +1,8 @@
-﻿<ResourceDictionary
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:sys="clr-namespace:System;assembly=mscorlib"
-	xmlns:controls="clr-namespace:Tasler.Windows.Controls"
+	xmlns:sys="using:System"
+	xmlns:controls="using:Tasler.UI.Xaml.Controls"
 	>
 
 	<ItemsPanelTemplate x:Key="ItemsPanelTemplate.SegmentItemBar.Vertical">
@@ -64,7 +64,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="controls:SegmentItemBar">
-					
+
 					<ItemsControl x:Name="RootElement" ItemsSource="{TemplateBinding SegmentItems}" IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="OrientationStates">
@@ -91,7 +91,7 @@
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-						
+
 					</ItemsControl>
 				</ControlTemplate>
 			</Setter.Value>

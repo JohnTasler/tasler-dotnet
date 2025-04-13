@@ -1,13 +1,3 @@
-#if WINDOWS_UWP
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
-using Tasler.Windows.Extensions;
-using PopupBase = Windows.UI.Xaml.Controls.Primitives.Popup;
-namespace Tasler.UI.Xaml.Controls;
-#elif WINDOWS_WPF
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -15,11 +5,10 @@ using System.Windows.Input;
 using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using Tasler.Windows.Extensions;
-using PopupBase = System.Windows.Controls.Primitives.Popup;
-namespace Tasler.Windows.Controls;
-#endif
 
-public partial class Popup : PopupBase
+namespace Tasler.Windows.Controls;
+
+public partial class Popup : System.Windows.Controls.Primitives.Popup
 {
 	#region Instance Fields
 	private MouseButtonEventArgs? _captureLostMouseDownArgs;
@@ -68,8 +57,7 @@ public partial class Popup : PopupBase
 		MouseButtonEventHandler handler = (_, _) =>
 		{
 			var popup = d.GetLogicalAncestors().OfType<System.Windows.Controls.Primitives.Popup>().FirstOrDefault();
-			if (popup != null)
-				popup.Close();
+			popup?.Close();
 		};
 
 		if (d is ButtonBase buttonBase)
@@ -130,8 +118,7 @@ public partial class Popup : PopupBase
 		// Set focus on the first focusable descendant
 		var firstFocusableDescendant =
 			this.GetLogicalDescendantsDepthFirst().OfType<UIElement>().Where(u => u.Focusable).FirstOrDefault();
-		if (firstFocusableDescendant is not null)
-			firstFocusableDescendant.Focus();
+		firstFocusableDescendant?.Focus();
 	}
 
 	protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
@@ -170,16 +157,18 @@ public partial class Popup : PopupBase
 			var args = new MouseButtonEventArgs(
 				_captureLostMouseDownArgs.MouseDevice,
 				_captureLostMouseDownArgs.Timestamp,
-				_captureLostMouseDownArgs.ChangedButton);
-			args.RoutedEvent = PreviewMouseDownEvent;
+				_captureLostMouseDownArgs.ChangedButton)
+			{
+				RoutedEvent = PreviewMouseDownEvent
+			};
 
 			// Hit-test the position of the mouse down event that caused the Popup to close
 			var firstChild = this.GetFirstChild();
 			Debug.WriteLine("Popup.OnClosed: firstChild={0}", firstChild?.FormatNameAndType());
-			if (firstChild != null)
+			if (firstChild is not null)
 			{
 				var window = Window.GetWindow(firstChild);
-				if (window != null)
+				if (window is not null)
 				{
 					// TODO: hit test until source is non-null, iterating through all Owned, Owners, and Application.Windows
 
@@ -188,7 +177,7 @@ public partial class Popup : PopupBase
 					Debug.WriteLine("Popup.OnClosed: window={0} position={1} originalSource={2}",
 						window.FormatNameAndType(), position.Round(), originalSource.FormatNameAndType());
 
-					if (originalSource != null)
+					if (originalSource is not null)
 					{
 						args.Source = originalSource;
 
@@ -211,7 +200,7 @@ public partial class Popup : PopupBase
 		}
 
 		// Restore the previously focused element
-		if (_previouslyFocusedElement != null)
+		if (_previouslyFocusedElement is not null)
 			Keyboard.Focus(_previouslyFocusedElement);
 
 		// Perform default processing

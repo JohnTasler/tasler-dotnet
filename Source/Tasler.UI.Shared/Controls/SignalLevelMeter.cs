@@ -1,11 +1,22 @@
+#if WINDOWS_UWP
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
+using Tasler.UI.Xaml.Extensions;
+namespace Tasler.UI.Xaml.Controls;
+
+#elif WINDOWS_WPF
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using Tasler.Windows.Extensions;
-
+using System.Windows.Media.Animation;
 namespace Tasler.Windows.Controls;
 
-public class SignalLevelMeter : Control
+#endif
+
+using DPFactory = DependencyPropertyFactory<SignalLevelMeter>;
+
+public partial class SignalLevelMeter : Control
 {
 	#region Constants
 	public const string ValueChangeGroup = "ValueChange";
@@ -30,8 +41,7 @@ public class SignalLevelMeter : Control
 	#region Value
 
 	public static readonly DependencyProperty ValueProperty =
-		DependencyProperty.Register(nameof(Value), typeof(double), typeof(SignalLevelMeter),
-			new PropertyMetadata(0.0, OnValuePropertyChanged));
+		DPFactory.Register<double>(nameof(Value), 0.0d, OnValuePropertyChanged);
 
 	public double Value
 	{
@@ -82,7 +92,12 @@ public class SignalLevelMeter : Control
 
 				};
 				Storyboard.SetTarget(animation, this);
-				Storyboard.SetTargetProperty(animation, new PropertyPath(DisplayValueProperty));
+
+#if WINDOWS_UWP
+				Storyboard.SetTargetProperty(animation, nameof(DisplayValue));
+#elif WINDOWS_WPF
+				Storyboard.SetTargetProperty(animation, new PropertyPath(nameof(DisplayValue)));
+#endif
 			}
 			else
 			{
@@ -111,13 +126,12 @@ public class SignalLevelMeter : Control
 		}
 	}
 
-	#endregion Value
+#endregion Value
 
 	#region DisplayValue
 
 	public static readonly DependencyProperty DisplayValueProperty =
-		DependencyProperty.Register(nameof(DisplayValue), typeof(double), typeof(SignalLevelMeter),
-			new PropertyMetadata(0.0));
+		DPFactory.Register<double>(nameof(DisplayValue), 0.0d);
 
 	public double DisplayValue
 	{
@@ -130,8 +144,7 @@ public class SignalLevelMeter : Control
 	#region ResponseTime
 
 	public static readonly DependencyProperty ResponseTimeProperty =
-		DependencyProperty.Register(nameof(ResponseTime), typeof(TimeSpan), typeof(SignalLevelMeter),
-			new PropertyMetadata(TimeSpan.Zero));
+		DPFactory.Register<TimeSpan>(nameof(ResponseTime), TimeSpan.Zero);
 
 	public TimeSpan ResponseTime
 	{
@@ -144,8 +157,7 @@ public class SignalLevelMeter : Control
 	#region FallbackDelay
 
 	public static readonly DependencyProperty FallbackDelayProperty =
-		DependencyProperty.Register(nameof(FallbackDelay), typeof(TimeSpan), typeof(SignalLevelMeter),
-			new PropertyMetadata(TimeSpan.Zero));
+		DPFactory.Register<TimeSpan>(nameof(FallbackDelay), TimeSpan.Zero);
 
 	public TimeSpan FallbackDelay
 	{
@@ -158,8 +170,7 @@ public class SignalLevelMeter : Control
 	#region FallbackTime
 
 	public static readonly DependencyProperty FallbackTimeProperty =
-		DependencyProperty.Register(nameof(FallbackTime), typeof(TimeSpan), typeof(SignalLevelMeter),
-			new PropertyMetadata(TimeSpan.Zero));
+		DPFactory.Register<TimeSpan>(nameof(FallbackTime), TimeSpan.Zero);
 
 	public TimeSpan FallbackTime
 	{
@@ -172,12 +183,11 @@ public class SignalLevelMeter : Control
 	#region ResponseEasingFunction
 
 	public static readonly DependencyProperty ResponseEasingFunctionProperty =
-		DependencyProperty.Register(nameof(ResponseEasingFunction), typeof(IEasingFunction), typeof(SignalLevelMeter),
-			new PropertyMetadata(null));
+		DPFactory.Register<EasingFunctionBase>(nameof(ResponseEasingFunction));
 
-	public IEasingFunction ResponseEasingFunction
+	public EasingFunctionBase ResponseEasingFunction
 	{
-		get => (IEasingFunction)this.GetValue(ResponseEasingFunctionProperty);
+		get => (EasingFunctionBase)this.GetValue(ResponseEasingFunctionProperty);
 		set => this.SetValue(ResponseEasingFunctionProperty, value);
 	}
 
@@ -186,12 +196,11 @@ public class SignalLevelMeter : Control
 	#region FallbackEasingFunction
 
 	public static readonly DependencyProperty FallbackEasingFunctionProperty =
-		DependencyProperty.Register(nameof(FallbackEasingFunction), typeof(IEasingFunction), typeof(SignalLevelMeter),
-			new PropertyMetadata(null));
+		DPFactory.Register<EasingFunctionBase>(nameof(FallbackEasingFunction));
 
-	public IEasingFunction FallbackEasingFunction
+	public EasingFunctionBase FallbackEasingFunction
 	{
-		get => (IEasingFunction)this.GetValue(FallbackEasingFunctionProperty);
+		get => (EasingFunctionBase)this.GetValue(FallbackEasingFunctionProperty);
 		set => this.SetValue(FallbackEasingFunctionProperty, value);
 	}
 
@@ -200,8 +209,7 @@ public class SignalLevelMeter : Control
 	#region Minimum
 
 	public static readonly DependencyProperty MinimumProperty =
-		DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(SignalLevelMeter),
-			new PropertyMetadata(OnMinimumChanged));
+		DPFactory.Register<double>(nameof(Minimum), OnMinimumChanged);
 
 	public double Minimum
 	{
@@ -227,8 +235,7 @@ public class SignalLevelMeter : Control
 	#region Maximum
 
 	public static readonly DependencyProperty MaximumProperty =
-		DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(SignalLevelMeter),
-			new PropertyMetadata(OnMaximumChanged));
+		DPFactory.Register<double>(nameof(Maximum), OnMaximumChanged);
 
 	public double Maximum
 	{
@@ -254,8 +261,7 @@ public class SignalLevelMeter : Control
 	#region Orientation
 
 	public static readonly DependencyProperty OrientationProperty =
-		DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(SignalLevelMeter),
-			new PropertyMetadata(Orientation.Horizontal));
+		DPFactory.Register<Orientation>(nameof(Orientation), Orientation.Horizontal);
 
 	public Orientation Orientation
 	{

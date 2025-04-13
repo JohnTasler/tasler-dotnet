@@ -10,11 +10,11 @@ namespace Tasler.Windows;
 
 public static class PointExtensions
 {
-    public static Point Round(this Point target)
-    {
-        var decimals = 0;
-        var x = Math.Round(target.X, decimals);
-        var y = Math.Round(target.Y, decimals);
-        return new Point(x, y);
-    }
+	public static Point Round(this Point @this)
+	{
+		var decimals = 0;
+		var x = Math.Round(@this.X, decimals);
+		var y = Math.Round(@this.Y, decimals);
+		return new Point(x, y);
+	}
 }

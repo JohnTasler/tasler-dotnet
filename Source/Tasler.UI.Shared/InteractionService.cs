@@ -1,9 +1,16 @@
-﻿using System.ComponentModel;
-using System.Windows;
+using System.ComponentModel;
 using Microsoft.Extensions.Hosting;
 using Tasler.ComponentModel;
 
+#if WINDOWS_UWP
+using Windows.UI.Xaml;
+namespace Tasler.UI.Xaml;
+
+#elif WINDOWS_WPF
+using System.Windows;
 namespace Tasler.Windows;
+#endif
+
 
 public class InteractionService : IInteractionService
 {
@@ -16,6 +23,8 @@ public class InteractionService : IInteractionService
 		_viewModelMapper = viewModelMapper;
 	}
 
+#if WINDOWS_WPF
+
 	public TViewModel? ShowDialog<TViewModel>()
 		where TViewModel : class, INotifyPropertyChanged
 	{
@@ -26,4 +35,5 @@ public class InteractionService : IInteractionService
 			? (TViewModel)window!.DataContext
 			: default;
 	}
+#endif
 }

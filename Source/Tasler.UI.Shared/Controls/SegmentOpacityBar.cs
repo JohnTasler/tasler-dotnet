@@ -1,6 +1,19 @@
-using Tasler.Windows.Extensions;
+#if WINDOWS_UWP
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Tasler.UI.Xaml.Extensions;
+namespace Tasler.UI.Xaml.Controls;
 
+#elif WINDOWS_WPF
+using System.Windows;
+using System.Windows.Controls;
+using Tasler.Windows.Extensions;
 namespace Tasler.Windows.Controls;
+
+#endif
+
+using DPFactory = DependencyPropertyFactory<SegmentItemBar>;
+
 
 /// <summary>
 /// An derivation of <see cref="SegmentBarBase"/> with the rendering implemented using an opacity brush.
@@ -11,8 +24,8 @@ namespace Tasler.Windows.Controls;
 /// quickly exaust the GC small object pool. Since a Brush is a Freezable, it seems there's no way to reuse
 /// the same brush for each update. Revisit when more options come to mind.
 /// </remarks>
-[Obsolete("SegmentOpacityBar is not yet implemented. Use SegmentItemBar instead.", true)]
-public class SegmentOpacityBar : SegmentBarBase
+// [Obsolete("SegmentOpacityBar is not yet implemented. Use SegmentItemBar instead.", true)]
+public partial class SegmentOpacityBar : SegmentBarBase
 {
 	#region Instance Fields
 	#endregion Instance Fields
@@ -27,28 +40,27 @@ public class SegmentOpacityBar : SegmentBarBase
 	}
 	#endregion Constructors
 
-	//#region SegmentGapThickness
+	#region SegmentGapThickness
 
-	//public static readonly DependencyProperty SegmentGapThicknessProperty =
-	//	DependencyProperty.Register("SegmentGapThickness", typeof(Thickness), typeof(SegmentOpacityBar),
-	//		new PropertyMetadata(default(Thickness)));
+	public static readonly DependencyProperty SegmentGapThicknessProperty =
+		DPFactory.Register<Thickness>(nameof(SegmentGapThickness), default(Thickness));
 
-	//public Thickness SegmentGapThickness
-	//{
-	//	get { return (Thickness)GetValue(SegmentGapThicknessProperty); }
-	//	private set { SetValue(SegmentGapThicknessProperty, value); }
-	//}
+	public Thickness SegmentGapThickness
+	{
+		get => (Thickness)this.GetValue(SegmentGapThicknessProperty);
+		private set => this.SetValue(SegmentGapThicknessProperty, value);
+	}
 
-	//#endregion SegmentGapThickness
+	#endregion SegmentGapThickness
 
 	#region Overrides
 
 	protected override void OnUpdateSegments()
 	{
-		var extent = this.Orientation == System.Windows.Controls.Orientation.Horizontal ? this.ActualWidth : this.ActualHeight;
+		var extent = this.Orientation == Orientation.Horizontal ? this.ActualWidth : this.ActualHeight;
 		var calcExtent = extent + this.SegmentGapExtent - 1;
 		var fullSegmentExtent = this.SegmentExtent + this.SegmentGapExtent;
-		var newSegmentCount = (int)(calcExtent / fullSegmentExtent);
+		// var newSegmentCount = (int)(calcExtent / fullSegmentExtent);
 		//var oldSegmentCount = _segmentItems.Count;
 
 		//// Grow or shrink the collection as needed

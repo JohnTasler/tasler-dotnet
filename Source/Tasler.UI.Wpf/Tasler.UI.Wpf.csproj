@@ -10,6 +10,8 @@
 		<TargetFrameworks>net9.0-windows</TargetFrameworks>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<LangVersion>preview</LangVersion>
 		<DefineConstants>WINDOWS_WPF</DefineConstants>
 		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
@@ -44,7 +46,6 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="9.3.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
-		<PackageReference Include="XamlPreprocessor" Version="0.1.0" />
 	</ItemGroup>
 
 	<!-- Project References -->
