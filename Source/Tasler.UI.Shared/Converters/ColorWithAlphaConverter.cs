@@ -1,8 +1,20 @@
 using System.Globalization;
 
+#if WINDOWS_UWP
+using Windows.UI;
+using CultureInfo = string;
+
+namespace Tasler.UI.Xaml.Converters;
+using ConverterBase = BaseValueConverter;
+
+#elif WINDOWS_WPF
+
 using System.Windows.Media;
-using ConverterBase = Tasler.Windows.Converters.SingletonValueConverter<Tasler.Windows.Converters.ColorWithAlphaConverter>;
+
 namespace Tasler.Windows.Converters;
+using ConverterBase = SingletonValueConverter<ColorWithAlphaConverter>;
+
+#endif
 
 public partial class ColorWithAlphaConverter : ConverterBase
 {

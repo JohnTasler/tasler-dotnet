@@ -13,12 +13,12 @@ public static class CoreDispatcherExtensions
 
 	public static void RunAsyncNoWait(this CoreDispatcher @this, CoreDispatcherPriority priority, Action action)
 	{
-		var unused = @this.RunAsync(priority, () => action());
+		_ = @this.RunAsync(priority, () => action());
 	}
 
 	public static void RunIdleAsyncNoWait(this CoreDispatcher @this, Action action)
 	{
-		var unused = @this.RunIdleAsync(e => action());
+		_ = @this.RunIdleAsync(e => action());
 	}
 
 	#endregion Non-waiting (fire-and-forget) Methods
@@ -58,8 +58,6 @@ public static class CoreDispatcherExtensions
 
 	public static async Task<TResult?> RunIdleAsync<TResult>(this CoreDispatcher @this, Func<TResult?> func)
 	{
-		ValidateArgument.IsNotNull(@this, nameof(@this));
-		ValidateArgument.IsNotNull(func, nameof(func));
 		var result = default(TResult);
 		await @this.RunIdleAsync(e => result = func());
 		return result;
@@ -67,8 +65,6 @@ public static class CoreDispatcherExtensions
 
 	public static async Task<TResult?> RunIdleAsync<TResult>(this CoreDispatcher @this, Func<bool, TResult?> func)
 	{
-		ValidateArgument.IsNotNull(@this, nameof(@this));
-		ValidateArgument.IsNotNull(func, nameof(func));
 		var result = default(TResult);
 		await @this.RunIdleAsync(e => result = func(e.IsDispatcherIdle));
 		return result;

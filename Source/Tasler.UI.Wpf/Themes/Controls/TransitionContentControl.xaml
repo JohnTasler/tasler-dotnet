@@ -1,13 +1,10 @@
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-
-	xmlns:attachments="clr-namespace:Tasler.Windows.Attachments"
 	xmlns:controls="clr-namespace:Tasler.Windows.Controls"
 	>
 	<Style TargetType="{x:Type controls:TransitionContentControl}" BasedOn="{StaticResource {x:Type ContentControl}}">
 		<Style.Resources>
-<!-- WINDOWS_WPF:true -->
 			<BooleanToVisibilityConverter x:Key="Converter.BooleanToVisibility"/>
 			<CircleEase x:Key="EasingFunction.Emerging" EasingMode="EaseOut"/>
 			<CircleEase x:Key="EasingFunction.Transitioning" EasingMode="EaseOut"/>
@@ -16,7 +13,6 @@
 			<Duration x:Key="Duration.Transitioning">0:0:0.60</Duration>
 			<Duration x:Key="Duration.ReverseTransitioning">0:0:0.60</Duration>
 		</Style.Resources>
-<!-- end WINDOWS_WPF:true -->
 
 		<Setter Property="ClipToBounds" Value="True"/>
 		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -51,11 +47,11 @@
 						</Grid>
 
 						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup Name="{x:Static controls:TransitionContentControl.AnimationStates}">
+							<VisualStateGroup Name="{x:Static controls:TransitionContentControl+AnimationStates.GroupName}">
 
-								<VisualState Name="{x:Static controls:TransitionContentControl.Transitioned}"/>
+								<VisualState Name="{x:Static controls:TransitionContentControl+AnimationStates.Transitioned}"/>
 
-								<VisualState Name="{x:Static controls:TransitionContentControl.Emerging}">
+								<VisualState Name="{x:Static controls:TransitionContentControl+AnimationStates.Emerging}">
 									<Storyboard>
 										<DoubleAnimation
 											Storyboard.TargetName="PART_ContentHost" Storyboard.TargetProperty="Opacity"
@@ -66,7 +62,7 @@
 									</Storyboard>
 								</VisualState>
 
-								<VisualState Name="{x:Static controls:TransitionContentControl.Transitioning}">
+								<VisualState Name="{x:Static controls:TransitionContentControl+AnimationStates.Transitioning}">
 									<Storyboard>
 										<DoubleAnimation
 											Storyboard.TargetName="PART_OldContentHost" Storyboard.TargetProperty="ChildHorizontalOffsetMultiplier"
@@ -83,7 +79,7 @@
 									</Storyboard>
 								</VisualState>
 
-								<VisualState Name="{x:Static controls:TransitionContentControl.ReverseTransitioning}">
+								<VisualState Name="{x:Static controls:TransitionContentControl+AnimationStates.ReverseTransitioning}">
 									<Storyboard>
 										<DoubleAnimation
 											Storyboard.TargetName="PART_OldContentHost" Storyboard.TargetProperty="ChildHorizontalOffsetMultiplier"

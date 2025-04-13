@@ -1,10 +1,21 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+
+#if WINDOWS_UWP
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Tasler.UI.Xaml.Extensions;
+namespace Tasler.UI.Xaml.Controls;
+
+#elif WINDOWS_WPF
 using System.Windows;
 using System.Windows.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Tasler.Windows.Extensions;
-
 namespace Tasler.Windows.Controls;
+
+#endif
+
+using DPFactory = DependencyPropertyFactory<SegmentItemBar>;
 
 public partial class SegmentItemBar : SegmentBarBase
 {
@@ -27,13 +38,12 @@ public partial class SegmentItemBar : SegmentBarBase
 	#region SegmentGapThickness
 
 	public static readonly DependencyProperty SegmentGapThicknessProperty =
-		DependencyProperty.Register(nameof(SegmentGapThickness), typeof(Thickness), typeof(SegmentItemBar),
-			new PropertyMetadata(default(Thickness)));
+		DPFactory.Register<Thickness>(nameof(SegmentGapThickness), default(Thickness));
 
 	public Thickness SegmentGapThickness
 	{
-		get => (Thickness)GetValue(SegmentGapThicknessProperty);
-		private set => SetValue(SegmentGapThicknessProperty, value);
+		get => (Thickness)this.GetValue(SegmentGapThicknessProperty);
+		private set => this.SetValue(SegmentGapThicknessProperty, value);
 	}
 
 	#endregion SegmentGapThickness
@@ -41,8 +51,7 @@ public partial class SegmentItemBar : SegmentBarBase
 	#region SegmentItems
 
 	public static readonly DependencyProperty SegmentItemsProperty =
-		DependencyProperty.Register(nameof(SegmentItems), typeof(IEnumerable<SegmentItem>), typeof(SegmentItemBar),
-			new PropertyMetadata(null));
+		DPFactory.Register<IEnumerable<SegmentItem>>(nameof(SegmentItems));
 
 	public IEnumerable<SegmentItem> SegmentItems
 	{
@@ -125,7 +134,7 @@ public partial class SegmentItemBar : SegmentBarBase
 		#region Intensity
 
 		[ObservableProperty]
-		private double _intensity;
+		public partial double Intensity { get; set; }
 
 		#endregion Intensity
 

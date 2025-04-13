@@ -5,6 +5,8 @@ using System.Windows.Media;
 
 namespace Tasler.Windows.Controls;
 
+using DPFactory = DependencyPropertyFactory<AnimationSizeableElement>;
+
 /// <summary>
 /// A framework element that provides properties to easily animate the width, height, and offsets of a
 /// <see cref="Child"/> element.
@@ -18,13 +20,15 @@ namespace Tasler.Windows.Controls;
 /// easily be animated (using a <see cref="T:System.Windows.Media.Animation.DoubleAnimation"/> to produce the
 /// desired animation effects.
 /// </remarks>
+[ContentProperty(nameof(Child))]
 public partial class AnimationSizeableElement : IAddChild
 {
 	#region Dependency Property Static Fields
 
 	#region ChildProperty
-	public static readonly DependencyProperty ChildProperty =
-		DependencyPropertyFactory<AnimationSizeableElement>.Register<FrameworkElement>(nameof(Child), OnChildChanged);
+	public static partial DependencyProperty ChildProperty => s_ChildProperty;
+	private static readonly DependencyProperty s_ChildProperty =
+		DPFactory.Register<FrameworkElement>(nameof(Child), OnChildChanged);
 
 	private static void OnChildChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
@@ -40,37 +44,43 @@ public partial class AnimationSizeableElement : IAddChild
 	#endregion ChildProperty
 
 	#region ChildHorizontalOffsetMultiplierProperty
-	public static readonly DependencyProperty ChildHorizontalOffsetMultiplierProperty =
+	public static partial DependencyProperty ChildHorizontalOffsetMultiplierProperty => s_ChildHorizontalOffsetMultiplierProperty;
+	private static readonly DependencyProperty s_ChildHorizontalOffsetMultiplierProperty =
 		DependencyProperty.Register(nameof(ChildHorizontalOffsetMultiplier), typeof(double), typeof(AnimationSizeableElement),
 			new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsArrange));
 	#endregion ChildHorizontalOffsetMultiplierProperty
 
 	#region ChildVerticalOffsetMultiplierProperty
-	public static readonly DependencyProperty ChildVerticalOffsetMultiplierProperty =
+	public static partial DependencyProperty ChildVerticalOffsetMultiplierProperty => s_ChildVerticalOffsetMultiplierProperty;
+	private static readonly DependencyProperty s_ChildVerticalOffsetMultiplierProperty =
 		DependencyProperty.Register(nameof(ChildVerticalOffsetMultiplier), typeof(double), typeof(AnimationSizeableElement),
 			new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsArrange));
 	#endregion ChildVerticalOffsetMultiplierProperty
 
 	#region WidthMultiplierProperty
-	public static readonly DependencyProperty WidthMultiplierProperty =
+	public static partial DependencyProperty WidthMultiplierProperty => s_WidthMultiplierProperty;
+	private static readonly DependencyProperty s_WidthMultiplierProperty =
 		DependencyProperty.Register(nameof(WidthMultiplier), typeof(double), typeof(AnimationSizeableElement),
 			new FrameworkPropertyMetadata((double)1, FrameworkPropertyMetadataOptions.AffectsMeasure));
 	#endregion WidthMultiplierProperty
 
 	#region HeightMultiplierProperty
-	public static readonly DependencyProperty HeightMultiplierProperty =
+	public static partial DependencyProperty HeightMultiplierProperty => s_HeightMultiplierProperty;
+	private static readonly DependencyProperty s_HeightMultiplierProperty =
 		DependencyProperty.Register(nameof(HeightMultiplier), typeof(double), typeof(AnimationSizeableElement),
 			new FrameworkPropertyMetadata((double)1, FrameworkPropertyMetadataOptions.AffectsMeasure));
 	#endregion HeightMultiplierProperty
 
 	#region UseMinWidthProperty
-	public static readonly DependencyProperty UseMinWidthProperty =
+	public static partial DependencyProperty UseMinWidthProperty => s_UseMinWidthProperty;
+	private static readonly DependencyProperty s_UseMinWidthProperty =
 		DependencyProperty.Register(nameof(UseMinWidth), typeof(bool), typeof(AnimationSizeableElement),
 			new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure));
 	#endregion UseMinWidthProperty
 
 	#region UseMinHeightProperty
-	public static readonly DependencyProperty UseMinHeightProperty =
+	public static partial DependencyProperty UseMinHeightProperty => s_UseMinHeightProperty;
+	private static readonly DependencyProperty s_UseMinHeightProperty =
 		DependencyProperty.Register(nameof(UseMinHeight), typeof(bool), typeof(AnimationSizeableElement),
 			new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure));
 	#endregion UseMinHeightProperty
@@ -82,7 +92,7 @@ public partial class AnimationSizeableElement : IAddChild
 
 	protected override Visual GetVisualChild(int index)
 	{
-		if (this.Child == null || index != 0)
+		if (this.Child is null || index != 0)
 			throw new ArgumentOutOfRangeException("index", index, "Properties.Resources.Visual_ArgumentOutOfRangeException");
 
 		return this.Child;
@@ -97,9 +107,10 @@ public partial class AnimationSizeableElement : IAddChild
 	void IAddChild.AddChild(object value)
 	{
 		if (value is FrameworkElement element)
+		{
 			this.Child = element;
-
-		if (value is not null)
+		}
+		else if (value is not null)
 		{
 			throw new ArgumentException(string.Format(
 				Properties.Resources.UnexpectedParameterTypeExceptionFormat_2,
@@ -113,7 +124,7 @@ public partial class AnimationSizeableElement : IAddChild
 	/// <param name="text">The text to add to the object.</param>
 	void IAddChild.AddText(string text)
 	{
-		var block = new TextBlock { Text = text };
+		var block = string.IsNullOrEmpty(text) ? null : new TextBlock { Text = text };
 		this.Child = block;
 	}
 	#endregion IAddChild Members

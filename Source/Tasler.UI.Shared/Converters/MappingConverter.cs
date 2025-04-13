@@ -73,8 +73,12 @@ namespace Tasler.Windows.Converters;
 /// <seealso cref="Mapping"/>
 /// <seealso cref="Mapping{TKey, TValue}"/>
 /// <seealso cref="MappingCollection"/>
-[ContentProperty("Mappings")]
-public class MappingConverter : ConverterBase
+#if WINDOWS_UWP
+[ContentProperty(Name = nameof(Mappings))]
+#elif WINDOWS_WPF
+[ContentProperty(nameof(Mappings))]
+#endif
+public partial class MappingConverter : ConverterBase
 {
 	#region Properties
 	/// <summary>
@@ -170,7 +174,11 @@ public interface IMapping
 /// <seealso cref="Mapping"/>
 /// <seealso cref="MappingCollection"/>
 /// <seealso cref="MappingConverter"/>
-[ContentProperty("Value")]
+#if WINDOWS_UWP
+[ContentProperty(Name = nameof(Value))]
+#elif WINDOWS_WPF
+[ContentProperty(nameof(Value))]
+#endif
 public class Mapping<TKey, TValue> : IMapping
 {
 	#region Properties
@@ -212,7 +220,7 @@ public class Mapping : Mapping<object, object?>
 /// <seealso cref="Mapping"/>
 /// <seealso cref="Mapping{TKey, TValue}"/>
 /// <seealso cref="MappingConverter"/>
-public class MappingCollection : IList<IMapping>, IList
+public partial class MappingCollection : IList<IMapping>, IList
 {
 	#region Instance Fields
 	private List<IMapping> _list = [];

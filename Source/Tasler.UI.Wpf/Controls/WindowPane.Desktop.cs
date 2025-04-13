@@ -168,34 +168,32 @@ public class WindowPane : UserControl
 	protected virtual void OnClosing(CancelEventArgs e)
 	{
 		// Raise the Closing event
-		if (this.Closing is not null)
-			this.Closing(this, e);
+		this.Closing?.Invoke(this, e);
 	}
 
 	protected virtual void OnClosed(EventArgs e)
 	{
 		// Raise the Closed event
-		if (this.Closed is not null)
-			this.Closed(this, e);
+		this.Closed?.Invoke(this, e);
 	}
 	#endregion Overridables
 
 	#region Private Implementation
-	private void SetCommandOnButtons(DependencyObject d)
+	private static void SetCommandOnButtons(DependencyObject d)
 	{
 		if (d is Button button)
 		{
-			if (button is not null && button.Command is null && button.IsCancel)
+			if (button.Command is null && button.IsCancel)
 				button.Command = Commands.Cancel;
 		}
 
 		foreach (var child in d.GetVisualChildren())
-			this.SetCommandOnButtons(child);
+			SetCommandOnButtons(child);
 	}
 	#endregion Private Implementation
 
 	#region Event Handlers
-	private void This_Loaded(object sender, RoutedEventArgs e) => this.SetCommandOnButtons(this);
+	private void This_Loaded(object sender, RoutedEventArgs e) => SetCommandOnButtons(this);
 	#endregion Event Handlers
 
 	#region Command Handlers

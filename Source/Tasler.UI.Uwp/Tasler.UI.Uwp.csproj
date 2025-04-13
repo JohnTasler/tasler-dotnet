@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<UseUwp>true</UseUwp>
@@ -13,16 +13,41 @@
 		<IsAotCompatible>true</IsAotCompatible>
 		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
 		<DefaultLanguage>en-US</DefaultLanguage>
+		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<LangVersion>preview</LangVersion>
 		<DefineConstants>WINDOWS_UWP</DefineConstants>
 		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
-	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+	  <Compile Remove="Core\DispatcherQueueExtensions.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Xaml\Threading\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.cs">
+			<DependentUpon>Resources.resw</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PRIResource Update="Properties\Resources.resw">
+			<Generator>InternalReswFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.cs</LastGenOutput>
+		</PRIResource>
 	</ItemGroup>
 
 	<!-- Package References -->
+	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="9.3.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
+	</ItemGroup>
 
 	<!-- Project References -->
 	<ItemGroup>

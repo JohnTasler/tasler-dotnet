@@ -9,7 +9,7 @@ namespace Tasler.Windows.Converters;
 #endif
 
 
-public class NullWhenDateTimeMinimumConverter : ConverterBase
+public partial class NullWhenDateTimeMinimumConverter : ConverterBase
 {
 	public override object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
 	{

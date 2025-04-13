@@ -65,7 +65,7 @@ public abstract class DispatcherThreadBase : IDisposable
 
 	public void Start(ApartmentState apartmentState = ApartmentState.MTA)
 	{
-		if (_dispatcher == null)
+		if (_dispatcher is null)
 		{
 			var thread = ThreadExtensions.Create<AutoResetEvent>(this.ThreadProc);
 			try

@@ -15,6 +15,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AttachedPropertyFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AnimationSizeableElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SegmentBarBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SegmentItemBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SegmentOpacityBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SignalLevelMeter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TransitionContentControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ViewControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumValueToNameConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\GetTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IsEqualConverter.cs" />
@@ -39,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\RectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ThicknessExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IInteractionService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IConfigureHostBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InteractionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\GeometryBuilder.cs" />
@@ -51,7 +59,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ComponentModel\" />
     <Folder Include="$(MSBuildThisFileDirectory)Properties\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Themes\Controls\" />
   </ItemGroup>
   <ItemGroup>
     <!--ss
