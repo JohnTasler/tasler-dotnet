@@ -1,7 +1,7 @@
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using CommunityToolkit.Diagnostics;
 using Tasler.Windows.Media;
 
 namespace Tasler.Windows.Controls;
@@ -20,7 +20,7 @@ public sealed class ClippedBorder : Border
 	#region Private Implementation
 	private Geometry? GenerateChildClipGeometry(Size finalSize)
 	{
-		Debug.Assert(base.Child != null);
+		Guard.IsNotNull(this.Child);
 
 		CornerRadius cornerRadius = base.CornerRadius;
 		if (cornerRadius.TopLeft == 0.0 && cornerRadius.BottomLeft == 0.0
