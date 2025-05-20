@@ -69,7 +69,6 @@ public static class TreeTraversalExtensions
 		where TTreeNode : class
 		where TTraversalStrategy : ITraversalStrategyCollection<TTreeNode>, new()
 	{
-
 		var strategyContainer = new TTraversalStrategy();
 
 		if (includeSelf)
