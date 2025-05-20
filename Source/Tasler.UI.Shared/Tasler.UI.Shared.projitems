@@ -41,6 +41,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IInteractionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IConfigureHostBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InteractionService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\GeometryBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\DispatcherThreadBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ViewModelMapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeConverters\FontSizeConverter.cs" />

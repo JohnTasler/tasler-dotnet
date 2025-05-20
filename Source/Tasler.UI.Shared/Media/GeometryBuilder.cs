@@ -1,8 +1,14 @@
-using System.Runtime.InteropServices;
+#if WINDOWS_UWP
+using Windows.Foundation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+namespace Tasler.UI.Xaml;
+#elif WINDOWS_WPF
 using System.Windows;
 using System.Windows.Media;
-
 namespace Tasler.Windows.Media;
+#endif
+
 
 public static class GeometryBuilder
 {
@@ -25,28 +31,59 @@ public static class GeometryBuilder
 		Size bottomRightSize = new Size(radii.BottomRight, radii.BottomRight);
 		Size bottomLeftSize = new Size(radii.BottomLeft, radii.BottomLeft);
 
-		// Build the Geometry
-		var geometry = new StreamGeometry();
-		using (StreamGeometryContext sgc = geometry.Open())
+		// Build the geometry
+		var figure = new PathFigure
 		{
-			sgc.BeginFigure(topLeftPointTop, true, false);
-			sgc.LineTo(topRightPointTop, true, false);
-			if (radii.TopRight != 0.0)
-				sgc.ArcTo(topRightPointRight, topRightSize, 0, false, SweepDirection.Clockwise, true, false);
-			sgc.LineTo(bottomRightPointRight, true, false);
-			if (radii.BottomRight != 0.0)
-				sgc.ArcTo(bottomRightPointBottom, bottomRightSize, 0, false, SweepDirection.Clockwise, true, false);
-			sgc.LineTo(bottomLeftPointBottom, true, false);
-			if (radii.BottomLeft != 0.0)
-				sgc.ArcTo(bottomLeftPointLeft, bottomLeftSize, 0, false, SweepDirection.Clockwise, true, false);
-			sgc.LineTo(topLeftPointLeft, true, false);
-			if (radii.TopLeft != 0.0)
-				sgc.ArcTo(topLeftPointTop, topLeftSize, 0, false, SweepDirection.Clockwise, true, false);
+			StartPoint = topLeftPointTop,
+			Segments =
+			[
+				CreateLineSegment(topRightPointTop),
+				CreateArcSegmentIfNotZero(radii.TopRight, topRightPointRight, topRightSize),
+				CreateLineSegment(bottomRightPointRight),
+				CreateArcSegmentIfNotZero(radii.BottomRight, bottomRightPointBottom, bottomRightSize),
+				CreateLineSegment(bottomLeftPointBottom),
+				CreateArcSegmentIfNotZero(radii.BottomLeft, bottomLeftPointLeft, bottomLeftSize),
+				CreateLineSegment(topLeftPointLeft),
+				CreateArcSegmentIfNotZero(radii.TopLeft, topLeftPointTop, topLeftSize),
+			],
+			IsFilled = true,
+		};
+
+		// Remove null segment values
+		while (figure.Segments.Remove(null))
+		{
 		}
 
-		// Return the built Geometry
-		return geometry;
+		return new PathGeometry { Figures = [figure] };
 	}
+
+#if WINDOWS_UWP
+
+	private static LineSegment CreateLineSegment(Point point) => new() { Point = point };
+
+	private static ArcSegment? CreateArcSegmentIfNotZero(double conditionalValue, Point point, Size size)
+	{
+		if (conditionalValue == 0.0)
+			return null;
+
+		return new ArcSegment
+		{
+			Point = point,
+			Size = size,
+			RotationAngle = 0,
+			IsLargeArc = false,
+			SweepDirection = SweepDirection.Clockwise,
+		};
+	}
+
+#elif WINDOWS_WPF
+
+	private static LineSegment CreateLineSegment(Point point) => new(point, true);
+
+	private static ArcSegment? CreateArcSegmentIfNotZero(double conditionalValue, Point point, Size size)
+		=> conditionalValue == 0.0 ? null : new(point, size, 0, false, SweepDirection.Clockwise, false);
+
+#endif
 
 	public static Rect Deflate(this Rect rect, Thickness thick)
 	{
@@ -57,7 +94,6 @@ public static class GeometryBuilder
 			Math.Max((double)0.0, (double)((rect.Height - thick.Top) - thick.Bottom)));
 	}
 
-	[StructLayout(LayoutKind.Sequential)]
 	private struct Radii
 	{
 		public double LeftTop;
