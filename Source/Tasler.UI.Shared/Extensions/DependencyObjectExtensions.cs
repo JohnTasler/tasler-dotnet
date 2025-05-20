@@ -106,7 +106,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetLogicalDescendantsBreadthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsBreadthFirst<DependencyObject>(GetLogicalChildren, false);
+		return d.GetDescendantsBreadthFirst(GetLogicalChildren, false);
 	}
 
 	/// <summary>
@@ -127,7 +127,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndLogicalDescendantsBreadthFirst(this DependencyObject d)
 	{
-		return TreeTraversalExtensions.GetDescendantsBreadthFirst<DependencyObject>(d, GetLogicalChildren, true);
+		return d.GetDescendantsBreadthFirst(GetLogicalChildren, true);
 	}
 
 	/// <summary>
@@ -156,7 +156,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetLogicalDescendantsDepthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsDepthFirst<DependencyObject>(GetLogicalChildren, false);
+		return d.GetDescendantsDepthFirst(GetLogicalChildren, false);
 	}
 
 	/// <summary>
@@ -177,7 +177,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndLogicalDescendantsDepthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsDepthFirst<DependencyObject>(GetLogicalChildren, true);
+		return d.GetDescendantsDepthFirst(GetLogicalChildren, true);
 	}
 
 	private static IEnumerable<DependencyObject> GetLogicalChildren(DependencyObject node)
@@ -256,7 +256,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetVisualDescendantsBreadthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsBreadthFirst<DependencyObject>(GetVisualChildren, false);
+		return d.GetDescendantsBreadthFirst(GetVisualChildren, false);
 	}
 
 	/// <summary>
@@ -277,7 +277,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndVisualDescendantsBreadthFirst(this DependencyObject d)
 	{
-		return TreeTraversalExtensions.GetDescendantsBreadthFirst<DependencyObject>(d, GetVisualChildren, true);
+		return d.GetDescendantsBreadthFirst(GetVisualChildren, true);
 	}
 
 	/// <summary>
