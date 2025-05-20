@@ -2,8 +2,6 @@ using CommunityToolkit.Diagnostics;
 
 namespace Tasler;
 
-// TODO: NEEDS_UNIT_TESTS
-
 public struct DisposeScopeExit : IDisposable
 {
 	#region Instance Fields
