@@ -1,4 +1,6 @@
-namespace Tasler.Extensions;
+namespace Tasler;
+
+// TODO: NEEDS_UNIT_TESTS
 
 public static class IDictionaryExtensions
 {
@@ -14,8 +16,7 @@ public static class IDictionaryExtensions
 		if (!typeof(TKey).IsValueType && object.Equals(key, default(TKey)))
 			throw new ArgumentNullException(nameof(key));
 
-		var value = default(object);
-		if (!source.TryGetValue(key, out value))
+		if (!source.TryGetValue(key, out object? value))
 		{
 			exception = new KeyNotFoundException(
 				string.Format(Properties.Resources.KeyNotFoundExceptionFormat2,
@@ -29,7 +30,7 @@ public static class IDictionaryExtensions
 			exception = new InvalidCastException(
 				string.Format(Properties.Resources.InvalidCastExceptionFormat2,
 					value.GetType().FullName,
-					typeof(T).FullName)); 
+					typeof(T).FullName));
 			return default;
 		}
 
@@ -46,5 +47,4 @@ public static class IDictionaryExtensions
 	{
 		return source.GetValueAsType<T, string>(key, out exception);
 	}
-
 }

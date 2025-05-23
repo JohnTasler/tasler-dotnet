@@ -1,3 +1,6 @@
+using System;
+using CommunityToolkit.Diagnostics;
+
 namespace Tasler;
 
 // TODO: NEEDS_UNIT_TESTS
@@ -9,6 +12,9 @@ public static class IDictionaryExtensions
 
 	public static T? GetValueAsType<T, TKey>(this IDictionary<TKey, object> @this, TKey key, T? defaultValue = default(T))
 	{
+		Guard.IsNotNull(@this);
+		Guard.IsNotNull(key);
+
 		if (@this.TryGetValueAsType<T, TKey>(key, out T? result, out var exception))
 			return result;
 
@@ -23,9 +29,8 @@ public static class IDictionaryExtensions
 
 	public static bool TryGetValueAsType<T, TKey>(this IDictionary<TKey, object> @this, TKey key, out T? value, out InvalidCastException? exception)
 	{
-		ValidateArgument.IsNotNull(@this, nameof(@this));
-		if (!typeof(TKey).IsValueType && object.Equals(key, default(TKey)))
-			throw new ArgumentNullException(nameof(key));
+		Guard.IsNotNull(@this);
+		Guard.IsNotNull(key);
 
 		// Initialize out paramaters
 		value = default(T);
