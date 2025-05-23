@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<ProjectName>Tasler.Core.Tests</ProjectName>
 		<AssemblyName>Tasler.Core.Tests</AssemblyName>
-		<RootNamespace>Tasler.Core.Tests</RootNamespace>
+		<RootNamespace>Tasler.Tests</RootNamespace>
 		<ProjectGuid>{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}</ProjectGuid>
 		<TargetFramework>net9.0</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -21,9 +21,9 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
 		<PackageReference Include="xunit" Version="2.9.3" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="3.0.2">
+		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
