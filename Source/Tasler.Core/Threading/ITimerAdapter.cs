@@ -1,13 +1,10 @@
-﻿using System;
+namespace Tasler.Threading;
 
-namespace Tasler.Threading
+public interface ITimerAdapter
 {
-    public interface ITimerAdapter
-    {
-        TimeSpan Interval { get; set; }
-        bool IsRunning { get; }
-        event EventHandler Tick;
-        void Start();
-        void Stop();
-    }
+	TimeSpan Interval { get; set; }
+	bool IsRunning { get; }
+	event EventHandler Tick;
+	void Start();
+	void Stop();
 }

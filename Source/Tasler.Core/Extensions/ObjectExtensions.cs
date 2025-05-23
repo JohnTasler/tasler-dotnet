@@ -14,7 +14,7 @@ public static class ObjectExtensions
 	/// An <see cref="IEnumerable{TSource}"/> containing a single element - the specified object instance.
 	/// </returns>
 	public static IEnumerable<T> AsEnumerable<T>(this T @this)
-			where T : class
+		where T : class
 	{
 		return [@this];
 	}
