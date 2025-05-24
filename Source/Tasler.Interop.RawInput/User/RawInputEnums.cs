@@ -42,7 +42,11 @@ public enum RIDEV : uint
 	CaptureMouse = 0x00000200,
 
 	/// <summary>If set, the application-defined keyboard device hotkeys are not handled. However, the system hotkeys; for example, ALT+TAB and CTRL+ALT+DEL, are still handled. By default, all keyboard hotkeys are handled. NoHotKeys can be specified even if NoLegacy is not specified and WindowHandle is NULL.</summary>
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable CA1069 // Enums values should not be duplicated
 	NoHotKeys    = 0x00000200,
+#pragma warning restore CA1069 // Enums values should not be duplicated
+#pragma warning restore IDE0079 // Remove unnecessary suppression
 
 	/// <summary>If set, application keys are handled.  NoLegacy must be specified.  Keyboard only.</summary>
 	AppKeys      = 0x00000400,

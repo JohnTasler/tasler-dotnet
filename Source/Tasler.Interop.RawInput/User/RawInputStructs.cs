@@ -13,7 +13,7 @@ namespace Tasler.Interop.RawInput.User
 		public SafeRawInputHandle DeviceHandle;
 		public InterfaceDeviceType DeviceType;
 
-		public override bool Equals(object? obj)
+		public override readonly bool Equals(object? obj)
 		{
 			return obj is RAWINPUTDEVICELIST rawInputDeviceList && DeviceHandle == rawInputDeviceList.DeviceHandle;
 		}

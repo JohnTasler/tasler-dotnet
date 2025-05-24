@@ -1,4 +1,4 @@
-namespace Tasler.Interop.Gdi;
+namespace Tasler.Interop.RawInput.User;
 
 public class SafeRawInputHandle : SafeHandleZeroIsInvalid
 {

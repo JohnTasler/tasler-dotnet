@@ -1,7 +1,4 @@
-﻿using System;
 using System.ComponentModel;
-using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Tasler.Converters;
 
@@ -10,21 +7,22 @@ namespace Tasler.Windows.Input
 	public class HumanInputGesture : InputGesture
 	{
 		#region Properties
-		public short UsagePage { get; set; }
-		public short Usage { get; set; }
+		public ushort UsagePage { get; set; }
+		public ushort Usage { get; set; }
 
 		[TypeConverter(typeof(HexStringToByteArrayConverter))]
-		public byte[] Mask { get; set; }
+		public byte[]? Mask { get; set; }
 
 		[TypeConverter(typeof(HexStringToByteArrayConverter))]
-		public byte[] Data { get; set; }
+		public byte[]? Data { get; set; }
 		#endregion Properties
 
 		#region Overrides
 		public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
 		{
-			HumanInputEventArgs args = inputEventArgs as HumanInputEventArgs;
-			if (args != null && args.HumanInterfaceDevice.UsagePage == this.UsagePage && args.HumanInterfaceDevice.Usage == this.Usage)
+			if (inputEventArgs is HumanInputEventArgs args
+				&& args.HumanInterfaceDevice.UsagePage == this.UsagePage
+				&& args.HumanInterfaceDevice.Usage == this.Usage)
 			{
 				foreach (byte[] bytes in args.HumanInput.Bytes)
 				{
