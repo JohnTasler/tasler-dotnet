@@ -1,13 +1,9 @@
 namespace Tasler.ComponentModel
 {
 	public abstract class ChildBase<TParent> : IChild<TParent>
-			where TParent : class
+		where TParent : class
 	{
 		#region Constructors
-		protected ChildBase()
-		{
-		}
-
 		protected ChildBase(TParent parent)
 		{
 			this.Parent = parent;
@@ -23,7 +19,7 @@ namespace Tasler.ComponentModel
 
 		#region IChild<TParent> Members
 
-		public TParent? Parent
+		public TParent Parent
 		{
 			get; private set;
 		}
@@ -45,12 +41,6 @@ namespace Tasler.ComponentModel
 		object? IChild.GetParent()
 		{
 			return this.Parent;
-		}
-
-		bool IChild.SetParent(object parent)
-		{
-			var typedParent = (TParent)parent;
-			return this.SetParent(typedParent);
 		}
 
 		#endregion IChild Members

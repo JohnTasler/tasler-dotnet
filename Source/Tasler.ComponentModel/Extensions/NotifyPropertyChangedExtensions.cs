@@ -92,7 +92,7 @@ public static partial class NotifyPropertyChangedExtensions
 	public static void Raise(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, string? propertyName)
 	{
-		if (@this != null && propertyName != null)
+		if (@this is not null && propertyName is not null)
 		{
 			@this.Invoke(sender, new PropertyChangedEventArgs(propertyName));
 		}
@@ -101,7 +101,7 @@ public static partial class NotifyPropertyChangedExtensions
 	public static void Raise(this PropertyChangedEventHandler @this,
 			INotifyPropertyChanged sender, params string[] propertyNames)
 	{
-		if (@this != null && propertyNames != null)
+		if (@this is not null && propertyNames is not null)
 		{
 			var length = propertyNames.Length;
 			for (var index = 0; index < length; ++index)
@@ -138,11 +138,11 @@ public static partial class NotifyPropertyChangedExtensions
 
 		void IDisposable.Dispose()
 		{
-			if (_propertyName != null)
+			if (_propertyName is not null)
 			{
 				_handler.Raise(_sender, _propertyName);
 			}
-			if (_propertyNames != null)
+			if (_propertyNames is not null)
 			{
 				_handler.Raise(_sender, _propertyNames);
 			}
