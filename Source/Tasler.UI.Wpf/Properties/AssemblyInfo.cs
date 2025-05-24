@@ -23,7 +23,7 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Controls")]
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Converters")]
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Extensions")]
-//[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Markup")]
+[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Markup")]
 
 [assembly: InternalsVisibleTo("Tasler.Windows.Input")]
 
