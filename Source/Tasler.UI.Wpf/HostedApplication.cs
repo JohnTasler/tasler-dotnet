@@ -20,8 +20,8 @@ public class HostedApplication : Application
 
 	protected override void OnStartup(StartupEventArgs e)
 	{
-		MainWindow.Show();
 		base.OnStartup(e);
+		MainWindow.Show();
 	}
 
 	protected override void OnExit(ExitEventArgs e)

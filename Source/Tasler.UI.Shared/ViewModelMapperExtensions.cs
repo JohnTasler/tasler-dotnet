@@ -15,11 +15,12 @@ namespace Tasler.Windows;
 
 public static class ViewModelMapperExtensions
 {
-	public static void AddMapping<TViewModel, TView>(this IViewModelMapper @this)
+	public static IViewModelMapper AddMapping<TViewModel, TView>(this IViewModelMapper @this)
 		where TViewModel : class, INotifyPropertyChanged
 		where TView : FrameworkElement
 	{
 		@this.AddMapping(typeof(TViewModel), typeof(TView));
+		return @this;
 	}
 
 	public static FrameworkElement GetViewInstanceFor(this IViewModelMapper @this, IHost host, Type viewModelType)
