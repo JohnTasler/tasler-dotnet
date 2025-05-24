@@ -8,19 +8,19 @@ namespace Tasler.ComponentModel;
 public static partial class NotifyPropertyChangedExtensions
 {
 	public static bool SetProperty<TValue>(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, [CallerMemberName] string? propertyName = null)
+		INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, [CallerMemberName] string? propertyName = null)
 	{
 		return @this.SetProperty(sender, newValue, ref valueField, out TValue oldValue, propertyName);
 	}
 
 	public static bool SetProperty<TValue>(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, params string[] propertyNames)
+		INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, params string[] propertyNames)
 	{
 		return @this.SetProperty(sender, newValue, ref valueField, out TValue oldValue, propertyNames);
 	}
 
 	public static bool SetProperty<TValue>(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, [CallerMemberName] string? propertyName = null)
+		INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, [CallerMemberName] string? propertyName = null)
 	{
 		var propertyChanged = @this.SetPropertyNoRaise(sender, newValue, ref valueField, out oldValue);
 		if (propertyChanged)
@@ -31,7 +31,7 @@ public static partial class NotifyPropertyChangedExtensions
 	}
 
 	public static bool SetProperty<TValue>(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, params string[] propertyNames)
+		INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, params string[] propertyNames)
 	{
 		var propertyChanged = @this.SetPropertyNoRaise(sender, newValue, ref valueField, out oldValue);
 		if (propertyChanged)
@@ -42,13 +42,13 @@ public static partial class NotifyPropertyChangedExtensions
 	}
 
 	public static bool SetPropertyNoRaise<TValue>(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField)
+		INotifyPropertyChanged sender, TValue newValue, ref TValue valueField)
 	{
 		return @this.SetPropertyNoRaise(sender, newValue, ref valueField, out TValue oldValue);
 	}
 
 	public static bool SetPropertyNoRaise<TValue>(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue)
+		INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue)
 	{
 		oldValue = valueField;
 
@@ -62,35 +62,35 @@ public static partial class NotifyPropertyChangedExtensions
 	}
 
 	public static IDisposable? SetPropertyScopeRaise<TValue>(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, [CallerMemberName] string? propertyName = null)
+		INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, [CallerMemberName] string? propertyName = null)
 	{
 		return @this.SetPropertyScopeRaise(sender, newValue, ref valueField, out TValue oldValue, propertyName);
 	}
 
 	public static IDisposable? SetPropertyScopeRaise<TValue>(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, params string[] propertyNames)
+		INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, params string[] propertyNames)
 	{
 		return @this.SetPropertyScopeRaise(sender, newValue, ref valueField, out TValue oldValue, propertyNames);
 	}
 
 	public static IDisposable? SetPropertyScopeRaise<TValue>(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, [CallerMemberName] string? propertyName = null)
+		INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, [CallerMemberName] string? propertyName = null)
 	{
 		return @this.SetPropertyNoRaise(sender, newValue, ref valueField, out oldValue)
-				? new RaiseScope(@this, sender, propertyName)
-				: null;
+			? new RaiseScope(@this, sender, propertyName)
+			: null;
 	}
 
 	public static IDisposable? SetPropertyScopeRaise<TValue>(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, params string[] propertyNames)
+		INotifyPropertyChanged sender, TValue newValue, ref TValue valueField, out TValue oldValue, params string[] propertyNames)
 	{
 		return @this.SetPropertyNoRaise(sender, newValue, ref valueField, out oldValue)
-				? new RaiseScope(@this, sender, propertyNames)
-				: null;
+			? new RaiseScope(@this, sender, propertyNames)
+			: null;
 	}
 
 	public static void Raise(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, string? propertyName)
+		INotifyPropertyChanged sender, string? propertyName)
 	{
 		if (@this is not null && propertyName is not null)
 		{
@@ -99,7 +99,7 @@ public static partial class NotifyPropertyChangedExtensions
 	}
 
 	public static void Raise(this PropertyChangedEventHandler @this,
-			INotifyPropertyChanged sender, params string[] propertyNames)
+		INotifyPropertyChanged sender, params string[] propertyNames)
 	{
 		if (@this is not null && propertyNames is not null)
 		{
