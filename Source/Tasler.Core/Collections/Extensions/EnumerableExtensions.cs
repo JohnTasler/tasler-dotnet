@@ -1,7 +1,7 @@
 using System.Collections;
 using CommunityToolkit.Diagnostics;
 
-namespace Tasler;
+namespace Tasler.Collections;
 
 // TODO: NEEDS_UNIT_TESTS
 
@@ -75,7 +75,7 @@ public static class EnumerableExtensions
 			++index;
 		}
 
-		element = default(TSource);
+		element = default;
 		return -1;
 	}
 
@@ -118,7 +118,7 @@ public static class EnumerableExtensions
 		Guard.IsNotNull(predicate);
 
 		var matchIndex = -1;
-		TSource? matchElement = default(TSource);
+		var matchElement = default(TSource);
 		var index = 0;
 		foreach (var item in @this)
 		{
