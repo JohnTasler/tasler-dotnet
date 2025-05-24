@@ -61,6 +61,15 @@ namespace Tasler.Windows.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The current application is not a HostedApplication. Ensure that the application is properly initialized..
+        /// </summary>
+        internal static string CurrentApplicationIsNotHostedApplication {
+            get {
+                return ResourceManager.GetString("CurrentApplicationIsNotHostedApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The TreeRootNodeViewModelBase.CreateChildCollection override must return a non-null collection of type &apos;{0}&apos;..
         /// </summary>
         internal static string MustCreateChildCollectionOfTypeFormat1 {
@@ -75,6 +84,15 @@ namespace Tasler.Windows.Properties {
         internal static string PropertyNotAttachableToTypeFormat2 {
             get {
                 return ResourceManager.GetString("PropertyNotAttachableToTypeFormat2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; is not registered in the service collection..
+        /// </summary>
+        internal static string TypeNotRegisteredInHostFormat1 {
+            get {
+                return ResourceManager.GetString("TypeNotRegisteredInHostFormat1", resourceCulture);
             }
         }
         

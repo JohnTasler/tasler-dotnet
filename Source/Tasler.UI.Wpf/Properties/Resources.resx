@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CurrentApplicationIsNotHostedApplication" xml:space="preserve">
+    <value>The current application is not a HostedApplication. Ensure that the application is properly initialized.</value>
+  </data>
   <data name="MustCreateChildCollectionOfTypeFormat1" xml:space="preserve">
     <value>The TreeRootNodeViewModelBase.CreateChildCollection override must return a non-null collection of type '{0}'.</value>
   </data>
   <data name="PropertyNotAttachableToTypeFormat2" xml:space="preserve">
     <value>Property '{0}' is not attachable to elements of type '{1}'</value>
+  </data>
+  <data name="TypeNotRegisteredInHostFormat1" xml:space="preserve">
+    <value>The type '{0}' is not registered in the service collection.</value>
   </data>
   <data name="UnexpectedParameterTypeExceptionFormat_2" xml:space="preserve">
     <value>Parameter type {0} does not derive from {1}</value>
