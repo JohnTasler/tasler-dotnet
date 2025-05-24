@@ -1,7 +1,5 @@
-﻿using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -13,12 +11,12 @@ namespace Tasler.Windows.Input
 	public class HumanInputBinding : InputBinding, ISupportInitialize
 	{
 		#region Static Fields
-		private static int messageHooked;
+		private static int s_messageHooked;
 		#endregion Static Fields
 
 		#region Instance Fields
-		private bool initPending;
-		private HumanInputBindingMode mode;
+		private bool _initPending;
+		private HumanInputBindingMode _mode;
 		#endregion Instance Fields
 
 		#region Construction
@@ -35,14 +33,10 @@ namespace Tasler.Windows.Input
 		#region Properties
 		public override InputGesture Gesture
 		{
-			get
-			{
-				return base.Gesture;
-			}
+			get => base.Gesture;
 			set
 			{
-				HumanInputGesture gesture = value as HumanInputGesture;
-				if (gesture == null)
+				if (value is not HumanInputGesture gesture)
 					throw new ArgumentException("HumanInputBinding only accepts HumanInputGesture.");
 
 				this.CheckInitialization();
@@ -53,14 +47,11 @@ namespace Tasler.Windows.Input
 
 		public HumanInputBindingMode Mode
 		{
-			get
-			{
-				return this.mode;
-			}
+			get => _mode;
 			set
 			{
 				this.CheckInitialization();
-				this.mode = value;
+				_mode = value;
 			}
 		}
 		#endregion Properties
@@ -69,11 +60,11 @@ namespace Tasler.Windows.Input
 
 		#region Element
 
-		public static DependencyProperty ElementProperty =
-			DependencyProperty.Register("Element", typeof(DependencyObject), typeof(HumanInputBinding),
-				new PropertyMetadata());
+		public static readonly DependencyProperty ElementProperty =
+			DependencyProperty.Register(nameof(Element), typeof(DependencyObject), typeof(HumanInputBinding),
+				new PropertyMetadata(ElementPropertyChanged));
 
-		private void ElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private static void ElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var instance = (HumanInputBinding)d;
 			instance.CheckInitialization();
@@ -81,8 +72,8 @@ namespace Tasler.Windows.Input
 
 		public DependencyObject Element
 		{
-			get { return (DependencyObject)base.GetValue(HumanInputBinding.ElementProperty); }
-			set { base.SetValue(HumanInputBinding.ElementProperty, value); }
+			get => (DependencyObject)base.GetValue(HumanInputBinding.ElementProperty);
+			set => base.SetValue(HumanInputBinding.ElementProperty, value);
 		}
 
 		#endregion Element
@@ -92,35 +83,35 @@ namespace Tasler.Windows.Input
 		#region ISupportInitialize Members
 
 		/// <summary>
-		/// Starts the initialization process for this input binding. 
+		/// Starts the initialization process for this input binding.
 		/// </summary>
 		/// <exception cref="T:System.InvalidOperationException">
 		/// Called <see cref="M:HumanInputBinding.BeginInit" /> more than once before <see cref="M:HumanInputBinding.EndInit" /> was called.
 		/// </exception>
 		public void BeginInit()
 		{
-			if (this.initPending)
+			if (_initPending)
 				throw new InvalidOperationException(Properties.Resources.NestedBeginInitNotSupported);
 
 			// Set the flag to indicate that initialization is pending
-			this.initPending = true;
+			_initPending = true;
 		}
 
 		/// <summary>
-		/// Indicates that the initialization process for the input binding is complete. 
+		/// Indicates that the initialization process for the input binding is complete.
 		/// </summary>
 		/// <exception cref="T:System.InvalidOperationException">
 		/// <see cref="M:HumanInputBinding.EndInit" /> was called without <see cref="M:HumanInputBinding.BeginInit" /> having previously been called on the input binding.
 		/// </exception>
 		public void EndInit()
 		{
-			if (!this.initPending)
+			if (!_initPending)
 				throw new InvalidOperationException(Properties.Resources.EndInitWithoutBeginInitNotSupported);
 
 			this.RegisterInputBinding();
 
 			// Reset the flag to indicate that initialization is complete
-			this.initPending = false;
+			_initPending = false;
 		}
 
 		#endregion ISupportInitialize Members
@@ -128,41 +119,40 @@ namespace Tasler.Windows.Input
 		#region Private Implementation
 		private void CheckInitialization()
 		{
-			if (!this.initPending)
+			if (!_initPending)
 				throw new InvalidOperationException(Properties.Resources.NotInInitialization);
 		}
 
-		private static RegistrationFlags FlagFromMode(HumanInputBindingMode mode)
+		private static RIDEV FlagFromMode(HumanInputBindingMode mode)
 		{
 			switch (mode)
 			{
 				case HumanInputBindingMode.BackgroundAlways:
-					return RegistrationFlags.InputSink;
+					return RIDEV.InputSink;
 
 				case HumanInputBindingMode.BackgroundIfUnhandled:
-					return RegistrationFlags.ExInputSink;
+					return RIDEV.ExInputSink;
 
 				case HumanInputBindingMode.Focused:
 				default:
-					return RegistrationFlags.Default;
+					return RIDEV.Default;
 			}
 		}
 
 		private void RegisterInputBinding()
 		{
-			HumanInputGesture gesture = this.Gesture as HumanInputGesture;
-			if (gesture == null)
+			if (this.Gesture is not HumanInputGesture gesture)
 				throw new ArgumentException("HumanInputBinding.Gesture must be set to a non-null HumanInputGesture.");
 
 			// Get the Window containing the Element property, if any
 			var element = this.Element;
-			Window window = element != null ? Window.GetWindow(element) : null;
+			Window? window = element is not null ? Window.GetWindow(element) : null;
 
 			// Get the RegistrationFlags from the Mode property
-			RegistrationFlags flags = FlagFromMode(this.Mode);
+			RIDEV flags = FlagFromMode(this.Mode);
 
 			// Validate that the background modes are specified with an Element
-			if (flags != RegistrationFlags.Default && window == null)
+			if (flags != RIDEV.Default && window == null)
 				throw new InvalidOperationException("TODO: TODO: TODO:");
 
 			// Determine if the Window has its PresentationSource yet
@@ -171,12 +161,11 @@ namespace Tasler.Windows.Input
 			// If the Window is not null but has no PresentationSource yet, don't register until it has
 			if (window != null && source == null)
 			{
-				EventHandler windowSourceInitialized = null;
-				windowSourceInitialized = (sender, args) =>
+				void windowSourceInitialized(object? sender, EventArgs args)
 				{
 					window.SourceInitialized -= windowSourceInitialized;
 					this.RegisterInputBinding();
-				};
+				}
 
 				window.SourceInitialized += windowSourceInitialized;
 			}
@@ -187,13 +176,12 @@ namespace Tasler.Windows.Input
 				{
 					Usage = gesture.Usage,
 					UsagePage = gesture.UsagePage,
-					WindowHandle = source != null ? source.Handle : IntPtr.Zero,
+					WindowHandle = new SafeHwnd { Handle = source != null ? source.Handle : nint.Zero },
 					Flags = flags,
 				};
-				bool succeeded = RawInputApi.RegisterRawInputDevices(
-					devices, devices.Length, Marshal.SizeOf(typeof(RAWINPUTDEVICE)));
+				bool succeeded = RawInputApi.RegisterRawInputDevices(devices);
 
-				if (Interlocked.Increment(ref HumanInputBinding.messageHooked) == 1)
+				if (Interlocked.Increment(ref HumanInputBinding.s_messageHooked) == 1)
 					ComponentDispatcher.ThreadPreprocessMessage += HumanInputBinding.ComponentDispatcher_ThreadPreprocessMessage;
 			}
 		}

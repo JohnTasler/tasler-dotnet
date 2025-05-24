@@ -31,6 +31,8 @@
 	<ItemGroup>
 		<Compile Update="Properties\Resources.cs">
 			<DependentUpon>Resources.resw</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
 		</Compile>
 	</ItemGroup>
 

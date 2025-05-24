@@ -19,30 +19,20 @@ namespace Tasler.Interop.RawInput
 
 		public static InterfaceDevice FromRAWINPUTDEVICELIST(RAWINPUTDEVICELIST device)
 		{
-			switch (device.DeviceType)
+			return device.DeviceType switch
 			{
-				case InterfaceDeviceType.Mouse:
-					return new InterfaceDeviceMouse(device);
-				case InterfaceDeviceType.Keyboard:
-					return new InterfaceDeviceKeyboard(device);
-				case InterfaceDeviceType.HID:
-					return new InterfaceDeviceHuman(device);
-				default:
-					throw new InvalidOperationException(string.Format("Unrecognized device type: 0x{0:4X}", device.DeviceType));
-			}
+				InterfaceDeviceType.Mouse => new InterfaceDeviceMouse(device),
+				InterfaceDeviceType.Keyboard => new InterfaceDeviceKeyboard(device),
+				InterfaceDeviceType.HID => new InterfaceDeviceHuman(device),
+				_ => throw new InvalidOperationException(string.Format("Unrecognized device type: 0x{0:4X}", device.DeviceType)),
+			};
 		}
 		#endregion Construction
 
 		#region Properties
-		public InterfaceDeviceType DeviceType
-		{
-			get { return _device.DeviceType; }
-		}
+		public InterfaceDeviceType DeviceType => _device.DeviceType;
 
-		public nint Handle
-		{
-			get { return _device.DeviceHandle.Handle; }
-		}
+		public nint Handle => _device.DeviceHandle.Handle;
 
 		public string? Name
 		{
@@ -50,26 +40,29 @@ namespace Tasler.Interop.RawInput
 			{
 				if (_name is null)
 				{
-					// Get the size of buffer needed
-					var nameLength = 0;
-					RawInputApi.NativeMethods.GetRawInputDeviceInfoW(_device.DeviceHandle, DeviceInfoItem.DeviceName, nint.Zero, ref nameLength);
-
-					// Allocate an unmanaged buffer
-					var bufferByteCount = nameLength * Marshal.SystemDefaultCharSize;
-					var buffer = Marshal.AllocHGlobal(bufferByteCount);
-
-					try
+					unsafe
 					{
-						// Get the name string
-						RawInputApi.NativeMethods.GetRawInputDeviceInfoW(_device.DeviceHandle, DeviceInfoItem.DeviceName, buffer, ref nameLength);
+						// Get the size of buffer needed
+						var nameLength = 0u;
+						RawInputApi.NativeMethods.GetRawInputDeviceInfoW(_device.DeviceHandle, DeviceInfoItem.DeviceName, null, ref nameLength);
 
-						// Marshal the name string to a managed string
-						_name = Marshal.PtrToStringAuto(buffer);
-					}
-					finally
-					{
-						// Free the buffer
-						Marshal.FreeHGlobal(buffer);
+						// Allocate an unmanaged buffer
+						uint bufferByteCount = nameLength * sizeof(char);
+						var buffer = Marshal.AllocHGlobal((int)bufferByteCount);
+
+						try
+						{
+							// Get the name string
+							RawInputApi.NativeMethods.GetRawInputDeviceInfoW(_device.DeviceHandle, DeviceInfoItem.DeviceName, (void*)buffer, ref nameLength);
+
+							// Marshal the name string to a managed string
+							_name = Marshal.PtrToStringAuto(buffer);
+						}
+						finally
+						{
+							// Free the buffer
+							Marshal.FreeHGlobal(buffer);
+						}
 					}
 				}
 
@@ -83,15 +76,10 @@ namespace Tasler.Interop.RawInput
 
 		public abstract short Usage { get; }
 
-		public virtual string UsagePageDisplayName
-		{
-			get { return this.UsagePage.ToString("X2"); }
-		}
+		public virtual string UsagePageDisplayName => this.UsagePage.ToString("X2");
 
-		public virtual string UsageDisplayName
-		{
-			get { return this.Usage.ToString("X2"); }
-		}
+		public virtual string UsageDisplayName => this.Usage.ToString("X2");
+
 		#endregion Properties
 
 		#region Overrides
@@ -112,7 +100,7 @@ namespace Tasler.Interop.RawInput
 	public abstract class InterfaceDeviceBase<T> : InterfaceDevice
 	{
 		#region Instance Fields
-		protected T deviceInfo;
+		protected T _deviceInfo;
 		#endregion Instance Fields
 
 		#region Construction
@@ -127,7 +115,7 @@ namespace Tasler.Interop.RawInput
 		{
 			get
 			{
-				if (this.deviceInfo == null)
+				if (_deviceInfo == null)
 				{
 					// Get the size of buffer needed
 					var byteCount = 0;
@@ -145,7 +133,7 @@ namespace Tasler.Interop.RawInput
 						RawInputApi.GetRawInputDeviceInfo(base._device.DeviceHandle, DeviceInfoItem.DeviceInfo, buffer, ref byteCount);
 
 						// Marshal the device info to a managed structure
-						this.deviceInfo = (T)Marshal.PtrToStructure(buffer, typeof(T));
+						_deviceInfo = (T)Marshal.PtrToStructure(buffer, typeof(T));
 					}
 					finally
 					{
@@ -154,7 +142,7 @@ namespace Tasler.Interop.RawInput
 					}
 				}
 
-				return this.deviceInfo;
+				return _deviceInfo;
 			}
 		}
 		#endregion Private Implementation
