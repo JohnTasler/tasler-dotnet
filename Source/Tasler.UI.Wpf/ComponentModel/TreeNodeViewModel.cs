@@ -8,6 +8,13 @@ namespace Tasler.Windows.ComponentModel;
 public abstract partial class TreeTerminalNodeViewModel<TParent> : ChildViewModelBase<TParent>, ITreeNodeViewModel
 	where TParent : class, INotifyPropertyChanged
 {
+	#region Constructors
+	protected TreeTerminalNodeViewModel(TParent parent)
+		: base(parent)
+	{
+	}
+	#endregion Constructors
+
 	#region ITreeNodeViewModel Members
 
 	[ObservableProperty]
@@ -30,6 +37,13 @@ public abstract class TreeNodeViewModel<TParent, TChildCollection, TCollectionVi
 	where TChildCollection : class, IEnumerable, INotifyCollectionChanged
 	where TCollectionView : class, ICollectionView
 {
+	#region Constructors
+	protected TreeNodeViewModel(TParent parent)
+		: base(parent)
+	{
+	}
+	#endregion Constructors
+
 	#region Protected Properties
 
 	protected TChildCollection? ChildCollection { get; private set; }
