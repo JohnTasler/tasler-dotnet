@@ -1,10 +1,9 @@
-﻿
-namespace Tasler.Configuration
+
+namespace Tasler.Configuration;
+
+public interface ISettingsStore
 {
-	public interface ISettingsStore
-	{
-		T GetValue<T>(string valueName);
-		T GetValue<T>(string valueName, T defaultValue);
-		bool SetValue<T>(string valueName, T value);
-	}
+	T GetValue<T>(string valueName);
+	T GetValue<T>(string valueName, T defaultValue);
+	bool SetValue<T>(string valueName, T value);
 }
