@@ -61,11 +61,38 @@ namespace Tasler.Windows.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not resolve view of type {0}..
+        /// </summary>
+        internal static string CouldNotResolveViewOfTypeFormat1 {
+            get {
+                return ResourceManager.GetString("CouldNotResolveViewOfTypeFormat1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The current application is not a HostedApplication. Ensure that the application is properly initialized..
         /// </summary>
         internal static string CurrentApplicationIsNotHostedApplication {
             get {
                 return ResourceManager.GetString("CurrentApplicationIsNotHostedApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HostedView must be used within a HostedApplication..
+        /// </summary>
+        internal static string HostedViewMustBeUsedWithinHostedApplication {
+            get {
+                return ResourceManager.GetString("HostedViewMustBeUsedWithinHostedApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Type must be assignable to UIElement: {0}.
+        /// </summary>
+        internal static string HostedViewTypeMustBeUIElementFormat1 {
+            get {
+                return ResourceManager.GetString("HostedViewTypeMustBeUIElementFormat1", resourceCulture);
             }
         }
         

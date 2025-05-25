@@ -2,8 +2,17 @@ using CommunityToolkit.Diagnostics;
 
 namespace Tasler;
 
+/// <summary>
+/// A delegate that represents an asynchronous action to be executed when the scope exits.
+/// </summary>
+/// <returns>A <see cref="Task"/> that should be executed when the object is disposed.</returns>
 public delegate Task AsyncAction();
 
+/// <summary>
+/// An asynchronously disposable struct that allows you to specify an action to be executed
+/// when the scope exits.
+/// </summary>
+/// <seealso cref="System.IDisposable" />
 public class AsyncDisposeScopeExit : IAsyncDisposable
 {
 	#region Instance Fields
@@ -12,11 +21,20 @@ public class AsyncDisposeScopeExit : IAsyncDisposable
 
 	#region Constructors / Finalizer
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="AsyncDisposeScopeExit"/> struct.
+	/// </summary>
+	/// <param name="asyncDisposeAction">The asynchronous action to execute upon disposal of the structure.</param>
 	public AsyncDisposeScopeExit(AsyncAction disposeAsyncAction)
 		: this(null, disposeAsyncAction)
 	{
 	}
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="DisposeScopeExit"/> struct.
+	/// </summary>
+	/// <param name="initializeAction">The optional action to execute (synchronously) upon initialization of the structure.</param>
+	/// <param name="asyncDisposeAction">The asynchronous action to execute upon disposal of the structure.</param>
 	public AsyncDisposeScopeExit(Action? initializeAction, AsyncAction asyncDisposeAction)
 	{
 		Guard.IsNotNull(asyncDisposeAction);
@@ -30,6 +48,9 @@ public class AsyncDisposeScopeExit : IAsyncDisposable
 		DisposeAsync().AsTask().Wait();
 	}
 
+	/// <summary>
+	/// Detaches the dispose action, allowing it to be garbage collected without executing it.
+	/// </summary>
 	public void DetachDisposeAction()
 		=> Interlocked.Exchange(ref _disposeAsyncAction, null);
 
@@ -37,6 +58,11 @@ public class AsyncDisposeScopeExit : IAsyncDisposable
 
 	#region IAsyncDisposable Members
 
+	/// <summary>
+	/// Performs application-defined tasks associated with freeing, releasing, or
+	/// resetting unmanaged resources asynchronously.
+	/// </summary>
+	/// <returns>A task that represents the asynchronous dispose operation.</returns>
 	public async ValueTask DisposeAsync()
 	{
 		var disposeAsyncAction = Interlocked.Exchange(ref _disposeAsyncAction, null);

@@ -6,6 +6,10 @@ using Tasler.Properties;
 
 namespace Tasler;
 
+// TODO: Get rid of this file, since we can use either the built-in `ArgumentNullException.ThrowIfNull` and
+// `ArgumentException.ThrowIfNullOrWhiteSpace` methods in .NET 6+. Or, we can use the Guard class from the
+// CommunityToolkit.Diagnostics package, which has a lot more functionality.
+
 public static class ValidateArgument
 {
 	/// <summary>
@@ -189,10 +193,10 @@ public static class ValidateArgument
 	{
 		#if DEBUG
 		var underlyingType = Enum.GetUnderlyingType(typeof(T));
-		if ((!typeof(IUnsignedNumber<uint>).IsAssignableFrom(underlyingType) &&
-				 !typeof(IUnsignedNumber<ushort>).IsAssignableFrom(underlyingType) &&
-				 !typeof(IUnsignedNumber<ulong>).IsAssignableFrom(underlyingType)) ||
-				 !typeof(T).GetCustomAttributes<FlagsAttribute>(false).Any())
+		if ((!typeof(IUnsignedNumber<uint>).IsAssignableFrom(underlyingType)
+			&& !typeof(IUnsignedNumber<ushort>).IsAssignableFrom(underlyingType)
+			&& !typeof(IUnsignedNumber<ulong>).IsAssignableFrom(underlyingType))
+			|| !typeof(T).GetCustomAttributes<FlagsAttribute>(false).Any())
 		{
 			throw new InvalidEnumArgumentException(string.Format(Resources.EnumNotFlagsExceptionFormat1, typeof(T).FullName));
 		}

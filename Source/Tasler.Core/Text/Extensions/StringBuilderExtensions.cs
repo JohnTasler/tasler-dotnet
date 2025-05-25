@@ -3,20 +3,18 @@ using CommunityToolkit.Diagnostics;
 
 namespace Tasler.Text;
 
-// TODO: NEEDS_UNIT_TEST
-
 /// <summary>
 /// Provides extension methods for the <see cref="StringBuilder"/> class.
 /// </summary>
 public static class StringBuilderExtensions
 {
 	/// <summary>
-	/// Creates an <see cref="IEnumerable{char}"/> over all of the characters of the
+	/// Creates an <see cref="IEnumerable{T}"/> over all of the characters of the
 	/// <see cref="StringBuilder"/> instance.
 	/// </summary>
 	/// <param name="sb">The <see cref="StringBuilder"/> on which to operate.</param>
 	/// <returns>
-	/// An <see cref="IEnumerable{char}"/> which can be used to iterate over all of the
+	/// An <see cref="IEnumerable{T}"/> which can be used to iterate over all of the
 	/// characters of the <see cref="StringBuilder"/> instance.
 	/// </returns>
 	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <c>null</c>.</exception>
