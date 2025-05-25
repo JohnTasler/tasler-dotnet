@@ -1,8 +1,7 @@
-using System.Runtime.InteropServices;
 using System.Text;
 using Tasler.Text;
 
-namespace Tasler.Core.Tests.Text.Extensions;
+namespace Tasler.Core.Text.Extensions.Tests;
 
 public class StringBuilderExtensionsTests
 {
