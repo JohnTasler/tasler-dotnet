@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CouldNotResolveViewOfTypeFormat1" xml:space="preserve">
+    <value>Could not resolve view of type {0}.</value>
+  </data>
   <data name="CurrentApplicationIsNotHostedApplication" xml:space="preserve">
     <value>The current application is not a HostedApplication. Ensure that the application is properly initialized.</value>
+  </data>
+  <data name="HostedViewMustBeUsedWithinHostedApplication" xml:space="preserve">
+    <value>HostedView must be used within a HostedApplication.</value>
+  </data>
+  <data name="HostedViewTypeMustBeUIElementFormat1" xml:space="preserve">
+    <value>The Type must be assignable to UIElement: {0}</value>
   </data>
   <data name="MustCreateChildCollectionOfTypeFormat1" xml:space="preserve">
     <value>The TreeRootNodeViewModelBase.CreateChildCollection override must return a non-null collection of type '{0}'.</value>

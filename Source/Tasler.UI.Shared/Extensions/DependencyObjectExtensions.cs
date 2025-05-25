@@ -20,16 +20,35 @@ public static class DependencyObjectExtensions
 {
 #if WINDOWS_UWP
 
+	/// <summary>
+	/// Sets the <see cref="Control.DefaultStyleKey"/> property to the type of the specified <see cref="DependencyObject"/>.
+	/// </summary>
+	/// <param name="@this">The object on which to set the <see cref="Control.DefaultStyleKey"/> property. Its
+	/// <see cref="object.GetType"/> method is used as the value of the property.</param>
 	public static void SetDefaultStyleKey(this DependencyObject @this)
 	{
 		@this.SetValue(Control.DefaultStyleKeyProperty, @this.GetType());
 	}
 
+	/// <summary>
+	/// Determines whether the specified <see cref="DependencyObject"/> is a <see cref="Visual"/>.
+	/// </summary>
+	/// <param name="@this">The <see cref="DependencyObject"/> to test.</param>
+	/// <returns>
+	///   <see langword="true"/> if the specied object is a <see cref="Visual"/>; otherwise,
+	///   <see langword="false"/>. Also <see langword="false"/> if <paramref name="@this"/> is <see langword="null"/>.
+	/// </returns>
+	/// <remarks>This is to used by both WPF (which also has Visual3D) and WinUI/UWP/Uno code (which does not).</remarks>
 	public static bool IsVisual(this DependencyObject? @this)
 		=> @this is not null && @this is UIElement;
 
 #elif WINDOWS_WPF
 
+	/// <summary>
+	/// Sets the <see cref="FrameworkElement.DefaultStyleKey"/> property to the type of the specified <see cref="DependencyObject"/>.
+	/// </summary>
+	/// <param name="@this">The object on which to set the <see cref="FrameworkElement.DefaultStyleKey"/> property. Its
+	/// <see cref="object.GetType"/> method is used as the value of the property.</param>
 	public static void SetDefaultStyleKey(this DependencyObject @this)
 	{
 		var thisType = @this.GetType();
@@ -40,6 +59,15 @@ public static class DependencyObjectExtensions
 			dependencyProperty.OverrideMetadata(thisType, new PropertyMetadata(thisType));
 	}
 
+	/// <summary>
+	/// Determines whether the specified <see cref="DependencyObject"/> is a <see cref="Visual"/> or <see cref="Visual3D"/>.
+	/// </summary>
+	/// <param name="@this">The <see cref="DependencyObject"/> to test.</param>
+	/// <returns>
+	///   <see langword="true"/> if the specied object is a <see cref="Visual"/> or <see cref="Visual3D"/>; otherwise,
+	///   <see langword="false"/>. Also <see langword="false"/> if <paramref name="@this"/> is <see langword="null"/>.
+	/// </returns>
+	/// <remarks>This is to used by both WPF (which also has Visual3D) and WinUI/UWP/Uno code (which does not).</remarks>
 	public static bool IsVisual(this DependencyObject? @this)
 		=> (@this is not null) && (@this is Visual || @this is Visual3D);
 
@@ -106,7 +134,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetLogicalDescendantsBreadthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsBreadthFirst(GetLogicalChildren, false);
+		return d.GetDescendantsBreadthFirst(false, GetLogicalChildren);
 	}
 
 	/// <summary>
@@ -127,7 +155,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndLogicalDescendantsBreadthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsBreadthFirst(GetLogicalChildren, true);
+		return d.GetDescendantsBreadthFirst(true, GetLogicalChildren);
 	}
 
 	/// <summary>
@@ -156,7 +184,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetLogicalDescendantsDepthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsDepthFirst(GetLogicalChildren, false);
+		return d.GetDescendantsDepthFirst(false, GetLogicalChildren);
 	}
 
 	/// <summary>
@@ -177,7 +205,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndLogicalDescendantsDepthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsDepthFirst(GetLogicalChildren, true);
+		return d.GetDescendantsDepthFirst(true, GetLogicalChildren);
 	}
 
 	private static IEnumerable<DependencyObject> GetLogicalChildren(DependencyObject node)
@@ -204,12 +232,9 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetVisualAncestors(this DependencyObject d)
 	{
-		while (d.IsVisual())
-		{
-			d = VisualTreeHelper.GetParent(d);
-			if (d is not null)
-				yield return d;
-		}
+		// Traverse the visual tree upwards, yielding each ancestor until we reach the root.
+		return d.GetAncestors(d => VisualTreeHelper.GetParent(d))
+			.Where(ancestor => ancestor.IsVisual());
 	}
 
 	/// <summary>
@@ -223,11 +248,8 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndVisualAncestors(this DependencyObject d)
 	{
-		while (d.IsVisual())
-		{
-			yield return d;
-			d = VisualTreeHelper.GetParent(d);
-		}
+		return d.GetSelfAndAncestors(d => VisualTreeHelper.GetParent(d))
+			.Where(ancestor => ancestor.IsVisual());
 	}
 
 	/// <summary>
@@ -256,7 +278,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetVisualDescendantsBreadthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsBreadthFirst(GetVisualChildren, false);
+		return d.GetDescendantsBreadthFirst(false, GetVisualChildren);
 	}
 
 	/// <summary>
@@ -277,7 +299,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndVisualDescendantsBreadthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsBreadthFirst(GetVisualChildren, true);
+		return d.GetDescendantsBreadthFirst(true, GetVisualChildren);
 	}
 
 	/// <summary>
@@ -306,7 +328,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetVisualDescendantsDepthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsDepthFirst<DependencyObject>(GetVisualChildren, false);
+		return d.GetDescendantsDepthFirst<DependencyObject>(false, GetVisualChildren);
 	}
 
 	/// <summary>
@@ -327,7 +349,7 @@ public static class DependencyObjectExtensions
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndVisualDescendantsDepthFirst(this DependencyObject d)
 	{
-		return d.GetDescendantsDepthFirst<DependencyObject>(GetVisualChildren, true);
+		return d.GetDescendantsDepthFirst<DependencyObject>(true, GetVisualChildren);
 	}
 
 	/// <summary>

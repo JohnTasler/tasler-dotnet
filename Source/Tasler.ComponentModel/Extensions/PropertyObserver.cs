@@ -139,7 +139,7 @@ public static class PropertyObserver
 		#endregion IDisposable Members
 
 		#region Private Implementation
-		private WeakReference SourceReference { get; set; }
+		private WeakReference? SourceReference { get; set; }
 
 		private Action<T>? HandlerAction { get; set; }
 
@@ -149,7 +149,7 @@ public static class PropertyObserver
 		{
 			get
 			{
-				var source = this.SourceReference.Target as INotifyPropertyChanged;
+				var source = this.SourceReference?.Target as INotifyPropertyChanged;
 				if (source == null)
 					this.Clear();
 
@@ -166,7 +166,7 @@ public static class PropertyObserver
 
 		private void Clear()
 		{
-			this.SourceReference.Target = null;
+			this.SourceReference = null;
 			this.HandlerAction = null;
 			this.EventHandler = null;
 		}

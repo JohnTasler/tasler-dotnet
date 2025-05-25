@@ -4,17 +4,15 @@ using System.Windows.Markup;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tasler.ComponentModel;
+using Tasler.ComponentModel.Hosting;
 
 namespace Tasler.Windows;
 
 // TODO: NEEDS_UNIT_TESTS
 
-public class HostedApplication : Application
+public abstract class HostedApplication : Application, IProvideHost
 {
-	protected HostedApplication(IHost host)
-	{
-		Host = host;
-	}
+	protected HostedApplication(IHost host) => Host = host;
 
 	public required IHost Host { get; init; }
 
@@ -47,9 +45,9 @@ public class HostedApplication : Application
 		// Add services
 		builder.Services
 			.AddActivatedSingleton<TApp, TApp>()
-			.AddActivatedSingleton<TMainView, TMainView>()
-			.AddActivatedSingleton<TMainViewModel, TMainViewModel>()
 			.AddActivatedSingleton<IViewModelMapper, ViewModelMapper>()
+			.AddActivatedSingleton<TMainViewModel, TMainViewModel>()
+			.AddSingleton<TMainView, TMainView>()
 			;
 		TApp.ConfigureHostBuilder(builder);
 

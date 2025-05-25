@@ -6,7 +6,7 @@ namespace Tasler.Collections;
 // TODO: NEEDS_UNIT_TESTS
 
 /// <summary>
-/// Extension methods for the <see cref="IEnumerable"/> and <see cref="IEnumerable'1"/> types.
+/// Extension methods for the <see cref="IEnumerable"/> and <see cref="IEnumerable{T}"/> types.
 /// </summary>
 public static class EnumerableExtensions
 {
@@ -83,7 +83,7 @@ public static class EnumerableExtensions
 	/// Returns the index of the last element of the sequence that satisfies a condition or -1 if no such element is found.
 	/// </summary>
 	/// <typeparam name="TSource">The type of the elements of @this.</typeparam>
-	/// <param name="@this">An <see cref="IEnumerable{T}"/> in which to find the last element matching the condition.</param>
+	/// <param name="@this">An <see cref="IEnumerable{TSource}"/> in which to find the last element matching the condition.</param>
 	/// <param name="predicate">A function to test each element for a condition.</param>
 	/// <returns>The index of the last element if found in the sequence; otherwise, -1.</returns>
 	public static int LastIndex<TSource>(this IEnumerable<TSource> @this, Func<TSource, bool> predicate)

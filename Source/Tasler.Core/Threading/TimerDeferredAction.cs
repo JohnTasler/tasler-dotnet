@@ -19,7 +19,7 @@ namespace Tasler.Threading;
 /// time. However, it is better to force this to happen at a more appropriate point in the application. Usually the
 /// best place to do so is when the object that created the <see cref="TimerDeferredAction"/> is leaving scope.
 /// Referring again to the example of persisting the window size, the appropriate place would be when the window is
-/// closed. To force a triggered action to execute immediately, call the <see cref="Expire"/> method.
+/// closed. To force a triggered action to execute immediately, call the <see cref="Expire"/> method.</para>
 /// </remarks>
 public class TimerDeferredAction : IDisposable
 {
