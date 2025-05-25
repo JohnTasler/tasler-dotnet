@@ -26,6 +26,11 @@
 		</Compile>
 	</ItemGroup>
 
+	<!-- Package References -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
+	</ItemGroup>
+
 	<!-- Project References -->
 	<ItemGroup>
 		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj" />

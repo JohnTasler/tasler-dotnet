@@ -27,7 +27,7 @@
 
 	<!-- Package References -->
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.5" />
 	</ItemGroup>
 
 	<!-- Project References -->
