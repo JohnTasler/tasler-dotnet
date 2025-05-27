@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Extensions.Hosting;
@@ -9,6 +10,7 @@ namespace Tasler.Windows.Controls;
 /// An element that can be used in the XAML of a <see cref="HostedApplication" />. This allows the use of
 /// dependency injection to create the child element.
 /// </summary>
+[DesignTimeVisible(false)]
 public sealed class HostedView : Decorator
 {
 	#region Construction

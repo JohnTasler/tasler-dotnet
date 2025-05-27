@@ -48,7 +48,7 @@ public abstract class HostedApplication : Application, IProvideHost
 		builder.Services
 			.AddActivatedSingleton<TApp, TApp>()
 			.AddActivatedSingleton<IViewModelMapper, ViewModelMapper>()
-			.AddActivatedSingleton<TMainViewModel, TMainViewModel>()
+			.AddSingleton<TMainViewModel, TMainViewModel>()
 			.AddSingleton<TMainView, TMainView>()
 			;
 		TApp.ConfigureHostBuilder(builder);
