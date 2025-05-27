@@ -16,6 +16,8 @@ public abstract class HostedApplication : Application, IProvideHost
 
 	public required IHost Host { get; init; }
 
+	public static new HostedApplication Current => (HostedApplication)Application.Current;
+
 	protected override void OnStartup(StartupEventArgs e)
 	{
 		base.OnStartup(e);
