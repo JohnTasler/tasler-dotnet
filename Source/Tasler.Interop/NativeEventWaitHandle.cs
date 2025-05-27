@@ -22,9 +22,9 @@ public partial class NativeEventWaitHandle : NativeWaitHandle
 	/// Wraps the specified native event handle or, optionally, a duplicate of it.
 	/// </summary>
 	/// <param name="nativeHandle">The native event handle.</param>
-	/// <param name="createDuplicate">If <c>true</c>, wraps a duplicate of
-	/// <paramref name="nativeHandle"/>. If <c>false</c>, wraps <paramref name="nativeHandle"/>
-	/// directly. The default is <c>false</c>.</param>
+	/// <param name="createDuplicate">If <see langword="true"/>, wraps a duplicate of
+	/// <paramref name="nativeHandle"/>. If <see langword="false"/>, wraps <paramref name="nativeHandle"/>
+	/// directly. The default is <see langword="false"/>.</param>
 	public NativeEventWaitHandle(SafeWaitHandle nativeHandle, bool createDuplicate)
 		: base(nativeHandle, createDuplicate)
 	{

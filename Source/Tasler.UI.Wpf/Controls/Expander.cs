@@ -32,7 +32,7 @@ public sealed partial class Expander : System.Windows.Controls.Expander
 
 	/// <summary>
 	/// Raises the <see cref="E:System.Windows.Controls.Expander.Collapsed" /> event when the
-	/// <see cref="P:System.Windows.Controls.Expander.IsExpanded" /> property changes from <c>true</c> to <c>false</c>.
+	/// <see cref="P:System.Windows.Controls.Expander.IsExpanded" /> property changes from <see langword="true"/> to <see langword="false"/>.
 	/// </summary>
 	protected override void OnCollapsed()
 	{
@@ -42,7 +42,7 @@ public sealed partial class Expander : System.Windows.Controls.Expander
 
 	/// <summary>
 	/// Raises the <see cref="E:System.Windows.Controls.Expander.Expanded" /> event when the
-	/// <see cref="P:System.Windows.Controls.Expander.IsExpanded" /> property changes from <c>false</c> to <c>true</c>.
+	/// <see cref="P:System.Windows.Controls.Expander.IsExpanded" /> property changes from <see langword="false"/> to <see langword="true"/>.
 	/// </summary>
 	protected override void OnExpanded()
 	{

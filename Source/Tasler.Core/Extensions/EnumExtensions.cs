@@ -50,7 +50,7 @@ public static class EnumExtensions
 	/// </summary>
 	/// <param name="@this">The <see cref="uint"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
-	/// <param name="set">If set to <c>true</c> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
+	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
 	/// <param name="bits">The bits to either set or clear.</param>
 	/// <returns></returns>
 	public static T SetOrClearBits<T>(this ref T @this, bool set, T bits)

@@ -27,8 +27,8 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <see cref="AssociatedObject"/> is opened on left click.
 	/// </summary>
 	/// <value>
-	/// 	<c>true</c> if the <see cref="FrameworkElement.ContextMenu"/> of the <see cref="AssociatedObject"/>
-	/// 	is opened on left click; otherwise, <c>false</c>.
+	/// 	<see langword="true"/> if the <see cref="FrameworkElement.ContextMenu"/> of the <see cref="AssociatedObject"/>
+	/// 	is opened on left click; otherwise, <see langword="false"/>.
 	/// </value>
 	public ContextOpenMode ContextMenuOpenMode
 	{
@@ -59,8 +59,8 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <see cref="AssociatedObject"/> is opened on left click.
 	/// </summary>
 	/// <value>
-	/// 	<c>true</c> if the <see cref="FrameworkElement.ContextPopup"/> of the <see cref="AssociatedObject"/>
-	/// 	is opened on left click; otherwise, <c>false</c>.
+	/// 	<see langword="true"/> if the <see cref="FrameworkElement.ContextPopup"/> of the <see cref="AssociatedObject"/>
+	/// 	is opened on left click; otherwise, <see langword="false"/>.
 	/// </value>
 	public ContextOpenMode ContextPopupOpenMode
 	{
