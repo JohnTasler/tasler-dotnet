@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace Tasler.Interop;
 
-public class SafeCoTaskMemHandle : SafeHandle
+public class SafeCoTaskMemHandle : SafeHandleZeroIsInvalid
 {
 	#region Construction
 	public SafeCoTaskMemHandle()
@@ -12,16 +12,11 @@ public class SafeCoTaskMemHandle : SafeHandle
 	#endregion Construction
 
 	#region Overrides
-	public override bool IsInvalid
-	{
-		get
-		{
-			return base.handle == nint.Zero;
-		}
-	}
-
 	protected override bool ReleaseHandle()
 	{
+		if (base.handle == nint.Zero)
+			return true; // Already released
+
 		Marshal.FreeCoTaskMem(base.handle);
 		base.handle = nint.Zero;
 		return true;

@@ -21,5 +21,7 @@ namespace Tasler.Interop
 			get => base.handle;
 			init => base.SetHandle(value);
 		}
+
+		public override string ToString() => $"handle = 0x{base.handle:X8}";
 	}
 }

@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace Tasler.Interop;
 
-public class SafeHGlobalHandle : SafeHandle
+public class SafeHGlobalHandle : SafeHandleZeroIsInvalid
 {
 	#region Construction
 	public SafeHGlobalHandle()
@@ -12,16 +12,11 @@ public class SafeHGlobalHandle : SafeHandle
 	#endregion Construction
 
 	#region Overrides
-	public override bool IsInvalid
-	{
-		get
-		{
-			return base.handle == nint.Zero;
-		}
-	}
-
 	protected override bool ReleaseHandle()
 	{
+		if (handle == nint.Zero)
+			return true; // Already released or never allocated
+
 		Marshal.FreeHGlobal(base.handle);
 		return true;
 	}

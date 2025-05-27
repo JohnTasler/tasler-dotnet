@@ -54,22 +54,25 @@ public static partial class GdiApi
 
 	#region Methods
 
+	public static int GetPixel(this SafeHdc hdc, int nXPos, int nYPos)
+		=> GdiApi.NativeMethods.GetPixel(hdc, nXPos, nYPos);
+
 	public static void DeleteObject(this SafeGdiObject gdiObject)
 		=> GdiApi.NativeMethods.DeleteObject(gdiObject);
 
 	public static SafePrivateHdc CreateCompatibleDC(this SafeHdc hdcExisting)
 		=> GdiApi.NativeMethods.CreateCompatibleDC(hdcExisting);
 
-	public static SafeGdiObjectOwned CreateCompatibleBitmap(this SafeHdc hdc, int width, int height)
+	public static SafeGdiBitmapOwned CreateCompatibleBitmap(this SafeHdc hdc, int width, int height)
 		=> GdiApi.NativeMethods.CreateCompatibleBitmap(hdc, width, height);
 
-	public static SafeGdiObjectOwned CreateDIBSection(this SafeHdc hdc, BITMAPINFOHEADER pbmi, out nint ppvBits)
+	public static SafeGdiBitmapOwned CreateDIBSection(this SafeHdc hdc, BITMAPINFOHEADER pbmi, out nint ppvBits)
 		=> GdiApi.NativeMethods.CreateDIBSection(hdc, pbmi, 0, out ppvBits, nint.Zero, 0);
 
-	public static SafeGdiObjectOwned CreateDIBSection(this SafeHdc hdc, BITMAPINFOHEADER pbmi, MemoryMappedFile section, out nint ppvBits)
+	public static SafeGdiBitmapOwned CreateDIBSection(this SafeHdc hdc, BITMAPINFOHEADER pbmi, MemoryMappedFile section, out nint ppvBits)
 		=> GdiApi.NativeMethods.CreateDIBSection(hdc, pbmi, 0, out ppvBits, section.SafeMemoryMappedFileHandle, 0);
 
-	public static SafeGdiObjectOwned CreateDIBSection(this SafeHdc hdc, int width, int height, ushort bpp, nint ppvBits)
+	public static SafeGdiBitmapOwned CreateDIBSection(this SafeHdc hdc, int width, int height, ushort bpp, nint ppvBits)
 	{
 		BITMAPINFOHEADER bmi = new()
 		{
@@ -83,7 +86,7 @@ public static partial class GdiApi
 		return hbm;
 	}
 
-	public static SafeGdiObjectOwned CreateDIBSection(this SafeHdc hdc,
+	public static SafeGdiBitmapOwned CreateDIBSection(this SafeHdc hdc,
 		int width, int height, ushort bpp, MemoryMappedFile section, out nint ppvBits)
 	{
 		BITMAPINFOHEADER bmi = new()
@@ -98,15 +101,14 @@ public static partial class GdiApi
 		return hbm;
 	}
 
-	public static void MoveTo(this SafeHdc hdc, int x, int y) => GdiApi.NativeMethods.MoveToEx(hdc, x, y, nint.Zero);
+	public static void MoveTo(this SafeHdc hdc, int x, int y)
+		=> GdiApi.NativeMethods.MoveToEx(hdc, x, y, nint.Zero);
 
 	public static void MoveTo(this SafeHdc hdc, int x, int y, out POINT previousPoint)
-	{
-		previousPoint = new();
-		GdiApi.NativeMethods.MoveToEx(hdc, x, y, out previousPoint);
-	}
+		=> GdiApi.NativeMethods.MoveToEx(hdc, x, y, out previousPoint);
 
-	public static void LineTo(this SafeHdc hdc, int xEnd, int yEnd) => GdiApi.NativeMethods.LineTo(hdc, xEnd, yEnd);
+	public static void LineTo(this SafeHdc hdc, int xEnd, int yEnd)
+		=> GdiApi.NativeMethods.LineTo(hdc, xEnd, yEnd);
 
 	public static void PolyPolyline(this SafeHdc hdc, POINT[] pt, uint[] dwPolyPoints)
 		=> GdiApi.NativeMethods.PolyPolyline(hdc, pt, dwPolyPoints, dwPolyPoints.Length);
@@ -161,13 +163,11 @@ public static partial class GdiApi
 		var previous = GdiApi.NativeMethods.SelectObject(hdc, obj);
 		if (previous.IsInvalid)
 			throw new Win32Exception();
-		return new DisposeScopeExit(() => { using (GdiApi.NativeMethods.SelectObject(hdc, previous)) { } });
+		return new DisposeScopeExit(() => GdiApi.NativeMethods.SelectObject(hdc, previous));
 	}
 
 	public static bool FillRect(this SafeHdc hdc, ref RECT rect, SafeGdiBrush brush)
-	{
-		return UserApi.NativeMethods.FillRect(hdc, ref rect, brush) != 0;
-	}
+		=> UserApi.NativeMethods.FillRect(hdc, ref rect, brush) != 0;
 
 	public static bool FillRect(this SafeHdc hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, SafeGdiBrush brush)
 	{
@@ -183,9 +183,7 @@ public static partial class GdiApi
 	}
 
 	public static bool FillRect(this SafeHdc hdc, ref RECT rect, COLOR color)
-	{
-		return hdc.FillRect(ref rect, new SafeGdiBrush() { Handle = ((nint)color) + 1 });
-	}
+		=> hdc.FillRect(ref rect, new SafeGdiBrush() { Handle = ((nint)color) + 1 });
 
 	public static bool FillRect(this SafeHdc hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, COLOR color)
 	{
@@ -199,6 +197,22 @@ public static partial class GdiApi
 
 		return hdc.FillRect(ref rect, color);
 	}
+
+	public static SafeGdiObject GetStockObject(this StockObject stockObject)
+		=> GdiApi.NativeMethods.GetStockObject(stockObject);
+
+	public static SafeGdiBrush GetStockBrush(this StockBrush stockBrush)
+		=> GdiApi.NativeMethods.GetStockBrush(stockBrush);
+
+	public static SafeGdiPen GetStockPen(this StockPen stockPen)
+		=> GdiApi.NativeMethods.GetStockPen(stockPen);
+
+	public static SafeGdiFont GetStockFont(this StockFont stockFont)
+		=> GdiApi.NativeMethods.GetStockFont(stockFont);
+
+	public static SafeGdiPalette GetStockPalette(this StockPalette stockPalette)
+		=> GdiApi.NativeMethods.GetStockPalette(stockPalette);
+
 
 	#endregion Methods
 

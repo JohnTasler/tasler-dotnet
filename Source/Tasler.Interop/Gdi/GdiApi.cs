@@ -1,9 +1,6 @@
 using System.ComponentModel;
-using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
-using Tasler.Interop.User;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Tasler.Interop.Gdi;
 
@@ -73,14 +70,14 @@ public static partial class GdiApi
 		public static partial SafePrivateHdc CreateCompatibleDC(SafeHdc hDC);
 
 		[LibraryImport(ApiLib, SetLastError = true)]
-		public static partial SafeGdiObjectOwned CreateCompatibleBitmap(SafeHdc hdc, int width, int height);
+		public static partial SafeGdiBitmapOwned CreateCompatibleBitmap(SafeHdc hdc, int width, int height);
 
 		[LibraryImport(ApiLib, SetLastError = true)]
-		public static partial SafeGdiObjectOwned CreateDIBSection(SafeHdc hdc, BITMAPINFOHEADER pbmi,
+		public static partial SafeGdiBitmapOwned CreateDIBSection(SafeHdc hdc, BITMAPINFOHEADER pbmi,
 				int iUsage, out nint ppvBits, nint hSection, int dwOffset);
 
 		[LibraryImport(ApiLib, SetLastError = true)]
-		public static partial SafeGdiObjectOwned CreateDIBSection(SafeHdc hdc, BITMAPINFOHEADER pbmi,
+		public static partial SafeGdiBitmapOwned CreateDIBSection(SafeHdc hdc, BITMAPINFOHEADER pbmi,
 				int iUsage, out nint ppvBits, SafeMemoryMappedFileHandle hSection, int dwOffset);
 
 		[LibraryImport(ApiLib)]
