@@ -60,20 +60,22 @@ public sealed class HostedView : Decorator
 
 	private void OnTypePropertyChanged(Type newValue)
 	{
-		if (newValue.IsAssignableTo(typeof(UIElement)) is false)
-			throw new InvalidOperationException(string.Format(
-				Properties.Resources.HostedViewTypeMustBeUIElementFormat1, newValue.FullName));
-
-		var newView = default(UIElement);
-
 		if (newValue is not null)
 		{
+			if (newValue.IsAssignableTo(typeof(UIElement)) is false)
+				throw new InvalidOperationException(string.Format(
+					Properties.Resources.HostedViewTypeMustBeUIElementFormat1, newValue.FullName));
+
 			if (_host.Services.GetService(newValue) is not UIElement view)
 				throw new InvalidOperationException(string.Format(Properties.Resources.CouldNotResolveViewOfTypeFormat1, newValue.FullName));
-			newView = view;
+
+			this.Child = view;
+		}
+		else
+		{
+			this.Child = null;
 		}
 
-		this.Child = newView;
 		this.InvalidateMeasure();
 		this.InvalidateArrange();
 		this.InvalidateVisual();
