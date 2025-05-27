@@ -22,9 +22,9 @@ public class NativeWaitHandle : WaitHandle
 	/// Wraps the specified native wait handle or, optionally, a duplicate of it.
 	/// </summary>
 	/// <param name="nativeHandle">The native wait handle.</param>
-	/// <param name="createDuplicate">If <c>true</c>, wraps a duplicate of
-	/// <paramref name="nativeHandle"/>. If <c>false</c>, wraps <paramref name="nativeHandle"/>
-	/// directly. The default is <c>false</c>.</param>
+	/// <param name="createDuplicate">If <see langword="true"/>, wraps a duplicate of
+	/// <paramref name="nativeHandle"/>. If <see langword="false"/>, wraps <paramref name="nativeHandle"/>
+	/// directly. The default is <see langword="false"/>.</param>
 	public NativeWaitHandle(SafeWaitHandle nativeHandle, bool createDuplicate)
 	{
 		if (createDuplicate)

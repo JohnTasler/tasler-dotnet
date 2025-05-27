@@ -83,7 +83,7 @@ public static class TreeTraversalExtensions
 	///   A method that selects the direct children of the parent node specified by <paramref name="this" />.
 	/// </param>
 	/// <param name="includeSelf">
-	///   If set to <c>true</c>, the traversal will first produce the parent node
+	///   If set to <see langword="true"/>, the traversal will first produce the parent node
 	///   specified by <paramref name="rootNode" />.</param>
 	/// <returns>
 	///   An <see cref="IEnumerable{TTreeNode}" /> that will produce the nodes from the traversal of the tree.
@@ -107,7 +107,7 @@ public static class TreeTraversalExtensions
 	///   A method that selects the direct children of the parent node specified by <paramref name="node" />.
 	/// </param>
 	/// <param name="includeSelf">
-	///   If set to <c>true</c>, the traversal will first produce the parent node
+	///   If set to <see langword="true"/>, the traversal will first produce the parent node
 	///   specified by <paramref name="node" />.</param>
 	/// <returns>
 	///   An <see cref="IEnumerable{TTreeNode}" /> that will produce the nodes from the traversal of the tree.

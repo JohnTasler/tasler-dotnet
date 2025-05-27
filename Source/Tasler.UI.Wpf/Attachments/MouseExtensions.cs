@@ -387,8 +387,8 @@ public static class MouseExtensions
 	/// <param name="element">The <see cref="UIElement"/> on which to set the event handler.</param>
 	/// <param name="handler">The event handler.</param>
 	/// <param name="handledEventsToo">
-	/// <c>true</c> to register the handler such that it is invoked even when the routed event is marked handled
-	/// in its event data; <c>false</c> to register the handler with the default condition that it will not be
+	/// <see langword="true"/> to register the handler such that it is invoked even when the routed event is marked handled
+	/// in its event data; <see langword="false"/> to register the handler with the default condition that it will not be
 	/// invoked if the routed event is already marked handled. The default is false.
 	/// </param>
 	public static void AddLeftClickHandler(UIElement element, MouseButtonEventHandler handler, bool handledEventsToo)

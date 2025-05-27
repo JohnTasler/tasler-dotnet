@@ -177,7 +177,7 @@ public static partial class GdiApi
 		///   <para>If a rotation or shear transformation is in effect for the source device context when this function is called, an error occurs. However, other types of transformation are allowed.</para>
 		///   <para>If the color formats of the source, pattern, and destination bitmaps differ, this function converts the pattern or source format, or both, to match the destination format.</para>
 		///   <para>If the mask bitmap is not a monochrome bitmap, an error occurs.</para>
-		///   <para>When an enhanced metafile is being recorded, an error occurs (and the function returns <c>false</c>) if the source device context identifies an enhanced-metafile device context.</para>
+		///   <para>When an enhanced metafile is being recorded, an error occurs (and the function returns <see langword="false"/>) if the source device context identifies an enhanced-metafile device context.</para>
 		///   <para>Not all devices support the <see cref="MaskBlt"/> function. An application should call the <see cref="GetDeviceCaps"/> function with the nIndex parameter as RC_BITBLT to determine whether a device supports this function.</para>
 		///   <para>If no mask bitmap is supplied, this function behaves exactly like BitBlt, using the foreground raster operation code.</para>
 		///   <para>ICM: No color management is performed when blits occur.</para>

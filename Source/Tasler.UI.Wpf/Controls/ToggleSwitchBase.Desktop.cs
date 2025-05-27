@@ -662,7 +662,7 @@ public abstract class ToggleSwitchBase : Control, ICommandSource
 	/// <param name="sender">The sender.</param>
 	/// <param name="e">The <see cref="DragCompletedEventArgs"/> instance containing the event data.</param>
 	/// <returns><see cref="ToggleGestureMode.Slide"/> to indicate that the <see cref="Thumb"/> was dragged enough to be considered a
-	/// <see cref="ToggleGestureMode.Slide">slide</see> gesture. Otherwise, <c>false</c>, in which case the
+	/// <see cref="ToggleGestureMode.Slide">slide</see> gesture. Otherwise, <see langword="false"/>, in which case the
 	/// base class will perform normal click processing, as indicated by the <see cref="GestureMode"/> property.
 	/// </returns>
 	protected abstract ToggleGestureMode OnDragCompleted(object? sender, DragCompletedEventArgs e);

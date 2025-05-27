@@ -71,8 +71,8 @@ public partial class TransitionContentControl : ContentControl
 	/// Gets a value that indicates whether the <see cref="OldContent"/> property is <c>null</c>.
 	/// </summary>
 	/// <value>
-	/// <c>true</c> if the <see cref="OldContent"/> property is not <c>null</c>; otherwise, <c>false</c>.
-	/// The default is <c>false</c>.
+	/// <see langword="true"/> if the <see cref="OldContent"/> property is not <c>null</c>; otherwise, <see langword="false"/>.
+	/// The default is <see langword="false"/>.
 	/// </value>
 	[Browsable(false)]
 	public Rect BoundingRectangle
@@ -98,8 +98,8 @@ public partial class TransitionContentControl : ContentControl
 	/// Gets a value that indicates whether the <see cref="OldContent"/> property is <c>null</c>.
 	/// </summary>
 	/// <value>
-	/// <c>true</c> if the <see cref="OldContent"/> property is not <c>null</c>; otherwise, <c>false</c>.
-	/// The default is <c>false</c>.
+	/// <see langword="true"/> if the <see cref="OldContent"/> property is not <c>null</c>; otherwise, <see langword="false"/>.
+	/// The default is <see langword="false"/>.
 	/// </value>
 	[Browsable(false)]
 	public bool HasOldContent
@@ -169,8 +169,8 @@ public partial class TransitionContentControl : ContentControl
 	/// Gets a value that indicates whether the transition should be reversed.
 	/// </summary>
 	/// <value>
-	/// <c>true</c> if the transition should be reversed; otherwise, <c>false</c>.
-	/// The default is <c>false</c>.
+	/// <see langword="true"/> if the transition should be reversed; otherwise, <see langword="false"/>.
+	/// The default is <see langword="false"/>.
 	/// </value>
 	public bool IsReversed
 	{

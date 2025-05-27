@@ -41,7 +41,7 @@ public static class IntegerExtensions
 	/// </summary>
 	/// <param name="@this">The <see cref="short"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
-	/// <param name="set">If set to <c>true</c> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
+	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
 	/// <param name="bits">The bits to either set or clear.</param>
 	/// <returns></returns>
 	public static short SetOrClearBits(this short @this, bool set, short bits)
@@ -82,7 +82,7 @@ public static class IntegerExtensions
 	/// </summary>
 	/// <param name="@this">The <see cref="ushort"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
-	/// <param name="set">If set to <c>true</c> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
+	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
 	/// <param name="bits">The bits to either set or clear.</param>
 	/// <returns></returns>
 	public static ushort SetOrClearBits(this ushort @this, bool set, ushort bits)
@@ -123,7 +123,7 @@ public static class IntegerExtensions
 	/// </summary>
 	/// <param name="@this">The <see cref="int"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
-	/// <param name="set">If set to <c>true</c> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
+	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
 	/// <param name="bits">The bits to either set or clear.</param>
 	/// <returns></returns>
 	public static int SetOrClearBits(this int @this, bool set, int bits)
@@ -164,7 +164,7 @@ public static class IntegerExtensions
 	/// </summary>
 	/// <param name="@this">The <see cref="uint"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
-	/// <param name="set">If set to <c>true</c> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
+	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
 	/// <param name="bits">The bits to either set or clear.</param>
 	/// <returns></returns>
 	public static uint SetOrClearBits(this uint @this, bool set, uint bits)
@@ -205,7 +205,7 @@ public static class IntegerExtensions
 	/// </summary>
 	/// <param name="@this">The <see cref="long"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
-	/// <param name="set">If set to <c>true</c> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
+	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
 	/// <param name="bits">The bits to either set or clear.</param>
 	/// <returns></returns>
 	public static long SetOrClearBits(this long @this, bool set, long bits)
@@ -246,7 +246,7 @@ public static class IntegerExtensions
 	/// </summary>
 	/// <param name="@this">The <see cref="ulong"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
-	/// <param name="set">If set to <c>true</c> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
+	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="bits"/> are set; otherwise they are cleared.</param>
 	/// <param name="bits">The bits to either set or clear.</param>
 	/// <returns></returns>
 	public static ulong SetOrClearBits(this ulong @this, bool set, ulong bits)
