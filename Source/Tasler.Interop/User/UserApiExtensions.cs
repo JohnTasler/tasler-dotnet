@@ -40,10 +40,13 @@ public static partial class UserApi
 		return placement;
 	}
 
+	public static SafeHdc GetDC(this SafeHwnd hwnd)
+		=> NativeMethods.GetDC(hwnd);
+
 	public static void GetWindowPlacement(this SafeHwnd hwnd, ref WINDOWPLACEMENT placement)
 		=> NativeMethods.GetWindowPlacement(hwnd, ref placement);
 
-	public static void SetWindowPlacement(this SafeHwnd hwnd, WINDOWPLACEMENT placement)
+	public static void SetWindowPlacement(this SafeHwnd hwnd, ref WINDOWPLACEMENT placement)
 		=> NativeMethods.SetWindowPlacement(hwnd, ref placement);
 
 	public static string GetWindowText(this SafeHwnd hwnd)
@@ -208,7 +211,4 @@ public static partial class UserApi
 
 	public static bool AddClipboardFormatListener(this SafeHwnd hwnd)
 		=> NativeMethods.AddClipboardFormatListener(hwnd);
-
-	public static bool SetWindowPlacement(this SafeHwnd hwnd, ref WINDOWPLACEMENT windowPlacement)
-		=> NativeMethods.SetWindowPlacement(hwnd, ref windowPlacement);
 }

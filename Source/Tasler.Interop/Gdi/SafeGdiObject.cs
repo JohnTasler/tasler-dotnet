@@ -2,7 +2,7 @@ namespace Tasler.Interop.Gdi;
 
 public class SafeGdiObject : SafeHandleZeroIsInvalid
 {
-	public static readonly SafeGdiObject HGDI_ERROR = new SafeGdiObject() { Handle = (nint)(-1) };
+	public static readonly SafeGdiObject HGDI_ERROR = new() { Handle = (nint)(-1) };
 
 	#region Constructors
 	public SafeGdiObject()
@@ -19,14 +19,20 @@ public class SafeGdiObject : SafeHandleZeroIsInvalid
 	#region Overrides
 	public override bool IsInvalid => base.handle == (nint)(-1);
 
-	protected override bool ReleaseHandle() => this.IsInvalid ? false : GdiApi.NativeMethods.DeleteObject(this);
+	protected override bool ReleaseHandle() => true;
 	#endregion Overrides
 }
 
 public class SafeGdiObjectOwned : SafeGdiObject
 {
+	#region Constructor
 	public SafeGdiObjectOwned()
 		: base(true)
 	{
 	}
+	#endregion Constructor
+
+	#region Overrides
+	protected override bool ReleaseHandle() => !this.IsInvalid && GdiApi.NativeMethods.DeleteObject(this);
+	#endregion Overrides
 }

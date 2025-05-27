@@ -252,6 +252,9 @@ public static partial class UserApi
 		public static partial int GetSystemMetrics(SM nIndex);
 
 		[LibraryImport(ApiLib)]
+		public static partial SafeHdc GetDC(SafeHwnd hwnd);
+
+		[LibraryImport(ApiLib)]
 		public static partial SafeHdc GetDCEx(SafeHwnd hwnd, SafeGdiRgn region, uint flags);
 
 		[LibraryImport(ApiLib)]
