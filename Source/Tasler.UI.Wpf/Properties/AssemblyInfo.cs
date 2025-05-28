@@ -26,6 +26,7 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Markup")]
 
 [assembly: InternalsVisibleTo("Tasler.Windows.Input")]
+[assembly: InternalsVisibleTo("Tasler.Configuration")]
 
 internal static class XmlNamespace
 {

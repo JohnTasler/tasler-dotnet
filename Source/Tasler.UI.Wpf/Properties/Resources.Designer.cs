@@ -61,6 +61,15 @@ namespace Tasler.Windows.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ApplicationsSettingsExtensions.ClearAutoSaveDeferral called without first calling SetAutoSaveDeferral..
+        /// </summary>
+        internal static string ClearAutoSaveDeferralCalledBeforeSetAutoSaveDeferral {
+            get {
+                return ResourceManager.GetString("ClearAutoSaveDeferralCalledBeforeSetAutoSaveDeferral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not resolve view of type {0}..
         /// </summary>
         internal static string CouldNotResolveViewOfTypeFormat1 {

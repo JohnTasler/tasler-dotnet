@@ -1,6 +1,7 @@
 
 namespace Tasler.Configuration;
 
+[Obsolete("Not currently in use.")]
 public interface ISettingsStore
 {
 	T GetValue<T>(string valueName);
