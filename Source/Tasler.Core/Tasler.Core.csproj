@@ -16,16 +16,14 @@
 
 	<ItemGroup>
 		<Compile Remove="Collections\Generic\**" />
-		<Compile Remove="Configuration\**" />
 		<EmbeddedResource Remove="Collections\Generic\**" />
-		<EmbeddedResource Remove="Configuration\**" />
 		<None Remove="Collections\Generic\**" />
-		<None Remove="Configuration\**" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Remove="Collections\MultiValueDictionary.cs" />
 		<Compile Remove="Collections\MultiValueDictionary.ValueList.cs" />
+		<Compile Remove="Configuration\ISettingsStore.cs" />
 		<Compile Remove="EventSubscriber.cs" />
 		<Compile Remove="EventSubscriberDictionary.cs" />
 		<Compile Remove="Threading\DelegateInvoker.cs" />
@@ -59,6 +57,9 @@
 			<Name>Tasler.AssemblyInfo</Name>
 			<Project>{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}</Project>
 		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Configuration\" />
 	</ItemGroup>
 
 	<!-- Shared Project References -->
