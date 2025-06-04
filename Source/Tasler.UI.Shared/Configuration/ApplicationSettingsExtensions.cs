@@ -45,6 +45,7 @@ public static partial class ApplicationSettingsExtensions
 		{
 			using (helper)
 			{
+				helper.Expire();
 				settings.Context.Remove(_autoSaveHelperKey);
 			}
 		}

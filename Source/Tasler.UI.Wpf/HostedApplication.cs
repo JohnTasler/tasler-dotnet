@@ -33,7 +33,7 @@ public abstract class HostedApplication : Application, IProvideHost
 	/// <summary>
 	/// Application Entry Point worker
 	/// </summary>
-	protected static int MainCore<TApp, TMainView, TMainViewModel>(string[] args)
+	protected static async Task<int> MainCore<TApp, TMainView, TMainViewModel>(string[] args)
 		where TApp
 			: HostedApplication
 			, IComponentConnector
@@ -55,7 +55,7 @@ public abstract class HostedApplication : Application, IProvideHost
 
 		// Build and start the application host
 		var host = builder.Build();
-		host.StartAsync().Wait();
+		await host.StartAsync();
 
 		// Create and populate the ViewModelMapper
 		var viewModelMapper = host.Services.GetService<IViewModelMapper>()!;
