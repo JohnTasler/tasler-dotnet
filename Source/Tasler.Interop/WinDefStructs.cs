@@ -53,6 +53,14 @@ public struct SIZE
 [StructLayout(LayoutKind.Sequential)]
 public struct RECT
 {
+	public RECT(int left, int top, int right, int bottom)
+	{
+		Left = left;
+		Top = top;
+		Right = right;
+		Bottom = bottom;
+	}
+
 	#region Instance Fields
 	public int Left;
 	public int Top;
@@ -77,4 +85,16 @@ public struct RECT
 	#region Overrides
 	public override readonly string ToString() => $"Origin={TopLeft} Size={Size}";
 	#endregion Overrides
+}
+
+public static class RECTExtensions
+{
+	public static ref RECT Offset(this ref RECT @this, int x, int y)
+	{
+		@this.Left += x;
+		@this.Top += y;
+		@this.Right += x;
+		@this.Bottom += y;
+		return ref @this;
+	}
 }
