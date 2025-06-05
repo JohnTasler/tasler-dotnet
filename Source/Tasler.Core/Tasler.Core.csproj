@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<ProjectName>Tasler.Core</ProjectName>
@@ -12,6 +12,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Platforms>AnyCPU;x64;x86</Platforms>
 	  <NoWarn>1701;1702;1584</NoWarn>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -45,19 +46,17 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Configuration\" />
+	</ItemGroup>
+
 	<!-- Package References -->
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
 		<PackageReference Include="System.Memory" Version="4.6.3" />
 	</ItemGroup>
 
-	<!-- Project References -->
-	<ItemGroup>
-	  <Folder Include="Configuration\" />
-	</ItemGroup>
-
 	<!-- Shared Project References -->
 	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 
-	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
 </Project>

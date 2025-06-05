@@ -7,6 +7,6 @@ using System.Runtime.InteropServices;
 //     AssemblyInfoCopyright.cs
 //     AssemblyInfoVersion.cs
 
-[assembly: AssemblyTitle("Application-neutral .NET core types.")]
+[assembly: AssemblyTitle("Application-neutral .NET base functionality.")]
 [assembly: AssemblyProduct("Tasler .NET Framework")]
 [assembly: Guid("72A1D37C-858C-4F7B-8A82-0967CDC59CC8")]

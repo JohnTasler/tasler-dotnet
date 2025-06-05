@@ -8,20 +8,23 @@ namespace Tasler.Threading;
 
 public class SlimReaderWriterLock : IDisposable
 {
-	internal static string GetCallingFrameInfo(string middleText)
-	{
-		StackFrame frame = new StackTrace(2, true).GetFrame(0)!;
-		return string.Format(
-			"{0}.{1}: {2}\n{3}({4}, {5})",
-			frame.GetMethod()!.DeclaringType!.Name, frame.GetMethod()!.Name, middleText,
-			frame.GetFileName(), frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-	}
+	//internal static string GetCallingFrameInfo(string middleText)
+	//{
+	//	StackFrame frame = new StackTrace(2, true).GetFrame(0)!;
+	//	return string.Format(
+	//		"{0}.{1}: {2}\n{3}({4}, {5})",
+	//		frame.GetMethod()!.DeclaringType!.Name, frame.GetMethod()!.Name, middleText,
+	//		frame.GetFileName(), frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+	//}
 
 	#region Instance Fields
 	private ReaderWriterLockSlim? _readerWriterLockSlim;
 	#endregion Instance Fields
 
 	#region Construction
+	/// <summary>
+	/// Initializes a new instance of the <see cref="SlimReaderWriterLock"/> class.
+	/// </summary>
 	public SlimReaderWriterLock()
 		: this(new ReaderWriterLockSlim())
 	{
@@ -34,6 +37,12 @@ public class SlimReaderWriterLock : IDisposable
 	}
 	#endregion Construction
 
+	/// <summary>
+	/// Locks the contained <see cref="ReaderWriterLockSlim"/> and returns an <see cref="IDisposable"/>
+	/// that unlocks the object upon disposal.
+	/// </summary>
+	/// <returns>An <see cref="IDisposable"/> that unlocks the object upon disposal.</returns>
+	/// <exception cref="System.ObjectDisposedException">The object has already been disposed.</exception>
 	public IDisposable GetReadLock()
 	{
 		if (_readerWriterLockSlim is not null)
@@ -45,6 +54,11 @@ public class SlimReaderWriterLock : IDisposable
 		throw new ObjectDisposedException(nameof(ReaderWriterLockSlim));
 	}
 
+	/// <summary>
+	/// Gets the upgradeable read lock.
+	/// </summary>
+	/// <returns></returns>
+	/// <exception cref="System.ObjectDisposedException">ReaderWriterLockSlim</exception>
 	public IDisposable GetUpgradeableReadLock()
 	{
 		if (_readerWriterLockSlim is not null)

@@ -11,7 +11,6 @@
 	</PropertyGroup>
 
 	<!-- Shared Project References -->
-	<Import Project="..\Tasler.TextTemplates\Tasler.TextTemplates.Shared.projitems" Label="Shared" />
 	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 
 	<Target Name="CustomPreTransform">
@@ -27,5 +26,7 @@
 		<TransformOnBuild>true</TransformOnBuild>
 		<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	</PropertyGroup>
-	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
+	<!--<ItemGroup>
+	  <Compile Include="..\Tasler.AssemblyInfo.Shared\AssemblyInfoVersion.cs" />
+	</ItemGroup>-->
 </Project>
