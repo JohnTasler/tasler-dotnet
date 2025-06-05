@@ -53,16 +53,11 @@
 
 	<!-- Project References -->
 	<ItemGroup>
-		<ProjectReference Include="..\Tasler.AssemblyInfo\Tasler.AssemblyInfo.csproj">
-			<Name>Tasler.AssemblyInfo</Name>
-			<Project>{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}</Project>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
 	  <Folder Include="Configuration\" />
 	</ItemGroup>
 
 	<!-- Shared Project References -->
 	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
 </Project>
