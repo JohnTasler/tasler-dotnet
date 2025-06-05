@@ -1,19 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-    <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>e87c4d32-1bf6-420a-aa63-bebaab7928c2</SharedGUID>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Tasler.AssemblyInfo.Shared</Import_RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+		<HasSharedItems>true</HasSharedItems>
+		<SharedGUID>e87c4d32-1bf6-420a-aa63-bebaab7928c2</SharedGUID>
+	</PropertyGroup>
+	<PropertyGroup Label="Configuration">
+		<Import_RootNamespace>Tasler.AssemblyInfo.Shared</Import_RootNamespace>
+	</PropertyGroup>
 	<ItemGroup>
-		<Content Include="$(MSBuildThisFileDirectory)AssemblyInfoVersion.tt">
+		<None Include="$(MSBuildThisFileDirectory)AssemblyInfoVersion.tt">
 			<Generator>TextTemplatingFileGenerator</Generator>
 			<OutputFileName>$(MSBuildThisFileDirectory)AssemblyInfoVersion.cs</OutputFileName>
 			<LastGenOutput>$(MSBuildThisFileDirectory)AssemblyInfoVersion.cs</LastGenOutput>
-		</Content>
+		</None>
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoConfiguration.cs" />
