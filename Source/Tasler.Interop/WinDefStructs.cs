@@ -6,7 +6,7 @@ namespace Tasler.Interop;
 /// A structure that represents a 2-D point, binary compatible with the Win32 <c>POINT</c> structure.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct POINT: IProvideStructSize<POINT>
+public struct POINT
 {
 	#region Instance Fields
 	public int X;
@@ -33,7 +33,7 @@ public struct POINT: IProvideStructSize<POINT>
 /// A structure that represents a 2-D size, binary compatible with the Win32 <c>SIZE</c> structure.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct SIZE : IProvideStructSize<SIZE>
+public struct SIZE
 {
 	#region Instance Fields
 	public int Width;
@@ -60,7 +60,7 @@ public struct SIZE : IProvideStructSize<SIZE>
 /// A structure that represents a 2-D rectangle, binary compatible with the Win32 <c>RECT</c> structure.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct RECT : IProvideStructSize<RECT>
+public struct RECT
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RECT"/> struct.
@@ -120,7 +120,7 @@ public struct RECT : IProvideStructSize<RECT>
 public static class RECTExtensions
 {
 	/// <summary>Offsets the specified <see cref="RECT"/>.</summary>
-	/// <param name="@this">A reference to the <see cref="RECT"/> to offset.</param>
+	/// <param name="this">A reference to the <see cref="RECT"/> to offset.</param>
 	/// <param name="x">The horizontal offset amount.</param>
 	/// <param name="y">The vertical offset amount.</param>
 	/// <returns>

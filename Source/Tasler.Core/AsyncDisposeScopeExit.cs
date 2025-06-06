@@ -25,8 +25,8 @@ public class AsyncDisposeScopeExit : IAsyncDisposable
 	/// Initializes a new instance of the <see cref="AsyncDisposeScopeExit"/> struct.
 	/// </summary>
 	/// <param name="asyncDisposeAction">The asynchronous action to execute upon disposal of the structure.</param>
-	public AsyncDisposeScopeExit(AsyncAction disposeAsyncAction)
-		: this(null, disposeAsyncAction)
+	public AsyncDisposeScopeExit(AsyncAction asyncDisposeAction)
+		: this(null, asyncDisposeAction)
 	{
 	}
 

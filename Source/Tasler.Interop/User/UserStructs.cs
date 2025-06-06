@@ -136,6 +136,6 @@ public struct ICONINFO
 	public bool IsIcon;
 	public uint HotspotX;
 	public uint HotspotY;
-	public SafeGdiBitmap MaskBitmap;
-	public SafeGdiBitmap ColorBitmap;
+	public nint MaskBitmap;
+	public nint ColorBitmap;
 }

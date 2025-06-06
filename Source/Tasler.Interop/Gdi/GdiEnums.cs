@@ -1,6 +1,3 @@
-using System.Runtime.InteropServices;
-using CommunityToolkit.Diagnostics;
-
 namespace Tasler.Interop.Gdi;
 
 /// <summary>Background modes.</summary>
@@ -362,13 +359,13 @@ public enum DeviceCapability
 public enum RGN
 {
 	Error = 0,
-	And = 1,
-	Or = 2,
-	Xor = 3,
-	Diff = 4,
-	Copy = 5,
-	Min = And,
-	Max = Copy,
+	And   = 1,
+	Or    = 2,
+	Xor   = 3,
+	Diff  = 4,
+	Copy  = 5,
+	Min   = And,
+	Max   = Copy,
 }
 
 /// <summary>Region Types</summary>
@@ -387,28 +384,28 @@ public enum AC : byte
 	SrcAlpha = 0x01,
 }
 
-public enum CharSet : byte
+public enum FontCharSet : byte
 {
-	Ansi = 0,
-	Default = 1,
-	Symbol = 2,
-	Mac = 77,
-	ShiftJIS = 128,
-	Hangeul = 129,
-	Hangul = 129,
-	Johab = 130,
-	Gb2312 = 134,
+	Ansi        = 0,
+	Default     = 1,
+	Symbol      = 2,
+	Mac         = 77,
+	ShiftJIS    = 128,
+	Hangeul     = 129,
+	Hangul      = 129,
+	Johab       = 130,
+	Gb2312      = 134,
 	ChineseBig5 = 136,
-	Greek = 161,
-	Turkish = 162,
-	Vietnamese = 163,
-	Hebrew = 177,
-	Arabic = 178,
-	Baltic = 186,
-	Russian = 204,
-	Thai = 222,
-	EastEurope = 238,
-	Oem = 255,
+	Greek       = 161,
+	Turkish     = 162,
+	Vietnamese  = 163,
+	Hebrew      = 177,
+	Arabic      = 178,
+	Baltic      = 186,
+	Russian     = 204,
+	Thai        = 222,
+	EastEurope  = 238,
+	Oem         = 255,
 }
 
 public enum OutputPrecision : byte

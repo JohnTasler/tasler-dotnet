@@ -32,9 +32,9 @@ public static class StreamExtensions
 	}
 
 	/// <summary>
-	/// Reads a fixed-size structure from the specified by <paramref name="this"/> <see cref="Stream"/>.
+	/// Reads a fixed-size structure from the specified <see cref="Stream"/>.
 	/// </summary>
-	/// <typeparam name="T">The type of the structure</typeparam>
+	/// <typeparam name="T">The type of the structure. It must contain only unmanaged types.</typeparam>
 	/// <param name="this">The <see cref="Stream"/> from which to read the structure.</param>
 	/// <param name="value">Specifies into where to read the structure value.</param>
 	/// <returns>The byte count of a single <typeparamref name="T"/>.</returns>
@@ -82,8 +82,8 @@ public static class StreamExtensions
 	/// <summary>
 	/// Reads a variable sized structure. See the remarks for the details.
 	/// </summary>
-	/// <typeparam name="TFixed">The type of the fixed portion of the structure.</typeparam>
-	/// <typeparam name="TVariable">The type of the repeating element</typeparam>
+	/// <typeparam name="THeader">The type of the fixed portion of the structure.</typeparam>
+	/// <typeparam name="TElement">The type of the repeating element</typeparam>
 	/// <param name="this">The this.</param>
 	/// <param name="elementCountSelector">The function that selects the number of variable items.</param>
 	/// <returns></returns>
@@ -93,37 +93,31 @@ public static class StreamExtensions
 	/// method will read the fixed portion of the structure, and then callback to the provided function to
 	/// determine how many repeating elements there are.
 	/// </remarks>
-	public static VariableSizedStruct<TFixed, TVariable> ReadVariableSizedStruct<TFixed, TVariable>(
-		this Stream @this, Func<TFixed, int> elementCountSelector)
-			where TFixed : unmanaged
-			where TVariable : unmanaged
+	public static VariableSizedStruct<THeader, TElement> ReadVariableSizedStruct<THeader, TElement>(
+		this Stream @this, Func<THeader, int> elementCountSelector)
+			where THeader : unmanaged
+			where TElement : unmanaged
 	{
 		// Read the header structure
-		int headerByteCount = @this.ReadStruct(out TFixed header);
+		int headerByteCount = @this.ReadStruct(out THeader header);
 
 		// Use the selector to determine how many elements there are
 		int elementCount = elementCountSelector(header);
 
 		// Get the size of one element structure
-		int elementByteCount = UnmanagedExtensions.GetSize<TVariable>();
+		int elementByteCount = default(TElement).Size;
 
 		// Compute the byte count of all the elements
 		var elementsByteCount = elementCount * elementByteCount;
 		Guard.IsGreaterThanOrEqualTo(elementsByteCount, headerByteCount, nameof(elementsByteCount));
 
 		// Allocate a buffer large enough for all of the elements
-		var elementBuffer = new TVariable[elementCount];
+		var elementBuffer = new TElement[elementCount];
 
 		// Read each element struct into the buffer
-		unsafe
+		for (int i = 0; i < elementCount; ++i)
 		{
-			fixed (TVariable* pElements = elementBuffer)
-			{
-				for (int i = 0; i < elementCount; ++i)
-				{
-					@this.ReadStruct(out pElements[i]);
-				}
-			}
+			@this.ReadStruct(out elementBuffer[i]);
 		}
 
 		// Return the variable sized structure containing the header and elements

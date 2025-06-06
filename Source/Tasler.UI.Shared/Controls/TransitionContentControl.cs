@@ -68,10 +68,10 @@ public partial class TransitionContentControl : ContentControl
 	public static readonly DependencyProperty BoundingRectangleProperty = BoundingRectanglePropertyKey.DependencyProperty;
 
 	/// <summary>
-	/// Gets a value that indicates whether the <see cref="OldContent"/> property is <c>null</c>.
+	/// Gets a value that indicates whether the <see cref="OldContent"/> property is <see langword="null"/>.
 	/// </summary>
 	/// <value>
-	/// <see langword="true"/> if the <see cref="OldContent"/> property is not <c>null</c>; otherwise, <see langword="false"/>.
+	/// <see langword="true"/> if the <see cref="OldContent"/> property is not <see langword="null"/>; otherwise, <see langword="false"/>.
 	/// The default is <see langword="false"/>.
 	/// </value>
 	[Browsable(false)]
@@ -95,10 +95,10 @@ public partial class TransitionContentControl : ContentControl
 	public static readonly DependencyProperty HasOldContentProperty = HasOldContentPropertyKey.DependencyProperty;
 
 	/// <summary>
-	/// Gets a value that indicates whether the <see cref="OldContent"/> property is <c>null</c>.
+	/// Gets a value that indicates whether the <see cref="OldContent"/> property is <see langword="null"/>.
 	/// </summary>
 	/// <value>
-	/// <see langword="true"/> if the <see cref="OldContent"/> property is not <c>null</c>; otherwise, <see langword="false"/>.
+	/// <see langword="true"/> if the <see cref="OldContent"/> property is not <see langword="null"/>; otherwise, <see langword="false"/>.
 	/// The default is <see langword="false"/>.
 	/// </value>
 	[Browsable(false)]
@@ -149,7 +149,7 @@ public partial class TransitionContentControl : ContentControl
 	/// Gets or sets the data used for the footer area of the <see cref="TransitionContentControl"/>.
 	/// </summary>
 	/// <value>
-	/// A footer object. The default is <c>null</c>.
+	/// A footer object. The default is <see langword="null"/>.
 	/// </value>
 	public object? OldContent
 	{

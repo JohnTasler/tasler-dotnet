@@ -23,7 +23,7 @@ public static class DependencyObjectExtensions
 	/// <summary>
 	/// Sets the <see cref="Control.DefaultStyleKey"/> property to the type of the specified <see cref="DependencyObject"/>.
 	/// </summary>
-	/// <param name="@this">The object on which to set the <see cref="Control.DefaultStyleKey"/> property. Its
+	/// <param name="this">The object on which to set the <see cref="Control.DefaultStyleKey"/> property. Its
 	/// <see cref="object.GetType"/> method is used as the value of the property.</param>
 	public static void SetDefaultStyleKey(this DependencyObject @this)
 	{
@@ -33,10 +33,10 @@ public static class DependencyObjectExtensions
 	/// <summary>
 	/// Determines whether the specified <see cref="DependencyObject"/> is a <see cref="Visual"/>.
 	/// </summary>
-	/// <param name="@this">The <see cref="DependencyObject"/> to test.</param>
+	/// <param name="this">The <see cref="DependencyObject"/> to test.</param>
 	/// <returns>
 	///   <see langword="true"/> if the specied object is a <see cref="Visual"/>; otherwise,
-	///   <see langword="false"/>. Also <see langword="false"/> if <paramref name="@this"/> is <see langword="null"/>.
+	///   <see langword="false"/>. Also <see langword="false"/> if <paramref name="this"/> is <see langword="null"/>.
 	/// </returns>
 	/// <remarks>This is to used by both WPF (which also has Visual3D) and WinUI/UWP/Uno code (which does not).</remarks>
 	public static bool IsVisual(this DependencyObject? @this)
@@ -47,7 +47,7 @@ public static class DependencyObjectExtensions
 	/// <summary>
 	/// Sets the <see cref="FrameworkElement.DefaultStyleKey"/> property to the type of the specified <see cref="DependencyObject"/>.
 	/// </summary>
-	/// <param name="@this">The object on which to set the <see cref="FrameworkElement.DefaultStyleKey"/> property. Its
+	/// <param name="this">The object on which to set the <see cref="FrameworkElement.DefaultStyleKey"/> property. Its
 	/// <see cref="object.GetType"/> method is used as the value of the property.</param>
 	public static void SetDefaultStyleKey(this DependencyObject @this)
 	{
@@ -62,10 +62,10 @@ public static class DependencyObjectExtensions
 	/// <summary>
 	/// Determines whether the specified <see cref="DependencyObject"/> is a <see cref="Visual"/> or <see cref="Visual3D"/>.
 	/// </summary>
-	/// <param name="@this">The <see cref="DependencyObject"/> to test.</param>
+	/// <param name="this">The <see cref="DependencyObject"/> to test.</param>
 	/// <returns>
 	///   <see langword="true"/> if the specied object is a <see cref="Visual"/> or <see cref="Visual3D"/>; otherwise,
-	///   <see langword="false"/>. Also <see langword="false"/> if <paramref name="@this"/> is <see langword="null"/>.
+	///   <see langword="false"/>. Also <see langword="false"/> if <paramref name="this"/> is <see langword="null"/>.
 	/// </returns>
 	/// <remarks>This is to used by both WPF (which also has Visual3D) and WinUI/UWP/Uno code (which does not).</remarks>
 	public static bool IsVisual(this DependencyObject? @this)
@@ -78,7 +78,7 @@ public static class DependencyObjectExtensions
 	/// <returns>An <see cref="IEnumerable{DependencyObject}"/> of the logical ancestors of <paramref name="d"/>.</returns>
 	/// <remarks>
 	/// To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
-	/// <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	/// <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension methods on the return value.
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetLogicalAncestors(this DependencyObject d)
 	{
@@ -97,7 +97,7 @@ public static class DependencyObjectExtensions
 	/// <returns>An <see cref="IEnumerable{DependencyObject}"/> of <paramref name="d"/> and its logical ancestors.</returns>
 	/// <remarks>
 	/// To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
-	/// <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	/// <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension methods on the return value.
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndLogicalAncestors(this DependencyObject d)
 	{
@@ -122,7 +122,8 @@ public static class DependencyObjectExtensions
 	/// <remarks>
 	/// <para>
 	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
-	///   and <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension
+	///   methods on the return value.
 	/// </para><para>
 	///   When you know that the layout of tree nodes is such that you want to find a node that is
 	///   closer to the sibling nodes than to the deeper ancestors, favor using this method instead of
@@ -150,8 +151,9 @@ public static class DependencyObjectExtensions
 	///   <paramref name="d"/>.
 	/// </returns>
 	/// <remarks>
-	///	  To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
-	///	  and <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
+	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension
+	///   methods on the return value.
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndLogicalDescendantsBreadthFirst(this DependencyObject d)
 	{
@@ -172,7 +174,8 @@ public static class DependencyObjectExtensions
 	/// <remarks>
 	/// <para>
 	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
-	///   and <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension
+	///   methods on the return value.
 	/// </para><para>
 	///   When you know that the layout of tree nodes is such that you want to find a node that is
 	///   closer to the sibling nodes than to the deeper ancestors, favor using this method instead of
@@ -200,8 +203,9 @@ public static class DependencyObjectExtensions
 	///   <paramref name="d"/>.
 	/// </returns>
 	/// <remarks>
-	///	  To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
-	///	  and <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
+	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension
+	///   methods on the return value.
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndLogicalDescendantsDepthFirst(this DependencyObject d)
 	{
@@ -227,8 +231,9 @@ public static class DependencyObjectExtensions
 	/// <param name="d">The <see cref="DependencyObject"/> from which to begin the enumeration of visual ancestors.</param>
 	/// <returns>An <see cref="IEnumerable{DependencyObject}"/> of the visual ancestors of <paramref name="d"/>.</returns>
 	/// <remarks>
-	/// To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
-	/// <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
+	///   <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension
+	///   methods on the return value.
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetVisualAncestors(this DependencyObject d)
 	{
@@ -243,8 +248,9 @@ public static class DependencyObjectExtensions
 	/// <param name="d">The <see cref="DependencyObject"/> from which to begin the enumeration of visual ancestors.</param>
 	/// <returns>An <see cref="IEnumerable{DependencyObject}"/> of <paramref name="d"/> and its visual ancestors.</returns>
 	/// <remarks>
-	/// To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
-	/// <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
+	///   <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/>
+	///   extension methods on the return value.
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndVisualAncestors(this DependencyObject d)
 	{
@@ -266,7 +272,8 @@ public static class DependencyObjectExtensions
 	/// <remarks>
 	/// <para>
 	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
-	///   and <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/>
+	///   extension methods on the return value.
 	/// </para><para>
 	///   When you know that the layout of tree nodes is such that you want to find a node that is
 	///   closer to the sibling nodes than to the deeper ancestors, favor using this method instead of
@@ -294,8 +301,9 @@ public static class DependencyObjectExtensions
 	///   <paramref name="d"/>.
 	/// </returns>
 	/// <remarks>
-	///	  To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
-	///	  and <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
+	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension
+	///   methods on the return value.
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndVisualDescendantsBreadthFirst(this DependencyObject d)
 	{
@@ -316,7 +324,8 @@ public static class DependencyObjectExtensions
 	/// <remarks>
 	/// <para>
 	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
-	///   and <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/>
+	///   extension methods on the return value.
 	/// </para><para>
 	///   When you know that the layout of tree nodes is such that you want to find a node that is
 	///   closer to the sibling nodes than to the deeper ancestors, favor using this method instead of
@@ -344,8 +353,9 @@ public static class DependencyObjectExtensions
 	///   <paramref name="d"/>.
 	/// </returns>
 	/// <remarks>
-	///	  To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
-	///	  and <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
+	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/>
+	///   extension methods on the return value.
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndVisualDescendantsDepthFirst(this DependencyObject d)
 	{
@@ -360,8 +370,9 @@ public static class DependencyObjectExtensions
 	/// <returns>An <see cref="IEnumerable{DependencyObject}"/> of the visual children of
 	/// <paramref name="d"/>.</returns>
 	/// <remarks>
-	/// To get a descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
-	/// <see cref="System.Linq.Enumerable.FirstOrDefault"/> extension methods on the return value.
+	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
+	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/>
+	///   extension methods on the return value.
 	/// </remarks>
 	public static IEnumerable<DependencyObject> GetVisualChildren(this DependencyObject d)
 	{

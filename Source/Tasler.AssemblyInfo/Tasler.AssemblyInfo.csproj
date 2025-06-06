@@ -7,7 +7,7 @@
 		<ProjectGuid>{8C61CB5A-D566-46EB-BC87-8E733E3FCE7B}</ProjectGuid>
 		<OutputType>Library</OutputType>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Platforms>AnyCPU</Platforms>
 	</PropertyGroup>
 
 	<!-- Shared Project References -->
@@ -26,7 +26,9 @@
 		<TransformOnBuild>true</TransformOnBuild>
 		<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	</PropertyGroup>
-	<!--<ItemGroup>
-	  <Compile Include="..\Tasler.AssemblyInfo.Shared\AssemblyInfoVersion.cs" />
-	</ItemGroup>-->
+
+	<ItemGroup>
+	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
 </Project>

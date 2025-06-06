@@ -11,15 +11,25 @@
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
+		<EnableXmlDocWarnings>true</EnableXmlDocWarnings>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Update="Properties\Strings.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Strings.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
+		<TrimmerRootAssembly Include="Tasler.ComponentModel" />
+	</ItemGroup>
 
-		<Compile Update="Properties\Strings.Designer.cs">
+	<ItemGroup>
+	  <Compile Remove="StructWrapperTypeDescriptionProvider.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties/Strings.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Strings.resx</DependentUpon>
@@ -33,12 +43,10 @@
 
 	<!-- Project References -->
 	<ItemGroup>
-		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj" />
+		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
+			<Project>{6692957C-4E2B-415B-A03A-4B3DBCAC071B}</Project>
+			<Name>Tasler.Core</Name>
+		</ProjectReference>
 	</ItemGroup>
-
-	<!-- Shared Project References -->
-	<ImportGroup>
-		<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
-	</ImportGroup>
 
 </Project>

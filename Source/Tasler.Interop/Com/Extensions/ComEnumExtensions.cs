@@ -23,7 +23,7 @@ public static class ComEnumExtensions
 		unsafe
 		{
 			var fetched = stackalloc int[1];
-			var hr = enumerator.Next(items.Length, items, new IntPtr(fetched));
+			var hr = enumerator.Next(items.Length, items, (nint)fetched);
 			fetchedCount = fetched[0];
 			return hr;
 		}

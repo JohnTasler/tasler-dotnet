@@ -5,13 +5,6 @@ namespace Tasler.Interop.Com;
 
 public static partial class ComApi
 {
-	public static TClass? CoCreateInstance<TClass>(string clsid)
-		where TClass : class
-	{
-		return (TClass?)Activator.CreateInstance(
-			Type.GetTypeFromCLSID(new Guid(clsid)) ?? throw new InvalidCastException());
-	}
-
 	public static nint CoCreateInstance(Guid clsid, Guid iid, ClsCtx dwClsContext = ClsCtx.Default)
 	{
 		int hr = NativeMehods.CoCreateInstance(ref clsid, nint.Zero, dwClsContext, ref iid, out nint ppv);
@@ -71,7 +64,6 @@ public static partial class ComApi
 
 		[LibraryImport(ApiLib)]
 		public static partial int CreateBindCtx(int reserved, out nint ppbc);
-
 	}
 
 	#endregion Nested Types

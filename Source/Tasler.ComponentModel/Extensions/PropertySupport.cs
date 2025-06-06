@@ -12,7 +12,7 @@ public static class PropertySupport
 	/// <summary>
 	/// Extracts the property name from a property expression.
 	/// </summary>
-	/// <typeparam name="T">The object type containing the property specified in the expression.</typeparam>
+	/// <typeparam name="TResult">The object type containing the property specified in the expression.</typeparam>
 	/// <param name="propertyExpression">The property expression (e.g. p => p.PropertyName)</param>
 	/// <returns>The name of the property.</returns>
 	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="propertyExpression"/> is null.</exception>
@@ -39,7 +39,8 @@ public static class PropertySupport
 	/// <summary>
 	/// Extracts the property name from a property expression.
 	/// </summary>
-	/// <typeparam name="T">The object type containing the property specified in the expression.</typeparam>
+	/// <typeparam name="TSource">The object type containing the property specified in the expression.</typeparam>
+	/// <typeparam name="TResult">The type of the property specified in the expression.</typeparam>
 	/// <param name="propertyExpression">The property expression (e.g. p => p.PropertyName)</param>
 	/// <returns>The name of the property.</returns>
 	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="propertyExpression"/> is null.</exception>

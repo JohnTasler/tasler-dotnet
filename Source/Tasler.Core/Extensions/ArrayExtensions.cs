@@ -13,7 +13,7 @@ public static class ArrayExtensions
 	/// <param name="startIndex">The array startIndex from which to begin.</param>
 	/// <param name="count">The number of array elements to include.</param>
 	/// <returns>An <see cref="IEnumerable{T}"/> over the elements in a specified section of the array.</returns>
-	/// <exception cref="ArgumentNullException"><paramref name="array"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="array"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentOutOfRangeException">
 	/// <paramref name="startIndex"/> is outside the range of valid indexes for <paramref name="array"/>
 	/// -or- count is less than zero. -or- startIndex and count do not specify a valid section in

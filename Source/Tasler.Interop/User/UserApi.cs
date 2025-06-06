@@ -76,8 +76,8 @@ public static partial class UserApi
 	public static string GetScanCodeKeyDisplayText(ushort scanCode, bool extendedKey, bool doNotCare)
 	{
 		uint param = (uint)(scanCode << 16);
-		param = param.SetOrClearBits(extendedKey, (uint)KF.Extended);
-		param = param.SetOrClearBits(doNotCare, (uint)KF.DoNotCare);
+		param = param.SetOrClearFlags(extendedKey, (uint)KF.Extended);
+		param = param.SetOrClearFlags(doNotCare, (uint)KF.DoNotCare);
 
 		return StringHelpers.GetVariableLengthString((buffer, bufferLength)
 			=> NativeMethods.GetKeyNameTextW(param, buffer, buffer.Length), 64);
@@ -321,6 +321,6 @@ public static partial class UserApi
 
 		[LibraryImport(ApiLib, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static partial bool GetIconInfo(nint hIcon, out ICONINFO piconinfo);
+		public static partial bool GetIconInfo(nint hIcon, ref ICONINFO piconinfo);
 	}
 }

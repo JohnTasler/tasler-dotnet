@@ -14,11 +14,11 @@ public static class BitFlagExtensions
 	/// <summary>
 	/// Sets to 1 (turns on) the specified <paramref name="flags"/>.
 	/// </summary>
-	/// <param name="@this">A reference to the <typeparamref name="T"/> instance on which the extension method operates.
+	/// <param name="this">A reference to the <typeparamref name="T"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
-	/// <typeparam name="T">A value type that supports bitwise operators <see cref="IBitwiseOperators{T, T, T}."/></typeparam>
+	/// <typeparam name="T">A value type that supports bitwise operators <see cref="IBitwiseOperators{T, T, T}"/>.</typeparam>
 	/// <param name="flags">The flags to set.</param>
-	/// <returns>The <paramref name="@this"/> with the specified <paramref name="flags"/> set to 1 (turned on).</returns>
+	/// <returns>The <paramref name="this"/> with the specified <paramref name="flags"/> set to 1 (turned on).</returns>
 	public static ref T SetFlags<T>(this ref T @this, T flags)
 		where T : struct, IBitwiseOperators<T, T, T>
 	{
@@ -29,11 +29,11 @@ public static class BitFlagExtensions
 	/// <summary>
 	/// Clears to 0 (turns off) the specified <paramref name="flags"/>.
 	/// </summary>
-	/// <param name="@this">A reference to the <typeparamref name="T"/> instance on which the extension method operates.
+	/// <param name="this">A reference to the <typeparamref name="T"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
-	/// <typeparam name="T">A value type that supports bitwise operators <see cref="IBitwiseOperators{T, T, T}."/></typeparam>
+	/// <typeparam name="T">A value type that supports bitwise operators <see cref="IBitwiseOperators{T, T, T}"/>.</typeparam>
 	/// <param name="flags">The flags to clear.</param>
-	/// <returns>The <paramref name="@this"/> with the specified <paramref name="flags"/> cleared to 0 (turned off).</returns>
+	/// <returns>The <paramref name="this"/> with the specified <paramref name="flags"/> cleared to 0 (turned off).</returns>
 	public static ref T ClearFlags<T>(this ref T @this, T flags)
 		where T : struct, IBitwiseOperators<T, T, T>
 	{
@@ -44,7 +44,7 @@ public static class BitFlagExtensions
 	/// <summary>
 	/// Based on a Boolean value, either sets to 1 (turns on) or clears to 0 (turns off) the specified <paramref name="flags"/>.
 	/// </summary>
-	/// <param name="@this">A reference to the <typeparamref name="T"/> instance on which the extension method operates.
+	/// <param name="this">A reference to the <typeparamref name="T"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
 	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="flags"/> are set; otherwise they are cleared.</param>
 	/// <param name="flags">The flags to either set or clear.</param>

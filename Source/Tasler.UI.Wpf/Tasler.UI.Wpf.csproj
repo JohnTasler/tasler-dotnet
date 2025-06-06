@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<UseWPF>true</UseWPF>
@@ -16,10 +16,20 @@
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<TrimmerRootAssembly Include="Tasler.UI.Wpf" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<Compile Update="Properties\Resources.Designer.cs">
-			<AutoGen>True</AutoGen>
 			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Properties\Settings.Designer.cs">
@@ -27,52 +37,35 @@
 			<DependentUpon>Settings.settings</DependentUpon>
 			<DesignTimeSharedInput>True</DesignTimeSharedInput>
 		</Compile>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-			<SubType>Designer</SubType>
-		</EmbeddedResource>
-		<None Update="Properties\Settings.settings">
-			<Generator>SettingsSingleFileGenerator</Generator>
-			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
-			<SubType>Designer</SubType>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Update="F:\src\JohnTasler\tasler-dotnet\Source\Tasler.AssemblyInfo.Shared\AssemblyInfoVersion.tt">
-	    <LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>
-	  </None>
 	</ItemGroup>
 
 	<!-- Package References -->
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Fix.Microsoft.Xaml.Behaviors.Wpf.1.1.77" Version="1.1.78" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="9.5.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
 	</ItemGroup>
 
 	<!-- Project References -->
 	<ItemGroup>
 		<ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj">
-			<Project>{2d4e35a3-754d-4e8e-b52c-aa2d0dd9e059}</Project>
+			<Project>{2D4E35A3-754D-4E8E-B52C-AA2D0DD9E059}</Project>
 			<Name>Tasler.ComponentModel</Name>
 		</ProjectReference>
 		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
-			<Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
+			<Project>{6692957C-4E2B-415B-A03A-4B3DBCAC071B}</Project>
 			<Name>Tasler.Core</Name>
 		</ProjectReference>
-		<ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj" />
+		<ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
+			<Project>{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}</Project>
+			<Name>Tasler.Interop</Name>
+		</ProjectReference>
 	</ItemGroup>
 
 	<!-- Shared Project References -->
 	<ImportGroup>
 		<Import Project="..\Tasler.UI.Shared\Tasler.UI.Shared.projitems" Label="Shared" />
-		<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 	</ImportGroup>
 </Project>

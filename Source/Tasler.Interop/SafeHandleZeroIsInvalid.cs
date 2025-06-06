@@ -24,9 +24,7 @@ namespace Tasler.Interop
 
 		public nint DetachHandle()
 		{
-			var oldHandle = base.handle;
-			base.SetHandle(nint.Zero);
-			return oldHandle;
+			return Interlocked.Exchange(ref base.handle, nint.Zero);
 		}
 
 		public override string ToString() => $"handle = 0x{base.handle:X8}";

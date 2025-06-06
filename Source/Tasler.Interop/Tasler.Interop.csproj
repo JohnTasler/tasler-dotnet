@@ -13,12 +13,18 @@
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
+
 	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<Compile Update="Properties\Resources.Designer.cs">
+		<TrimmerRootAssembly Include="Tasler.Interop" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties/Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
@@ -34,15 +40,12 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj">
 			<Name>Tasler.ComponentModel</Name>
-			<Project>{2d4e35a3-754d-4e8e-b52c-aa2d0dd9e059}</Project>
+			<Project>{2D4E35A3-754D-4E8E-B52C-AA2D0DD9E059}</Project>
 		</ProjectReference>
 		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
 			<Name>Tasler.Core</Name>
-			<Project>{b0c1f3d2-4e5a-4c8b-9f3c-6d7e8f9a0b1c}</Project>
+			<Project>{B0C1F3D2-4E5A-4C8B-9F3C-6D7E8F9A0B1C}</Project>
 		</ProjectReference>
 	</ItemGroup>
-
-	<!-- Shared Project References -->
-	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 
 </Project>
