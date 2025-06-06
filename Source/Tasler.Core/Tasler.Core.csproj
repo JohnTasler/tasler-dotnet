@@ -10,8 +10,8 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Platforms>AnyCPU;x64;x86</Platforms>
-	  <NoWarn>1701;1702;1584</NoWarn>
+		<Platforms>AnyCPU;ARM64;x64;x86</Platforms>
+		<NoWarn>$(NoWarn);1701;1702;1584</NoWarn>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 	</PropertyGroup>
 
