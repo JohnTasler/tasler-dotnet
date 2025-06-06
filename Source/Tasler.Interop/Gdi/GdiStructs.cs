@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using static Tasler.Interop.Kernel.Resources.IconDirectoryItem;
 
 namespace Tasler.Interop.Gdi;
 
@@ -37,7 +38,10 @@ public struct BITMAP
 [StructLayout(LayoutKind.Sequential)]
 public struct BITMAPINFOHEADER
 {
-	private int _size = MarhalSizeOf;
+	private static int GetSizeOf() { unsafe { return sizeof(BITMAPINFOHEADER); } }
+	public static readonly int SizeOf = GetSizeOf();
+
+	private int _size = SizeOf;
 	public int Width;
 	public int Height;
 	public ushort Planes;
@@ -49,10 +53,13 @@ public struct BITMAPINFOHEADER
 	public uint ColorsUsed;
 	public uint ColorsImportant;
 
-	public static readonly int MarhalSizeOf = Marshal.SizeOf<BITMAPINFOHEADER>();
-
 	public BITMAPINFOHEADER()
 	{
+	}
+
+	public override string ToString()
+	{
+		return $"Width: {Width}, Height: {Height}\nPlanes: {Planes}, BitCount: {BitCount}, Compression: {Compression}\nSizeImage: {SizeImage:X8} XPelsPerMeter: {XPelsPerMeter}, YPelsPerMeter: {YPelsPerMeter}\nColorsUsed: {ColorsUsed}, ColorsImportant: {ColorsImportant}";
 	}
 }
 
