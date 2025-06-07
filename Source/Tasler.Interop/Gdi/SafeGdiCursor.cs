@@ -1,4 +1,6 @@
 
+using Tasler.Interop.User;
+
 namespace Tasler.Interop.Gdi;
 
 public class SafeGdiCursor : SafeGdiObject
@@ -22,4 +24,7 @@ public class SafeGdiCursorOwned : SafeGdiCursor
 		: base(true)
 	{
 	}
+
+	protected override bool ReleaseHandle()
+		=> UserApi.NativeMethods.DestroyCursor(DangerousGetHandle());
 }

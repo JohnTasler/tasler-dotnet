@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using static Tasler.Interop.Kernel.Resources.IconDirectoryItem;
 
 namespace Tasler.Interop.Gdi;
 
@@ -41,7 +40,7 @@ public struct BITMAPINFOHEADER
 	private static int GetSizeOf() { unsafe { return sizeof(BITMAPINFOHEADER); } }
 	public static readonly int SizeOf = GetSizeOf();
 
-	private int _size = SizeOf;
+	public int Size = SizeOf;
 	public int Width;
 	public int Height;
 	public ushort Planes;
