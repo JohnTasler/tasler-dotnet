@@ -6,18 +6,7 @@ namespace Tasler.Interop.Gdi;
 
 public static partial class GdiApi
 {
-	public static SafeGdiPenOwned CreatePen(PenStyle penStyle, int width, uint color)
-		=> GdiApi.NativeMethods.CreatePen(penStyle, width, color);
-
-	public static SafeGdiPenOwned CreatePen(PenStyle penStyle, int width, uint color, params int[] segmentLengths)
-	{
-		var logBrush = new LOGBRUSH { Color = color };
-		var segmentCount = (segmentLengths != null) ? segmentLengths.Length : 0;
-		var hpen = GdiApi.NativeMethods.ExtCreatePen(penStyle, width, logBrush, segmentCount, segmentLengths ??= []);
-		return hpen;
-	}
-
-	public static SafeGdiBrushOwned CreateSolidBrush(uint color) => GdiApi.NativeMethods.CreateSolidBrush(color);
+	public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.CreateSolidBrush(color);
 
 	public static void GdiFlush()
 	{
@@ -31,9 +20,6 @@ public static partial class GdiApi
 	}
 
 	#region Nested Types
-	/// <summary>
-	///
-	/// </summary>
 	internal static partial class NativeMethods
 	{
 		#region Constants
@@ -74,11 +60,11 @@ public static partial class GdiApi
 
 		[LibraryImport(ApiLib, SetLastError = true)]
 		public static partial SafeGdiBitmapOwned CreateDIBSection(SafeHdc hdc, BITMAPINFOHEADER pbmi,
-				int iUsage, out nint ppvBits, nint hSection, int dwOffset);
+			int iUsage, out nint ppvBits, nint hSection, int dwOffset);
 
 		[LibraryImport(ApiLib, SetLastError = true)]
 		public static partial SafeGdiBitmapOwned CreateDIBSection(SafeHdc hdc, BITMAPINFOHEADER pbmi,
-				int iUsage, out nint ppvBits, SafeMemoryMappedFileHandle hSection, int dwOffset);
+			int iUsage, out nint ppvBits, SafeMemoryMappedFileHandle hSection, int dwOffset);
 
 		[LibraryImport(ApiLib)]
 		public static partial SafeGdiRgnOwned CreateRectRgn(int x1, int y1, int x2, int y2);
@@ -144,8 +130,8 @@ public static partial class GdiApi
 		[LibraryImport(ApiLib, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static partial bool StretchBlt(
-				SafeHdc hdcDest, int xDest, int yDest, int cxDest, int cyDest,
-				SafeHdc hdcSrc, int xSrc, int ySrc, int cxSrc, int cySrc, ROP3 dwRop);
+			SafeHdc hdcDest, int xDest, int yDest, int cxDest, int cyDest,
+			SafeHdc hdcSrc, int xSrc, int ySrc, int cxSrc, int cySrc, ROP3 dwRop);
 
 		[LibraryImport(ApiLib)]
 		public static partial StretchBltMode SetStretchBltMode(SafeHdc hdc, StretchBltMode stretchMode);

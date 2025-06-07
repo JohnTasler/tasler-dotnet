@@ -118,6 +118,37 @@ public static partial class UserApi
 
 	public static int GetSystemMetrics(SM nIndex) => NativeMethods.GetSystemMetrics(nIndex);
 
+	private static nint CreateIconFromResourceEx(byte[] presbits, bool fIcon, uint dwVer, int cxDesired, int cyDesired, uint flags)
+	{
+		var result = NativeMethods.CreateIconFromResourceEx(presbits, (uint)presbits.Length, fIcon, dwVer, cxDesired, cyDesired, flags);
+		return result != nint.Zero
+			? result
+			: throw new Win32Exception(Marshal.GetLastWin32Error());
+	}
+	public static SafeGdiIconOwned CreateIconFromResourceEx(byte[] presbits, uint dwVer, int cxDesired, int cyDesired, uint flags)
+		=> new() { Handle = CreateIconFromResourceEx(presbits, true, dwVer, cxDesired, cyDesired, flags) };
+
+	public static SafeGdiCursorOwned CreateCursorFromResourceEx(byte[] presbits, uint dwVer, int cxDesired, int cyDesired, uint flags)
+		=> new() { Handle = CreateIconFromResourceEx(presbits, false, dwVer, cxDesired, cyDesired, flags) };
+
+	public static SafeGdiIconOwned CreateIconFromBits(byte[] presbits)
+		=> CreateIconFromResourceEx(presbits, 0x00030000, 0, 0, 0);
+
+	public static SafeGdiCursorOwned CreateCursorFromBits(byte[] presbits)
+		=>  CreateCursorFromResourceEx(presbits, 0x00030000, 0, 0, 0);
+
+	public static void DestroyIcon(nint hIcon)
+	{
+		if (!NativeMethods.DestroyIcon(hIcon))
+			throw new Win32Exception(Marshal.GetLastWin32Error());
+	}
+
+	public static void DestroyCursor(nint hCursor)
+	{
+		if (!NativeMethods.DestroyIcon(hCursor))
+			throw new Win32Exception(Marshal.GetLastWin32Error());
+	}
+
 	internal static partial class NativeMethods
 	{
 		#region Constants
@@ -274,5 +305,18 @@ public static partial class UserApi
 
 		[LibraryImport(ApiLib, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
 		public static partial int GetKeyNameTextW(uint keyParameter, [Out] char[] buffer, int cchSize);
+
+		[LibraryImport(ApiLib, SetLastError = true)]
+		public static partial nint CreateIconFromResourceEx(
+			byte[] presbits, uint dwResSize, [MarshalAs(UnmanagedType.Bool)] bool fIcon,
+			uint dwVer, int cxDesired, int cyDesired, uint Flags);
+
+		[LibraryImport(ApiLib, SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool DestroyIcon(nint hIcon);
+
+		[LibraryImport(ApiLib, SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool DestroyCursor(nint hCursor);
 	}
 }

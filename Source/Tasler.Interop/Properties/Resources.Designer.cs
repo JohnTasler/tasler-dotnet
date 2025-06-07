@@ -59,5 +59,23 @@ namespace Tasler.Interop.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid bitmap info header stream..
+        /// </summary>
+        internal static string ArgumentExceptionBitmapInfoHeaderStreamIsInvalid {
+            get {
+                return ResourceManager.GetString("ArgumentExceptionBitmapInfoHeaderStreamIsInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified stream is not in a valid RT_GROUP_ICON or RT_GROUP_CURSOR format..
+        /// </summary>
+        internal static string ArgumentExceptionStreamIsNotIcoOrCursorFormat {
+            get {
+                return ResourceManager.GetString("ArgumentExceptionStreamIsNotIcoOrCursorFormat", resourceCulture);
+            }
+        }
     }
 }
