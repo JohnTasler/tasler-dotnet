@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<ProjectName>Tasler.Core</ProjectName>
@@ -10,9 +10,15 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Platforms>AnyCPU;x64;x86</Platforms>
-	  <NoWarn>1701;1702;1584</NoWarn>
+		<Platforms>AnyCPU;ARM64;x64;x86</Platforms>
+		<NoWarn>$(NoWarn);1584;1701;1702</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<IsAotCompatible>true</IsAotCompatible>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<TrimmerRootAssemblys>$(TrimmerRootAssemblys);Tasler.Core</TrimmerRootAssemblys>
+		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
