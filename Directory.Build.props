@@ -14,6 +14,11 @@
 		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
 		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
 		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+
+		<XmlDocWarnings>1570;1573;1574;1591</XmlDocWarnings>
+		<EnableXmlDocWarnings>false</EnableXmlDocWarnings>
+		<NoWarn Condition="$(EnableXmlDocWarnings)">$(NoWarn);$(XmlDocWarnings)</NoWarn>
+
 	</PropertyGroup>
 
 </Project>
