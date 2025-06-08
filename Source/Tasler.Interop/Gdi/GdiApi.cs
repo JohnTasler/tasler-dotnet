@@ -182,6 +182,9 @@ public static partial class GdiApi
 		[LibraryImport(ApiLib, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static partial bool GdiFlush();
+
+		[LibraryImport(ApiLib)]
+		public unsafe static partial int GetObjectW(nint handle, int count, void* info);
 	}
 	#endregion Nested Types
 }

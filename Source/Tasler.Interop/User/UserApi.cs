@@ -318,5 +318,9 @@ public static partial class UserApi
 		[LibraryImport(ApiLib, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static partial bool DestroyCursor(nint hCursor);
+
+		[LibraryImport(ApiLib, SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool GetIconInfo(nint hIcon, out ICONINFO piconinfo);
 	}
 }

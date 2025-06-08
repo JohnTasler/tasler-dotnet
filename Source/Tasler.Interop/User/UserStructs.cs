@@ -128,3 +128,14 @@ public struct PAINTSTRUCT
 	private ulong _rgbReserved2;
 	private ulong _rgbReserved3;
 }
+
+[StructLayout(LayoutKind.Sequential)]
+public struct ICONINFO
+{
+	[MarshalAs(UnmanagedType.Bool)]
+	public bool IsIcon;
+	public uint HotspotX;
+	public uint HotspotY;
+	public SafeGdiBitmap MaskBitmap;
+	public SafeGdiBitmap ColorBitmap;
+}

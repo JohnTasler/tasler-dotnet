@@ -1,3 +1,6 @@
+using System.Runtime.InteropServices;
+using CommunityToolkit.Diagnostics;
+
 namespace Tasler.Interop.Gdi;
 
 /// <summary>Background modes.</summary>
@@ -45,7 +48,6 @@ public enum ROP2
 }
 
 /// <summary>Ternary raster operations.</summary>
-[Flags]
 public enum ROP3 : uint
 {
 	/// <summary>dest = source</summary
@@ -126,36 +128,9 @@ public enum StretchBltMode
 	OrScans = WhiteOnBlack,
 }
 
-/// <summary>Pen styles.</summary>
-[Flags]
-public enum PenStyle : uint
-{
-	Solid        = 0,
-	Dash         = 1, // -------
-	Dot          = 2, // .......
-	DashDot      = 3, // _._._._
-	DashDotDot   = 4, // _.._.._
-	Null         = 5,
-	InsideFrame  = 6,
-	UserStyle    = 7,
-	Alternate    = 8,
-	StyleMask    = 0x0000000F,
-
-	EndCapRound  = 0x00000000,
-	EndCapSquare = 0x00000100,
-	EndCapFlat   = 0x00000200,
-	EndCapMask   = 0x00000F00,
-
-	JoinRound    = 0x00000000,
-	JoinBevel    = 0x00001000,
-	JoinMiter    = 0x00002000,
-	JoinMask     = 0x0000F000,
-
-	Cosmetic     = 0x00000000,
-	Geometric    = 0x00010000,
-	TypeMask     = 0x000F0000,
-}
-
+/// <summary>
+/// The type option of the <see cref="PenTypeStyle"/> structure.
+/// </summary>
 /// <summary>Brush styles.</summary>
 public enum BrushStyle
 {
@@ -169,6 +144,25 @@ public enum BrushStyle
 	PatTern8x8 = 7,
 	DibPattern8x8 = 8,
 	MonoPattern = 9,
+}
+
+/// <summary>
+/// Hatch	styles for brushes and pens.
+/// </summary>
+public enum HatchStyle
+{
+	/// <summary>Horizontal hatch.</summary>
+	Horizontal       = 0,      // -----  Horizontal hatch
+	/// <summary>Vertical hatch</summary>
+	Vertical         = 1,      // |||||  Vertical hatch
+	/// <summary>45-degree downward hatch (left to right)</summary>
+	ForwardDiagonal  = 2,      // \\\\\  45-degree downward hatch (left to right)
+	/// <summary>45-degree upward hatch (left to right)</summary>
+	BackwardDiagonal = 3,      // /////  45-degree upward hatch (left to right)
+	/// <summary>Horizontal and vertical crosshatch</summary>
+	Cross            = 4,      // +++++  Horizontal and vertical crosshatch
+	/// <summary>45-degree crosshatch</summary>
+	DiagCross        = 5,      // xxxxx  45-degree crosshatch
 }
 
 #region Stock Objects
@@ -391,4 +385,90 @@ public enum AC : byte
 {
 	SrcOver = 0x00,
 	SrcAlpha = 0x01,
+}
+
+public enum CharSet : byte
+{
+	Ansi = 0,
+	Default = 1,
+	Symbol = 2,
+	Mac = 77,
+	ShiftJIS = 128,
+	Hangeul = 129,
+	Hangul = 129,
+	Johab = 130,
+	Gb2312 = 134,
+	ChineseBig5 = 136,
+	Greek = 161,
+	Turkish = 162,
+	Vietnamese = 163,
+	Hebrew = 177,
+	Arabic = 178,
+	Baltic = 186,
+	Russian = 204,
+	Thai = 222,
+	EastEurope = 238,
+	Oem = 255,
+}
+
+public enum OutputPrecision : byte
+{
+	Default = 0,
+	String = 1,
+	Stroke = 3,
+	TrueType = 4,
+	Device = 5,
+	Raster = 6,
+	TrueTypeOnly = 7,
+	Outline = 8,
+	Screen_outline = 9,
+	PostScriptOnly = 10,
+}
+
+[Flags]
+public enum ClipPrecision : byte
+{
+	Default                = 0x00,
+	Character              = 0x01,
+	Stroke                 = 0x02,
+	Mask                   = 0x0F,
+	LeftHandedAngles       = 0x10,
+	FontAssociationDisable = 0x40,
+	Embedded               = 0x80,
+}
+
+public enum FontQuality : byte
+{
+	Default          = 0,
+	Draft            = 1,
+	Proof            = 2,
+	NonAntiAliased   = 3,
+	AntiAliased      = 4,
+	Cleartype        = 5,
+	CleartypeNatural = 6,
+}
+
+public enum FontPitch : byte
+{
+	Default  = 0x00,
+	Fixed    = 0x01, // Fixed-pitch font (also known as monospaced or non-proportional font).
+	Variable = 0x02, // Variable-pitch font (also known as proportional font).
+	Device   = 0x03, // Device-specific font.
+	Mono     = 0x08, // Monospaced font.
+}
+
+public enum FontFamily : byte
+{
+	/// <summary>Use default font.</summary>
+	DontCare = 0x00,
+	/// <summary>Fonts with variable stroke width (proportional) and with serifs. MS Serif is an example.</summary>
+	Roman = 0x10,
+	/// <summary>Fonts with variable stroke width (proportional) and without serifs. MS Sans Serif is an example.</summary>
+	Swiss = 0x20,
+	/// <summary>Fonts with constant stroke width (monospace), with or without serifs. Monospace fonts are usually modern. Pica, Elite, and CourierNew are examples.</summary>
+	Modern = 0x30,
+	/// <summary>Fonts designed to look like handwriting. Script and Cursive are examples.</summary>
+	Script = 0x40,
+	/// <summary>Novelty fonts. Old English is an example.</summary>
+	Decorative = 0x50,
 }

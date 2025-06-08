@@ -36,6 +36,10 @@
 			<Name>Tasler.ComponentModel</Name>
 			<Project>{2d4e35a3-754d-4e8e-b52c-aa2d0dd9e059}</Project>
 		</ProjectReference>
+		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
+			<Name>Tasler.Core</Name>
+			<Project>{b0c1f3d2-4e5a-4c8b-9f3c-6d7e8f9a0b1c}</Project>
+		</ProjectReference>
 	</ItemGroup>
 
 	<!-- Shared Project References -->
