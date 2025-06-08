@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<UseWPF>true</UseWPF>
@@ -15,6 +15,18 @@
 		<DefineConstants>WINDOWS_WPF</DefineConstants>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<TrimmerRootAssemblys>$(TrimmerRootAssemblys);Tasler.UI.Wpf</TrimmerRootAssemblys>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<TrimmerRootAssembly Include="Tasler.UI.Wpf" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<Compile Update="Properties\Resources.Designer.cs">
@@ -52,9 +64,9 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Fix.Microsoft.Xaml.Behaviors.Wpf.1.1.77" Version="1.1.78" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="9.5.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
-		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
 	</ItemGroup>
 
 	<!-- Project References -->

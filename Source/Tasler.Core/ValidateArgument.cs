@@ -13,12 +13,12 @@ namespace Tasler;
 public static class ValidateArgument
 {
 	/// <summary>
-	/// Throws an <see cref="ArgumentNullException"/> if the specified argument is <c>null</c>.
+	/// Throws an <see cref="ArgumentNullException"/> if the specified argument is <see langword="null"/>.
 	/// </summary>
 	/// <param name="argument">The argument.</param>
 	/// <param name="argumentName">The argument name.</param>
 	/// <param name="message">A message that describes the error. Optional.</param>
-	/// <exception cref="ArgumentNullException">Either <paramref name="argumentName"/> or <paramref name="argument"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException">Either <paramref name="argumentName"/> or <paramref name="argument"/> is <see langword="null"/>.</exception>
 	/// <returns><paramref name="argument"/></returns>
 	public static T IsNotNull<T>(T? argument, string argumentName, string? message = null)
 		where T : class
@@ -49,7 +49,7 @@ public static class ValidateArgument
 	/// <param name="parameter">The argument.</param>
 	/// <param name="parameterName">The argument name.</param>
 	/// <param name="message">A message that describes the error. Optional.</param>
-	/// <exception cref="ArgumentNullException">Either <paramref name="parameterName"/> or <paramref name="parameter"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException">Either <paramref name="parameterName"/> or <paramref name="parameter"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException">The <paramref name="parameter"/> is empty or contains only whitespace.</exception>
 	/// <returns><paramref name="parameter"/></returns>
 	public static string? IsNotNullOrWhiteSpace(string? parameter, string parameterName, string? message = null)

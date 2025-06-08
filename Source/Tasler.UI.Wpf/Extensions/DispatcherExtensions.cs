@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Threading;
 
 namespace Tasler.Windows.Extensions
@@ -18,7 +18,7 @@ namespace Tasler.Windows.Extensions
 		/// An object, which is returned immediately after <see cref="BeginInvoke"/> is called, that can be used to
 		/// interact with the delegate as it is pending execution in the event queue.
 		/// </returns>
-		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <c>null</c>.</exception>
+		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <see langword="null"/>.</exception>
 		public static DispatcherOperation BeginInvoke(this Dispatcher source, Action action)
 		{
 			ValidateSource(source);
@@ -38,7 +38,7 @@ namespace Tasler.Windows.Extensions
 		/// An object, which is returned immediately after <see cref="BeginInvoke"/> is called, that can be used to
 		/// interact with the delegate as it is pending execution in the event queue.
 		/// </returns>
-		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <c>null</c>.</exception>
+		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <see langword="null"/>.</exception>
 		public static DispatcherOperation BeginInvoke(this Dispatcher source, DispatcherPriority priority, Action action)
 		{
 			ValidateSource(source);
@@ -52,7 +52,7 @@ namespace Tasler.Windows.Extensions
 		/// </summary>
 		/// <param name="source">The <see cref="Dispatcher"/> on which to invoke the synchronous operation.</param>
 		/// <param name="action">The action to be synchronously executed on the <see cref="Dispatcher"/> thread.</param>
-		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <c>null</c>.</exception>
+		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <see langword="null"/>.</exception>
 		public static void Invoke(this Dispatcher source, Action action)
 		{
 			ValidateSource(source);
@@ -67,7 +67,7 @@ namespace Tasler.Windows.Extensions
 		/// <param name="source">The <see cref="Dispatcher" /> on which to invoke the synchronous operation.</param>
 		/// <param name="function">The function to be synchronously executed on the <see cref="Dispatcher"/> thread.</param>
 		/// <returns>The return value from the <paramref name="function"/>.</returns>
-		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <c>null</c>.</exception>
+		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <see langword="null"/>.</exception>
 		public static T Invoke<T>(this Dispatcher source, Func<T> function)
 		{
 			ValidateSource(source);

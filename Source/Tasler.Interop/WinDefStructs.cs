@@ -120,7 +120,7 @@ public struct RECT : IProvideStructSize<RECT>
 public static class RECTExtensions
 {
 	/// <summary>Offsets the specified <see cref="RECT"/>.</summary>
-	/// <param name="@this">A reference to the <see cref="RECT"/> to offset.</param>
+	/// <param name="this">A reference to the <see cref="RECT"/> to offset.</param>
 	/// <param name="x">The horizontal offset amount.</param>
 	/// <param name="y">The vertical offset amount.</param>
 	/// <returns>

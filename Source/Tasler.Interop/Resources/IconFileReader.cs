@@ -117,7 +117,7 @@ public class IconDirectoryItem : IDisposable
 		stream.ReadExactly(MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref _bitmapInfoHeader, 1)));
 
 		this.IsPngData = false;
-		if (_bitmapInfoHeader.Size != BITMAPINFOHEADER.SizeOf)
+		if (_bitmapInfoHeader.Size != IProvideStructSize<BITMAPINFOHEADER>.SizeOf)
 		{
 			Guard.IsTrue(
 				_bitmapInfoHeader.Size == pngSignature1 || _bitmapInfoHeader.Size == pngSignature2,

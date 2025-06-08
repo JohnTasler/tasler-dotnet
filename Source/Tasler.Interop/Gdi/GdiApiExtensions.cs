@@ -230,7 +230,7 @@ public static partial class GdiApi
 		Guard.IsNotDefault(hIconOrCursor);
 
 		var iconInfo = new ICONINFO();
-		if (!UserApi.NativeMethods.GetIconInfo(hIconOrCursor, out iconInfo))
+		if (!UserApi.NativeMethods.GetIconInfo(hIconOrCursor, ref iconInfo))
 			throw new Win32Exception();
 
 		return iconInfo;

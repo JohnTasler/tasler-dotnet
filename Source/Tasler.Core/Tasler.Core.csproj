@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<ProjectName>Tasler.Core</ProjectName>
@@ -17,18 +17,18 @@
 	<PropertyGroup>
 		<IsAotCompatible>true</IsAotCompatible>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
-		<TrimmerRootAssemblys>$(TrimmerRootAssemblys);Tasler.Core</TrimmerRootAssemblys>
+		<TrimmerRootAssemblys>$(TrimmerRootAssemblys);Tasler.Interop</TrimmerRootAssemblys>
 		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<TrimmerRootAssembly Include="Tasler.Core" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Remove="Collections\Generic\**" />
 		<EmbeddedResource Remove="Collections\Generic\**" />
 		<None Remove="Collections\Generic\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<TrimmerRootAssembly Include="Tasler.Core" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<ProjectName>Tasler.ComponentModel</ProjectName>
@@ -12,6 +12,21 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<TrimmerRootAssemblys>$(TrimmerRootAssemblys);Tasler.ComponentModel</TrimmerRootAssemblys>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="StructWrapperTypeDescriptionProvider.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<TrimmerRootAssembly Include="Tasler.ComponentModel" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\Strings.resx">

@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using CommunityToolkit.Diagnostics;
 
@@ -119,7 +117,7 @@ public struct LOGFONTW : IProvideStructSize<LOGFONTW>
 	private byte _italic;
 	private byte _underline;
 	private byte _strikeOut;
-	public CharSet CharSet;
+	public FontCharSet CharSet;
 	public OutputPrecision OutPrecision;
 	public ClipPrecision ClipPrecision;
 	public FontQuality Quality;

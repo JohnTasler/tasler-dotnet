@@ -32,7 +32,7 @@ public static partial class PopupManagement
 	/// </summary>
 	/// <param name="element">The <see cref="FrameworkElement"/> for which to get the property value.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="window"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="window"/> is <see langword="null"/>.</exception>
 	public static bool GetAllowsOpenPopups(FrameworkElement element)
 	{
 		Guard.IsNotNull(element);
@@ -45,7 +45,7 @@ public static partial class PopupManagement
 	/// <param name="element">The <see cref="FrameworkElement"/> for which to set the property value.</param>
 	/// <returns>The attached property value. </returns>
 	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="window"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="window"/> is <see langword="null"/>.</exception>
 	public static void SetAllowsOpenPopups(FrameworkElement element, bool value)
 	{
 		Guard.IsNotNull(element);
@@ -91,7 +91,7 @@ public static partial class PopupManagement
 	/// </summary>
 	/// <param name="element">The <see cref="FrameworkElement"/> for which to get the property value.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="window"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="window"/> is <see langword="null"/>.</exception>
 	public static bool GetIsAlwaysAllowedToOpen(FrameworkElement element)
 	{
 		Guard.IsNotNull(element);
@@ -104,7 +104,7 @@ public static partial class PopupManagement
 	/// <param name="element">The <see cref="FrameworkElement"/> for which to set the property value.</param>
 	/// <returns>The attached property value. </returns>
 	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="window"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="window"/> is <see langword="null"/>.</exception>
 	public static void SetIsAlwaysAllowedToOpen(FrameworkElement element, bool value)
 	{
 		Guard.IsNotNull(element);
