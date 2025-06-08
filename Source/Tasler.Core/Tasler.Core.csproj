@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<ProjectName>Tasler.Core</ProjectName>
@@ -10,7 +10,7 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Platforms>AnyCPU;ARM64;x64;x86</Platforms>
+		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 		<NoWarn>$(NoWarn);1584;1701;1702</NoWarn>
 	</PropertyGroup>
 

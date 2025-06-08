@@ -11,7 +11,7 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
 		<DefineConstants>WINDOWS_WPF</DefineConstants>
-		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Platforms>AnyCPU;x64;x86;arm64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
