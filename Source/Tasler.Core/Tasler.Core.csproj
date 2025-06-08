@@ -28,6 +28,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<TrimmerRootAssembly Include="Tasler.Core" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Remove="Collections\MultiValueDictionary.cs" />
 		<Compile Remove="Collections\MultiValueDictionary.ValueList.cs" />
 		<Compile Remove="Configuration\ISettingsStore.cs" />
