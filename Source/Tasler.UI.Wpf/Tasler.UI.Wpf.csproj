@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<UseWPF>true</UseWPF>
@@ -13,7 +13,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<LangVersion>preview</LangVersion>
 		<DefineConstants>WINDOWS_WPF</DefineConstants>
-		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>

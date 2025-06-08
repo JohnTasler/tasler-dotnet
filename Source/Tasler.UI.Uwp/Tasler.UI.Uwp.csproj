@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<UseUwp>true</UseUwp>
@@ -17,7 +17,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<LangVersion>preview</LangVersion>
 		<DefineConstants>WINDOWS_UWP</DefineConstants>
-		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Platforms>AnyCPU;x64;x86;arm64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>

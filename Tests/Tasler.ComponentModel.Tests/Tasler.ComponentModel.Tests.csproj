@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<RootNamespace>Tests.Tasler.ComponentModel</RootNamespace>
@@ -6,6 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
+		<Platforms>AnyCPU;arm64;x86;x64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
