@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.IO.MemoryMappedFiles;
-using System.Runtime.InteropServices;
+using CommunityToolkit.Diagnostics;
 using Tasler.Interop.User;
 
 namespace Tasler.Interop.Gdi;
@@ -225,6 +225,52 @@ public static partial class GdiApi
 	public static SafeGdiPalette GetStockPalette(this StockPalette stockPalette)
 		=> NativeMethods.GetStockPalette(stockPalette);
 
+	private static ICONINFO GetIconInfo(nint hIconOrCursor)
+	{
+		Guard.IsNotDefault(hIconOrCursor);
+
+		var iconInfo = new ICONINFO();
+		if (!UserApi.NativeMethods.GetIconInfo(hIconOrCursor, out iconInfo))
+			throw new Win32Exception();
+
+		return iconInfo;
+	}
+
+	public static ICONINFO GetIconInfo(this SafeGdiIcon hIcon)
+		=> GetIconInfo(hIcon.DangerousGetHandle());
+
+	public static ICONINFO GetCursorInfo(this SafeGdiCursor hCursor)
+		=> GetIconInfo(hCursor.DangerousGetHandle());
+
+	public static BITMAP GetBitmapInfo(this SafeGdiBitmap hBitmap)
+	{
+		Guard.IsNotNull(hBitmap);
+		Guard.IsNotDefault(hBitmap.Handle);
+
+		var bitmapInfo = new BITMAP();
+		unsafe
+		{
+			var sizeofBitmap = sizeof(BITMAP);
+			if (0 == NativeMethods.GetObjectW(hBitmap.Handle, sizeofBitmap, &bitmapInfo))
+				throw new Win32Exception();
+		}
+		return bitmapInfo;
+	}
+
+	public static LOGPEN GetPenInfo(this SafeGdiPen hPen)
+	{
+		Guard.IsNotNull(hPen);
+		Guard.IsNotDefault(hPen.Handle);
+
+		var logPen = new LOGPEN();
+		unsafe
+		{
+			var sizeofLogPen = sizeof(LOGPEN);
+			if (0 == NativeMethods.GetObjectW(hPen.Handle, sizeofLogPen, &logPen))
+				throw new Win32Exception();
+		}
+		return logPen;
+	}
 
 	#endregion Methods
 }

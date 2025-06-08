@@ -6,7 +6,7 @@ namespace Tasler.Interop;
 /// A structure that represents a 2-D point, binary compatible with the Win32 <c>POINT</c> structure.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct POINT
+public struct POINT: IProvideStructSize<POINT>
 {
 	#region Instance Fields
 	public int X;
@@ -33,7 +33,7 @@ public struct POINT
 /// A structure that represents a 2-D size, binary compatible with the Win32 <c>SIZE</c> structure.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct SIZE
+public struct SIZE : IProvideStructSize<SIZE>
 {
 	#region Instance Fields
 	public int Width;
@@ -60,7 +60,7 @@ public struct SIZE
 /// A structure that represents a 2-D rectangle, binary compatible with the Win32 <c>RECT</c> structure.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct RECT
+public struct RECT : IProvideStructSize<RECT>
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RECT"/> struct.
