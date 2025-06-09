@@ -1,22 +1,21 @@
 using System.Runtime.InteropServices;
 using CommunityToolkit.Diagnostics;
+using Tasler.Extensions;
 
 namespace Tasler.Interop.Gdi;
 
 [StructLayout(LayoutKind.Sequential)]
-public struct BITMAP : IProvideStructSize<BITMAP>
+public struct BITMAP
 {
 	private int _type = 0;
-	public int Width;
-	public int Height;
-	public int WidthInBytes;
+	public int    Width;
+	public int    Height;
+	public int    WidthInBytes;
 	public ushort Planes;
 	public ushort BitsPerPixel;
-	public nint Bits;
+	public nint   Bits;
 
-	public BITMAP()
-	{
-	}
+	public BITMAP() { }
 
 	public BITMAP(int width, int height, int widthInBytes, ushort planes, ushort bitsPerPixel, nint bits)
 		: this()
@@ -36,32 +35,28 @@ public struct BITMAP : IProvideStructSize<BITMAP>
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct BITMAPINFOHEADER : IProvideStructSize<BITMAPINFOHEADER>
+public struct BITMAPINFOHEADER
 {
-	public int Size = IProvideStructSize<BITMAPINFOHEADER>.SizeOf;
-	public int Width;
-	public int Height;
+	public int    Size = BITMAPINFOHEADER.SizeOf;
+	public int    Width;
+	public int    Height;
 	public ushort Planes;
 	public ushort BitCount;
-	public uint Compression;
-	public uint SizeImage;
-	public int XPelsPerMeter;
-	public int YPelsPerMeter;
-	public uint ColorsUsed;
-	public uint ColorsImportant;
+	public uint   Compression;
+	public uint   SizeImage;
+	public int    XPelsPerMeter;
+	public int    YPelsPerMeter;
+	public uint   ColorsUsed;
+	public uint   ColorsImportant;
 
-	public BITMAPINFOHEADER()
-	{
-	}
+	public BITMAPINFOHEADER() { }
 
 	public override string ToString()
-	{
-		return $"Width: {Width}, Height: {Height}\nPlanes: {Planes}, BitCount: {BitCount}, Compression: {Compression}\nSizeImage: {SizeImage:X8} XPelsPerMeter: {XPelsPerMeter}, YPelsPerMeter: {YPelsPerMeter}\nColorsUsed: {ColorsUsed}, ColorsImportant: {ColorsImportant}";
-	}
+		=>  $"Width: {Width}, Height: {Height}\nPlanes: {Planes}, BitCount: {BitCount}, Compression: {Compression}\nSizeImage: {SizeImage:X8} XPelsPerMeter: {XPelsPerMeter}, YPelsPerMeter: {YPelsPerMeter}\nColorsUsed: {ColorsUsed}, ColorsImportant: {ColorsImportant}";
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct BLENDFUNCTION : IProvideStructSize<BLENDFUNCTION>
+public struct BLENDFUNCTION
 {
 	public byte BlendOp;
 	public byte BlendFlags;
@@ -70,7 +65,7 @@ public struct BLENDFUNCTION : IProvideStructSize<BLENDFUNCTION>
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct DIBSECTION : IProvideStructSize<DIBSECTION>
+public struct DIBSECTION
 {
 	public BITMAP Bitmap;
 	public BITMAPINFOHEADER BitmapInfoHeader;
@@ -82,7 +77,7 @@ public struct DIBSECTION : IProvideStructSize<DIBSECTION>
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct PAINTSTRUCT : IProvideStructSize<PAINTSTRUCT>
+public struct PAINTSTRUCT
 {
 	private nint _hdc;
 	public bool MustErase;
@@ -99,7 +94,7 @@ public struct PAINTSTRUCT : IProvideStructSize<PAINTSTRUCT>
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct LOGBRUSH : IProvideStructSize<LOGBRUSH>
+public struct LOGBRUSH
 {
 	public BrushStyle Style;
 	public uint Color;
@@ -107,25 +102,25 @@ public struct LOGBRUSH : IProvideStructSize<LOGBRUSH>
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct LOGFONTW : IProvideStructSize<LOGFONTW>
+public struct LOGFONTW
 {
-	public int Height;
-	public int Width;
-	public int Escapement;
-	public int Orientation;
-	public FontWeight Weight;
-	private byte _italic;
-	private byte _underline;
-	private byte _strikeOut;
-	public FontCharSet CharSet;
+	public int             Height;
+	public int             Width;
+	public int             Escapement;
+	public int             Orientation;
+	public FontWeight      Weight;
+	private byte           _italic;
+	private byte           _underline;
+	private byte           _strikeOut;
+	public FontCharSet     CharSet;
 	public OutputPrecision OutPrecision;
-	public ClipPrecision ClipPrecision;
-	public FontQuality Quality;
-	public PitchAndFamily PitchAndFamily;
-	private ulong _faceName;
-	private ulong _reserved0;
-	private ulong _reserved1;
-	private ulong _reserved2;
+	public ClipPrecision   ClipPrecision;
+	public FontQuality     Quality;
+	public PitchAndFamily  PitchAndFamily;
+	private ulong          _faceName;
+	private ulong          _reserved0;
+	private ulong          _reserved1;
+	private ulong          _reserved2;
 
 	public bool IsItalic
 	{
@@ -177,7 +172,7 @@ public struct LOGFONTW : IProvideStructSize<LOGFONTW>
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct COLORREF : IProvideStructSize<COLORREF>
+public struct COLORREF
 {
 	public readonly uint Value;
 
@@ -201,7 +196,7 @@ public struct COLORREF : IProvideStructSize<COLORREF>
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct RGBQUAD : IProvideStructSize<RGBQUAD>
+public struct RGBQUAD
 {
 	public byte Blue;
 	public byte Green;
@@ -210,7 +205,7 @@ public struct RGBQUAD : IProvideStructSize<RGBQUAD>
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct FontWeight : IProvideStructSize<FontWeight>
+public struct FontWeight
 {
 	public int Value;
 
@@ -224,25 +219,25 @@ public struct FontWeight : IProvideStructSize<FontWeight>
 	public override string ToString() => Value.ToString();
 
 	// Font weight constants
-	public static FontWeight DontCare => 0;
-	public static FontWeight Thin => 100;
+	public static FontWeight DontCare   =>   0;
+	public static FontWeight Thin       => 100;
 	public static FontWeight ExtraLight => 200;
 	public static FontWeight UltraLight => 200;
-	public static FontWeight Light => 300;
-	public static FontWeight Normal => 400;
-	public static FontWeight Regular => 400;
-	public static FontWeight Medium => 500;
-	public static FontWeight SemiBold => 600;
-	public static FontWeight DemiBold => 600;
-	public static FontWeight Bold => 700;
-	public static FontWeight ExtraBold => 800;
-	public static FontWeight UltraBold => 800;
-	public static FontWeight Heavy => 900;
-	public static FontWeight Black => 900;
+	public static FontWeight Light      => 300;
+	public static FontWeight Normal     => 400;
+	public static FontWeight Regular    => 400;
+	public static FontWeight Medium     => 500;
+	public static FontWeight SemiBold   => 600;
+	public static FontWeight DemiBold   => 600;
+	public static FontWeight Bold       => 700;
+	public static FontWeight ExtraBold  => 800;
+	public static FontWeight UltraBold  => 800;
+	public static FontWeight Heavy      => 900;
+	public static FontWeight Black      => 900;
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct PitchAndFamily : IProvideStructSize<PitchAndFamily>
+public struct PitchAndFamily
 {
 	public byte Value;
 

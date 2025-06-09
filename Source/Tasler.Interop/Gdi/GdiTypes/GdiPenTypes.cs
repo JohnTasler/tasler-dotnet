@@ -4,14 +4,14 @@ using CommunityToolkit.Diagnostics;
 namespace Tasler.Interop.Gdi;
 
 [StructLayout(LayoutKind.Sequential)]
-public struct LOGPEN : IProvideStructSize<LOGPEN>
+public struct LOGPEN
 {
 	public PenStyle Style;
 	public POINT    Width;
 	public COLORREF Color;
 }
 
-public struct EXTLOGPEN : IProvideStructSize<EXTLOGPEN>
+public struct EXTLOGPEN
 {
 	public PenTypeStyle PenStyle;
 	public uint         Width;
@@ -93,7 +93,7 @@ public enum PenJoinStyle : uint
 	Mask  = 0x0000F000, // Mask for join styles
 }
 
-public interface IPenTypeStyle : IProvideStructSize<PenTypeStyle>
+public interface IPenTypeStyle
 {
 	uint Value { get; init; }
 
@@ -109,7 +109,7 @@ public interface IPenTypeStyle : IProvideStructSize<PenTypeStyle>
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct PenTypeStyle : IPenTypeStyle, IProvideStructSize<PenTypeStyle>
+public struct PenTypeStyle
 {
 	public readonly uint Value { get; init; }
 
@@ -117,7 +117,7 @@ public struct PenTypeStyle : IPenTypeStyle, IProvideStructSize<PenTypeStyle>
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct PenCosmeticTypeStyle : IPenTypeStyle, IProvideStructSize<PenTypeStyle>
+public struct PenCosmeticTypeStyle
 {
 	public readonly uint Value { get; init; }
 
@@ -133,7 +133,7 @@ public struct PenCosmeticTypeStyle : IPenTypeStyle, IProvideStructSize<PenTypeSt
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct PenGeometricTypeStyle : IPenTypeStyle, IProvideStructSize<PenTypeStyle>
+public struct PenGeometricTypeStyle
 {
 	public readonly uint Value { get; init; }
 
@@ -153,5 +153,3 @@ public struct PenGeometricTypeStyle : IPenTypeStyle, IProvideStructSize<PenTypeS
 	public static implicit operator PenGeometricTypeStyle(PenTypeStyle style) => new() { Value = style.Value };
 	public static implicit operator PenGeometricTypeStyle(uint style) => new() { Value = style };
 }
-
-
