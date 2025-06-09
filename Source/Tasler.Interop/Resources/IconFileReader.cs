@@ -188,7 +188,7 @@ public class IconDirectoryItem
 		stream.ReadStruct(out _bitmapInfoHeader);
 
 		this.IsPngData = false;
-		if (_bitmapInfoHeader.Size !=  BITMAPINFOHEADER.SizeOf)
+		if (_bitmapInfoHeader.Size != BITMAPINFOHEADER.SizeOf)
 		{
 			Guard.IsTrue(
 				_bitmapInfoHeader.Size == pngSignature1 || _bitmapInfoHeader.Size == pngSignature2,

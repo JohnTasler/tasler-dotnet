@@ -21,10 +21,5 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoCopyright.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoVersion.cs">
-      <DependentUpon>AssemblyInfoVersion.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
   </ItemGroup>
 </Project>

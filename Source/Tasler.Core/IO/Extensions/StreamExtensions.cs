@@ -32,9 +32,9 @@ public static class StreamExtensions
 	}
 
 	/// <summary>
-	/// Reads a fixed-size structure from the specified by <paramref name="this"/> <see cref="Stream"/>.
+	/// Reads a fixed-size structure from the specified <see cref="Stream"/>.
 	/// </summary>
-	/// <typeparam name="T">The type of the structure</typeparam>
+	/// <typeparam name="T">The type of the structure. It must contain only unmanaged types.</typeparam>
 	/// <param name="this">The <see cref="Stream"/> from which to read the structure.</param>
 	/// <param name="value">Specifies into where to read the structure value.</param>
 	/// <returns>The byte count of a single <typeparamref name="T"/>.</returns>

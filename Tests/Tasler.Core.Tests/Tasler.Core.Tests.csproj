@@ -13,7 +13,7 @@
 		<InformationalVersion>1.0.0.0</InformationalVersion>
 		<PublishAot>true</PublishAot>
 		<IsAotCompatible>true</IsAotCompatible>
-		<Platforms>AnyCPU;x64;x86;arm64</Platforms>
+		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
