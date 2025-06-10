@@ -15,8 +15,20 @@ public struct BITMAP
 	public ushort BitsPerPixel;
 	public nint   Bits;
 
-	public BITMAP() { }
+	/// <summary>
+/// Initializes a new instance of the BITMAP struct with default values.
+/// </summary>
+public BITMAP() { }
 
+	/// <summary>
+	/// Initializes a new BITMAP structure with the specified dimensions, color planes, bit depth, and a pointer to the bitmap bits.
+	/// </summary>
+	/// <param name="width">The width of the bitmap, in pixels.</param>
+	/// <param name="height">The height of the bitmap, in pixels.</param>
+	/// <param name="widthInBytes">The width of the bitmap, in bytes.</param>
+	/// <param name="planes">The number of color planes.</param>
+	/// <param name="bitsPerPixel">The number of bits per pixel.</param>
+	/// <param name="bits">A pointer to the bitmap pixel data.</param>
 	public BITMAP(int width, int height, int widthInBytes, ushort planes, ushort bitsPerPixel, nint bits)
 		: this()
 	{
@@ -49,9 +61,16 @@ public struct BITMAPINFOHEADER
 	public uint   ColorsUsed;
 	public uint   ColorsImportant;
 
-	public BITMAPINFOHEADER() { }
+	/// <summary>
+/// Initializes a new instance of the BITMAPINFOHEADER struct with default values.
+/// </summary>
+public BITMAPINFOHEADER() { }
 
-	public override string ToString()
+	/// <summary>
+		/// Returns a formatted string representation of the BITMAPINFOHEADER fields.
+		/// </summary>
+		/// <returns>A string summarizing width, height, planes, bit count, compression, image size, resolution, and color usage.</returns>
+		public override string ToString()
 		=>  $"Width: {Width}, Height: {Height}\nPlanes: {Planes}, BitCount: {BitCount}, Compression: {Compression}\nSizeImage: {SizeImage:X8} XPelsPerMeter: {XPelsPerMeter}, YPelsPerMeter: {YPelsPerMeter}\nColorsUsed: {ColorsUsed}, ColorsImportant: {ColorsImportant}";
 }
 
@@ -176,11 +195,20 @@ public struct COLORREF
 {
 	public readonly uint Value;
 
+	/// <summary>
+	/// Initializes a COLORREF instance from a 32-bit unsigned integer value.
+	/// </summary>
 	public COLORREF(uint value)
 	{
 		Value = value;
 	}
 
+	/// <summary>
+	/// Initializes a COLORREF value from individual red, green, and blue byte components.
+	/// </summary>
+	/// <param name="r">The red component.</param>
+	/// <param name="g">The green component.</param>
+	/// <param name="b">The blue component.</param>
 	public COLORREF(byte r, byte g, byte b)
 	{
 		Value = (uint)((b << 16) | (g << 8) | r);
@@ -209,6 +237,10 @@ public struct FontWeight
 {
 	public int Value;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="FontWeight"/> struct with the specified weight value.
+	/// </summary>
+	/// <param name="value">The integer value representing the font weight.</param>
 	public FontWeight(int value)
 	{
 		Value = value;
@@ -216,7 +248,11 @@ public struct FontWeight
 
 	public static implicit operator int(FontWeight weight) => weight.Value;
 	public static implicit operator FontWeight(int value) => new(value);
-	public override string ToString() => Value.ToString();
+	/// <summary>
+/// Returns the string representation of the font weight value.
+/// </summary>
+/// <returns>The font weight as a string.</returns>
+public override string ToString() => Value.ToString();
 
 	// Font weight constants
 	public static FontWeight DontCare   =>   0;

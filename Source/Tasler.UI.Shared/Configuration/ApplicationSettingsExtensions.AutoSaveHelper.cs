@@ -24,7 +24,11 @@ public static partial class ApplicationSettingsExtensions
 		/// Initializes a new instance of the <see cref="AutoSaveHelper"/> class.
 		/// </summary>
 		/// <param name="settings">The settings.</param>
-		/// <param name="deferralTimeSpan">The deferral time.</param>
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AutoSaveHelper"/> class to monitor the specified settings and automatically save changes after a deferral period.
+		/// </summary>
+		/// <param name="settings">The application settings instance to monitor for changes.</param>
+		/// <param name="deferralTimeSpan">The time to wait after a change before saving the settings.</param>
 		internal AutoSaveHelper(ApplicationSettingsBase settings, TimeSpan deferralTimeSpan)
 		{
 			// Save the specified settings and subscribe to some of its events

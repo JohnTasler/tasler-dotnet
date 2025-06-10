@@ -33,7 +33,20 @@ public abstract class HostedApplication : Application, IProvideHost
 
 	/// <summary>
 	/// Application Entry Point worker
+	/// <summary>
+	/// Initializes and runs a hosted WPF application with dependency injection, view-model mapping, and host lifecycle management.
 	/// </summary>
+	/// <typeparam name="TApp">
+	/// The application type, which must inherit from HostedApplication and implement IComponentConnector, IConfigureHostBuilder, and IPopulateViewModelMapper.
+	/// </typeparam>
+	/// <typeparam name="TMainView">
+	/// The main window type, which must inherit from Window.
+	/// </typeparam>
+	/// <typeparam name="TMainViewModel">
+	/// The main view model type, which must be a class implementing INotifyPropertyChanged.
+	/// </typeparam>
+	/// <param name="args">Command-line arguments for the application.</param>
+	/// <returns>The application's exit code.</returns>
 	protected static async Task<int> MainCore<
 		[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TApp,
 		[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TMainView,

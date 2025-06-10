@@ -19,20 +19,30 @@ public static partial class PopupExtensions
 	/// Opens (shows) the specified <see cref="Popup"/>.
 	/// </summary>
 	/// <param name="popup">The <see cref="Popup"/> on which to set the <see cref="Popup.IsOpen"/> property.</param>
-	/// <exception cref="ArgumentNullException">The <paramref name="popup"/> argument is <see langword="null"/>.</exception>
+	/// <summary>
+/// Opens the specified <see cref="Popup"/> by setting its <c>IsOpen</c> property to <c>true</c>.
+/// </summary>
+/// <exception cref="ArgumentNullException">The <paramref name="popup"/> argument is <see langword="null"/>.</exception>
 	public static void Open(this Popup popup) => popup.OpenOrClose(true);
 
 	/// <summary>
 	/// Closes (hides) the specified <see cref="Popup"/>.
 	/// </summary>
 	/// <param name="popup">The <see cref="Popup"/> on which to clear the <see cref="Popup.IsOpen"/> property.</param>
-	/// <exception cref="ArgumentNullException">The <paramref name="popup"/> argument is <see langword="null"/>.</exception>
+	/// <summary>
+/// Closes the specified <see cref="Popup"/> by setting its <c>IsOpen</c> property to <c>false</c>.
+/// </summary>
+/// <exception cref="ArgumentNullException">The <paramref name="popup"/> argument is <see langword="null"/>.</exception>
 	public static void Close(this Popup popup) => popup.OpenOrClose(false);
 
 	/// <summary>
 	/// Gets the root element hosting the specified <see cref="Popup"/>.
 	/// </summary>
 	/// <param name="popup">The <see cref="Popup"/> for which to get the root <see cref="UIElement"/>.</param>
+	/// <summary>
+	/// Retrieves the root UIElement that hosts the specified Popup.
+	/// </summary>
+	/// <param name="popup">The Popup whose root element is to be found.</param>
 	/// <returns>The root element, if one can be found; otherwise <see langword="null"/>.</returns>
 	public static UIElement? GetPopupRoot(this Popup popup)
 	{
@@ -47,6 +57,10 @@ public static partial class PopupExtensions
 	/// </summary>
 	/// <param name="popup">The <see cref="Popup"/> for which to get the first (top-most)
 	/// child <see cref="UIElement"/>.</param>
+	/// <summary>
+	/// Returns the first child <see cref="UIElement"/> contained within the specified <see cref="Popup"/>.
+	/// </summary>
+	/// <param name="popup">The popup from which to retrieve the first child element.</param>
 	/// <returns>The root element, if one can be found; otherwise <see langword="null"/>.</returns>
 	public static UIElement? GetFirstChild(this Popup popup)
 	{
@@ -60,6 +74,10 @@ public static partial class PopupExtensions
 	/// </summary>
 	/// <param name="popup">The <see cref="Popup"/> for which to get the first (top-most)
 	/// child <see cref="UIElement"/>.</param>
+	/// <summary>
+	/// Returns the first child <see cref="UIElement"/> within the specified <see cref="Popup"/>.
+	/// </summary>
+	/// <param name="popup">The popup from which to retrieve the first child element.</param>
 	/// <returns>The root element, if one can be found; otherwise <see langword="null"/>.</returns>
 	public static UIElement? GetFirstChild(this Popup popup)
 	{

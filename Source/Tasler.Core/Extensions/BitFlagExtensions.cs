@@ -18,7 +18,11 @@ public static class BitFlagExtensions
 	/// As an extension method, this is typically not specified explicitly.</param>
 	/// <typeparam name="T">A value type that supports bitwise operators <see cref="IBitwiseOperators{T, T, T}"/>.</typeparam>
 	/// <param name="flags">The flags to set.</param>
-	/// <returns>The <paramref name="this"/> with the specified <paramref name="flags"/> set to 1 (turned on).</returns>
+	/// <summary>
+	/// Sets the specified bit flags to 1 on the value.
+	/// </summary>
+	/// <param name="flags">The bit flags to set.</param>
+	/// <returns>A reference to the value with the specified flags set.</returns>
 	public static ref T SetFlags<T>(this ref T @this, T flags)
 		where T : struct, IBitwiseOperators<T, T, T>
 	{
@@ -33,7 +37,11 @@ public static class BitFlagExtensions
 	/// As an extension method, this is typically not specified explicitly.</param>
 	/// <typeparam name="T">A value type that supports bitwise operators <see cref="IBitwiseOperators{T, T, T}"/>.</typeparam>
 	/// <param name="flags">The flags to clear.</param>
-	/// <returns>The <paramref name="this"/> with the specified <paramref name="flags"/> cleared to 0 (turned off).</returns>
+	/// <summary>
+	/// Clears (turns off) the specified bit flags in the value by performing a bitwise AND with the complement of the flags.
+	/// </summary>
+	/// <param name="flags">The bit flags to clear.</param>
+	/// <returns>A reference to the modified value with the specified flags cleared.</returns>
 	public static ref T ClearFlags<T>(this ref T @this, T flags)
 		where T : struct, IBitwiseOperators<T, T, T>
 	{
@@ -48,7 +56,12 @@ public static class BitFlagExtensions
 	/// As an extension method, this is typically not specified explicitly.</param>
 	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="flags"/> are set; otherwise they are cleared.</param>
 	/// <param name="flags">The flags to either set or clear.</param>
-	/// <returns></returns>
+	/// <summary>
+	/// Sets or clears the specified bit flags on the instance based on the provided Boolean value.
+	/// </summary>
+	/// <param name="set">If true, the specified flags are set; if false, the flags are cleared.</param>
+	/// <param name="flags">The bit flags to set or clear.</param>
+	/// <returns>A reference to the modified instance.</returns>
 	public static ref T SetOrClearFlags<T>(this ref T @this, bool set, T flags)
 		where T : struct, IBitwiseOperators<T, T, T>
 	{
@@ -68,7 +81,11 @@ public static class BitFlagExtensions
 	/// <returns>
 	///   <see langword="true" /> if the bit field or <b>all</b> bit fields that are set in <paramref name="flags" /> are also
 	///   set in the current instance; otherwise, <see langword="false" />.
-	/// </returns>
+	/// <summary>
+	/// Determines whether all specified bit flags are set in the value.
+	/// </summary>
+	/// <param name="flags">The bit flags to check for.</param>
+	/// <returns>True if all bits in <paramref name="flags"/> are set in the value; otherwise, false.</returns>
 	public static bool HasAllFlags<T>(this T @this, T flags)
 	where T : struct, IBitwiseOperators<T, T, T>, IEqualityOperators<T, T, bool>
 	{
@@ -85,7 +102,11 @@ public static class BitFlagExtensions
 	/// <returns>
 	///   <see langword="true" /> if the bit field or <b>any</b> bit fields that are set in <paramref name="flags" /> are also
 	///   set in the current instance; otherwise, <see langword="false" />.
-	/// </returns>
+	/// <summary>
+	/// Determines whether any of the specified bit flags are set in the value.
+	/// </summary>
+	/// <param name="flags">The bit flags to check for.</param>
+	/// <returns>True if at least one of the specified flags is set; otherwise, false.</returns>
 	public static bool HasAnyFlag<T>(this T @this, T flags)
 	where T : struct, IBitwiseOperators<T, T, T>, IEqualityOperators<T, T, bool>
 	{

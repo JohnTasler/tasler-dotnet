@@ -19,6 +19,11 @@ namespace Tasler.Windows.Extensions
 		/// <see cref="DispatcherExtensions.BeginInvoke(Dispatcher, Action)"/> is called, that can be
 		/// used to interact with the delegate as it is pending execution in the event queue.
 		/// </returns>
+		/// <summary>
+		/// Asynchronously executes the specified action on the thread associated with the dispatcher.
+		/// </summary>
+		/// <param name="action">The action to execute.</param>
+		/// <returns>A DispatcherOperation representing the asynchronous operation.</returns>
 		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <see langword="null"/>.</exception>
 		public static DispatcherOperation BeginInvoke(this Dispatcher source, Action action)
 		{
@@ -40,6 +45,12 @@ namespace Tasler.Windows.Extensions
 		/// <see cref="DispatcherExtensions.BeginInvoke(Dispatcher, Action)"/> is called, that can be
 		/// used to interact with the delegate as it is pending execution in the event queue.
 		/// </returns>
+		/// <summary>
+		/// Asynchronously executes the specified action on the dispatcher's thread with the given priority.
+		/// </summary>
+		/// <param name="priority">The priority at which to invoke the action.</param>
+		/// <param name="action">The action to execute on the dispatcher thread.</param>
+		/// <returns>A DispatcherOperation representing the asynchronous operation.</returns>
 		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <see langword="null"/>.</exception>
 		public static DispatcherOperation BeginInvoke(this Dispatcher source, DispatcherPriority priority, Action action)
 		{
@@ -54,6 +65,10 @@ namespace Tasler.Windows.Extensions
 		/// </summary>
 		/// <param name="source">The <see cref="Dispatcher"/> on which to invoke the synchronous operation.</param>
 		/// <param name="action">The action to be synchronously executed on the <see cref="Dispatcher"/> thread.</param>
+		/// <summary>
+		/// Executes the specified action synchronously on the dispatcher's thread.
+		/// </summary>
+		/// <param name="action">The action to execute.</param>
 		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <see langword="null"/>.</exception>
 		public static void Invoke(this Dispatcher source, Action action)
 		{
@@ -69,6 +84,12 @@ namespace Tasler.Windows.Extensions
 		/// <param name="source">The <see cref="Dispatcher" /> on which to invoke the synchronous operation.</param>
 		/// <param name="function">The function to be synchronously executed on the <see cref="Dispatcher"/> thread.</param>
 		/// <returns>The return value from the <paramref name="function"/>.</returns>
+		/// <summary>
+		/// Executes the specified function synchronously on the dispatcher's thread and returns its result.
+		/// </summary>
+		/// <typeparam name="T">The type of the result returned by the function.</typeparam>
+		/// <param name="function">The function to execute on the dispatcher's thread.</param>
+		/// <returns>The result of the executed function.</returns>
 		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <see langword="null"/>.</exception>
 		public static T Invoke<T>(this Dispatcher source, Func<T> function)
 		{

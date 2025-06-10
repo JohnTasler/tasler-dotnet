@@ -23,7 +23,11 @@ public static class ThicknessExtensions
 	/// </summary>
 	/// <param name="this">The <see cref="Thickness"/> to test. As an extension method, this is typically not
 	/// specified explicitly.</param>
-	/// <returns><code>true</code> if all values are zero; otherwise <code>false</code>.</returns>
+	/// <summary>
+	/// Determines whether all sides of the <see cref="Thickness"/> are zero.
+	/// </summary>
+	/// <param name="this">The <see cref="Thickness"/> instance to check.</param>
+	/// <returns><c>true</c> if all values are zero; otherwise, <c>false</c>.</returns>
 	public static bool IsEmpty(this Thickness @this)
 	{
 		return 0.0 == @this.Left + @this.Top + @this.Right + @this.Bottom;
@@ -34,7 +38,11 @@ public static class ThicknessExtensions
 	/// </summary>
 	/// <param name="this">The <see cref="Thickness"/> to test. As an extension method, this is typically not
 	/// specified explicitly.</param>
-	/// <returns><code>true</code> if all values are <see cref="double.Nan"/>; otherwise <code>false</code>.</returns>
+	/// <summary>
+	/// Determines whether all sides of the <see cref="Thickness"/> are <see cref="double.NaN"/>.
+	/// </summary>
+	/// <param name="this">The <see cref="Thickness"/> instance to check.</param>
+	/// <returns><c>true</c> if all four sides are <see cref="double.NaN"/>; otherwise, <c>false</c>.</returns>
 	public static bool IsNan(this Thickness @this)
 	{
 		return double.IsNaN(@this.Left) && double.IsNaN(@this.Top) && double.IsNaN(@this.Right) && double.IsNaN(@this.Bottom);

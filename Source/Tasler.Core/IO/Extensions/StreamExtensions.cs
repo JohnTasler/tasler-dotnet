@@ -17,7 +17,11 @@ public static class StreamExtensions
 	/// <typeparam name="T">The type of the structure</typeparam>
 	/// <param name="this">The this.</param>
 	/// <param name="value">Specifies where to read the structure value.</param>
-	/// <returns>The byte count of a single <typeparamref name="T"/>.</returns>
+	/// <summary>
+	/// Reads a single unmanaged structure of type <typeparamref name="T"/> from the stream.
+	/// </summary>
+	/// <param name="value">When this method returns, contains the structure read from the stream.</param>
+	/// <returns>The number of bytes read for the structure.</returns>
 	public static int ReadStructCore<T>(this Stream @this, out T value)
 		where T : unmanaged
 	{
@@ -37,7 +41,11 @@ public static class StreamExtensions
 	/// <typeparam name="T">The type of the structure. It must contain only unmanaged types.</typeparam>
 	/// <param name="this">The <see cref="Stream"/> from which to read the structure.</param>
 	/// <param name="value">Specifies into where to read the structure value.</param>
-	/// <returns>The byte count of a single <typeparamref name="T"/>.</returns>
+	/// <summary>
+	/// Reads a fixed-size unmanaged structure of type <typeparamref name="T"/> from the stream.
+	/// </summary>
+	/// <param name="value">When this method returns, contains the structure read from the stream.</param>
+	/// <returns>The number of bytes read for the structure.</returns>
 	public static int ReadStruct<T>(this Stream @this, out T value)
 		where T : unmanaged
 	{
@@ -59,7 +67,11 @@ public static class StreamExtensions
 	/// <param name="byteCount">Specifies where to store the structure byte count.</param>
 	/// <returns>
 	///   An instance of the <typeparamref name="T"/> structure that was read from the <see cref="Stream"/>.
-	/// </returns>
+	/// <summary>
+	/// Reads a fixed-size unmanaged structure of type <typeparamref name="T"/> from the stream and returns it.
+	/// </summary>
+	/// <param name="byteCount">Outputs the number of bytes read for the structure.</param>
+	/// <returns>The structure of type <typeparamref name="T"/> read from the stream.</returns>
 	public static T ReadStruct<T>(this Stream @this, out int byteCount)
 		where T : unmanaged
 	{
@@ -75,7 +87,10 @@ public static class StreamExtensions
 	/// <param name="this">The <see cref="Stream"/> from which to read the structure.</param>
 	/// <returns>
 	///   An instance of the <typeparamref name="T"/> structure that was read from the <see cref="Stream"/>.
-	/// </returns>
+	/// <summary>
+		/// Reads a fixed-size unmanaged structure of type <typeparamref name="T"/> from the stream.
+		/// </summary>
+		/// <returns>The structure of type <typeparamref name="T"/> read from the stream.</returns>
 	public static T ReadStruct<T>(this Stream @this) where T : unmanaged
 		=> ReadStruct<T>(@this, out int _);
 
@@ -92,6 +107,17 @@ public static class StreamExtensions
 	/// count of the number of repeating elements that immediately follow the fixed sized structure. This
 	/// method will read the fixed portion of the structure, and then callback to the provided function to
 	/// determine how many repeating elements there are.
+	/// <summary>
+	/// Reads a variable-sized structure from the stream, consisting of a fixed-size header and a variable-length array of elements.
+	/// </summary>
+	/// <param name="elementCountSelector">
+	/// A function that determines the number of elements to read based on the header value.
+	/// </param>
+	/// <returns>
+	/// A <see cref="VariableSizedStruct{THeader, TElement}"/> containing the header and the array of elements read from the stream.
+	/// </returns>
+	/// <remarks>
+	/// The number of elements is determined by applying <paramref name="elementCountSelector"/> to the header structure read from the stream.
 	/// </remarks>
 	public static VariableSizedStruct<THeader, TElement> ReadVariableSizedStruct<THeader, TElement>(
 		this Stream @this, Func<THeader, int> elementCountSelector)

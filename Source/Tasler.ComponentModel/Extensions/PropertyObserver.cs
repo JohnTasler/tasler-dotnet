@@ -24,7 +24,12 @@ public static class PropertyObserver
 	/// <returns>
 	/// An <see cref="IPropertyObserverItem"/> that can be used to <see cref="IPropertyObserverItem.Unsubscribe"/>
 	/// from the notifications, and <see cref="IPropertyObserverItem.Refresh"/> the notification callback.
-	/// </returns>
+	/// <summary>
+	/// Subscribes to changes of a specified property on an object implementing <see cref="INotifyPropertyChanged"/> and invokes the provided callback when the property changes.
+	/// </summary>
+	/// <param name="propertyName">The name of the property to observe. If <see langword="null"/>, all property changes are observed.</param>
+	/// <param name="handlerAction">The callback to invoke when the property changes.</param>
+	/// <returns>An <see cref="IPropertyObserverItem"/> that allows unsubscribing and refreshing the notification.</returns>
 	public static IPropertyObserverItem Subscribe<T>(this T @this, string propertyName, Action<T> handlerAction)
 		where T : INotifyPropertyChanged
 	{

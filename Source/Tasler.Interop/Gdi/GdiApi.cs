@@ -6,14 +6,29 @@ namespace Tasler.Interop.Gdi;
 
 public static partial class GdiApi
 {
-	public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.CreateSolidBrush(color);
+	/// <summary>
+/// Creates a solid brush with the specified color.
+/// </summary>
+/// <param name="color">The RGB color value for the brush.</param>
+/// <returns>A SafeGdiBrushOwned representing the created solid brush.</returns>
+public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.CreateSolidBrush(color);
 
+	/// <summary>
+	/// Flushes the GDI batch, ensuring all pending GDI operations are completed.
+	/// </summary>
+	/// <exception cref="Win32Exception">Thrown if the native GDI flush operation fails.</exception>
 	public static void GdiFlush()
 	{
 		if (!GdiApi.NativeMethods.GdiFlush())
 			throw new Win32Exception();
 	}
 
+	/// <summary>
+	/// Combines two ROP3 raster operation codes into a single ROP4 code for use in advanced GDI operations.
+	/// </summary>
+	/// <param name="foregroundOperation">The foreground ROP3 operation code.</param>
+	/// <param name="backgroundOperation">The background ROP3 operation code.</param>
+	/// <returns>A 32-bit ROP4 code representing the combination of the specified foreground and background operations.</returns>
 	public static uint MAKEROP4(ROP3 foregroundOperation, ROP3 backgroundOperation)
 	{
 		return (uint)(((((uint)backgroundOperation) << 8) & 0xFF000000) | ((uint)foregroundOperation));
@@ -58,14 +73,42 @@ public static partial class GdiApi
 		[LibraryImport(ApiLib, SetLastError = true)]
 		public static partial SafeGdiBitmapOwned CreateCompatibleBitmap(SafeHdc hdc, int width, int height);
 
-		[LibraryImport(ApiLib, SetLastError = true)]
+		/// <summary>
+			/// Creates a device-independent bitmap (DIB) section and optionally returns a pointer to the bitmap's bit values.
+			/// </summary>
+			/// <param name="hdc">A handle to a device context.</param>
+			/// <param name="pbmi">A reference to a <see cref="BITMAPINFOHEADER"/> structure that defines the dimensions and color format of the DIB.</param>
+			/// <param name="iUsage">Specifies the type of data contained in the color table (DIB_RGB_COLORS or DIB_PAL_COLORS).</param>
+			/// <param name="ppvBits">When the function returns, contains a pointer to the location of the DIB bit values.</param>
+			/// <param name="hSection">A handle to a file mapping object that the function will use to create the DIB section, or 0 for system memory.</param>
+			/// <param name="dwOffset">The offset from the beginning of the file mapping object referenced by <paramref name="hSection"/>.</param>
+			/// <returns>A handle to the created DIB section, or <c>null</c> if the function fails.</returns>
+			[LibraryImport(ApiLib, SetLastError = true)]
 		public static partial SafeGdiBitmapOwned CreateDIBSection(SafeHdc hdc, BITMAPINFOHEADER pbmi,
 			int iUsage, out nint ppvBits, nint hSection, int dwOffset);
 
-		[LibraryImport(ApiLib, SetLastError = true)]
+		/// <summary>
+			/// Creates a device-independent bitmap (DIB) section and optionally maps it to a file.
+			/// </summary>
+			/// <param name="hdc">A handle to a device context.</param>
+			/// <param name="pbmi">A reference to a <see cref="BITMAPINFOHEADER"/> structure that defines the dimensions and color format of the DIB.</param>
+			/// <param name="iUsage">Specifies the type of data contained in the color table (DIB_RGB_COLORS or DIB_PAL_COLORS).</param>
+			/// <param name="ppvBits">Receives a pointer to the location of the DIB's bit values.</param>
+			/// <param name="hSection">A handle to a file mapping object to associate with the DIB, or <c>null</c> for system memory.</param>
+			/// <param name="dwOffset">The offset from the beginning of the file mapping object where the DIB section starts.</param>
+			/// <returns>A handle to the created DIB section, or <c>null</c> if the operation fails.</returns>
+			[LibraryImport(ApiLib, SetLastError = true)]
 		public static partial SafeGdiBitmapOwned CreateDIBSection(SafeHdc hdc, BITMAPINFOHEADER pbmi,
 			int iUsage, out nint ppvBits, SafeMemoryMappedFileHandle hSection, int dwOffset);
 
+		/// <summary>
+		/// Creates a rectangular region with the specified coordinates.
+		/// </summary>
+		/// <param name="x1">The x-coordinate of the upper-left corner.</param>
+		/// <param name="y1">The y-coordinate of the upper-left corner.</param>
+		/// <param name="x2">The x-coordinate of the lower-right corner.</param>
+		/// <param name="y2">The y-coordinate of the lower-right corner.</param>
+		/// <returns>A handle to the created rectangular region.</returns>
 		[LibraryImport(ApiLib)]
 		public static partial SafeGdiRgnOwned CreateRectRgn(int x1, int y1, int x2, int y2);
 
@@ -127,12 +170,33 @@ public static partial class GdiApi
 				SafeHdc hdcDest, int xDest, int yDest, int cxDest, int cyDest,
 				SafeHdc hdcSrc, int xSrc, int ySrc, ROP3 dwRop);
 
-		[LibraryImport(ApiLib, SetLastError = true)]
+		/// <summary>
+			/// Copies and stretches or compresses a block of pixels from a source device context to a destination device context using the specified raster operation code.
+			/// </summary>
+			/// <param name="hdcDest">Handle to the destination device context.</param>
+			/// <param name="xDest">X-coordinate of the upper-left corner of the destination rectangle.</param>
+			/// <param name="yDest">Y-coordinate of the upper-left corner of the destination rectangle.</param>
+			/// <param name="cxDest">Width of the destination rectangle.</param>
+			/// <param name="cyDest">Height of the destination rectangle.</param>
+			/// <param name="hdcSrc">Handle to the source device context.</param>
+			/// <param name="xSrc">X-coordinate of the upper-left corner of the source rectangle.</param>
+			/// <param name="ySrc">Y-coordinate of the upper-left corner of the source rectangle.</param>
+			/// <param name="cxSrc">Width of the source rectangle.</param>
+			/// <param name="cySrc">Height of the source rectangle.</param>
+			/// <param name="dwRop">Raster operation code specifying how source and destination pixels are combined.</param>
+			/// <returns>True if the operation succeeds; otherwise, false.</returns>
+			[LibraryImport(ApiLib, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static partial bool StretchBlt(
 			SafeHdc hdcDest, int xDest, int yDest, int cxDest, int cyDest,
 			SafeHdc hdcSrc, int xSrc, int ySrc, int cxSrc, int cySrc, ROP3 dwRop);
 
+		/// <summary>
+		/// Sets the stretching mode for bit-block transfer operations in the specified device context.
+		/// </summary>
+		/// <param name="hdc">A handle to the device context.</param>
+		/// <param name="stretchMode">The stretching mode to set.</param>
+		/// <returns>The previous stretching mode.</returns>
 		[LibraryImport(ApiLib)]
 		public static partial StretchBltMode SetStretchBltMode(SafeHdc hdc, StretchBltMode stretchMode);
 
@@ -179,10 +243,21 @@ public static partial class GdiApi
 		[LibraryImport(ApiLib, SetLastError = true)]
 		public static partial ROP2 SetROP2(SafeHdc hdc, ROP2 mixMode);
 
+		/// <summary>
+		/// Flushes the GDI batch, ensuring all pending GDI functions are executed.
+		/// </summary>
+		/// <returns>True if the operation succeeds; otherwise, false.</returns>
 		[LibraryImport(ApiLib, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static partial bool GdiFlush();
 
+		/// <summary>
+		/// Retrieves information about a specified GDI object and stores it in a provided buffer.
+		/// </summary>
+		/// <param name="handle">Handle to the GDI object.</param>
+		/// <param name="count">Size, in bytes, of the buffer pointed to by <paramref name="info"/>.</param>
+		/// <param name="info">Pointer to a buffer that receives the object information.</param>
+		/// <returns>The number of bytes stored in the buffer, or zero if the function fails.</returns>
 		[LibraryImport(ApiLib)]
 		public unsafe static partial int GetObjectW(nint handle, int count, void* info);
 	}

@@ -238,6 +238,13 @@ public partial class MappingCollection : IList<IMapping>, IList
 	/// <remarks>
 	/// This is used internally by the <see cref="MappingConverter"/> class. Since a key may be associated with a
 	/// <see langword="null"/> value, a <see langword="null"/> return value gives no indication of whether the key exists.
+	/// <summary>
+	/// Retrieves the value associated with the specified key, or <see langword="null"/> if the key is not found.
+	/// </summary>
+	/// <param name="key">The key whose value to retrieve.</param>
+	/// <returns>The value associated with the specified key, or <see langword="null"/> if the key does not exist in the collection.</returns>
+	/// <remarks>
+	/// A return value of <see langword="null"/> does not indicate whether the key exists in the collection, as <see langword="null"/> may be a valid mapped value.
 	/// </remarks>
 	public object? Find(object key)
 	{

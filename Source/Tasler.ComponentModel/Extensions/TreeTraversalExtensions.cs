@@ -39,7 +39,12 @@ public static class TreeTraversalExtensions
 	/// <remarks>
 	/// To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
 	/// <see cref="System.Linq.Enumerable.FirstOrDefault()"/> extension methods on the return value.
-	/// </remarks>
+	/// <summary>
+	/// Enumerates the ancestors of the specified node by repeatedly applying the parent selector.
+	/// </summary>
+	/// <param name="this">The starting node whose ancestors will be enumerated.</param>
+	/// <param name="selector">A delegate that returns the parent of a given node.</param>
+	/// <returns>An enumerable sequence of ancestor nodes, starting from the immediate parent and proceeding up the tree.</returns>
 	public static IEnumerable<TTreeNode> GetAncestors<TTreeNode>(this TTreeNode? @this, SingleParentSelector<TTreeNode> selector)
 		where TTreeNode : class
 	{
@@ -61,7 +66,12 @@ public static class TreeTraversalExtensions
 	/// <remarks>
 	/// To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
 	/// <see cref="System.Linq.Enumerable.FirstOrDefault()"/> extension methods on the return value.
-	/// </remarks>
+	/// <summary>
+	/// Enumerates the specified node and its ancestors, starting with the node itself and proceeding up the tree.
+	/// </summary>
+	/// <param name="this">The starting node for ancestor traversal.</param>
+	/// <param name="selector">A delegate that returns the parent of a given node.</param>
+	/// <returns>An <see cref="IEnumerable{TTreeNode}"/> containing the node and its ancestors in order from self to root.</returns>
 	public static IEnumerable<TTreeNode> GetSelfAndAncestors<TTreeNode>(this TTreeNode? @this, SingleParentSelector<TTreeNode> selector)
 		where TTreeNode : class
 	{

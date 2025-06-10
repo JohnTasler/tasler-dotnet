@@ -22,6 +22,10 @@ namespace Tasler.Interop
 			init => base.SetHandle(value);
 		}
 
+		/// <summary>
+		/// Detaches and returns the current handle, resetting the internal handle to zero.
+		/// </summary>
+		/// <returns>The original handle value before detachment.</returns>
 		public nint DetachHandle()
 		{
 			var oldHandle = base.handle;
@@ -29,6 +33,10 @@ namespace Tasler.Interop
 			return oldHandle;
 		}
 
-		public override string ToString() => $"handle = 0x{base.handle:X8}";
+		/// <summary>
+/// Returns a hexadecimal string representation of the internal handle.
+/// </summary>
+/// <returns>A string in the format "handle = 0xXXXXXXXX".</returns>
+public override string ToString() => $"handle = 0x{base.handle:X8}";
 	}
 }

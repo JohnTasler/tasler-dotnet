@@ -87,15 +87,28 @@ public struct IconResDir
 		set => SetExtent(ref _colorCount, value);
 	}
 
-	private static int GetExtent(byte extent) => extent == 0 ? 256 : extent;
+	/// <summary>
+/// Returns 256 if the input value is 0; otherwise, returns the input value.
+/// </summary>
+/// <param name="extent">A byte representing width, height, or color count, where 0 indicates 256.</param>
+/// <returns>The extent as an integer, with 0 mapped to 256.</returns>
+private static int GetExtent(byte extent) => extent == 0 ? 256 : extent;
 
+	/// <summary>
+	/// Sets the extent value for width, height, or color count, encoding 256 as 0 per ICO format specification.
+	/// </summary>
+	/// <param name="extent">Reference to the byte field to set.</param>
+	/// <param name="value">Extent value, must be between 0 and 256 inclusive.</param>
 	private static void SetExtent(ref byte extent, int value)
 	{
 		Guard.IsBetweenOrEqualTo(value, 0, 256, nameof(value));
 		extent = value == 256 ? (byte)0 : (byte)value;
 	}
 
-	/// <summary>Returns a string that represents the current object.</summary>
+	/// <summary>
+/// Returns a string representation of the icon resource directory entry, including width, height, and color count.
+/// </summary>
+/// <returns>A string in the format "WidthxHeight ColorCountbpp".</returns>
 	public override string ToString() => $"{Width}x{Height} {ColorCount}bpp";
 }
 
@@ -118,7 +131,12 @@ public class IconDirectoryItem
 	/// <remarks>
 	///   Upon return, the <paramref name="stream"/> is positioned after the next icon directory
 	///   item, even though the image data has been read further into the stream.
-	/// </remarks>
+	/// <summary>
+	/// Initializes a new instance of <see cref="IconDirectoryItem"/> by reading a directory entry and its associated image data from the provided stream.
+	/// </summary>
+	/// <param name="stream">A readable stream positioned at an icon directory entry within an ICO or CUR file.</param>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="stream"/> is null.</exception>
+	/// <exception cref="ArgumentException">Thrown if <paramref name="stream"/> is not readable or contains invalid data.</exception>
 	private IconDirectoryItem(Stream stream)
 	{
 		Guard.IsNotNull(stream, nameof(stream));
@@ -137,7 +155,11 @@ public class IconDirectoryItem
 	/// Creates the icon directory entry from the specified <paramref name="stream"/>.
 	/// </summary>
 	/// <param name="stream">The stream.</param>
-	/// <returns>An instance of the <see cref="IconDirectoryItem"/> class</returns>
+	/// <summary>
+	/// Creates an <see cref="IconDirectoryItem"/> by reading directory entry and image data from the specified stream.
+	/// </summary>
+	/// <param name="stream">The stream positioned at the start of an icon directory entry.</param>
+	/// <returns>An <see cref="IconDirectoryItem"/> representing the parsed entry and its image data.</returns>
 	internal static IconDirectoryItem CreateFromStream(Stream stream)
 	{
 		var iconDirectoryItem = new IconDirectoryItem(stream);
@@ -170,6 +192,10 @@ public class IconDirectoryItem
 	public BITMAPINFOHEADER BitmapInfoHeader => _bitmapInfoHeader;
 	private BITMAPINFOHEADER _bitmapInfoHeader;
 
+	/// <summary>
+	/// Creates a GDI icon handle from the image data of this directory entry.
+	/// </summary>
+	/// <returns>A <see cref="SafeGdiIconOwned"/> representing the created icon, or an empty handle if no image data is present.</returns>
 	public SafeGdiIconOwned CreateIcon()
 	{
 		if (this.ImageData.Length == 0)
@@ -178,6 +204,13 @@ public class IconDirectoryItem
 		return UserApi.CreateIconFromBits(this.ImageData);
 	}
 
+	/// <summary>
+	/// Loads the image data and bitmap info header for the icon directory entry from the specified stream.
+	/// </summary>
+	/// <param name="stream">The stream positioned at the start of the icon or cursor file.</param>
+	/// <remarks>
+	/// Determines if the image data is in PNG format by inspecting the bitmap info header. Sets the <c>IsPngData</c> property accordingly and reads the image data bytes into <c>ImageData</c>.
+	/// </remarks>
 	private void LoadImageData(Stream stream)
 	{
 		const int pngSignature1 = 0x474E_5089;
@@ -217,6 +250,13 @@ public class IconDirectoryItem
 
 public static class IconFileReader
 {
+	/// <summary>
+	/// Reads icon or cursor directory entries from a stream containing ICO or CUR file data.
+	/// </summary>
+	/// <param name="icoFileDataStream">A readable stream positioned at the start of an ICO or CUR file.</param>
+	/// <returns>An enumerable sequence of <see cref="IconDirectoryItem"/> objects representing each icon or cursor entry in the file.</returns>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="icoFileDataStream"/> is null.</exception>
+	/// <exception cref="ArgumentException">Thrown if the stream is not readable or does not contain a valid ICO or CUR file header.</exception>
 	public static IEnumerable<IconDirectoryItem> GetIconDirectoryEntries(Stream icoFileDataStream)
 	{
 		Guard.IsNotNull(icoFileDataStream);
