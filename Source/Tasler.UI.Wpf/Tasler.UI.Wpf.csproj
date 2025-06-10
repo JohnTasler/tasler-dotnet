@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<IsAotCompatible>false</IsAotCompatible>
+		<IsAotCompatible>true</IsAotCompatible>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 		<TrimmerRootAssemblys>$(TrimmerRootAssemblys);Tasler.UI.Wpf</TrimmerRootAssemblys>
 		<IsTrimmable>true</IsTrimmable>

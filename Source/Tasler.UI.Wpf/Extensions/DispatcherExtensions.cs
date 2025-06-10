@@ -15,8 +15,9 @@ namespace Tasler.Windows.Extensions
 		/// <param name="source">The <see cref="Dispatcher"/> on which to post the asynchronous operation.</param>
 		/// <param name="action">The action to be pushed onto the <see cref="Dispatcher"/> event queue.</param>
 		/// <returns>
-		/// An object, which is returned immediately after <see cref="BeginInvoke"/> is called, that can be used to
-		/// interact with the delegate as it is pending execution in the event queue.
+		/// An object, which is returned immediately after
+		/// <see cref="DispatcherExtensions.BeginInvoke(Dispatcher, Action)"/> is called, that can be
+		/// used to interact with the delegate as it is pending execution in the event queue.
 		/// </returns>
 		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <see langword="null"/>.</exception>
 		public static DispatcherOperation BeginInvoke(this Dispatcher source, Action action)
@@ -35,8 +36,9 @@ namespace Tasler.Windows.Extensions
 		/// operations in the <see cref="Dispatcher"/> event queue.</param>
 		/// <param name="action">The action to be pushed onto the <see cref="Dispatcher"/> event queue.</param>
 		/// <returns>
-		/// An object, which is returned immediately after <see cref="BeginInvoke"/> is called, that can be used to
-		/// interact with the delegate as it is pending execution in the event queue.
+		/// An object, which is returned immediately after
+		/// <see cref="DispatcherExtensions.BeginInvoke(Dispatcher, Action)"/> is called, that can be
+		/// used to interact with the delegate as it is pending execution in the event queue.
 		/// </returns>
 		/// <exception cref="System.ArgumentNullException">The specified <paramref name="source"/> is <see langword="null"/>.</exception>
 		public static DispatcherOperation BeginInvoke(this Dispatcher source, DispatcherPriority priority, Action action)

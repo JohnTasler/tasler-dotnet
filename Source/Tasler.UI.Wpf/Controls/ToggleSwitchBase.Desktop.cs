@@ -158,7 +158,7 @@ public abstract class ToggleSwitchBase : Control, ICommandSource
 				OnLayoutDependencyPropertyChanged));
 
 	///<summary>
-	/// The template applied to the <see cref="CheckedContent"/> and <see cref="UncheckedContent/> properties.
+	/// The template applied to the <see cref="CheckedContent"/> and <see cref="UncheckedContent"/> properties.
 	///</summary>
 	[Description("The template applied to the CheckedContent and UncheckedContent properties.")]
 	public ControlTemplate ContentTemplate
@@ -172,7 +172,7 @@ public abstract class ToggleSwitchBase : Control, ICommandSource
 	#region CheckedContent
 
 	///<summary>
-	/// DependencyProperty for the <see cref="CheckedContent/> property.
+	/// DependencyProperty for the <see cref="CheckedContent"/> property.
 	///</summary>
 	public static readonly DependencyProperty CheckedContentProperty =
 		DependencyProperty.Register("CheckedContent", typeof(object), typeof(ToggleSwitchBase),
@@ -278,7 +278,7 @@ public abstract class ToggleSwitchBase : Control, ICommandSource
 	#region UncheckedBackground
 
 	///<summary>
-	/// DependencyProperty for the <see cref="UncheckedBackground> property.
+	/// DependencyProperty for the <see cref="UncheckedBackground"/> property.
 	///</summary>
 	public static readonly DependencyProperty UncheckedBackgroundProperty =
 		DependencyProperty.Register("UncheckedBackground", typeof(Brush), typeof(ToggleSwitchBase), null);

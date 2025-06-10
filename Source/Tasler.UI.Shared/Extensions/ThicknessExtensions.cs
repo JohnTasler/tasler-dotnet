@@ -21,7 +21,7 @@ public static class ThicknessExtensions
 	/// <summary>
 	/// Determines if the specified <see cref="Thickness"/> is "empty", meaning all values are zero.
 	/// </summary>
-	/// <param name="@this">The <see cref="Thickness"/> to test. As an extension method, this is typically not
+	/// <param name="this">The <see cref="Thickness"/> to test. As an extension method, this is typically not
 	/// specified explicitly.</param>
 	/// <returns><code>true</code> if all values are zero; otherwise <code>false</code>.</returns>
 	public static bool IsEmpty(this Thickness @this)
@@ -32,7 +32,7 @@ public static class ThicknessExtensions
 	/// <summary>
 	/// Determines if all values of the specified <see cref="Thickness"/> are <see cref="double.Nan"/>.
 	/// </summary>
-	/// <param name="@this">The <see cref="Thickness"/> to test. As an extension method, this is typically not
+	/// <param name="this">The <see cref="Thickness"/> to test. As an extension method, this is typically not
 	/// specified explicitly.</param>
 	/// <returns><code>true</code> if all values are <see cref="double.Nan"/>; otherwise <code>false</code>.</returns>
 	public static bool IsNan(this Thickness @this)
