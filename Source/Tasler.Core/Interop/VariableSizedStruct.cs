@@ -1,3 +1,5 @@
+using CommunityToolkit.Diagnostics;
+
 namespace Tasler.Interop;
 
 public class VariableSizedStruct<THeader, TElement>
@@ -6,6 +8,7 @@ public class VariableSizedStruct<THeader, TElement>
 {
 	public VariableSizedStruct(THeader header, TElement[] elements)
 	{
+		Guard.IsNotNull(elements);
 		this.Header = header;
 		this.Elements = elements;
 	}
