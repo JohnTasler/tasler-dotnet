@@ -44,8 +44,8 @@
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Fix.Microsoft.Xaml.Behaviors.Wpf.1.1.77" Version="1.1.78" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="9.5.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="9.6.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
 	</ItemGroup>
 
 	<!-- Project References -->

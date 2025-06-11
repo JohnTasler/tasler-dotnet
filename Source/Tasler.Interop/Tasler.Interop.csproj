@@ -33,7 +33,7 @@
 
 	<!-- Package References -->
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.5" />
+		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.6" />
 	</ItemGroup>
 
 	<!-- Project References -->
