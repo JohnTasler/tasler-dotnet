@@ -12,6 +12,8 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 		<EnableXmlDocWarnings>true</EnableXmlDocWarnings>
+		<Description>Application-neutral component model library..</Description>
+		<Title>Tasler.DotNet.ComponentModel</Title>
 	</PropertyGroup>
 
 	<PropertyGroup>

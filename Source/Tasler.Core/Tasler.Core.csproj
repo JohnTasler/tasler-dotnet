@@ -8,10 +8,11 @@
 		<OutputType>Library</OutputType>
 		<TargetFramework>net9.0</TargetFramework>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 		<NoWarn>$(NoWarn);1584;1701;1702</NoWarn>
+		<Description>Core functionality with very few dependencies.</Description>
+		<Title>Tasler.DotNet.Core</Title>
 	</PropertyGroup>
 
 	<PropertyGroup>

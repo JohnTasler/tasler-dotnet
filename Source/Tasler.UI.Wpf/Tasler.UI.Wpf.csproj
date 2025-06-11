@@ -14,6 +14,8 @@
 		<LangVersion>preview</LangVersion>
 		<DefineConstants>WINDOWS_WPF</DefineConstants>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
+		<Description>Application-neutral extension framework for Windows Presentation Foundation."</Description>
+		<Title>Tasler.DotNet.Windows</Title>
 	</PropertyGroup>
 
 	<PropertyGroup>

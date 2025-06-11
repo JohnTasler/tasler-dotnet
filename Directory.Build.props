@@ -7,20 +7,27 @@
 		<Nullable>enable</Nullable>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 
-		<Company>Tasler.Computing</Company>
-		<Copyright>Copyright © John Tasler.</Copyright>
-
-		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-		<GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-		<GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-
+		<!-- Documentation content warning disabled until ready to work on them in a project -->
 		<XmlDocWarnings>1570;1573;1574;1591</XmlDocWarnings>
 		<EnableXmlDocWarnings>false</EnableXmlDocWarnings>
 		<NoWarn Condition="!$(EnableXmlDocWarnings)">$(NoWarn);$(XmlDocWarnings)</NoWarn>
+		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<!-- Version information attributes -->
+	<PropertyGroup>
+		<Company>Tasler.Computing</Company>
+		<Copyright>Copyright © John Tasler.</Copyright>
+		<AssemblyTitle>Tasler.NET Library</AssemblyTitle>
+		<Product>Tasler .NET Framework</Product>
+		<!--
+		<Version>0.6.0.0</Version>
+		<FileVersion>$(Version)</FileVersion>
+		<InformationalVersion>$(Version)</InformationalVersion>
+		-->
+		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
 	</PropertyGroup>
 
 	<ItemGroup Condition="Exists('Properties/Strings.resx')">
