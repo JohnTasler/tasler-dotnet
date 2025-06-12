@@ -1,10 +1,5 @@
-using System.ComponentModel;
-using System.Numerics;
-using Tasler.Properties;
 
 namespace Tasler.Extensions;
-
-// TODO: NEEDS_UNIT_TESTS
 
 /// <summary>
 /// Provides extension methods for enum's.
@@ -16,7 +11,7 @@ public static class EnumExtensions
 	/// <summary>
 	/// Sets to 1 (turns on) the specified <paramref name="flags"/>.
 	/// </summary>
-	/// <param name="this">The <see cref="uint"/> instance on which the extension method operates.
+	/// <param name="this">The <typeparamref name="T"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
 	/// <param name="flags">The flags.</param>
 	/// <returns>The <paramref name="this"/> with the specified <paramref name="flags"/> set to 1 (turned on).</returns>
@@ -52,7 +47,7 @@ public static class EnumExtensions
 	/// <summary>
 	/// Based on a Boolean value, either sets to 1 (turns on) or clears to 0 (turns off) the specified <paramref name="flags"/>.
 	/// </summary>
-	/// <param name="this">The <see cref="uint"/> instance on which the extension method operates.
+	/// <param name="this">The <typeparamref name="T"/> instance on which the extension method operates.
 	/// As an extension method, this is typically not specified explicitly.</param>
 	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="flags"/> are set; otherwise they are cleared.</param>
 	/// <param name="flags">The flags to either set or clear.</param>
