@@ -18,16 +18,17 @@
 	<PropertyGroup>
 		<Company>Tasler.Computing</Company>
 		<Copyright>Copyright © John Tasler.</Copyright>
-		<AssemblyTitle>Tasler.NET Library</AssemblyTitle>
+		<AssemblyTitle>$(Title)</AssemblyTitle>
 		<Product>Tasler .NET Framework</Product>
 		<!--
 		<Version>0.6.0.0</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<InformationalVersion>$(Version)</InformationalVersion>
 		-->
-		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
 		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
 	</PropertyGroup>
 
 	<ItemGroup Condition="Exists('Properties/Strings.resx')">

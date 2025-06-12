@@ -11,7 +11,7 @@
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
-		<Description>Windows native to dotnet interop framework.</Description>
+		<Description>Windows native dotnet interop framework.</Description>
 		<Title>Tasler.DotNet.Interop</Title>
 	</PropertyGroup>
 

@@ -18,7 +18,4 @@
       <LastGenOutput>$(MSBuildThisFileDirectory)AssemblyInfoVersion.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoConfiguration.cs" />
-  </ItemGroup>
 </Project>
