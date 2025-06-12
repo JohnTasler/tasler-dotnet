@@ -11,8 +11,28 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
+		<Description>Windows native dotnet interop framework for raw (HID) input.</Description>
+		<Title>Tasler.DotNet.Interop.RawInput</Title>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<TrimmerRootAssembly Include="Tasler.Interop.RawInput" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Strings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Strings.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
 
 	<!-- Project References -->
 	<ItemGroup>
@@ -21,16 +41,10 @@
 			<Name>Tasler.Interop</Name>
 		</ProjectReference>
 	</ItemGroup>
-
 	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-	</ItemGroup>
-
-	<!-- Shared Project References -->
-	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
-	<ItemGroup>
-	  <Content Update="F:\src\JohnTasler\tasler-dotnet\Source\Tasler.AssemblyInfo.Shared\AssemblyInfoVersion.tt">
-	    <LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>
-	  </Content>
+	  <EmbeddedResource Update="Properties\Strings.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 </Project>

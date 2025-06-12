@@ -2,18 +2,69 @@
 
 	<PropertyGroup>
 		<EnableWindowsTargeting>true</EnableWindowsTargeting>
-		<LangVersion>13.0</LangVersion>
+		<LangVersion>preview</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+
+		<!-- Documentation content warning disabled until ready to work on them in a project -->
+		<XmlDocWarnings>1570;1573;1574;1591</XmlDocWarnings>
+		<EnableXmlDocWarnings>false</EnableXmlDocWarnings>
+		<NoWarn Condition="!$(EnableXmlDocWarnings)">$(NoWarn);$(XmlDocWarnings)</NoWarn>
+		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<!-- Version information attributes -->
+	<PropertyGroup>
+		<Company>Tasler.Computing</Company>
+		<Copyright>Copyright © John Tasler.</Copyright>
+		<AssemblyTitle>$(Title)</AssemblyTitle>
+		<Product>Tasler .NET Framework</Product>
+		<!--
+		<Version>0.6.0.0</Version>
+		<FileVersion>$(Version)</FileVersion>
+		<InformationalVersion>$(Version)</InformationalVersion>
+		-->
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-		<GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-		<GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
 		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
 		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
 	</PropertyGroup>
+
+	<ItemGroup Condition="Exists('Properties/Strings.resx')">
+		<EmbeddedResource Update="Properties/Strings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Strings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup Condition="Exists('Properties/Resources.resx')">
+		<EmbeddedResource Update="Properties/Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup Condition="Exists('Properties/Settings.settings')">
+		<None Update="Properties/Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+			<SubType>Designer</SubType>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup Condition="Exists('../Tasler.AssemblyInfo.Shared/AssemblyInfoVersion.tt')">
+		<Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+		<None Include="$(MSBuildProjectDirectory)/../Tasler.AssemblyInfo.Shared/AssemblyInfoVersion.tt" Link="Properties/AssemblyInfoVersion.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<OutputFileName>$(MSBuildProjectDirectory)/../Tasler.AssemblyInfo.Shared/AssemblyInfoVersion.cs</OutputFileName>
+			<LastGenOutput>$(MSBuildProjectDirectory)/../Tasler.AssemblyInfo.Shared/AssemblyInfoVersion.cs</LastGenOutput>
+		</None>
+		<Compile Include="..\Tasler.AssemblyInfo.Shared\AssemblyInfoVersion.cs" Link="Properties/AssemblyInfoVersion.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>AssemblyInfoVersion.tt</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
 </Project>

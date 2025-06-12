@@ -19,21 +19,21 @@ public static partial class PopupExtensions
 	/// Opens (shows) the specified <see cref="Popup"/>.
 	/// </summary>
 	/// <param name="popup">The <see cref="Popup"/> on which to set the <see cref="Popup.IsOpen"/> property.</param>
-	/// <exception cref="ArgumentNullException">The <paramref name="popup"/> argument is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException">The <paramref name="popup"/> argument is <see langword="null"/>.</exception>
 	public static void Open(this Popup popup) => popup.OpenOrClose(true);
 
 	/// <summary>
 	/// Closes (hides) the specified <see cref="Popup"/>.
 	/// </summary>
 	/// <param name="popup">The <see cref="Popup"/> on which to clear the <see cref="Popup.IsOpen"/> property.</param>
-	/// <exception cref="ArgumentNullException">The <paramref name="popup"/> argument is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException">The <paramref name="popup"/> argument is <see langword="null"/>.</exception>
 	public static void Close(this Popup popup) => popup.OpenOrClose(false);
 
 	/// <summary>
 	/// Gets the root element hosting the specified <see cref="Popup"/>.
 	/// </summary>
 	/// <param name="popup">The <see cref="Popup"/> for which to get the root <see cref="UIElement"/>.</param>
-	/// <returns>The root element, if one can be found; otherwise <c>null</c>.</returns>
+	/// <returns>The root element, if one can be found; otherwise <see langword="null"/>.</returns>
 	public static UIElement? GetPopupRoot(this Popup popup)
 	{
 		var firstChild = popup.GetFirstChild();
@@ -47,7 +47,7 @@ public static partial class PopupExtensions
 	/// </summary>
 	/// <param name="popup">The <see cref="Popup"/> for which to get the first (top-most)
 	/// child <see cref="UIElement"/>.</param>
-	/// <returns>The root element, if one can be found; otherwise <c>null</c>.</returns>
+	/// <returns>The root element, if one can be found; otherwise <see langword="null"/>.</returns>
 	public static UIElement? GetFirstChild(this Popup popup)
 	{
 		var firstChild = popup.GetVisualDescendantsDepthFirst().OfType<UIElement>().FirstOrDefault();
@@ -60,7 +60,7 @@ public static partial class PopupExtensions
 	/// </summary>
 	/// <param name="popup">The <see cref="Popup"/> for which to get the first (top-most)
 	/// child <see cref="UIElement"/>.</param>
-	/// <returns>The root element, if one can be found; otherwise <c>null</c>.</returns>
+	/// <returns>The root element, if one can be found; otherwise <see langword="null"/>.</returns>
 	public static UIElement? GetFirstChild(this Popup popup)
 	{
 		var firstChild = popup.GetLogicalDescendantsDepthFirst().OfType<UIElement>().FirstOrDefault();

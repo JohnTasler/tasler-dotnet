@@ -3,7 +3,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:input="clr-namespace:Tasler.Windows.Input"
-	xmlns:taz="urn:tasler-dotnet-framework"
+	xmlns:taz="urn:tasler-dotnet-ui"
 	>
 	<input:HumanInputGesture x:Key="Media.Guide"       UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 8D00" />
 	<input:HumanInputGesture x:Key="Media.Play"        UsagePage="0x000C" Usage="0x01" Mask="00 FFFF" Data="00 B000" />

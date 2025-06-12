@@ -5,7 +5,6 @@ namespace Tasler.Interop.Com;
 public class GitHandleBase : IDisposable
 {
 	#region Instance Fields
-	private readonly object _cookieLock = new object();
 	private int _cookie;
 	#endregion Instance Fields
 
@@ -15,16 +14,8 @@ public class GitHandleBase : IDisposable
 
 	public int Cookie
 	{
-		get
-		{
-			lock (_cookieLock)
-				return _cookie;
-		}
-		protected set
-		{
-			lock (_cookieLock)
-				_cookie = value;
-		}
+		get => _cookie;
+		protected set => Interlocked.CompareExchange(ref _cookie, value, 0);
 	}
 
 	#endregion Properties
@@ -32,12 +23,8 @@ public class GitHandleBase : IDisposable
 	#region Methods
 	public int DetachCookie()
 	{
-		lock (_cookieLock)
-		{
-			int result = _cookie;
-			_cookie = 0;
-			return result;
-		}
+		var cookie = Interlocked.Exchange(ref _cookie, 0);
+		return cookie;
 	}
 	#endregion Methods
 
@@ -58,13 +45,10 @@ public class GitHandleBase : IDisposable
 
 	public void Dispose()
 	{
-		lock (_cookieLock)
+		var cookie = Interlocked.Exchange(ref _cookie, 0);
+		if (cookie != 0)
 		{
-			if (_cookie != 0)
-			{
-				Git.RevokeInterfaceFromGlobal(_cookie);
-				_cookie = 0;
-			}
+			Git.RevokeInterfaceFromGlobal(cookie);
 		}
 
 		GC.SuppressFinalize(this);

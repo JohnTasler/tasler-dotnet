@@ -1,8 +1,6 @@
-﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -167,11 +165,8 @@ namespace Tasler.Windows.Shell
 		private Int32Size GetBitmapSize(IntPtr hBitmap)
 		{
 			// Get the actual dimensions of the specified hBitmap
-			BITMAP bitmap;
-			int result = GdiApi.GetObject(hBitmap, Marshal.SizeOf(typeof(BITMAP)), out bitmap);
-			if (result == 0)
-				throw new Win32Exception();
-			return new Int32Size(bitmap.width, bitmap.height);
+			BITMAP bitmap = new SafeGdiBitmap { Handle = hBitmap }.GetBitmapInfo();
+			return new Int32Size(bitmap.Width, bitmap.Height);
 		}
 
 		private void OnLoaded(Int32Size size, IntPtr hBitmap)

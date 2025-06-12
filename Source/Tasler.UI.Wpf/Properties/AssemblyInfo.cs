@@ -1,18 +1,16 @@
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Markup;
+using Tasler.Windows;
 
-// Assembly-specific information about an assembly. Shared, assembly-neutral information
-// is in the following files:
-//     AssemblyInfoConfiguration.cs
-//     AssemblyInfoCopyright.cs
+// Assembly-specific information about the assembly. Shared, assembly-neutral information
+// is specified in the following files:
+//     DirectoryBuild.props
 //     AssemblyInfoVersion.cs
+// Also, some assembly-specified information is specified in project file.
 
-[assembly: AssemblyTitle("Tasler.Windows")]
-[assembly: AssemblyDescription("Application-neutral .NET Windows Presentation Foundation framework.")]
-[assembly: AssemblyProduct("Tasler .NET Framework")]
-[assembly: Guid("A3F179FE-71EC-49BE-812D-6A03C63B17FF")]
+[assembly: Guid("CC6BE222-DE4B-412A-9743-80C187F43EE1")]
+[assembly: DisableRuntimeMarshalling]
 
 // Declaration for the XAML parser. These allow multiple CLR namespaces defined in this assembly to
 // be collapsed into a single XML namespace.
@@ -28,12 +26,14 @@ using System.Windows.Markup;
 [assembly: InternalsVisibleTo("Tasler.Windows.Input")]
 [assembly: InternalsVisibleTo("Tasler.Configuration")]
 
+namespace Tasler.Windows;
+
 internal static class XmlNamespace
 {
-		public const string Tasler = "urn:tasler-dotnet-framework";
+	public const string Tasler = "urn:tasler-dotnet-ui";
 }
 
 internal static class XmlNamespacePrefix
 {
-		public const string Tasler = "taz";
+	public const string Tasler = "taz";
 }

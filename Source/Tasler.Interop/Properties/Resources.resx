@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,4 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ArgumentExceptionBitmapInfoHeaderStreamIsInvalid" xml:space="preserve">
+    <value>Invalid bitmap info header stream.</value>
+  </data>
+  <data name="ArgumentExceptionStreamIsNotIcoOrCursorFormat" xml:space="preserve">
+    <value>The specified stream is not in a valid RT_GROUP_ICON or RT_GROUP_CURSOR format.</value>
+  </data>
 </root>

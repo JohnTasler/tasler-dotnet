@@ -1,16 +1,15 @@
-using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Markup;
 
-// Assembly-specific information about an assembly. Shared, assembly-neutral information
-// is in the following files:
-//     AssemblyInfoConfiguration.cs
-//     AssemblyInfoCopyright.cs
+// Assembly-specific information about the assembly. Shared, assembly-neutral information
+// is specified in the following files:
+//     DirectoryBuild.props
 //     AssemblyInfoVersion.cs
+// Also, some assembly-specified information is specified in project file.
 
-[assembly: AssemblyTitle("Application-neutral .NET core interop framework for raw (HID) input.")]
-[assembly: AssemblyProduct("Tasler .NET Framework")]
-[assembly: Guid("90E7B808-EA0E-431D-B61F-496BA8B117B9")]
+[assembly: Guid("921D82F1-B7A8-47F9-83E0-B576441057F7")]
+[assembly: DisableRuntimeMarshalling]
 
 // Declaration for the XAML parser. These allow multiple CLR namespaces defined in this assembly to
 // be collapsed into a single XML namespace.
@@ -20,7 +19,7 @@ using System.Windows.Markup;
 
 internal static class XmlNamespace
 {
-    public const string Tasler = "urn:tasler-dotnet-framework";
+    public const string Tasler = "urn:tasler-dotnet-ui";
 }
 
 internal static class XmlNamespacePrefix

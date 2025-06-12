@@ -15,3 +15,10 @@ using System.Reflection;
 [assembly: AssemblyVersion(<#= version #>)]
 [assembly: AssemblyFileVersion(<#= version #>)]
 [assembly: AssemblyInformationalVersion(<#= version #>)]
+
+#if DEBUG
+[assembly: AssemblyConfiguration("Debug")]
+#else // DEBUG
+[assembly: AssemblyConfiguration("Release")]
+#endif // DEBUG
+

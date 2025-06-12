@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<UseWPF>true</UseWPF>
 		<ProjectName>Tasler.UI.Wpf.Input</ProjectName>
-		<AssemblyName>Tasler.UI.Wpf.Input</AssemblyName>
+		<AssemblyName>Tasler.Windows.Input</AssemblyName>
 		<RootNamespace>Tasler.Windows.Input</RootNamespace>
 		<ProjectGuid>{4D4B272C-D636-41A3-9726-5A442BDD0750}</ProjectGuid>
 		<OutputType>Library</OutputType>
@@ -11,7 +11,9 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
 		<DefineConstants>WINDOWS_WPF</DefineConstants>
-		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Platforms>AnyCPU;x64;x86;arm64</Platforms>
+		<Description>Windows Presentation Foundation framework for raw (HID) input</Description>
+		<Title>$(AssemblyName)</Title>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -19,42 +21,28 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Compile Include="Properties\Resources.Designer.cs">
+		<Compile Update="Properties\Resources.Designer.cs">
 			<AutoGen>True</AutoGen>
 			<DesignTime>True</DesignTime>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
+
 	<!-- Project References -->
 	<ItemGroup>
 		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
-			<Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
+			<Project>{6692957C-4E2B-415B-A03A-4B3DBCAC071B}</Project>
 			<Name>Tasler.Core</Name>
 		</ProjectReference>
-		<ProjectReference Include="..\Tasler.Interop.RawInput\Tasler.Interop.RawInput.csproj" />
 		<ProjectReference Include="..\Tasler.Interop\Tasler.Interop.csproj">
-			<Project>{ca6287d9-6f8b-4f6d-8d44-d8359a43d644}</Project>
+			<Project>{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}</Project>
 			<Name>Tasler.Interop</Name>
 		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-	</ItemGroup>
-
-	<!-- Shared Project References -->
-	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
-
-	<ItemGroup>
-		<Content Update="F:\src\JohnTasler\tasler-dotnet\Source\Tasler.AssemblyInfo.Shared\AssemblyInfoVersion.tt">
-			<LastGenOutput>AssemblyInfoVersion.cs</LastGenOutput>
-		</Content>
+		<ProjectReference Include="..\Tasler.Interop.RawInput\Tasler.Interop.RawInput.csproj">
+			<Project>{921D82F1-B7A8-47F9-83E0-B576441057F7}</Project>
+			<Name>Tasler.Interop.RawInput</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\Tasler.UI.Wpf\Tasler.UI.Wpf.csproj" />
 	</ItemGroup>
 </Project>

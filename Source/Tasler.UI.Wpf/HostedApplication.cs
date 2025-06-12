@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Markup;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +34,10 @@ public abstract class HostedApplication : Application, IProvideHost
 	/// <summary>
 	/// Application Entry Point worker
 	/// </summary>
-	protected static async Task<int> MainCore<TApp, TMainView, TMainViewModel>(string[] args)
+	protected static async Task<int> MainCore<
+		[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TApp,
+		[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TMainView,
+		[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TMainViewModel>(string[] args)
 		where TApp
 			: HostedApplication
 			, IComponentConnector

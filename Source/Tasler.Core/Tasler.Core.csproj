@@ -8,12 +8,22 @@
 		<OutputType>Library</OutputType>
 		<TargetFramework>net9.0</TargetFramework>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Platforms>AnyCPU;ARM64;x64;x86</Platforms>
-		<NoWarn>$(NoWarn);1701;1702;1584</NoWarn>
-		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
+		<NoWarn>$(NoWarn);1584;1701;1702</NoWarn>
+		<Description>Core functionality with very few dependencies.</Description>
+		<Title>Tasler.DotNet.Core</Title>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<TrimmerRootAssembly Include="Tasler.Core" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Remove="Collections\Generic\**" />
@@ -32,22 +42,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Folder Include="Configuration\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<!-- Package References -->
@@ -55,8 +58,5 @@
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
 		<PackageReference Include="System.Memory" Version="4.6.3" />
 	</ItemGroup>
-
-	<!-- Shared Project References -->
-	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 
 </Project>

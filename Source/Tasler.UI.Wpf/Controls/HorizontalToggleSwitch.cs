@@ -40,7 +40,7 @@ public class HorizontalToggleSwitch : ToggleSwitchBase
 	protected override PropertyPath SlidePropertyPath => new PropertyPath("(Canvas.Left)");
 
 	/// <summary>
-	/// Raised while dragging the <see cref="Thumb/>.
+	/// Raised while dragging the <see cref="Thumb"/>.
 	/// </summary>
 	/// <param name="sender"></param>
 	/// <param name="e"></param>

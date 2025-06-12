@@ -1,6 +1,7 @@
 using System.Buffers;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using Tasler.Buffers;
 
 namespace Tasler.Interop;
 
@@ -29,16 +30,16 @@ public static class StringHelpers
 	/// <exception cref="System.OutOfMemoryException">The buffer has grown pathelogically.</exception>
 	public static string GetVariableLengthString(GetTextFunc getTextFunc, int initialBufferLength = 16)
 	{
-		var previousCch = 0;
-		var cch = 1;
-		var bufferLength = initialBufferLength;
+		int previousCch = 0;
+		int cch = 1;
+		int bufferLength = initialBufferLength;
 		char[] buffer = [];
 
 		do
 		{
-			using var bufferScope = new DisposeScopeExit(() => ArrayPool<char>.Shared.Return(buffer));
+			using var arrayRenter = new SharedArrayPoolRenter<char>(bufferLength);
 
-			buffer = ArrayPool<char>.Shared.Rent(bufferLength);
+			buffer = arrayRenter.Data;
 			cch = getTextFunc(buffer, bufferLength);
 			var lastError = Marshal.GetLastPInvokeError();
 			if (cch == 0)

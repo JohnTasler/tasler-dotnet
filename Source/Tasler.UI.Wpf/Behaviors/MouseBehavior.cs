@@ -92,7 +92,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The object for which to get the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static ICommand GetLeftClickCommand(DependencyObject d)
@@ -107,7 +107,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The object on which to set the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static void SetLeftClickCommand(DependencyObject d, ICommand value)
@@ -141,7 +141,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The object for which to get the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static object GetLeftClickCommandParameter(DependencyObject d)
@@ -156,7 +156,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The object on which to set the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static void SetLeftClickCommandParameter(DependencyObject d, object value)
@@ -190,7 +190,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The object for which to get the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static ICommand GetRightClickCommand(DependencyObject d)
@@ -205,7 +205,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The object on which to set the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static void SetRightClickCommand(DependencyObject d, ICommand value)
@@ -239,7 +239,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The object for which to get the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static object GetRightClickCommandParameter(DependencyObject d)
@@ -254,7 +254,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The object on which to set the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static void SetRightClickCommandParameter(DependencyObject d, object value)
@@ -288,7 +288,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The Popup for which to get the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static ContextMenu GetContextMenu(DependencyObject d)
@@ -303,7 +303,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The Popup on which to set the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static void SetContextMenu(DependencyObject d, ContextMenu value)
@@ -337,7 +337,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The Popup for which to get the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static object? GetContextPopup(DependencyObject d)
@@ -352,7 +352,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	/// <param name="d">The Popup on which to set the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static void SetContextPopup(DependencyObject d, object? value)

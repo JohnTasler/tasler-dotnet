@@ -233,11 +233,11 @@ public partial class MappingCollection : IList<IMapping>, IList
 	/// </summary>
 	/// <param name="key">The key.</param>
 	/// <returns>
-	/// The value associated with the specified <paramref name="key"/>, if any; otherwise <c>null</c>.
+	/// The value associated with the specified <paramref name="key"/>, if any; otherwise <see langword="null"/>.
 	/// </returns>
 	/// <remarks>
 	/// This is used internally by the <see cref="MappingConverter"/> class. Since a key may be associated with a
-	/// <c>null</c> value, a <c>null</c> return value gives no indication of whether the key exists.
+	/// <see langword="null"/> value, a <see langword="null"/> return value gives no indication of whether the key exists.
 	/// </remarks>
 	public object? Find(object key)
 	{

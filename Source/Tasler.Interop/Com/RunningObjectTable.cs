@@ -20,11 +20,11 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 	#region IDisposable Members
 	public void Dispose()
 	{
-		if (_rot is not null)
+		var rot = Interlocked.Exchange(ref _rot, null);
+		if (rot is not null)
 		{
 			GC.SuppressFinalize(this);
-			Marshal.ReleaseComObject(_rot);
-			_rot = null;
+			Marshal.ReleaseComObject(rot);
 		}
 	}
 	#endregion IDisposable Members
@@ -52,7 +52,7 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 	#endregion IEnumerable Members
 
 	public T? GetObject<T>(IMoniker moniker)
-			where T : class
+		where T : class
 	{
 		object? runningObject = null;
 		_rot?.GetObject(moniker, out runningObject);

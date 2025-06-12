@@ -1,7 +1,6 @@
-using System.Buffers;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
-using Tasler.Interop.Gdi;
+using Tasler.Buffers;
+using Tasler.Extensions;
 
 namespace Tasler.Interop.RawInput.User;
 
@@ -11,54 +10,90 @@ public static class SafeRawInputHandleExtensions
 	/// Function to retrieve raw input data.
 	/// </summary>
 	/// <param name="hRawInput">Handle to the raw input.</param>
-	/// <param name="uiCommand">Command to issue when retrieving data.</param>
-	/// <param name="pData">Raw input data.</param>
-	/// <param name="pcbSize">Number of bytes in the array.</param>
-	/// <param name="cbSizeHeader">Size of the header.</param>
-	/// <returns>0 if successful if pData is null, otherwise number of bytes if pData is not null.</returns>
+	/// <returns>The <see cref="RAWINPUTHEADER"/> read from the device.</returns>
 	public static RAWINPUTHEADER GetRawInputHeader(this SafeRawInputHandle hRawInput)
 	{
 		int cbSize = 0;
-		RawInputApi.NativeMethods.GetRawInputData(hRawInput, Command.Header, out RAWINPUTHEADER data, ref cbSize, Marshal.SizeOf<RAWINPUTHEADER>());
+		RawInputApi.NativeMethods.GetRawInputData(
+			hRawInput.Handle, Command.Header, out RAWINPUTHEADER data, ref cbSize, RAWINPUTHEADER.SizeOf);
 		return data;
 	}
 
+	//public static int GetRawInputData(
+	//	this SafeRawInputHandle hRawInput,
+	//	Command uiCommand,
+	//	out RAWINPUTHEADER pData,
+	//	ref int pcbSize,
+	//	int cbSizeHeader)
+	//{
+	//	int cbSize = 0;
+
+	//	return cbSize;
+	//}
 
 
 	/// <summary>
 	/// Gets information about the raw input device.
 	/// </summary>
-	/// <param name="deviceHandle">Handle to the raw input device. This comes from the lParam of the <see cref="WM_INPUT"/> message, from <see cref="RAWINPUTHEADER.hDevice"/>, or from <see cref="GetRawInputDeviceList"/>.</param>
+	/// <param name="deviceHandle">Handle to the raw input device. This comes from the lParam of the
+	/// <see cref="WM_INPUT"/> message, from <see cref="RAWINPUTHEADER.hDevice"/>, or from
+	/// <see cref="GetRawInputDeviceList"/>.</param>
 	/// <returns></returns>
 	public static string GetRawInputDeviceName(this SafeRawInputHandle deviceHandle)
 	{
 		unsafe
 		{
-			uint charCount = 0;
-			var result = RawInputApi.NativeMethods.GetRawInputDeviceInfoW(deviceHandle, DeviceInfoItem.DeviceName, null, ref charCount);
+			int charCount = 0;
+			var result = RawInputApi.NativeMethods.GetRawInputDeviceInfo(deviceHandle.Handle, DeviceInfoItem.DeviceName, null, ref charCount);
 			if (result != 0)
 				throw new Win32Exception();
 
-			char[]? buffer = null;
-			using (var bufferScope = new DisposeScopeExit(() => ArrayPool<char>.Shared.Return(buffer!)))
+			using var renter = new SharedArrayPoolRenter<char>((int)charCount + 1);
+
+			var buffer = renter.Data;
+			fixed (char* bufferPtr = buffer)
 			{
-				buffer = ArrayPool<char>.Shared.Rent(unchecked((int)charCount) + 1);
-				fixed (char* bufferPtr = buffer)
-				{
-					result = RawInputApi.NativeMethods.GetRawInputDeviceInfoW(deviceHandle, DeviceInfoItem.DeviceName, bufferPtr, ref charCount);
-				}
-				return new(buffer);
+				result = RawInputApi.NativeMethods.GetRawInputDeviceInfo(deviceHandle.Handle, DeviceInfoItem.DeviceName, bufferPtr, ref charCount);
 			}
+			return new(buffer);
 		}
 	}
 
-	public static RIDDEVICEINFO GetRawInputDeviceInfo(this SafeRawInputHandle deviceHandle)
+	public static RIDDEVICEINFO_Mouse GetRawInputMouseDeviceInfo(this SafeRawInputHandle deviceHandle)
 	{
 		unsafe
 		{
-			RIDDEVICEINFO deviceInfo = new RIDDEVICEINFO();
-			uint byteCount = deviceInfo.Size;
-			var result = RawInputApi.NativeMethods.GetRawInputDeviceInfoW(deviceHandle, DeviceInfoItem.DeviceName, &deviceInfo, ref byteCount);
+			RIDDEVICEINFO_Mouse deviceInfo = new RIDDEVICEINFO_Mouse();
+			int byteCount = deviceInfo.Size;
+			var result = RawInputApi.NativeMethods.GetRawInputDeviceInfo(deviceHandle.Handle, DeviceInfoItem.DeviceName, &deviceInfo, ref byteCount);
+			if (result != 0)
+				throw new Win32Exception();
+
+			return deviceInfo;
+		}
+	}
+
+	public static RIDDEVICEINFO_Keyboard GetRawInputKeyboardDeviceInfo(this SafeRawInputHandle deviceHandle)
+	{
+		unsafe
+		{
+			RIDDEVICEINFO_Keyboard deviceInfo = new RIDDEVICEINFO_Keyboard();
+			int byteCount = deviceInfo.Size;
+			var result = RawInputApi.NativeMethods.GetRawInputDeviceInfo(deviceHandle.Handle, DeviceInfoItem.DeviceName, &deviceInfo, ref byteCount);
+			if (result != 0)
+			throw new Win32Exception();
+
+			return deviceInfo;
+		}
+	}
+
+	public static RIDDEVICEINFO_HID GetRawInputHIDDeviceInfo(this SafeRawInputHandle deviceHandle)
+	{
+		unsafe
+		{
+			RIDDEVICEINFO_HID deviceInfo = new RIDDEVICEINFO_HID();
+			int byteCount = deviceInfo.Size;
+			var result = RawInputApi.NativeMethods.GetRawInputDeviceInfo(deviceHandle.Handle, DeviceInfoItem.DeviceName, &deviceInfo, ref byteCount);
 			if (result != 0)
 				throw new Win32Exception();
 

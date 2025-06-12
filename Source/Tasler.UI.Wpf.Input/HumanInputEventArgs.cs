@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Input;
 using Tasler.Interop.RawInput;
@@ -21,22 +21,22 @@ namespace Tasler.Windows.Input
 			RAWINPUTHEADER header;
 			RawInputBase.FromHandle(hRawInput, out header, true);
 
-			HumanInputEventArgs args = null;
+			HumanInputEventArgs? args = null;
 			if (header.Type == InterfaceDeviceType.HID)
 			{
-				var humanInput = (HumanInput)RawInputBase.FromHandle(hRawInput, header);
+				var humanInput = (HumanInput?)RawInputBase.FromHandle(hRawInput, out header);
 
 				var humanInterfaceDevice = new InterfaceDeviceHuman(
 					new RAWINPUTDEVICELIST()
 					{
-						dwType = header.Type,
-						hDevice = header.Device,
+						DeviceType = header.Type,
+						DeviceHandle = header.Device,
 					}
 				);
 
 				var focusedElement = Keyboard.FocusedElement as DependencyObject;
 				var presentationSource = PresentationSource.FromDependencyObject(focusedElement);
-				args = new HumanInputEventArgs(presentationSource, humanInput, humanInterfaceDevice);
+				args = new HumanInputEventArgs(presentationSource, humanInput!, humanInterfaceDevice);
 			}
 
 			return args;

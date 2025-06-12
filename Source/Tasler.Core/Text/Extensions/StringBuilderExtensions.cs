@@ -17,7 +17,7 @@ public static class StringBuilderExtensions
 	/// An <see cref="IEnumerable{T}"/> which can be used to iterate over all of the
 	/// characters of the <see cref="StringBuilder"/> instance.
 	/// </returns>
-	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <see langword="null"/>.</exception>
 	public static IEnumerable<char> AsEnumerableOfChar(this StringBuilder sb)
 	{
 		Guard.IsNotNull(sb);
@@ -26,7 +26,7 @@ public static class StringBuilderExtensions
 	}
 
 	/// <summary>
-	/// Creates an <see cref="IEnumerable{char}"/> over the characters in a specified section of the
+	/// Creates an <see cref="IEnumerable{T}"/> over the characters in a specified section of the
 	/// <see cref="StringBuilder"/> instance.
 	/// </summary>
 	/// <param name="sb">The <see cref="StringBuilder"/> on which to operate.</param>
@@ -36,10 +36,10 @@ public static class StringBuilderExtensions
 	///   the <paramref name="startIndex"/> are included.
 	/// </param>
 	/// <returns>
-	/// An <see cref="IEnumerable{char}"/> over the characters in a specified section of the
+	/// An <see cref="IEnumerable{T}"/> over the characters in a specified section of the
 	/// <see cref="StringBuilder"/> instance.
 	/// </returns>
-	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentOutOfRangeException">
 	/// <paramref name="startIndex"/> is outside the range of valid indexes for <paramref name="sb"/>.
 	/// -or- count is less than -1. -or- startIndex and count do not specify a valid section in
@@ -70,12 +70,12 @@ public static class StringBuilderExtensions
 	/// <param name="sb">The <see cref="StringBuilder"/> on which to operate.</param>
 	/// <param name="value">The value to be removed from the end of the <see cref="StringBuilder"/>.</param>
 	/// <returns>A reference to the <see cref="StringBuilder"/> instance after the operation has completed.</returns>
-	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <see langword="null"/>.</exception>
 	/// <remarks>
 	/// <para>The string to discard is checked on an ordinal basis; that is, it is not culture-aware. If the end
 	/// of the <see cref="StringBuilder"/> does not match <paramref name="value"/>, it is not changed. Also if the
 	/// <paramref name="value"/> is null or an empty string, the <see cref="StringBuilder"/> is not changed.</para>
-	/// <para>This method effectively does an undo of an immediate antecedent <see cref="StringBuilder.Append"/> call.
+	/// <para>This method effectively does an undo of an immediate antecedent <see cref="StringBuilder.Append(string)"/> call.
 	/// </para>
 	/// </remarks>
 	public static StringBuilder DiscardFromEnd(this StringBuilder sb, string? value)
@@ -100,11 +100,11 @@ public static class StringBuilderExtensions
 	/// The number of characters to remove from the end of the <see cref="StringBuilder"/>.
 	/// </param>
 	/// <returns>A reference to the <see cref="StringBuilder"/> instance after the operation has completed.</returns>
-	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentOutOfRangeException">The <paramref name="count"/> is negative or greater than the
 	/// length of <paramref name="sb"/>.</exception>
 	/// <remarks>
-	/// This method effectively does an undo of an immediate antecedent <see cref="StringBuilder.Append"/> call.
+	/// This method effectively does an undo of an immediate antecedent <see cref="StringBuilder.Append(string)"/> call.
 	/// </remarks>
 	public static StringBuilder DiscardCharsFromEnd(this StringBuilder sb, int count)
 	{
@@ -121,9 +121,9 @@ public static class StringBuilderExtensions
 	/// </summary>
 	/// <param name="sb">The <see cref="StringBuilder"/> on which to operate.</param>
 	/// <returns>A reference to the <see cref="StringBuilder"/> instance after the operation has completed.</returns>
-	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <see langword="null"/>.</exception>
 	/// <remarks>
-	/// This method effectively does an undo of an immediate antecedent <see cref="StringBuilder.AppendLine"/> call.
+	/// This method effectively does an undo of an immediate antecedent <see cref="StringBuilder.AppendLine(string)"/> call.
 	/// </remarks>
 	public static StringBuilder DiscardLineFromEnd(this StringBuilder sb)
 	{
@@ -143,13 +143,13 @@ public static class StringBuilderExtensions
 	/// <returns>
 	/// A reference to the <see cref="StringBuilder"/> instance after the operation has completed.
 	/// </returns>
-	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <c>null</c>.</exception>
+	/// <exception cref="ArgumentNullException">The <paramref name="sb"/> is <see langword="null"/>.</exception>
 	/// <remarks>
 	/// <para>The string to discard is checked on an ordinal basis; that is, it is not culture-aware.
 	/// If the end of the <see cref="StringBuilder"/> does not match <paramref name="value"/> followed
 	/// by the default line terminator, it is not changed.</para>
 	/// <para>This method is intended to undo the effect of an immediate antecedent
-	/// <see cref="StringBuilder.AppendLine"/> call.</para>
+	/// <see cref="StringBuilder.AppendLine(string)"/> call.</para>
 	/// </remarks>
 	public static StringBuilder DiscardLineFromEnd(this StringBuilder sb, string value)
 	{

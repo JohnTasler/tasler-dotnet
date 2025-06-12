@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<ProjectName>Tasler.Interop</ProjectName>
@@ -7,18 +7,25 @@
 		<ProjectGuid>{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}</ProjectGuid>
 		<OutputType>Library</OutputType>
 		<TargetFrameworks>net9.0-windows</TargetFrameworks>
-		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Platforms>AnyCPU;ARM64;x64;x86</Platforms>
+		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
+		<Description>Windows native dotnet interop framework.</Description>
+		<Title>Tasler.DotNet.Interop</Title>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<Compile Update="Properties\Resources.Designer.cs">
+		<TrimmerRootAssembly Include="Tasler.Interop" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties/Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
@@ -27,18 +34,19 @@
 
 	<!-- Package References -->
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.5" />
+		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.6" />
 	</ItemGroup>
 
 	<!-- Project References -->
 	<ItemGroup>
 		<ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj">
 			<Name>Tasler.ComponentModel</Name>
-			<Project>{2d4e35a3-754d-4e8e-b52c-aa2d0dd9e059}</Project>
+			<Project>{2D4E35A3-754D-4E8E-B52C-AA2D0DD9E059}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
+			<Name>Tasler.Core</Name>
+			<Project>{B0C1F3D2-4E5A-4C8B-9F3C-6D7E8F9A0B1C}</Project>
 		</ProjectReference>
 	</ItemGroup>
-
-	<!-- Shared Project References -->
-	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
 
 </Project>

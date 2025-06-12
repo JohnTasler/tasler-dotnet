@@ -1,4 +1,6 @@
 
+using Tasler.Interop.User;
+
 namespace Tasler.Interop.Gdi;
 
 public class SafeGdiIcon : SafeGdiObject
@@ -22,4 +24,7 @@ public class SafeGdiIconOwned : SafeGdiIcon
 		: base(true)
 	{
 	}
+
+	protected override bool ReleaseHandle()
+		=> UserApi.NativeMethods.DestroyIcon(DangerousGetHandle());
 }

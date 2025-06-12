@@ -137,6 +137,22 @@ public static partial class UserApi
 
 	public static SafeHwnd GetWindow(this SafeHwnd hwnd, GW uCmd) => NativeMethods.GetWindow(hwnd, uCmd);
 
+
+	/// <summary>
+	/// Retrieves the identifier of the thread that created the specified window and the identifier
+	/// of the process that created the window.
+	/// </summary>
+	/// <param name="hwnd">A handle to the window.</param>
+	/// <param name="processId">The process identifier.</param>
+	/// <returns>If the function succeeds, the return value is the identifier of the thread that
+	/// created the window. If the window handle is invalid, the return value is zero. </returns>
+	/// <seealso cref="GetWindowThreadId"/>
+	public static uint GetWindowThreadProcessId(this SafeHwnd hwnd, out uint processId)
+		=> NativeMethods.GetWindowThreadProcessId(hwnd, out processId);
+
+	public static uint GetWindowThreadId(this SafeHwnd hwnd)
+		=> NativeMethods.GetWindowThreadProcessId(hwnd, out _);
+
 	public static nint PostMessage(this SafeHwnd hwnd, WM msg, nint wparam, nint lparam)
 		=> NativeMethods.PostMessageW(hwnd, msg, wparam, lparam);
 
