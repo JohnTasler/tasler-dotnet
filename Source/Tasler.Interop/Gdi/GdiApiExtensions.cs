@@ -41,7 +41,7 @@ public static partial class GdiApi
 			{
 				int logPixels;
 				using (var hdcScreen = UserApi.GetWindowClientDC(null, null, DCX.Default))
-					logPixels = NativeMethods.GetDeviceCaps(hdcScreen, DeviceCapability.LogicalPixelsX);
+					logPixels = NativeMethods.GetDeviceCaps(hdcScreen, DeviceCapability.LogicalPixelsY);
 				var scale = 96.0 / logPixels;
 				Interlocked.Exchange(ref s_dpiScaleY, scale);
 			}
