@@ -7,7 +7,7 @@
 		<ProjectGuid>{CA6287D9-6F8B-4F6D-8D44-D8359A43D644}</ProjectGuid>
 		<OutputType>Library</OutputType>
 		<TargetFrameworks>net9.0-windows</TargetFrameworks>
-		<AppDesignerFolder>Properties</AppDesignerFolder>
+	https://github.com/JohnTasler/tasler-dotnet/pull/9/conflict?name=Source%252FTasler.Interop%252FTasler.Interop.csproj&ancestor_oid=db3407b40a88e8a06671e76a323137c69355bff3&base_oid=cd8213d00aca2a1daf8ae33478f9fc9f9502aacb&head_oid=978bdfbe3b543bfedc07b904f49adb7599b98837	<AppDesignerFolder>Properties</AppDesignerFolder>
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
