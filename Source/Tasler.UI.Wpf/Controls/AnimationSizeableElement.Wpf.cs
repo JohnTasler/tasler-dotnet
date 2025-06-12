@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace Tasler.Windows.Controls;
 
-using DPFactory = DependencyPropertyFactory<AnimationSizeableElement>;
+using DPFactory = Tasler.Windows.DependencyPropertyFactory<AnimationSizeableElement>;
 
 /// <summary>
 /// A framework element that provides properties to easily animate the width, height, and offsets of a

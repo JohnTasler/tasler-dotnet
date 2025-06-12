@@ -48,15 +48,14 @@ public static class SafeRawInputHandleExtensions
 			if (result != 0)
 				throw new Win32Exception();
 
-			using (var renter = new SharedArrayPoolRenter<char>((int)charCount + 1))
+			using var renter = new SharedArrayPoolRenter<char>((int)charCount + 1);
+
+			var buffer = renter.Data;
+			fixed (char* bufferPtr = buffer)
 			{
-				var buffer = renter.Data;
-				fixed (char* bufferPtr = buffer)
-				{
-					result = RawInputApi.NativeMethods.GetRawInputDeviceInfo(deviceHandle.Handle, DeviceInfoItem.DeviceName, bufferPtr, ref charCount);
-				}
-				return new(buffer);
+				result = RawInputApi.NativeMethods.GetRawInputDeviceInfo(deviceHandle.Handle, DeviceInfoItem.DeviceName, bufferPtr, ref charCount);
 			}
+			return new(buffer);
 		}
 	}
 

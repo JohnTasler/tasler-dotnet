@@ -451,7 +451,7 @@ public class ChildItemIdList : SafeCoTaskMemHandle
 	#endregion Equality Comparisons
 
 	#region Overrides
-	public override bool Equals(object o)
+	public override bool Equals(object? o)
 	{
 		if ((o == null) || !(o is ItemIdList || o is ChildItemIdList))
 			return false;

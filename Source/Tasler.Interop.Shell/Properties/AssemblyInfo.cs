@@ -1,12 +1,11 @@
-using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// Assembly-specific information about an assembly. Shared, assembly-neutral information
-// is in the following files:
-//     AssemblyInfoConfiguration.cs
-//     AssemblyInfoCopyright.cs
+// Assembly-specific information about the assembly. Shared, assembly-neutral information
+// is specified in the following files:
+//     DirectoryBuild.props
 //     AssemblyInfoVersion.cs
+// Also, some assembly-specified information is specified in project file.
 
-[assembly: AssemblyTitle(".NET Windows Shell interop framework.")]
-[assembly: AssemblyProduct("Tasler .NET Framework")]
-[assembly: Guid("0D47AC56-9F1E-4DC0-943C-AB2D6FEF4162")]
+[assembly: Guid("4090FB61-0858-4AE8-A30D-B34464A9505F")]
+[assembly: DisableRuntimeMarshalling]

@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<UseWPF>true</UseWPF>
 		<ProjectName>Tasler.UI.Wpf</ProjectName>
-		<AssemblyName>Tasler.UI.Wpf</AssemblyName>
+		<AssemblyName>Tasler.Windows</AssemblyName>
 		<RootNamespace>Tasler.Windows</RootNamespace>
 		<ProjectGuid>{CC6BE222-DE4B-412A-9743-80C187F43EE1}</ProjectGuid>
 		<OutputType>Library</OutputType>
@@ -15,7 +15,7 @@
 		<DefineConstants>WINDOWS_WPF</DefineConstants>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 		<Description>Application-neutral extension framework for Windows Presentation Foundation.</Description>
-		<Title>Tasler.DotNet.Windows</Title>
+		<Title>$(AssemblyName)</Title>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -70,4 +70,5 @@
 	<ImportGroup>
 		<Import Project="..\Tasler.UI.Shared\Tasler.UI.Shared.projitems" Label="Shared" />
 	</ImportGroup>
+
 </Project>

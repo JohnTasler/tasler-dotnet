@@ -7,7 +7,11 @@ namespace Tasler.Interop.RawInput.User
 	[StructLayout(LayoutKind.Sequential)]
 	public struct RAWINPUTDEVICELIST
 	{
-		public readonly SafeRawInputHandle DeviceHandle => new() { Handle = _deviceHandle };
+		public readonly SafeRawInputHandle DeviceHandle
+		{
+			get => new() { Handle = _deviceHandle };
+			init => _deviceHandle = value.Handle;
+		}
 		private nint _deviceHandle;
 
 		public InterfaceDeviceType DeviceType;

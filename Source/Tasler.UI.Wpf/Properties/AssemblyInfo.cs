@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Markup;
+using Tasler.Windows;
 
 // Assembly-specific information about the assembly. Shared, assembly-neutral information
 // is specified in the following files:
@@ -25,12 +26,14 @@ using System.Windows.Markup;
 [assembly: InternalsVisibleTo("Tasler.Windows.Input")]
 [assembly: InternalsVisibleTo("Tasler.Configuration")]
 
+namespace Tasler.Windows;
+
 internal static class XmlNamespace
 {
-		public const string Tasler = "urn:tasler-dotnet-ui";
+	public const string Tasler = "urn:tasler-dotnet-ui";
 }
 
 internal static class XmlNamespacePrefix
 {
-		public const string Tasler = "taz";
+	public const string Tasler = "taz";
 }
