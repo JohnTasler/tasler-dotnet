@@ -16,6 +16,12 @@
 		<Title>Tasler.DotNet.ComponentModel</Title>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<TrimmerRootAssembly Include="Tasler.ComponentModel" />
 	</ItemGroup>
