@@ -146,7 +146,7 @@ public static partial class UserApi
 
 	public static void DestroyCursor(nint hCursor)
 	{
-		if (!NativeMethods.DestroyIcon(hCursor))
+		if (!NativeMethods.DestroyCursor(hCursor))
 			throw new Win32Exception(Marshal.GetLastWin32Error());
 	}
 
