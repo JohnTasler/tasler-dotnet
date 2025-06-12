@@ -219,6 +219,9 @@ public static partial class UserApi
 		public static partial SafeHwnd GetWindow(SafeHwnd hwnd, GW uCmd);
 
 		[LibraryImport(ApiLib, SetLastError = true)]
+		public static partial uint GetWindowThreadProcessId(SafeHwnd hwnd, out uint processId);
+
+		[LibraryImport(ApiLib, SetLastError = true)]
 		public static partial int GetWindowTextW(SafeHwnd hwnd, [Out] char[] text, int nMaxCount);
 
 		[LibraryImport(ApiLib, SetLastError = true)]

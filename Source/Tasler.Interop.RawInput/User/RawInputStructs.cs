@@ -1,16 +1,15 @@
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.JavaScript;
-using System.Windows.Input;
-using Tasler.Interop.Gdi;
+using Tasler.Extensions;
 using Tasler.Interop.User;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Tasler.Interop.RawInput.User
 {
 	[StructLayout(LayoutKind.Sequential)]
 	public struct RAWINPUTDEVICELIST
 	{
-		public SafeRawInputHandle DeviceHandle;
+		public readonly SafeRawInputHandle DeviceHandle => new() { Handle = _deviceHandle };
+		private nint _deviceHandle;
+
 		public InterfaceDeviceType DeviceType;
 
 		public override readonly bool Equals(object? obj)
@@ -39,7 +38,7 @@ namespace Tasler.Interop.RawInput.User
 	/// If <see cref="RIDEV.Remove"/> is set and the <see cref="WindowHandle"> member is not set to NULL, then
 	/// <see cref="RawInputApi.RegisterRawInputDevices" /> function will fail.
 	/// </remarks>
-	[StructLayout(LayoutKind.Sequential)]
+	[StructLayout(LayoutKind.Sequential, Pack = 2)]
 	public struct RAWINPUTDEVICE
 	{
 		/// <summary>
@@ -73,7 +72,12 @@ namespace Tasler.Interop.RawInput.User
 		/// A handle to the target window. If NULL, raw input events follow the keyboard focus to ensure only
 		/// the focused application window receives the events.
 		/// </summary>
-		public SafeHwnd WindowHandle;
+		public SafeHwnd WindowHandle
+		{
+			get => new SafeHwnd() { Handle = _windowHandle };
+			set => _windowHandle = value.Handle;
+		}
+		private nint _windowHandle;
 	}
 
 	/// <summary>
@@ -89,12 +93,11 @@ namespace Tasler.Interop.RawInput.User
 		public int Size;
 
 		/// <summary>Handle to the device sending the data.</summary>
-		public SafeRawInputHandle Device;
+		public SafeRawInputHandle Device => new() { Handle = _device };
+		private nint _device;
 
 		/// <summary>wParam from the window message.</summary>
 		public nint WParam;
-
-		public static readonly int SizeOf = Marshal.SizeOf<RAWINPUTHEADER>();
 	}
 
 	/// <summary>
@@ -132,22 +135,22 @@ namespace Tasler.Interop.RawInput.User
 	public struct RAWINPUTKEYBOARD
 	{
 		/// <summary>Scan code for key depression.</summary>
-		public short MakeCode;
+		public ushort MakeCode;
 
 		/// <summary>Scan code information.</summary>
 		public KeyboardFlags Flags;
 
 		/// <summary>Reserved.</summary>
-		public short Reserved;
+		public ushort Reserved;
 
 		/// <summary>Virtual key code.</summary>
-		public short /* VirtualKeys */ VirtualKey;
+		public ushort /* VirtualKeys */ VirtualKey;
 
 		/// <summary>Corresponding window message.</summary>
-		public int /* WindowMessages */ Message;
+		public uint /* WindowMessages */ Message;
 
 		/// <summary>Extra information.</summary>
-		public int ExtraInformation;
+		public uint ExtraInformation;
 	}
 
 	/// <summary>
@@ -164,30 +167,38 @@ namespace Tasler.Interop.RawInput.User
 
 		//      /// <summary>Data for the HID.</summary>
 		//      public nint Data;
-
-		public static readonly int SizeOf = Marshal.SizeOf<RAWINPUTHID>();
 	}
 
-	/// <summary>
-	/// Value type for raw input.
-	/// </summary>
-	[StructLayout(LayoutKind.Explicit, Pack = 1)]
-	public struct RAWINPUT
+	/// <summary>Value type for raw input.</summary>
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
+	public struct RAWINPUT_Mouse
 	{
 		/// <summary>Header for the data.</summary>
-		[FieldOffset(0)]
 		public RAWINPUTHEADER Header;
 
 		/// <summary>Mouse raw input data.</summary>
-		[FieldOffset(16)]
 		public RAWINPUTMOUSE Mouse;
+	}
+
+	/// <summary>Value type for raw input.</summary>
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
+	public struct RAWINPUT_Keyboard
+	{
+		/// <summary>Header for the data.</summary>
+		public RAWINPUTHEADER Header;
 
 		/// <summary>Keyboard raw input data.</summary>
-		[FieldOffset(16)]
 		public RAWINPUTKEYBOARD Keyboard;
+	}
+
+	/// <summary>Value type for raw input.</summary>
+	[StructLayout(LayoutKind.Sequential, Pack = 4)]
+	public struct RAWINPUT_HID
+	{
+		/// <summary>Header for the data.</summary>
+		public RAWINPUTHEADER Header;
 
 		/// <summary>HID raw input data.</summary>
-		[FieldOffset(16)]
 		public RAWINPUTHID HID;
 	}
 
@@ -249,24 +260,39 @@ namespace Tasler.Interop.RawInput.User
 		public ushort Usage;
 	}
 
-	[StructLayout(LayoutKind.Explicit)]
-	public struct RIDDEVICEINFO
+	[StructLayout(LayoutKind.Sequential)]
+	public struct RIDDEVICEINFO_Mouse
 	{
-		[FieldOffset(0)]
-		public uint Size = unchecked((uint)Marshal.SizeOf<RIDDEVICEINFO>());
+		public int Size = RIDDEVICEINFO_Mouse.SizeOf;
 
-		[FieldOffset(sizeof(uint))]
 		public InterfaceDeviceType DeviceType;
 
-		[FieldOffset(sizeof(uint) + sizeof(InterfaceDeviceType))]
 		public RID_DEVICE_INFO_MOUSE MouseInfo;
 
-		[FieldOffset(sizeof(uint) + sizeof(InterfaceDeviceType))]
+		public RIDDEVICEINFO_Mouse() { }
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct RIDDEVICEINFO_Keyboard
+	{
+		public int Size = RIDDEVICEINFO_Keyboard.SizeOf;
+
+		public InterfaceDeviceType DeviceType;
+
 		public RID_DEVICE_INFO_KEYBOARD KeyboardInfo;
 
-		[FieldOffset(sizeof(uint) + sizeof(InterfaceDeviceType))]
+		public RIDDEVICEINFO_Keyboard() { }
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct RIDDEVICEINFO_HID
+	{
+		public int Size = RIDDEVICEINFO_HID.SizeOf;
+
+		public InterfaceDeviceType DeviceType;
+
 		public RID_DEVICE_INFO_HID HidInfo;
 
-		public RIDDEVICEINFO() { }
+		public RIDDEVICEINFO_HID() { }
 	}
 }
