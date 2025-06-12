@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Tasler;
+namespace Tasler.Extensions;
 
 // TODO: NEEDS_UNIT_TESTS
 

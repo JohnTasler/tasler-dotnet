@@ -187,21 +187,4 @@ public static class ValidateArgument
 
 		return argument;
 	}
-
-	public static T IsEnumBitFlags<T>(this T @this)
-		where T : Enum, IConvertible
-	{
-		#if DEBUG
-		var underlyingType = Enum.GetUnderlyingType(typeof(T));
-		if ((!typeof(IUnsignedNumber<uint>).IsAssignableFrom(underlyingType)
-			&& !typeof(IUnsignedNumber<ushort>).IsAssignableFrom(underlyingType)
-			&& !typeof(IUnsignedNumber<ulong>).IsAssignableFrom(underlyingType))
-			|| !typeof(T).GetCustomAttributes<FlagsAttribute>(false).Any())
-		{
-			throw new InvalidEnumArgumentException(string.Format(Resources.EnumNotFlagsExceptionFormat1, typeof(T).FullName));
-		}
-		#endif
-
-		return @this;
-	}
 }
