@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<ProjectName>Tasler.Core</ProjectName>
@@ -16,13 +16,14 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
 		<IsAotCompatible>true</IsAotCompatible>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<TrimmerRootAssembly Include="Tasler.Core" />
+		<TrimmerRootAssembly Include="$(AssemblyName)" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -42,15 +43,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Configuration\" />
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Properties\Resources.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Resources.resx</DependentUpon>
-	  </Compile>
+	  <Folder Include="Configuration\" />
 	</ItemGroup>
 
 	<!-- Package References -->

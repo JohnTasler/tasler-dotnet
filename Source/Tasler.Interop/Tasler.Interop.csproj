@@ -11,21 +11,22 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 		<Description>Windows native dotnet interop framework.</Description>
-		<Title>Tasler.DotNet.Interop</Title>
+		<Title>$(AssemblyName)</Title>
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
 		<IsAotCompatible>true</IsAotCompatible>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<TrimmerRootAssembly Include="Tasler.Interop" />
+		<TrimmerRootAssembly Include="$(AssemblyName)" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Properties/Resources.Designer.cs">
+		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>

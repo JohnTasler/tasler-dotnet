@@ -23,8 +23,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Source\Tasler.ComponentModel\Tasler.ComponentModel.csproj" />
-		<ProjectReference Include="..\..\Source\Tasler.Core\Tasler.Core.csproj" />
+		<ProjectReference Include="..\..\Source\Tasler.ComponentModel\Tasler.ComponentModel.csproj">
+			<Project>{2D4E35A3-754D-4E8E-B52C-AA2D0DD9E059}</Project>
+			<Name>Tasler.ComponentModel</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\..\Source\Tasler.Core\Tasler.Core.csproj">
+			<Project>{6692957C-4E2B-415B-A03A-4B3DBCAC071B}</Project>
+			<Name>Tasler.Core</Name>
+		</ProjectReference>
 	</ItemGroup>
 
 	<ItemGroup>

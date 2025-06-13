@@ -30,7 +30,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Source\Tasler.Core\Tasler.Core.csproj" />
+		<ProjectReference Include="..\..\Source\Tasler.Core\Tasler.Core.csproj">
+			<Project>{6692957C-4E2B-415B-A03A-4B3DBCAC071B}</Project>
+			<Name>Tasler.Core</Name>
+		</ProjectReference>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -13,21 +13,22 @@
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 		<EnableXmlDocWarnings>true</EnableXmlDocWarnings>
 		<Description>Application-neutral component model library..</Description>
-		<Title>Tasler.DotNet.ComponentModel</Title>
+		<Title>$(AssemblyName)</Title>
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
 		<IsAotCompatible>true</IsAotCompatible>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<TrimmerRootAssembly Include="Tasler.ComponentModel" />
+		<TrimmerRootAssembly Include="$(AssemblyName)" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="StructWrapperTypeDescriptionProvider.cs" />
+		<Compile Remove="StructWrapperTypeDescriptionProvider.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

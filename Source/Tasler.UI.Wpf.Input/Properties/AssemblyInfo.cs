@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Markup;
 using Tasler.Windows;
@@ -9,7 +8,6 @@ using Tasler.Windows;
 //     AssemblyInfoVersion.cs
 // Also, some assembly-specified information is specified in project file.
 [assembly: Guid("4D4B272C-D636-41A3-9726-5A442BDD0750")]
-[assembly: DisableRuntimeMarshalling]
 
 // Declaration for the XAML parser. These allow multiple CLR namespaces defined in this assembly to
 // be collapsed into a single XML namespace.

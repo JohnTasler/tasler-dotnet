@@ -6,6 +6,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<DefaultLanguage>en-US</DefaultLanguage>
+		<Title>$(AssemblyName)</Title>
 
 		<!-- Documentation content warning disabled until ready to work on them in a project -->
 		<XmlDocWarnings>1570;1573;1574;1591</XmlDocWarnings>

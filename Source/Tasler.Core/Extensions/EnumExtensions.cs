@@ -1,3 +1,6 @@
+using System.ComponentModel;
+using System.Numerics;
+using Tasler.Properties;
 
 namespace Tasler.Extensions;
 
@@ -99,7 +102,7 @@ public static class EnumExtensions
 	private static T IsEnumBitFlags<T>(this T @this)
 		where T : Enum, IConvertible
 	{
-#if DEBUG
+	#if DEBUG
 		var underlyingType = Enum.GetUnderlyingType(typeof(T));
 		if ((!typeof(IUnsignedNumber<uint>).IsAssignableFrom(underlyingType)
 			&& !typeof(IUnsignedNumber<ushort>).IsAssignableFrom(underlyingType)
@@ -108,7 +111,7 @@ public static class EnumExtensions
 		{
 			throw new InvalidEnumArgumentException(string.Format(Resources.EnumNotFlagsExceptionFormat1, typeof(T).FullName));
 		}
-#endif
+	#endif
 
 		return @this;
 	}

@@ -13,10 +13,11 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 		<Description>Windows native dotnet interop framework for raw (HID) input.</Description>
-		<Title>Tasler.DotNet.Interop.RawInput</Title>
+		<Title>$(AssemblyName)</Title>
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
 		<IsAotCompatible>true</IsAotCompatible>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 		<IsTrimmable>true</IsTrimmable>
@@ -41,10 +42,5 @@
 			<Name>Tasler.Interop</Name>
 		</ProjectReference>
 	</ItemGroup>
-	<ItemGroup>
-	  <EmbeddedResource Update="Properties\Strings.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	</ItemGroup>
+
 </Project>

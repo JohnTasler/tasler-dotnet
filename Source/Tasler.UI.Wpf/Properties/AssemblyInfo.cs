@@ -10,7 +10,6 @@ using Tasler.Windows;
 // Also, some assembly-specified information is specified in project file.
 
 [assembly: Guid("CC6BE222-DE4B-412A-9743-80C187F43EE1")]
-[assembly: DisableRuntimeMarshalling]
 
 // Declaration for the XAML parser. These allow multiple CLR namespaces defined in this assembly to
 // be collapsed into a single XML namespace.

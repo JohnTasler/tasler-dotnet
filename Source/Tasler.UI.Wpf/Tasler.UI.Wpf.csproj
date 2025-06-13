@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<UseWPF>true</UseWPF>
@@ -11,21 +11,20 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<LangVersion>preview</LangVersion>
 		<DefineConstants>WINDOWS_WPF</DefineConstants>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
-		<Description>Application-neutral extension framework for Windows Presentation Foundation.</Description>
-		<Title>$(AssemblyName)</Title>
+		<Description>Application-neutral extension framework for Windows Presentation Foundation (WPF) applications.</Description>
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
 		<IsAotCompatible>true</IsAotCompatible>
 		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
 		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<TrimmerRootAssembly Include="Tasler.UI.Wpf" />
+		<TrimmerRootAssembly Include="$(AssemblyName)" />
 	</ItemGroup>
 
 	<ItemGroup>

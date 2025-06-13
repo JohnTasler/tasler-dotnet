@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<UseWPF>true</UseWPF>
@@ -11,10 +11,20 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
 		<DefineConstants>WINDOWS_WPF</DefineConstants>
-		<Platforms>AnyCPU;x64;x86;arm64</Platforms>
+		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 		<Description>Windows Presentation Foundation framework for raw (HID) input</Description>
-		<Title>$(AssemblyName)</Title>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<TrimmerRootAssembly Include="$(AssemblyName)" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Remove="KeyboardFilterService.cs" />
@@ -27,7 +37,6 @@
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 	</ItemGroup>
-
 
 	<!-- Project References -->
 	<ItemGroup>
@@ -43,6 +52,9 @@
 			<Project>{921D82F1-B7A8-47F9-83E0-B576441057F7}</Project>
 			<Name>Tasler.Interop.RawInput</Name>
 		</ProjectReference>
-		<ProjectReference Include="..\Tasler.UI.Wpf\Tasler.UI.Wpf.csproj" />
+		<ProjectReference Include="..\Tasler.UI.Wpf\Tasler.UI.Wpf.csproj">
+			<Project>{CC6BE222-DE4B-412A-9743-80C187F43EE1}</Project>
+			<Name>Tasler.UI.Wpf</Name>
+		</ProjectReference>
 	</ItemGroup>
 </Project>

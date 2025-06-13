@@ -2,23 +2,33 @@
 
 	<PropertyGroup>
 		<UseUwp>true</UseUwp>
-		<UseUwpTools>true</UseUwpTools>
 		<ProjectName>Tasler.UI.Uwp</ProjectName>
-		<AssemblyName>Tasler.UI.Uwp</AssemblyName>
+		<AssemblyName>Tasler.UI</AssemblyName>
 		<RootNamespace>Tasler.UI</RootNamespace>
 		<ProjectGuid>{E8BBBB77-0D9D-4101-90CD-2741970CE01A}</ProjectGuid>
 		<OutputType>Library</OutputType>
-		<TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+		<!--<TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>-->
+		<TargetFramework>net9.0-windows10</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-		<IsAotCompatible>true</IsAotCompatible>
-		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
-		<DefaultLanguage>en-US</DefaultLanguage>
+		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<LangVersion>preview</LangVersion>
 		<DefineConstants>WINDOWS_UWP</DefineConstants>
-		<Platforms>AnyCPU;x64;x86;arm64</Platforms>
+		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
+		<Description>Application-neutral extension framework for Universal Windows Platform (UWP) applications.</Description>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<TrimmerRootAssembly Include="$(AssemblyName)" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <Compile Remove="Core\DispatcherQueueExtensions.cs" />
@@ -36,31 +46,29 @@
 		</Compile>
 	</ItemGroup>
 
-	<ItemGroup>
-		<PRIResource Update="Properties\Resources.resw">
-			<Generator>InternalReswFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.cs</LastGenOutput>
-		</PRIResource>
-	</ItemGroup>
-
 	<!-- Package References -->
 	<ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="9.5.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="9.6.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
 	</ItemGroup>
 
 	<!-- Project References -->
 	<ItemGroup>
-		<ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj" />
+		<ProjectReference Include="..\Tasler.ComponentModel\Tasler.ComponentModel.csproj">
+			<Project>{2D4E35A3-754D-4E8E-B52C-AA2D0DD9E059}</Project>
+			<Name>Tasler.ComponentModel</Name>
+		</ProjectReference>
 		<ProjectReference Include="..\Tasler.Core\Tasler.Core.csproj">
-			<Project>{6692957c-4e2b-415b-a03a-4b3dbcac071b}</Project>
+			<Project>{6692957C-4E2B-415B-A03A-4B3DBCAC071B}</Project>
 			<Name>Tasler.Core</Name>
 		</ProjectReference>
 	</ItemGroup>
 
 	<!-- Shared Project References -->
-	<Import Project="..\Tasler.UI.Shared\Tasler.UI.Shared.projitems" Label="Shared" />
-	<Import Project="..\Tasler.AssemblyInfo.Shared\Tasler.AssemblyInfo.Shared.projitems" Label="Shared" />
+	<ImportGroup>
+		<Import Project="..\Tasler.UI.Shared\Tasler.UI.Shared.projitems" Label="Shared" />
+	</ImportGroup>
+
 </Project>
