@@ -1,25 +1,27 @@
 namespace Tasler.ComponentModel.Extensions;
 
 /// <summary>
-///	  Encapsulates a method that selects the children of the specified <paramref cref="node"/>
-///	  and returns an <see cref="IEnumerable{TTreeNode}"/>
+///   Encapsulates a method that selects the children of the specified <paramref cref="node"/>
+///   and returns an <see cref="IEnumerable{TTreeNode}"/>
 /// </summary>
-///   <typeparam name="TTreeNode">The type of tha tree node.</typeparam>
-///   <param name="node">The node for which to return the direct child nodes.</param>
+/// <typeparam name="TTreeNode">The type of tha tree node.</typeparam>
+/// <param name="node">The node for which to return the direct child nodes.</param>
 /// <returns>
-///   An <see cref="IEnumerable{TTreeNode}"/> that will produce the direct children of the specified <paramref cref="node"/>.
+///  An <see cref="IEnumerable{TTreeNode}"/> that will produce the direct children of the
+///  specified <paramref cref="node"/>.
 /// </returns>
 public delegate IEnumerable<TTreeNode> DirectChildrenSelector<TTreeNode>(TTreeNode node)
 	where TTreeNode : class;
 
 /// <summary>
-///	  Encapsulates a method that selects the parent of the specified <paramref cref="node"/>
-///	  and returns an <see cref="IEnumerable{TTreeNode}"/>
+///   Encapsulates a method that selects the parent of the specified <paramref cref="node"/>
+///   and returns an <see cref="IEnumerable{TTreeNode}"/>
 /// </summary>
-///   <typeparam name="TTreeNode">The type of tha tree node.</typeparam>
-///   <param name="node">The node for which to return the single parent node.</param>
+/// <typeparam name="TTreeNode">The type of tha tree node.</typeparam>
+/// <param name="node">The node for which to return the single parent node.</param>
 /// <returns>
-///   An <see cref="IEnumerable{TTreeNode}"/> that will produce the single parent of the specified <paramref cref="node"/>.
+///   An <see cref="IEnumerable{TTreeNode}"/> that will produce the single parent of the specified
+///   <paramref cref="node"/>.
 /// </returns>
 public delegate TTreeNode? SingleParentSelector<TTreeNode>(TTreeNode? node)
 	where TTreeNode : class;
@@ -30,12 +32,15 @@ public delegate TTreeNode? SingleParentSelector<TTreeNode>(TTreeNode? node)
 public static class TreeTraversalExtensions
 {
 	/// <summary>
-	/// Gets an enumeration of the ancestors of the specified <typeparamref name="TTreeNode"/> .
+	/// Enumerates the ancestors of the specified node by repeatedly applying the parent selector.
 	/// </summary>
-	/// <param name="this">The <see cref="DependencyObject"/> from which to begin the enumeration of visual ancestors.</param>
-	/// <param name="selector">A method that selects the parent of the specified node.</param>
+	/// <param name="this">The starting node whose ancestors will be enumerated.</param>
+	/// <param name="selector">A delegate that returns the parent of a given node.</param>
 	/// <typeparam name="TTreeNode">The type of the tree nodes.</typeparam>
-	/// <returns>An <see cref="IEnumerable{TTreeNode}"/> of the ancestors of <paramref name="this"/>.</returns>
+	/// <returns>
+	///   An enumerable sequence of ancestor nodes, starting from the immediate parent and proceeding
+	///   up the tree.
+	/// </returns>
 	/// <remarks>
 	/// To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
 	/// <see cref="System.Linq.Enumerable.FirstOrDefault()"/> extension methods on the return value.
@@ -52,12 +57,16 @@ public static class TreeTraversalExtensions
 	}
 
 	/// <summary>
-	/// Gets an enumeration of the specified <typeparamref name="TTreeNode"/> and its ancestors.
+	/// Enumerates the specified node and its ancestors, starting with the node itself and proceeding
+	/// up the tree.
 	/// </summary>
-	/// <param name="this">The <typeparamref name="TTreeNode"/> from which to begin the enumeration of ancestors.</param>
-	/// <param name="selector">A method that selects the parent of each node.</param>
+	/// <param name="this">The starting node for ancestor traversal.</param>
+	/// <param name="selector">A delegate that returns the parent of a given node.</param>
 	/// <typeparam name="TTreeNode">The type of the tree nodes.</typeparam>
-	/// <returns>An <see cref="IEnumerable{DependencyObject}"/> of <paramref name="this"/> and its ancestors.</returns>
+	/// <returns>
+	/// An <see cref="IEnumerable{TTreeNode}"/> containing the node and its ancestors in order
+	/// from self to root.
+	/// </returns>
 	/// <remarks>
 	/// To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
 	/// <see cref="System.Linq.Enumerable.FirstOrDefault()"/> extension methods on the return value.

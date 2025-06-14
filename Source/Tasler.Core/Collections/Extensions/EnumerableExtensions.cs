@@ -28,12 +28,15 @@ public static class EnumerableExtensions
 	}
 
 	/// <summary>
-	/// Returns the index of the first element of the sequence that satisfies a condition or -1 if no such element is found.
+	/// Returns the zero-based index of the first element in the sequence that satisfies the
+	/// specified predicate, or -1 if no such element is found.
 	/// </summary>
 	/// <typeparam name="TSource">The type of the elements in the sequence.</typeparam>
-	/// <param name="this">An <see cref="IEnumerable{T}"/> in which to find the first element matching the condition.</param>
+	/// <param name="this">The sequence to search.</param>
 	/// <param name="predicate">A function to test each element for a condition.</param>
-	/// <returns>The index of the first element if found in the sequence; otherwise, -1.</returns>
+	/// <returns>
+	/// The index of the first matching element; otherwise, -1 if no element satisfies the predicate.
+	/// </returns>
 	public static int FirstIndex<TSource>(this IEnumerable<TSource> @this, Func<TSource, bool> predicate)
 	{
 		Guard.IsNotNull(@this);
@@ -51,14 +54,17 @@ public static class EnumerableExtensions
 	}
 
 	/// <summary>
-	/// Returns the index of the first element of the sequence that satisfies a condition or -1 if no such element is found.
+	/// Returns the index of the first element of the sequence that satisfies a condition or -1 if
+	/// no such element is found.
 	/// </summary>
 	/// <typeparam name="TSource">The type of the elements in the sequence.</typeparam>
-	/// <param name="this">An <see cref="IEnumerable{T}"/> in which to find the first element matching the condition.</param>
+	/// <param name="this">The sequence to search.</param>
 	/// <param name="element">When this method returns, the element of the sequence that satisfies the condition, if one is found;
 	/// otherwise, the default value for the <typeparamref name="TSource"/>. This parameter is passed uninitialized. </param>
 	/// <param name="predicate">A function to test each element for a condition.</param>
-	/// <returns>The index of the first element if found in the sequence; otherwise, -1.</returns>
+	/// <returns>
+	/// The index of the first matching element; otherwise, -1 if no element satisfies the predicate.
+	/// </returns>
 	public static int FirstIndex<TSource>(this IEnumerable<TSource> @this, out TSource? element, Func<TSource, bool> predicate)
 	{
 		Guard.IsNotNull(@this);
@@ -80,12 +86,13 @@ public static class EnumerableExtensions
 	}
 
 	/// <summary>
-	/// Returns the index of the last element of the sequence that satisfies a condition or -1 if no such element is found.
+	/// Returns the zero-based index of the last element in the sequence that satisfies the
+	/// specified predicate, or -1 if no such element is found.
 	/// </summary>
 	/// <typeparam name="TSource">The type of the elements of @this.</typeparam>
-	/// <param name="this">An <see cref="IEnumerable{TSource}"/> in which to find the last element matching the condition.</param>
+	/// <param name="this">The sequence to search.</param>
 	/// <param name="predicate">A function to test each element for a condition.</param>
-	/// <returns>The index of the last element if found in the sequence; otherwise, -1.</returns>
+	/// <returns>The index of the last matching element; otherwise, -1 if no element matches.</returns>
 	public static int LastIndex<TSource>(this IEnumerable<TSource> @this, Func<TSource, bool> predicate)
 	{
 		Guard.IsNotNull(@this);
@@ -104,10 +111,11 @@ public static class EnumerableExtensions
 	}
 
 	/// <summary>
-	/// Returns the index of the last element of the sequence that satisfies a condition or -1 if no such element is found.
+	/// Returns the zero-based index of the last element in the sequence that satisfies the
+	/// specified predicate, or -1 if no such element is found.
 	/// </summary>
 	/// <typeparam name="TSource">The type of the elements in the sequence.</typeparam>
-	/// <param name="this">An <see cref="IEnumerable{T}"/> in which to find the last element matching the condition.</param>
+	/// <param name="this">The sequence to search.</param>
 	/// <param name="element">When this method returns, the element of the sequence that satisfies the condition, if one is found;
 	/// otherwise, the default value for the <typeparamref name="TSource"/>. This parameter is passed uninitialized. </param>
 	/// <param name="predicate">A function to test each element for a condition.</param>

@@ -31,6 +31,10 @@ public class ExtLogPen
 	public nint         Hatch { get; init; }
 	public uint[] StyleEntries { get; init; }
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="ExtLogPen"/> class from an <see cref="EXTLOGPEN"/> struct, copying pen style, width, brush style, color, hatch, and up to one style entry.
+	/// </summary>
+	/// <param name="extLogPen">The <see cref="EXTLOGPEN"/> struct containing the extended pen properties.</param>
 	public ExtLogPen(EXTLOGPEN extLogPen)
 	{
 		this.PenStyle = extLogPen.PenStyle;
@@ -42,7 +46,12 @@ public class ExtLogPen
 		this.StyleEntries[0] = extLogPen.StyleEntry0;
 	}
 
-	public static ExtLogPen FromStruct(EXTLOGPEN extLogPen) => new ExtLogPen(extLogPen);
+	/// <summary>
+/// Creates an <see cref="ExtLogPen"/> instance from an <see cref="EXTLOGPEN"/> struct.
+/// </summary>
+/// <param name="extLogPen">The native extended logical pen structure to convert.</param>
+/// <returns>An <see cref="ExtLogPen"/> representing the provided <see cref="EXTLOGPEN"/>.</returns>
+public static ExtLogPen FromStruct(EXTLOGPEN extLogPen) => new ExtLogPen(extLogPen);
 
 	//public EXTLOGPEN ToStruct() => new()
 	//{
@@ -103,9 +112,21 @@ public interface IPenTypeStyle
 
 	bool IsGeometric => (this.Value & (uint)PenType.Mask) == (uint)PenType.Geometric;
 
-	PenGeometricTypeStyle? AsGeometric() => this.IsGeometric ? this.Value : null;
+	/// <summary>
+/// Returns this instance as a <see cref="PenGeometricTypeStyle"/> if it represents a geometric pen; otherwise, returns null.
+/// </summary>
+/// <returns>
+/// The current instance as <see cref="PenGeometricTypeStyle"/> if geometric; otherwise, null.
+/// </returns>
+PenGeometricTypeStyle? AsGeometric() => this.IsGeometric ? this.Value : null;
 
-	PenCosmeticTypeStyle? AsCosmetic() => this.IsCosmetic ? this.Value : null;
+	/// <summary>
+/// Returns this instance as a <see cref="PenCosmeticTypeStyle"/> if it represents a cosmetic pen; otherwise, returns null.
+/// </summary>
+/// <returns>
+/// The current <see cref="PenCosmeticTypeStyle"/> if the pen is cosmetic; otherwise, null.
+/// </returns>
+PenCosmeticTypeStyle? AsCosmetic() => this.IsCosmetic ? this.Value : null;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -113,7 +134,11 @@ public struct PenTypeStyle
 {
 	public readonly uint Value { get; init; }
 
-	public PenTypeStyle(uint value) => Value = value;
+	/// <summary>
+/// Initializes a new instance of <see cref="PenTypeStyle"/> with the specified combined pen type and style value.
+/// </summary>
+/// <param name="value">The combined pen type and style flags as a <see cref="uint"/>.</param>
+public PenTypeStyle(uint value) => Value = value;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -121,6 +146,10 @@ public struct PenCosmeticTypeStyle
 {
 	public readonly uint Value { get; init; }
 
+	/// <summary>
+	/// Initializes a new cosmetic pen style with the specified pen style.
+	/// </summary>
+	/// <param name="style">The pen style to use for the cosmetic pen. Must not be <c>PenStyle.Mask</c>.</param>
 	public PenCosmeticTypeStyle(PenStyle style)
 	{
 		Guard.IsNotEqualTo((uint)style, (uint)PenStyle.Mask, nameof(style));
@@ -137,6 +166,12 @@ public struct PenGeometricTypeStyle
 {
 	public readonly uint Value { get; init; }
 
+	/// <summary>
+	/// Initializes a geometric pen style by combining the specified pen style, end cap, and join style into a single value.
+	/// </summary>
+	/// <param name="style">The pen style to use. Must not be <c>Alternate</c> or <c>Mask</c>.</param>
+	/// <param name="endCap">The end cap style for the pen.</param>
+	/// <param name="join">The join style for the pen.</param>
 	public PenGeometricTypeStyle(PenStyle style, PenEndCapStyle endCap, PenJoinStyle join)
 	{
 		style &= PenStyle.Mask;

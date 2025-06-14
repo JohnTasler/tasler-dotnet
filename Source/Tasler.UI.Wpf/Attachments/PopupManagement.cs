@@ -28,10 +28,11 @@ public static partial class PopupManagement
 			new PropertyMetadata(true, AllowsOpenPopupsPropertyChanged));
 
 	/// <summary>
-	/// Gets the
+	/// Gets a value indicating whether popups are allowed to open for the specified element.
 	/// </summary>
 	/// <param name="element">The <see cref="FrameworkElement"/> for which to get the property value.</param>
 	/// <returns>The attached property value. </returns>
+	/// <returns><c>true</c> if popups are allowed to open; otherwise, <c>false</c>.</returns>
 	/// <exception cref="ArgumentNullException"><paramref name="element"/> is <see langword="null"/>.</exception>
 	public static bool GetAllowsOpenPopups(FrameworkElement element)
 	{
@@ -40,11 +41,10 @@ public static partial class PopupManagement
 	}
 
 	/// <summary>
-	/// Sets the
+	/// Sets whether the specified element is allowed to open popups.
 	/// </summary>
 	/// <param name="element">The <see cref="FrameworkElement"/> for which to set the property value.</param>
-	/// <returns>The attached property value. </returns>
-	/// <param name="value">The new value for the attached property.</param>
+	/// <param name="value"><see langword="true"/> to allow popups; <see langword="false"/> to block them.</param>
 	/// <exception cref="ArgumentNullException"><paramref name="element"/> is <see langword="null"/>.</exception>
 	public static void SetAllowsOpenPopups(FrameworkElement element, bool value)
 	{
@@ -87,10 +87,11 @@ public static partial class PopupManagement
 			new PropertyMetadata(false));
 
 	/// <summary>
-	/// Gets the
+	/// Gets whether the specified element is always allowed to open popups, regardless of blocking rules.
 	/// </summary>
 	/// <param name="element">The <see cref="FrameworkElement"/> for which to get the property value.</param>
 	/// <returns>The attached property value. </returns>
+	/// <returns><see langword="true"/> if the element is always allowed to open popups; otherwise, <see langword="false"/>.</returns>
 	/// <exception cref="ArgumentNullException"><paramref name="element"/> is <see langword="null"/>.</exception>
 	public static bool GetIsAlwaysAllowedToOpen(FrameworkElement element)
 	{
@@ -99,11 +100,11 @@ public static partial class PopupManagement
 	}
 
 	/// <summary>
-	/// Sets the
+	/// Sets whether the specified element is always allowed to open popups, regardless of blocking rules.
 	/// </summary>
 	/// <param name="element">The <see cref="FrameworkElement"/> for which to set the property value.</param>
 	/// <returns>The attached property value. </returns>
-	/// <param name="value">The new value for the attached property.</param>
+	/// <param name="value"><see langword="true"/> to always allow popups for this element; otherwise, <see langword="false"/>.</param>
 	/// <exception cref="ArgumentNullException"><paramref name="element"/> is <see langword="null"/>.</exception>
 	public static void SetIsAlwaysAllowedToOpen(FrameworkElement element, bool value)
 	{

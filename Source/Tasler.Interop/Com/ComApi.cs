@@ -5,6 +5,16 @@ namespace Tasler.Interop.Com;
 
 public static partial class ComApi
 {
+	/// <summary>
+	/// Creates a COM object instance for the specified class and returns a pointer to the requested interface.
+	/// </summary>
+	/// <param name="clsid">The CLSID of the COM class to instantiate.</param>
+	/// <param name="iid">The IID of the interface to retrieve.</param>
+	/// <param name="dwClsContext">The context in which the code that manages the newly created object will run.</param>
+	/// <returns>A native pointer to the requested COM interface.</returns>
+	/// <exception cref="System.Runtime.InteropServices.COMException">
+	/// Thrown if the underlying COM call fails.
+	/// </exception>
 	public static nint CoCreateInstance(Guid clsid, Guid iid, ClsCtx dwClsContext = ClsCtx.Default)
 	{
 		int hr = NativeMehods.CoCreateInstance(ref clsid, nint.Zero, dwClsContext, ref iid, out nint ppv);

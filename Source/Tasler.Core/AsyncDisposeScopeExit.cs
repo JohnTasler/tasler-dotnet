@@ -22,9 +22,9 @@ public class AsyncDisposeScopeExit : IAsyncDisposable
 	#region Constructors / Finalizer
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="AsyncDisposeScopeExit"/> struct.
+	/// Initializes a new instance with the specified asynchronous dispose action.
 	/// </summary>
-	/// <param name="asyncDisposeAction">The asynchronous action to execute upon disposal of the structure.</param>
+	/// <param name="asyncDisposeAction">The asynchronous action to execute when the instance is disposed.</param>
 	public AsyncDisposeScopeExit(AsyncAction asyncDisposeAction)
 		: this(null, asyncDisposeAction)
 	{
@@ -37,8 +37,6 @@ public class AsyncDisposeScopeExit : IAsyncDisposable
 	/// <param name="asyncDisposeAction">The asynchronous action to execute upon disposal of the structure.</param>
 	public AsyncDisposeScopeExit(Action? initializeAction, AsyncAction asyncDisposeAction)
 	{
-		Guard.IsNotNull(asyncDisposeAction);
-
 		initializeAction?.Invoke();
 		_disposeAsyncAction = asyncDisposeAction;
 	}

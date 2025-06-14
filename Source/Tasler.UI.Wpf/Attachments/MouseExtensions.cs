@@ -21,14 +21,14 @@ public static class MouseExtensions
 			new PropertyMetadata(LeftClickCommandPropertyChanged));
 
 	/// <summary>
-	/// Gets the command to be executed when the input element captures a left click event.
+	/// Retrieves the command to be executed when the left mouse button is clicked on the specified input element.
 	/// </summary>
 	/// <param name="d">The object for which to get the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
-	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
-	/// <see cref="IInputElement"/> interface.</exception>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="d"/> is <see langword="null"/>.</exception>
+	/// <exception cref="ArgumentException">Thrown if <paramref name="d"/> does not implement the <see cref="IInputElement"/> interface.</exception>
+	/// <returns>The <see cref="ICommand"/> associated with the left click, or <see langword="null"/> if none is set.</returns>
 	public static ICommand GetLeftClickCommand(DependencyObject d)
 	{
 		ValidateInputElementDependencyObject(d, "LeftClickCommand");
@@ -36,14 +36,13 @@ public static class MouseExtensions
 	}
 
 	/// <summary>
-	/// Sets the command to be executed when the input element captures a left click event.
+	/// Sets the command to be executed when the left mouse button is clicked on the specified input element.
 	/// </summary>
-	/// <param name="d">The object on which to set the property value. This must support the
+	/// <param name="d">The dependency object to attach the command to. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
-	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
-	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
-	/// <see cref="IInputElement"/> interface.</exception>
+	/// <param name="value">The command to execute on left mouse click.</param>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="d"/> is <see langword="null"/>.</exception>
+	/// <exception cref="ArgumentException">Thrown if <paramref name="d"/> does not implement the <see cref="IInputElement"/> interface.</exception>
 	public static void SetLeftClickCommand(DependencyObject d, ICommand value)
 	{
 		ValidateInputElementDependencyObject(d, "LeftClickCommand");
@@ -112,14 +111,15 @@ public static class MouseExtensions
 			new PropertyMetadata());
 
 	/// <summary>
-	/// Gets the command parameter for the command executed when the input element captures a left click event.
+	/// Retrieves the parameter associated with the left click command for the specified input element.
 	/// </summary>
 	/// <param name="d">The object for which to get the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
-	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
-	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
-	/// <see cref="IInputElement"/> interface.</exception>
+	/// <returns>The parameter object for the left click command.</returns>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="d"/> is <see langword="null"/>.</exception>
+	/// <exception cref="ArgumentException">
+	/// Thrown if <paramref name="d"/> does not implement the <see cref="IInputElement"/> interface.
+	/// </exception>
 	public static object GetLeftClickCommandParameter(DependencyObject d)
 	{
 		ValidateInputElementDependencyObject(d, "LeftClickCommandParameter");
@@ -127,14 +127,13 @@ public static class MouseExtensions
 	}
 
 	/// <summary>
-	/// Sets the command parameter for the command executed when the input element captures a left click event.
+	/// Sets the parameter to be passed to the left click command for the specified input element.
 	/// </summary>
 	/// <param name="d">The object on which to set the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
-	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
-	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
-	/// <see cref="IInputElement"/> interface.</exception>
+	/// <param name="value">The parameter value to set.</param>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="d"/> is <see langword="null"/>.</exception>
+	/// <exception cref="ArgumentException">Thrown if <paramref name="d"/> does not implement the <see cref="IInputElement"/> interface.</exception>
 	public static void SetLeftClickCommandParameter(DependencyObject d, object value)
 	{
 		ValidateInputElementDependencyObject(d, "LeftClickCommandParameter");
@@ -153,14 +152,14 @@ public static class MouseExtensions
 			new PropertyMetadata(RightClickCommandPropertyChanged));
 
 	/// <summary>
-	/// Gets the command to be executed when the input element captures a right click event.
+	/// Retrieves the command to be executed when the right mouse button is clicked on the specified input element.
 	/// </summary>
 	/// <param name="d">The object for which to get the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
-	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
-	/// <see cref="IInputElement"/> interface.</exception>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="d"/> is <see langword="null"/>.</exception>
+	/// <exception cref="ArgumentException">Thrown if <paramref name="d"/> does not implement the <see cref="IInputElement"/> interface.</exception>
+	/// <returns>The <see cref="ICommand"/> associated with the right click, or <see langword="null"/> if none is set.</returns>
 	public static ICommand GetRightClickCommand(DependencyObject d)
 	{
 		ValidateInputElementDependencyObject(d, "RightClickCommand");
@@ -168,14 +167,13 @@ public static class MouseExtensions
 	}
 
 	/// <summary>
-	/// Sets the command to be executed when the input element captures a right click event.
+	/// Sets the command to be executed when the right mouse button is clicked on the specified input element.
 	/// </summary>
-	/// <param name="d">The object on which to set the property value. This must support the
+	/// <param name="d">The dependency object to attach the command to. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
-	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
-	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
-	/// <see cref="IInputElement"/> interface.</exception>
+	/// <param name="value">The command to execute on right mouse click.</param>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="d"/> is <see langword="null"/>.</exception>
+	/// <exception cref="ArgumentException">Thrown if <paramref name="d"/> does not implement the <see cref="IInputElement"/> interface.</exception>
 	public static void SetRightClickCommand(DependencyObject d, ICommand value)
 	{
 		ValidateInputElementDependencyObject(d, "RightClickCommand");
@@ -202,24 +200,23 @@ public static class MouseExtensions
 
 	private static void RightClickCommand_CanExecute(object? sender, EventArgs e)
 	{
-		if (sender is UIElement || sender is UIElement3D)
+		if (sender is DependencyObject d)
 		{
-			var d = (DependencyObject)sender;
 			var command = GetRightClickCommand(d);
 			if (command is not null)
 			{
 				var commandParameter = GetRightClickCommandParameter(d);
 				var canExecute = command.CanExecute(commandParameter);
 
-				if (sender is UIElement3D uiElement3D)
-					uiElement3D.IsEnabled = canExecute;
-				else if (sender is UIElement uiElement)
+				if (sender is UIElement uiElement)
 					uiElement.IsEnabled = canExecute;
+				else if (sender is UIElement3D uiElement3D)
+					uiElement3D.IsEnabled = canExecute;
 			}
 		}
 	}
 
-	private static void RightClickCommand_Execute(object? sender, MouseButtonEventArgs e)
+	private static void RightClickCommand_Execute(object sender, MouseButtonEventArgs e)
 	{
 		if (sender is DependencyObject d)
 		{
@@ -245,14 +242,15 @@ public static class MouseExtensions
 			new PropertyMetadata());
 
 	/// <summary>
-	/// Gets the command parameter for the command executed when the input element captures a right click event.
+	/// Retrieves the parameter associated with the right click command for the specified input element.
 	/// </summary>
 	/// <param name="d">The object for which to get the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
-	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
-	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
-	/// <see cref="IInputElement"/> interface.</exception>
+	/// <returns>The parameter object for the right click command.</returns>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="d"/> is <see langword="null"/>.</exception>
+	/// <exception cref="ArgumentException">
+	/// Thrown if <paramref name="d"/> does not implement the <see cref="IInputElement"/> interface.
+	/// </exception>
 	public static object GetRightClickCommandParameter(DependencyObject d)
 	{
 		ValidateInputElementDependencyObject(d, "RightClickCommandParameter");
@@ -260,14 +258,13 @@ public static class MouseExtensions
 	}
 
 	/// <summary>
-	/// Sets the command parameter for the command executed when the input element captures a right click event.
+	/// Sets the parameter to be passed to the right click command for the specified input element.
 	/// </summary>
 	/// <param name="d">The object on which to set the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
-	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
-	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
-	/// <see cref="IInputElement"/> interface.</exception>
+	/// <param name="value">The parameter value to set.</param>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="d"/> is <see langword="null"/>.</exception>
+	/// <exception cref="ArgumentException">Thrown if <paramref name="d"/> does not implement the <see cref="IInputElement"/> interface.</exception>
 	public static void SetRightClickCommandParameter(DependencyObject d, object value)
 	{
 		ValidateInputElementDependencyObject(d, "RightClickCommandParameter");
@@ -286,12 +283,12 @@ public static class MouseExtensions
 			new PropertyMetadata(ContextPopupPropertyChanged));
 
 	/// <summary>
-	/// Gets the command parameter for the command executed when the input element captures a right click event.
+	/// Gets the context popup associated with the specified dependency object.
 	/// </summary>
-	/// <param name="d">The Popup for which to get the property value. This must support the
+	/// <param name="d">The dependency object from which to retrieve the context popup.</param>
 	/// <see cref="IInputElement"/> interface.</param>
 	/// <returns>The attached property value. </returns>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="d"/> is <see langword="null"/>.</exception>
 	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
 	public static object GetContextPopup(DependencyObject d)
@@ -301,14 +298,14 @@ public static class MouseExtensions
 	}
 
 	/// <summary>
-	/// Sets the command parameter for the command executed when the input element captures a right click event.
+	/// Sets the context popup object associated with the specified dependency object.
 	/// </summary>
 	/// <param name="d">The Popup on which to set the property value. This must support the
 	/// <see cref="IInputElement"/> interface.</param>
-	/// <param name="value">The new value for the attached property.</param>
-	/// <exception cref="ArgumentNullException"><paramref name="d"/> is <see langword="null"/>.</exception>
-	/// <exception cref="ArgumentException"><paramref name="d"/> does not implement the
+	/// <param name="value">The context popup object to set.</param>
+	/// <exception cref="ArgumentException">Thrown if <paramref name="d"/> does not implement the
 	/// <see cref="IInputElement"/> interface.</exception>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="d"/> is <see langword="null"/>.</exception>
 	public static void SetContextPopup(DependencyObject d, object value)
 	{
 		Guard.IsNotNull(d);
@@ -521,7 +518,7 @@ public static class MouseExtensions
 	internal static IInputElement? ValidateInputElementDependencyObject(DependencyObject d, string propertyName)
 	{
 		Guard.IsNotNull(d);
-		Guard.IsNotOfType<IInputElement>(d);
+		Guard.IsOfType<IInputElement>(d);
 
 		return d as IInputElement;
 	}

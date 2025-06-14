@@ -24,7 +24,9 @@ public static class DependencyObjectExtensions
 	/// Sets the <see cref="Control.DefaultStyleKey"/> property to the type of the specified <see cref="DependencyObject"/>.
 	/// </summary>
 	/// <param name="this">The object on which to set the <see cref="Control.DefaultStyleKey"/> property. Its
-	/// <see cref="object.GetType"/> method is used as the value of the property.</param>
+	/// <remarks>
+	/// This enables the control to use a default style based on its type when applying styles.
+	/// </remarks>
 	public static void SetDefaultStyleKey(this DependencyObject @this)
 	{
 		@this.SetValue(Control.DefaultStyleKeyProperty, @this.GetType());
@@ -38,7 +40,7 @@ public static class DependencyObjectExtensions
 	///   <see langword="true"/> if the specied object is a <see cref="Visual"/>; otherwise,
 	///   <see langword="false"/>. Also <see langword="false"/> if <paramref name="this"/> is <see langword="null"/>.
 	/// </returns>
-	/// <remarks>This is to used by both WPF (which also has Visual3D) and WinUI/UWP/Uno code (which does not).</remarks>
+	/// <remarks>This is used by both WPF (which also has Visual3D) and WinUI/UWP/Uno code (which does not).</remarks>
 	public static bool IsVisual(this DependencyObject? @this)
 		=> @this is not null && @this is UIElement;
 
@@ -48,7 +50,6 @@ public static class DependencyObjectExtensions
 	/// Sets the <see cref="FrameworkElement.DefaultStyleKey"/> property to the type of the specified <see cref="DependencyObject"/>.
 	/// </summary>
 	/// <param name="this">The object on which to set the <see cref="FrameworkElement.DefaultStyleKey"/> property. Its
-	/// <see cref="object.GetType"/> method is used as the value of the property.</param>
 	public static void SetDefaultStyleKey(this DependencyObject @this)
 	{
 		var thisType = @this.GetType();
@@ -67,15 +68,18 @@ public static class DependencyObjectExtensions
 	///   <see langword="true"/> if the specied object is a <see cref="Visual"/> or <see cref="Visual3D"/>; otherwise,
 	///   <see langword="false"/>. Also <see langword="false"/> if <paramref name="this"/> is <see langword="null"/>.
 	/// </returns>
-	/// <remarks>This is to used by both WPF (which also has Visual3D) and WinUI/UWP/Uno code (which does not).</remarks>
+	/// <summary>
 	public static bool IsVisual(this DependencyObject? @this)
 		=> (@this is not null) && (@this is Visual || @this is Visual3D);
 
 	/// <summary>
-	/// Gets an enumeration of the logical ancestors of the specified <see cref="DependencyObject"/>.
+	/// Enumerates the logical ancestors of the specified dependency object.
 	/// </summary>
-	/// <param name="d">The <see cref="DependencyObject"/> from which to begin the enumeration of logical ancestors.</param>
-	/// <returns>An <see cref="IEnumerable{DependencyObject}"/> of the logical ancestors of <paramref name="d"/>.</returns>
+	/// <param name="d">The starting <see cref="DependencyObject"/>.</param>
+	/// <returns>
+	/// An enumerable sequence of logical ancestors, starting from the immediate parent and
+	/// traversing up the logical tree.
+	/// </returns>
 	/// <remarks>
 	/// To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
 	/// <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension methods on the return value.
@@ -91,10 +95,10 @@ public static class DependencyObjectExtensions
 	}
 
 	/// <summary>
-	/// Gets an enumeration of the specified <see cref="DependencyObject"/> and its logical ancestors.
+	/// Gets a sequence of the specified <see cref="DependencyObject"/> and its logical ancestors.
 	/// </summary>
-	/// <param name="d">The <see cref="DependencyObject"/> from which to begin the enumeration of logical ancestors.</param>
-	/// <returns>An <see cref="IEnumerable{DependencyObject}"/> of <paramref name="d"/> and its logical ancestors.</returns>
+	/// <param name="d">The starting <see cref="DependencyObject"/>.</param>
+	/// <returns>An enumerable sequence containing the object and its logical ancestors, starting from the object itself.</returns>
 	/// <remarks>
 	/// To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
 	/// <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension methods on the return value.
@@ -140,7 +144,7 @@ public static class DependencyObjectExtensions
 
 	/// <summary>
 	///   Gets an enumeration that produces the <see cref="DependencyObject"/> specified by
-	///   <paramref cref="d"/> and its descendants in the logical tree.
+	///   <paramref cref="d"/> and all its logical descendants in breadth-first order.
 	/// </summary>
 	/// <param name="d">
 	///   The <see cref="DependencyObject"/> from which to begin the traversal of logical descendants.
@@ -191,17 +195,10 @@ public static class DependencyObjectExtensions
 	}
 
 	/// <summary>
-	///   Gets an enumeration that produces the <see cref="DependencyObject"/> specified by
-	///   <paramref cref="d"/> and its descendants in the logical tree.
+	/// Returns s sequence containing the specified object and all its logical descendants in depth-first order.
 	/// </summary>
-	/// <param name="d">
-	///   The <see cref="DependencyObject"/> from which to begin the traversal of logical descendants.
-	/// </param>
-	/// <returns>
-	///   An <see cref="IEnumerable{DependencyObject}"/> that produces <paramref name="d"/> and each
-	///   of its descendants in the logical tree.
-	///   <paramref name="d"/>.
-	/// </returns>
+	/// <param name="d">The starting <see cref="DependencyObject"/>.</param>
+	/// <returns>An enumerable sequence containing the object and its logical descendants in depth-first order.</returns>
 	/// <remarks>
 	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
 	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension
@@ -234,7 +231,11 @@ public static class DependencyObjectExtensions
 	///   To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
 	///   <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension
 	///   methods on the return value.
-	/// </remarks>
+	/// <summary>
+	/// Enumerates the visual ancestors of a dependency object by traversing up the visual tree.
+	/// </summary>
+	/// <param name="d">The starting dependency object.</param>
+	/// <returns>An enumerable of visual ancestor objects, starting from the immediate parent up to the root.</returns>
 	public static IEnumerable<DependencyObject> GetVisualAncestors(this DependencyObject d)
 	{
 		// Traverse the visual tree upwards, yielding each ancestor until we reach the root.
@@ -243,15 +244,15 @@ public static class DependencyObjectExtensions
 	}
 
 	/// <summary>
-	/// Gets an enumeration of the specified <see cref="DependencyObject"/> and its visual ancestors.
+	/// Returns a sequence containing the specified dependency object and its visual ancestors,
+	/// traversing up the visual tree.
 	/// </summary>
-	/// <param name="d">The <see cref="DependencyObject"/> from which to begin the enumeration of visual ancestors.</param>
-	/// <returns>An <see cref="IEnumerable{DependencyObject}"/> of <paramref name="d"/> and its visual ancestors.</returns>
+	/// <param name="d">The starting <see cref="DependencyObject"/>.</param>
+	/// <returns>A sequence containing the object and its visual ancestors, ordered from self to root.</returns>
 	/// <remarks>
 	///   To get an ancestor of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/> and
 	///   <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/>
 	///   extension methods on the return value.
-	/// </remarks>
 	public static IEnumerable<DependencyObject> GetSelfAndVisualAncestors(this DependencyObject d)
 	{
 		return d.GetSelfAndAncestors(d => VisualTreeHelper.GetParent(d))
@@ -263,7 +264,7 @@ public static class DependencyObjectExtensions
 	///   <see cref="DependencyObject"/> root node.
 	/// </summary>
 	/// <param name="d">
-	///   The <see cref="DependencyObject"/> from which to begin the traversal of logical descendants.
+	///   The starting <see cref="DependencyObject"/>.
 	/// </param>
 	/// <returns>
 	///   An <see cref="IEnumerable{DependencyObject}"/> that produces each logical descendant of
@@ -289,17 +290,10 @@ public static class DependencyObjectExtensions
 	}
 
 	/// <summary>
-	///   Gets an enumeration that produces the <see cref="DependencyObject"/> specified by
-	///   <paramref cref="d"/> and its descendants in the logical tree.
+	/// Returns a sequence containing the specified dependency object and all its visual descendants in breadth-first order.
 	/// </summary>
-	/// <param name="d">
-	///   The <see cref="DependencyObject"/> from which to begin the traversal of logical descendants.
-	/// </param>
-	/// <returns>
-	///   An <see cref="IEnumerable{DependencyObject}"/> that produces <paramref name="d"/> and each
-	///   of its descendants in the logical tree.
-	///   <paramref name="d"/>.
-	/// </returns>
+	/// <param name="d">The starting <see cref="DependencyObject"/>.</param>
+	/// <returns>An enumerable sequence containing the object and its visual descendants in breadth-first order.</returns>
 	/// <remarks>
 	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
 	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/> extension
@@ -311,15 +305,11 @@ public static class DependencyObjectExtensions
 	}
 
 	/// <summary>
-	///   Gets an enumeration that produces the descendants in the logical tree of the specified
-	///   <see cref="DependencyObject"/> root node.
+	/// Returns a sequence containing all of an object's visual descendants in depth-first order.
 	/// </summary>
-	/// <param name="d">
-	///   The <see cref="DependencyObject"/> from which to begin the traversal of logical descendants.
-	/// </param>
+	/// <param name="d">The starting <see cref="DependencyObject"/>.</param>
 	/// <returns>
-	///   An <see cref="IEnumerable{DependencyObject}"/> that produces each logical descendant of
-	///   <paramref name="d"/>.
+	///   A sequence containing the the <paramref name="d"/> and all its visual descendants in depth-first order.
 	/// </returns>
 	/// <remarks>
 	/// <para>
@@ -341,17 +331,12 @@ public static class DependencyObjectExtensions
 	}
 
 	/// <summary>
-	///   Gets an enumeration that produces the <see cref="DependencyObject"/> specified by
-	///   <paramref cref="d"/> and its descendants in the logical tree.
+	/// Returns a sequence containing the specified object and all its visual descendants in depth-first order.
 	/// </summary>
 	/// <param name="d">
-	///   The <see cref="DependencyObject"/> from which to begin the traversal of logical descendants.
+	///   The starting <see cref="DependencyObject"/>.
 	/// </param>
-	/// <returns>
-	///   An <see cref="IEnumerable{DependencyObject}"/> that produces <paramref name="d"/> and each
-	///   of its descendants in the logical tree.
-	///   <paramref name="d"/>.
-	/// </returns>
+	/// <returns>A sequence containing the object and its visual descendants in depth-first order.</returns>
 	/// <remarks>
 	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
 	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/>
@@ -363,12 +348,10 @@ public static class DependencyObjectExtensions
 	}
 
 	/// <summary>
-	/// Gets an enumeration of the direct visual children of the specified <see cref="DependencyObject"/>.
+	/// Returns the direct visual children of the specified <see cref="DependencyObject"/>.
 	/// </summary>
-	/// <param name="d">The <see cref="DependencyObject"/> for which to the enumeration of visual
-	/// children.</param>
-	/// <returns>An <see cref="IEnumerable{DependencyObject}"/> of the visual children of
-	/// <paramref name="d"/>.</returns>
+	/// <param name="d">The <see cref="DependencyObject"/> whose visual children are to be enumerated.</param>
+	/// <returns>An enumerable sequence of direct visual child elements.</returns>
 	/// <remarks>
 	///   To get the first descendant of a specific type, use the <see cref="System.Linq.Enumerable.OfType"/>
 	///   and <see cref="Enumerable.FirstOrDefault{DependencyObject}(IEnumerable{DependencyObject})"/>

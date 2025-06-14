@@ -6,14 +6,29 @@ namespace Tasler.Interop.Gdi;
 
 public static partial class GdiApi
 {
-	public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.CreateSolidBrush(color);
+	/// <summary>
+/// Creates a solid brush with the specified color.
+/// </summary>
+/// <param name="color">The RGB color value for the brush.</param>
+/// <returns>A SafeGdiBrushOwned representing the created solid brush.</returns>
+public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.CreateSolidBrush(color);
 
+	/// <summary>
+	/// Flushes the GDI batch, ensuring all pending GDI operations are completed.
+	/// </summary>
+	/// <exception cref="Win32Exception">Thrown if the native GDI flush operation fails.</exception>
 	public static void GdiFlush()
 	{
 		if (!GdiApi.NativeMethods.GdiFlush())
 			throw new Win32Exception();
 	}
 
+	/// <summary>
+	/// Combines two ROP3 raster operation codes into a single ROP4 code for use in advanced GDI operations.
+	/// </summary>
+	/// <param name="foregroundOperation">The foreground ROP3 operation code.</param>
+	/// <param name="backgroundOperation">The background ROP3 operation code.</param>
+	/// <returns>A 32-bit ROP4 code representing the combination of the specified foreground and background operations.</returns>
 	public static uint MAKEROP4(ROP3 foregroundOperation, ROP3 backgroundOperation)
 	{
 		return (uint)(((((uint)backgroundOperation) << 8) & 0xFF000000) | ((uint)foregroundOperation));
@@ -136,39 +151,6 @@ public static partial class GdiApi
 		[LibraryImport(ApiLib)]
 		public static partial StretchBltMode SetStretchBltMode(SafeHdc hdc, StretchBltMode stretchMode);
 
-
-		/// <summary>
-		/// Combines the color data for the source and destination bitmaps using the specified mask and raster operation.
-		/// </summary>
-		/// <param name="hdcDest">A handle to the destination device context.</param>
-		/// <param name="xDest">The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.</summary
-		/// <param name="yDest">The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.</summary
-		/// <param name="width">The width, in logical units, of the destination rectangle and source bitmap.</summary>
-		/// <param name="height">The height, in logical units, of the destination rectangle and source bitmap.</summary>
-		/// <param name="hdcSrc">A handle to the device context from which the bitmap is to be copied. It must be zero if the dwRop parameter specifies a raster operation that does not include a source.</summary>
-		/// <param name="xSrc">The x-coordinate, in logical units, of the upper-left corner of the source bitmap.</summary>
-		/// <param name="ySrc">The y-coordinate, in logical units, of the upper-left corner of the source bitmap.</summary>
-		/// <param name="hbmMask">A handle to the monochrome mask bitmap combined with the color bitmap in the source device context.</summary>
-		/// <param name="xMask">The horizontal pixel offset for the mask bitmap specified by the hbmMask parameter.</summary>
-		/// <param name="yMask">The vertical pixel offset for the mask bitmap specified by the hbmMask parameter.</summary>
-		/// <param name="rop">The foreground and background ternary raster operation codes (ROPs) that the function uses to control the combination of source and destination data. The background raster operation code is stored in the high-order byte of the high-order word of this value; the foreground raster operation code is stored in the low-order byte of the high-order word of this value; the low-order word of this value is ignored, and should be zero. The <see cref="MAKEROP4" /> method creates such combinations of foreground and background raster operation codes.</summary>
-		/// <returns>
-		///	  <para>If the function succeeds, the return value is nonzero.</para>
-		///   <para>If the function fails, the return value is zero.</para>
-		/// </returns>
-		/// <remarks>
-		///   <para>The <see cref="MaskBlt"/> function uses device-dependent bitmaps.</para>
-		///   <para>A value of 1 in the mask specified by hbmMask indicates that the foreground raster operation code specified by <paramref name="rop"/> should be applied at that location. A value of 0 in the mask indicates that the background raster operation code specified by dwRop should be applied at that location.</para>
-		///   <para>If the raster operations require a source, the mask rectangle must cover the source rectangle. If it does not, the function will fail. If the raster operations do not require a source, the mask rectangle must cover the destination rectangle. If it does not, the function will fail.</para>
-		///   <para>If a rotation or shear transformation is in effect for the source device context when this function is called, an error occurs. However, other types of transformation are allowed.</para>
-		///   <para>If the color formats of the source, pattern, and destination bitmaps differ, this function converts the pattern or source format, or both, to match the destination format.</para>
-		///   <para>If the mask bitmap is not a monochrome bitmap, an error occurs.</para>
-		///   <para>When an enhanced metafile is being recorded, an error occurs (and the function returns <see langword="false"/>) if the source device context identifies an enhanced-metafile device context.</para>
-		///   <para>Not all devices support the <see cref="MaskBlt"/> function. An application should call the <see cref="GetDeviceCaps"/> function with the nIndex parameter as RC_BITBLT to determine whether a device supports this function.</para>
-		///   <para>If no mask bitmap is supplied, this function behaves exactly like BitBlt, using the foreground raster operation code.</para>
-		///   <para>ICM: No color management is performed when blits occur.</para>
-		///   <para>When used in a multiple monitor system, both hdcSrc and hdcDest must refer to the same device or the function will fail. To transfer data between DCs for different devices, convert the memory bitmap (compatible bitmap, or DDB) to a DIB by calling GetDIBits. To display the DIB to the second device, call SetDIBits or StretchDIBits.</para>
-		/// </remarks>
 		[LibraryImport(ApiLib)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static partial bool MaskBlt(

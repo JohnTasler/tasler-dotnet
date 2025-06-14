@@ -18,8 +18,8 @@ public static class ValidateArgument
 	/// <param name="argument">The argument.</param>
 	/// <param name="argumentName">The argument name.</param>
 	/// <param name="message">A message that describes the error. Optional.</param>
-	/// <exception cref="ArgumentNullException">Either <paramref name="argumentName"/> or <paramref name="argument"/> is <see langword="null"/>.</exception>
-	/// <returns><paramref name="argument"/></returns>
+	/// <exception cref="ArgumentNullException">Either <paramref name="argumentName"/>
+	/// or <paramref name="argument"/> is <see langword="null"/>.</exception>
 	public static T IsNotNull<T>(T? argument, string argumentName, string? message = null)
 		where T : class
 	{
@@ -43,15 +43,14 @@ public static class ValidateArgument
 	}
 
 	/// <summary>
-	/// Throws <see cref="ArgumentNullException"/> if the specified argument is null, or <see cref="ArgumentException"/>
-	/// if the specified argument empty, or contains only whitespace.
+	/// Ensures that a string argument is not null, empty, or consists only of whitespace characters.
 	/// </summary>
-	/// <param name="parameter">The argument.</param>
-	/// <param name="parameterName">The argument name.</param>
-	/// <param name="message">A message that describes the error. Optional.</param>
-	/// <exception cref="ArgumentNullException">Either <paramref name="parameterName"/> or <paramref name="parameter"/> is <see langword="null"/>.</exception>
-	/// <exception cref="ArgumentException">The <paramref name="parameter"/> is empty or contains only whitespace.</exception>
-	/// <returns><paramref name="parameter"/></returns>
+	/// <param name="parameter">The string to validate.</param>
+	/// <param name="parameterName">The name of the parameter being validated.</param>
+	/// <param name="message">An optional custom error message for the exception.</param>
+	/// <returns>The validated string if it is not null, empty, or whitespace.</returns>
+	/// <exception cref="ArgumentNullException">Thrown if <paramref name="parameter"/> is <see langword="null"/>.</exception>
+	/// <exception cref="ArgumentException">Thrown if <paramref name="parameter"/> is empty or contains only whitespace.</exception>
 	public static string? IsNotNullOrWhiteSpace(string? parameter, string parameterName, string? message = null)
 	{
 		ValidateArgument.IsNotNull(parameter, parameterName, message);

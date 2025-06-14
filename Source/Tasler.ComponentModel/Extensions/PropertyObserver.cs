@@ -11,20 +11,18 @@ public static class PropertyObserver
 	#region Methods
 
 	/// <summary>
-	/// Subscribes to property change notifications on the <paramref name="this"/>.
+	/// Subscribes to changes of a specified property on an object implementing <see cref="INotifyPropertyChanged"/>
+	/// and invokes the provided callback when the property changes.
 	/// </summary>
 	/// <typeparam name="T">A class implementing the <see cref="INotifyPropertyChanged"/> interface.</typeparam>
 	/// <param name="this">The source object on which to observe property changes.</param>
 	/// <param name="propertyName">The property name to observe.</param>
-	/// <param name="handlerAction">The event handler to be called when the <paramref name="this"/> object raises the
+	/// <param name="handlerAction">The callback to invoke when <paramref name="this"/> object raises the
 	/// <see cref="INotifyPropertyChanged.PropertyChanged"/> event that indicates either the property whose name is
 	/// specified by the <paramref name="propertyName"/>, or one of <see langword="null"/>, <see cref="String.Empty"/>, or a
 	/// <see cref="String"/> containing only whitespace. Any of the latter three can be indicated when "all properties"
 	/// should be refreshed.</param>
-	/// <returns>
-	/// An <see cref="IPropertyObserverItem"/> that can be used to <see cref="IPropertyObserverItem.Unsubscribe"/>
-	/// from the notifications, and <see cref="IPropertyObserverItem.Refresh"/> the notification callback.
-	/// </returns>
+	/// <returns>An <see cref="IPropertyObserverItem"/> that allows unsubscribing and refreshing the notification.</returns>
 	public static IPropertyObserverItem Subscribe<T>(this T @this, string propertyName, Action<T> handlerAction)
 		where T : INotifyPropertyChanged
 	{
@@ -38,7 +36,7 @@ public static class PropertyObserver
 	/// <typeparam name="T">A class implementing the <see cref="INotifyPropertyChanged"/> interface.</typeparam>
 	/// <param name="this">The source object on which to observe property changes.</param>
 	/// <param name="propertyName">The property name to observe.</param>
-	/// <param name="eventHandler">The action to be called when the <paramref name="this"/> object raises the
+	/// <param name="eventHandler">The action to be invoked when the <paramref name="this"/> object raises the
 	/// <see cref="INotifyPropertyChanged.PropertyChanged"/> event that indicates either the property whose name is
 	/// specified by the <paramref name="propertyName"/>, or one of <see langword="null"/>, <see cref="String.Empty"/>, or a
 	/// <see cref="String"/> containing only whitespace. Any of the latter three can be indicated when "all properties"

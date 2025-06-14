@@ -229,15 +229,17 @@ public partial class MappingCollection : IList<IMapping>, IList
 
 	#region Methods
 	/// <summary>
-	/// Finds the value associated with the specified <paramref name="key"/>.
+	/// Retrieves the value associated with the specified key, or <see langword="null"/> if the
+	/// key is not found.
 	/// </summary>
-	/// <param name="key">The key.</param>
+	/// <param name="key">The key whose value to retrieve.</param>
 	/// <returns>
-	/// The value associated with the specified <paramref name="key"/>, if any; otherwise <see langword="null"/>.
+	/// The value associated with the specified key, or <see langword="null"/> if the key does not
+	/// exist in the collection.
 	/// </returns>
 	/// <remarks>
-	/// This is used internally by the <see cref="MappingConverter"/> class. Since a key may be associated with a
-	/// <see langword="null"/> value, a <see langword="null"/> return value gives no indication of whether the key exists.
+	/// A return value of <see langword="null"/> does not indicate whether the key exists in the
+	/// collection, as <see langword="null"/> may be a valid mapped value.
 	/// </remarks>
 	public object? Find(object key)
 	{

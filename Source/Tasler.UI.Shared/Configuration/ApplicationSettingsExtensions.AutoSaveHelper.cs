@@ -21,10 +21,11 @@ public static partial class ApplicationSettingsExtensions
 	{
 		#region Constructor / Finalizer
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AutoSaveHelper"/> class.
+		/// Initializes a new instance of the <see cref="AutoSaveHelper"/> class to monitor the
+		/// specified settings and automatically save changes after a deferral period.
 		/// </summary>
-		/// <param name="settings">The settings.</param>
-		/// <param name="deferralTimeSpan">The deferral time.</param>
+		/// <param name="settings">The application settings instance to monitor for changes.</param>
+		/// <param name="deferralTimeSpan">The time to wait after a change before saving the settings.</param>
 		internal AutoSaveHelper(ApplicationSettingsBase settings, TimeSpan deferralTimeSpan)
 		{
 			// Save the specified settings and subscribe to some of its events
@@ -128,7 +129,7 @@ public static partial class ApplicationSettingsExtensions
 		}
 
 		/// <summary>
-		/// Handled the <see cref="ApplicationSettingsBase.PropertyChanged"/> event.
+		/// Handles the <see cref="ApplicationSettingsBase.PropertyChanged"/> event.
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">A <see cref="PropertyChangedEventArgs"/> that contains the event data.</param>
