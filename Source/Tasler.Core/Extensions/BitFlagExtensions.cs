@@ -1,8 +1,7 @@
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace Tasler.Extensions;
-
-// TODO: NEEDS_UNIT_TESTS
 
 /// <summary>
 /// Provides extension methods for setting, clearing, and testing bit flags on value types that support bitwise operations.
@@ -19,6 +18,7 @@ public static class BitFlagExtensions
 	/// <typeparam name="T">A value type that supports bitwise operators <see cref="IBitwiseOperators{T, T, T}"/>.</typeparam>
 	/// <param name="flags">The flags to set.</param>
 	/// <returns>The <paramref name="this"/> with the specified <paramref name="flags"/> set to 1 (turned on).</returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static ref T SetFlags<T>(this ref T @this, T flags)
 		where T : struct, IBitwiseOperators<T, T, T>
 	{
@@ -34,6 +34,7 @@ public static class BitFlagExtensions
 	/// <typeparam name="T">A value type that supports bitwise operators <see cref="IBitwiseOperators{T, T, T}"/>.</typeparam>
 	/// <param name="flags">The flags to clear.</param>
 	/// <returns>The <paramref name="this"/> with the specified <paramref name="flags"/> cleared to 0 (turned off).</returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static ref T ClearFlags<T>(this ref T @this, T flags)
 		where T : struct, IBitwiseOperators<T, T, T>
 	{
@@ -48,7 +49,11 @@ public static class BitFlagExtensions
 	/// As an extension method, this is typically not specified explicitly.</param>
 	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="flags"/> are set; otherwise they are cleared.</param>
 	/// <param name="flags">The flags to either set or clear.</param>
-	/// <returns></returns>
+	/// <returns>
+	/// The <paramref name="this"/> with the specified <paramref name="flags"/> either set or cleared
+	/// based on the <paramref name="set"/> parameter.
+	/// </returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static ref T SetOrClearFlags<T>(this ref T @this, bool set, T flags)
 		where T : struct, IBitwiseOperators<T, T, T>
 	{
@@ -69,6 +74,7 @@ public static class BitFlagExtensions
 	///   <see langword="true" /> if the bit field or <b>all</b> bit fields that are set in <paramref name="flags" /> are also
 	///   set in the current instance; otherwise, <see langword="false" />.
 	/// </returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool HasAllFlags<T>(this T @this, T flags)
 	where T : struct, IBitwiseOperators<T, T, T>, IEqualityOperators<T, T, bool>
 	{
@@ -86,6 +92,7 @@ public static class BitFlagExtensions
 	///   <see langword="true" /> if the bit field or <b>any</b> bit fields that are set in <paramref name="flags" /> are also
 	///   set in the current instance; otherwise, <see langword="false" />.
 	/// </returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool HasAnyFlag<T>(this T @this, T flags)
 	where T : struct, IBitwiseOperators<T, T, T>, IEqualityOperators<T, T, bool>
 	{

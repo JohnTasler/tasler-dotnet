@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Tasler.Properties;
 
 namespace Tasler.Extensions;
@@ -18,6 +19,7 @@ public static class EnumExtensions
 	/// As an extension method, this is typically not specified explicitly.</param>
 	/// <param name="flags">The flags.</param>
 	/// <returns>The <paramref name="this"/> with the specified <paramref name="flags"/> set to 1 (turned on).</returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static ref T SetFlags<T>(this ref T @this, T flags)
 		where T : struct, Enum, IConvertible
 	{
@@ -36,6 +38,7 @@ public static class EnumExtensions
 	/// As an extension method, this is typically not specified explicitly.</param>
 	/// <param name="flags">The flags.</param>
 	/// <returns>The <paramref name="this"/> with the specified <paramref name="flags"/> cleared to 0 (turned off).</returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static ref T ClearFlags<T>(this ref T @this, T flags)
 		where T : struct, Enum, IConvertible
 	{
@@ -54,7 +57,11 @@ public static class EnumExtensions
 	/// As an extension method, this is typically not specified explicitly.</param>
 	/// <param name="set">If set to <see langword="true"/> the specified <paramref name="flags"/> are set; otherwise they are cleared.</param>
 	/// <param name="flags">The flags to either set or clear.</param>
-	/// <returns></returns>
+	/// <returns>
+	/// The <paramref name="this"/> with the specified <paramref name="flags"/> either set or cleared
+	/// based on the <paramref name="set"/> parameter.
+	/// </returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static T SetOrClearFlags<T>(this ref T @this, bool set, T flags)
 		where T : struct, Enum, IConvertible
 	{
@@ -72,6 +79,7 @@ public static class EnumExtensions
 	///   <paramref name="flags" /> are also set in the current instance;
 	///   otherwise, <see langword="false" />.
 	/// </returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool HasAllFlags<T>(this T @this, T flags)
 		where T : struct, Enum, IConvertible
 	{
@@ -89,6 +97,7 @@ public static class EnumExtensions
 	///   <paramref name="flags" /> are also set in the current instance;
 	///   otherwise, <see langword="false" />.
 	/// </returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool HasAnyFlag<T>(this T @this, T flags)
 		where T : struct, Enum, IConvertible
 	{
@@ -99,6 +108,7 @@ public static class EnumExtensions
 	}
 	#endregion Bit Testing
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static T IsEnumBitFlags<T>(this T @this)
 		where T : Enum, IConvertible
 	{
