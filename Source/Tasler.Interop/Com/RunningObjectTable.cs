@@ -42,7 +42,8 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 			#endif
 		}
 	}
-#endregion IDisposable Members
+
+	#endregion IDisposable Members
 
 	#region IEnumerable<IMoniker> Members
 
