@@ -5,6 +5,9 @@ using Tasler.Interop.User;
 
 namespace Tasler.Interop.Gdi;
 
+/// <summary>
+/// Extension methods on the GDI API for common graphics operations.
+/// </summary>
 public static partial class GdiApi
 {
 	#region Properties
@@ -466,6 +469,20 @@ public static partial class GdiApi
 	/// <returns>An <see cref="ICONINFO"/> structure containing details about the cursor.</returns>
 	public static ICONINFO GetCursorInfo(this SafeGdiCursor hCursor)
 		=> GetIconInfo(hCursor.DangerousGetHandle());
+
+	/// <summary>
+	/// Retrieves the bitmap information of the icon's color bitmap.
+	/// </summary>
+	/// <param name="hIcon">The icon handle.</param>
+	/// <returns>A <see cref="BITMAP"/> structure for the icon.</returns>
+	public static BITMAP GetIconBitmapInfo(this SafeGdiIcon hIcon)
+	{
+		Guard.IsNotNull(hIcon);
+		Guard.IsNotDefault(hIcon.Handle);
+		var iconInfo = hIcon.GetIconInfo();
+		var safeBitmap = new SafeGdiBitmap { Handle = iconInfo.ColorBitmap };
+		return safeBitmap.GetBitmapInfo();
+	}
 
 	/// <summary>
 	/// Retrieves information about a bitmap represented by the specified safe handle.

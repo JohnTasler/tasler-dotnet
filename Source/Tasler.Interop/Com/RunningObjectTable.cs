@@ -1,14 +1,20 @@
 using System.Collections;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace Tasler.Interop.Com;
 
 public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 {
 	#region Instance Fields
-	private IRunningObjectTable? _rot = ComApi.GetRunningObjectTable();
+	private nint _rotHandle;
+	private IRunningObjectTable _rot;
 	#endregion Instance Fields
+
+	public RunningObjectTable()
+	{
+		_rot = ComApi.GetRunningObjectTable(out _rotHandle);
+	}
 
 	#region Finalizer
 	~RunningObjectTable()
@@ -20,34 +26,37 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 	#region IDisposable Members
 	public void Dispose()
 	{
-		var rot = Interlocked.Exchange(ref _rot, null);
+		var rot = Interlocked.Exchange(ref _rot, null!);
 		if (rot is not null)
 		{
+			var rotHandle = Interlocked.Exchange(ref _rotHandle, nint.Zero);
+			Debug.Assert(rotHandle != nint.Zero);
+			Marshal.Release(rotHandle);
 			GC.SuppressFinalize(this);
-			Marshal.ReleaseComObject(rot);
+		}
+		else
+		{
+			#if DEBUG
+			var rotHandle = Interlocked.Exchange(ref _rotHandle, nint.Zero);
+			Debug.Assert(rotHandle == nint.Zero);
+			#endif
 		}
 	}
-	#endregion IDisposable Members
+#endregion IDisposable Members
 
 	#region IEnumerable<IMoniker> Members
 
 	public IEnumerator<IMoniker> GetEnumerator()
 	{
-		using (var enumMoniker = new ComPtr<IEnumMoniker>())
-		{
-			_rot?.EnumRunning(out enumMoniker.Value);
-			return enumMoniker.Value?.AsEnumerator<IEnumMoniker, IMoniker>(ComEnumExtensions.FetchIMoniker) ?? throw new COMException();
-		}
+		var enumMoniker = _rot.EnumRunning();
+		return enumMoniker.AsEnumerable<IEnumMoniker, IMoniker>(ComEnumeratorExtensions.FetchIMoniker).GetEnumerator() ?? throw new COMException();
 	}
 
 	#endregion IEnumerable<IMoniker> Members
 
 	#region IEnumerable Members
 
-	IEnumerator IEnumerable.GetEnumerator()
-	{
-		return this.GetEnumerator();
-	}
+	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
 	#endregion IEnumerable Members
 

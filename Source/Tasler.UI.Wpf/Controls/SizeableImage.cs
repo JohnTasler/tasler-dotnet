@@ -157,7 +157,7 @@ public class SizeableImage : FrameworkElement
 
 	private void ImageFactory_Failed(object? sender, SizeableImageFailedEventArgs e)
 	{
-		Debug.WriteLine("SizeableImage.ImageFactory_Failed: Exception=" + e.Exception.Message);
+		Debug.WriteLine("SizeableImage.ImageFactory_Failed: Exception=" + e.Exception?.Message);
 	}
 	#endregion Event Handlers
 }

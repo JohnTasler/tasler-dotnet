@@ -13,7 +13,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(PSGUID_LINK) B9B4B3FC-2B51-4A42-B5D8-324146AFCF25, 5</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Comment => new PropertyKey(0xB9B4B3FC, 0x2B51, 0x4A42, 0xB5, 0xD8, 0x32, 0x41, 0x46, 0xAF, 0xCF, 0x25, 5);
+		public static PropertyKey Comment => new(0xB9B4B3FC, 0x2B51, 0x4A42, 0xB5, 0xD8, 0x32, 0x41, 0x46, 0xAF, 0xCF, 0x25, 5);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -23,7 +23,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>5CBF2787-48CF-4208-B90E-EE5E5D420294, 23  (PKEYs relating to URLs.  Used by IE History.)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey DateVisited => new PropertyKey(0x5CBF2787, 0x48CF, 0x4208, 0xB9, 0x0E, 0xEE, 0x5E, 0x5D, 0x42, 0x02, 0x94, 23);
+		public static PropertyKey DateVisited => new(0x5CBF2787, 0x48CF, 0x4208, 0xB9, 0x0E, 0xEE, 0x5E, 0x5D, 0x42, 0x02, 0x94, 23);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -33,7 +33,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>5CBF2787-48CF-4208-B90E-EE5E5D420294, 21  (PKEYs relating to URLs.  Used by IE History.)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Description => new PropertyKey(0x5CBF2787, 0x48CF, 0x4208, 0xB9, 0x0E, 0xEE, 0x5E, 0x5D, 0x42, 0x02, 0x94, 21);
+		public static PropertyKey Description => new(0x5CBF2787, 0x48CF, 0x4208, 0xB9, 0x0E, 0xEE, 0x5E, 0x5D, 0x42, 0x02, 0x94, 21);
 
 		/// <summary>
 		/// </summary>
@@ -44,7 +44,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(PSGUID_LINK) B9B4B3FC-2B51-4A42-B5D8-324146AFCF25, 3 (PID_LINK_TARGET_TYPE)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Status => new PropertyKey(0xB9B4B3FC, 0x2B51, 0x4A42, 0xB5, 0xD8, 0x32, 0x41, 0x46, 0xAF, 0xCF, 0x25, 3);
+		public static PropertyKey Status => new(0xB9B4B3FC, 0x2B51, 0x4A42, 0xB5, 0xD8, 0x32, 0x41, 0x46, 0xAF, 0xCF, 0x25, 3);
 
 		/// <summary>Possible discrete values for PKEY_Status.</summary>
 		public enum StatusValues : int
@@ -62,7 +62,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>7A7D76F4-B630-4BD7-95FF-37CC51A975C9, 2</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey TargetExtension => new PropertyKey(0x7A7D76F4, 0xB630, 0x4BD7, 0x95, 0xFF, 0x37, 0xCC, 0x51, 0xA9, 0x75, 0xC9, 2);
+		public static PropertyKey TargetExtension => new(0x7A7D76F4, 0xB630, 0x4BD7, 0x95, 0xFF, 0x37, 0xCC, 0x51, 0xA9, 0x75, 0xC9, 2);
 
 		/// <summary>
 		/// This is the shell namespace path to the target of the link item.  This path may be passed to 
@@ -78,7 +78,7 @@ public static partial class PropertyKeys
 		/// <para>
 		/// If the target item cannot be accessed through the shell namespace, this value is VT_EMPTY.</para>
 		/// </remarks>
-		public static PropertyKey TargetParsingPath => new PropertyKey(0xB9B4B3FC, 0x2B51, 0x4A42, 0xB5, 0xD8, 0x32, 0x41, 0x46, 0xAF, 0xCF, 0x25, 2);
+		public static PropertyKey TargetParsingPath => new(0xB9B4B3FC, 0x2B51, 0x4A42, 0xB5, 0xD8, 0x32, 0x41, 0x46, 0xAF, 0xCF, 0x25, 2);
 
 		/// <summary>
 		/// IShellFolder::GetAttributesOf flags for the target of a link, with SFGAO_PKEYSFGAOMASK attributes masked out.</summary>
@@ -89,6 +89,6 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(PSGUID_LINK) B9B4B3FC-2B51-4A42-B5D8-324146AFCF25, 8</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey TargetSFGAOFlags => new PropertyKey(0xB9B4B3FC, 0x2B51, 0x4A42, 0xB5, 0xD8, 0x32, 0x41, 0x46, 0xAF, 0xCF, 0x25, 8);
+		public static PropertyKey TargetSFGAOFlags => new(0xB9B4B3FC, 0x2B51, 0x4A42, 0xB5, 0xD8, 0x32, 0x41, 0x46, 0xAF, 0xCF, 0x25, 8);
 	}
 }

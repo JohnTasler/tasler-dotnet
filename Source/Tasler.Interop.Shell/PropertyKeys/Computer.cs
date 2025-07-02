@@ -14,6 +14,6 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_Volume) 9B174B35-40FF-11D2-A27E-00C04FC30871, 7  (Filesystem Volume Properties)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey DecoratedFreeSpace => new PropertyKey(0x9B174B35, 0x40FF, 0x11D2, 0xA2, 0x7E, 0x00, 0xC0, 0x4F, 0xC3, 0x08, 0x71, 7);
+		public static PropertyKey DecoratedFreeSpace => new(0x9B174B35, 0x40FF, 0x11D2, 0xA2, 0x7E, 0x00, 0xC0, 0x4F, 0xC3, 0x08, 0x71, 7);
 	}
 }

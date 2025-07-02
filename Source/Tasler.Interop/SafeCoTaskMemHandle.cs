@@ -14,11 +14,11 @@ public class SafeCoTaskMemHandle : SafeHandleZeroIsInvalid
 	#region Overrides
 	protected override bool ReleaseHandle()
 	{
-		if (base.handle == nint.Zero)
+		var oldHandle = Interlocked.Exchange(ref base.handle, nint.Zero);
+		if (oldHandle == nint.Zero)
 			return true; // Already released
 
-		Marshal.FreeCoTaskMem(base.handle);
-		base.handle = nint.Zero;
+		Marshal.FreeCoTaskMem(oldHandle);
 		return true;
 	}
 	#endregion Overrides

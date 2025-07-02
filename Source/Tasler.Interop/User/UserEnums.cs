@@ -144,10 +144,10 @@ public enum SWP : uint
 
 public static class HWND
 {
-	public static readonly SafeHwnd Top       = new SafeHwnd { Handle =  nint.Zero };
-	public static readonly SafeHwnd Bottom    = new SafeHwnd { Handle = (nint)  1  };
-	public static readonly SafeHwnd Topmost   = new SafeHwnd { Handle = (nint)(-1) };
-	public static readonly SafeHwnd NoTopmost = new SafeHwnd { Handle = (nint)(-2) };
+	public static readonly SafeHwnd Top       = new() { Handle =  nint.Zero };
+	public static readonly SafeHwnd Bottom    = new() { Handle = (nint)  1  };
+	public static readonly SafeHwnd Topmost   = new() { Handle = (nint)(-1) };
+	public static readonly SafeHwnd NoTopmost = new() { Handle = (nint)(-2) };
 }
 
 /// <summary>ShowWindow() Commands</summary>
@@ -218,6 +218,37 @@ public enum SW
 	/// </summary>
 	ShowNormal = 1,
 }
+
+/// <summary>
+/// Flags used in the <see cref="WINDOWPLACEMENT"/> structure to specify the placement of a window.
+/// </summary>
+[Flags]
+public enum WindowPlacementFlags : uint
+{
+	/// <summary>
+	/// The coordinates of the minimized window may be specified. This flag must be specified
+	/// if the coordinates are set in the <see cref="WINDOWPLACEMENT.MinimizedPosition"/> member.
+	/// </summary>
+	SetMinPosition = 0x0001,
+
+	/// <summary>
+	/// The restored window will be maximized, regardless of whether it was maximized before it was
+	/// minimized. This setting is only valid the next time the window is restored. It does not
+	/// change the default restoration behavior. This flag is only valid when the
+	/// <see cref="SW.ShowMinimized"/> SW_SHOWMINIMIZED value is specified for the
+	/// <see cref="WINDOWPLACEMENT.ShowCommand"/> member.
+	/// </summary>
+	RestoreToMaximized = 0x0002,
+
+	/// <summary>
+	/// If the calling thread and the thread that owns the window are attached to different input
+	/// queues, the system posts the request to the thread that owns the window. This prevents the
+	/// calling thread from blocking its execution while other threads process the request.
+	/// </summary>
+	AsyncWindowPlacement = 0x0004,
+}
+
+
 
 /// <summary>System Menu Commands</summary>
 public enum SC

@@ -6,11 +6,11 @@ namespace Tasler.Interop.Shell;
 /// Specifies the FMTID/PID identifier that programmatically identifies a property.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public class PropertyKey
+public struct PropertyKey
 {
 	#region Instance Fields
 	/// <summary>A unique GUID for the property.</summary>
-	public Guid fmtid;
+	public Guid FormatId;
 
 	/// <summary>
 	/// A property identifier (PID).
@@ -27,7 +27,7 @@ public class PropertyKey
 	/// </list>
 	/// </para>
 	/// </remarks>
-	public int pid;
+	public int PropertyId;
 	#endregion Instance Fields
 
 	#region Constants
@@ -43,8 +43,8 @@ public class PropertyKey
 	/// <param name="pid">A property identifier (PID). <seealso cref="M:pid"/></param>
 	public PropertyKey(Guid fmtid, int pid)
 	{
-		this.fmtid = fmtid;
-		this.pid = pid;
+		this.FormatId = fmtid;
+		this.PropertyId = pid;
 	}
 
 	/// <summary>
@@ -54,8 +54,8 @@ public class PropertyKey
 	/// <param name="pid">A property identifier (PID). <seealso cref="M:pid"/></param>
 	public PropertyKey(string fmtid, int pid)
 	{
-		this.fmtid = new Guid(fmtid);
-		this.pid = pid;
+		this.FormatId = new Guid(fmtid);
+		this.PropertyId = pid;
 	}
 
 	/// <summary>

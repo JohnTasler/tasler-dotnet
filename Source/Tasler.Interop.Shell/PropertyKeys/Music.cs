@@ -14,7 +14,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 13 (PIDSI_MUSIC_ALBUM_ARTIST)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey AlbumArtist => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 13);
+		public static PropertyKey AlbumArtist => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 13);
 
 		/// <summary>
 		/// </summary>
@@ -25,7 +25,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 4 (PIDSI_MUSIC_ALBUM)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey AlbumTitle => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 4);
+		public static PropertyKey AlbumTitle => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 4);
 
 		/// <summary>
 		/// </summary>
@@ -36,7 +36,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 2 (PIDSI_MUSIC_ARTIST)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Artist => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 2);
+		public static PropertyKey Artist => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 2);
 
 		/// <summary>
 		/// </summary>
@@ -47,7 +47,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 35 (PIDSI_MUSIC_BEATS_PER_MINUTE)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey BeatsPerMinute => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 35);
+		public static PropertyKey BeatsPerMinute => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 35);
 
 		/// <summary>
 		/// </summary>
@@ -58,7 +58,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(PSGUID_MEDIAFILESUMMARYINFORMATION) 64440492-4C8B-11D1-8B70-080036B11A03, 19 (PIDMSI_COMPOSER)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Composer => new PropertyKey(0x64440492, 0x4C8B, 0x11D1, 0x8B, 0x70, 0x08, 0x00, 0x36, 0xB1, 0x1A, 0x03, 19);
+		public static PropertyKey Composer => new(0x64440492, 0x4C8B, 0x11D1, 0x8B, 0x70, 0x08, 0x00, 0x36, 0xB1, 0x1A, 0x03, 19);
 
 		/// <summary>
 		/// </summary>
@@ -69,7 +69,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 36 (PIDSI_MUSIC_CONDUCTOR)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Conductor => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 36);
+		public static PropertyKey Conductor => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 36);
 
 		/// <summary>
 		/// </summary>
@@ -80,7 +80,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 33 (PIDSI_MUSIC_CONTENT_GROUP_DESCRIPTION)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey ContentGroupDescription => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 33);
+		public static PropertyKey ContentGroupDescription => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 33);
 
 		/// <summary>
 		/// </summary>
@@ -91,7 +91,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 11 (PIDSI_MUSIC_GENRE)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Genre => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 11);
+		public static PropertyKey Genre => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 11);
 
 		/// <summary>
 		/// </summary>
@@ -102,7 +102,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 34 (PIDSI_MUSIC_INITIAL_KEY)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey InitialKey => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 34);
+		public static PropertyKey InitialKey => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 34);
 
 		/// <summary>
 		/// </summary>
@@ -113,7 +113,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 12 (PIDSI_MUSIC_LYRICS)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Lyrics => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 12);
+		public static PropertyKey Lyrics => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 12);
 
 		/// <summary>
 		/// </summary>
@@ -124,7 +124,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 39 (PIDSI_MUSIC_MOOD)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Mood => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 39);
+		public static PropertyKey Mood => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 39);
 
 		/// <summary>
 		/// </summary>
@@ -135,7 +135,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 37 (PIDSI_MUSIC_PART_OF_SET)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey PartOfSet => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 37);
+		public static PropertyKey PartOfSet => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 37);
 
 		/// <summary>
 		/// </summary>
@@ -146,7 +146,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(PSGUID_MEDIAFILESUMMARYINFORMATION) 64440492-4C8B-11D1-8B70-080036B11A03, 31 (PIDMSI_PERIOD)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Period => new PropertyKey(0x64440492, 0x4C8B, 0x11D1, 0x8B, 0x70, 0x08, 0x00, 0x36, 0xB1, 0x1A, 0x03, 31);
+		public static PropertyKey Period => new(0x64440492, 0x4C8B, 0x11D1, 0x8B, 0x70, 0x08, 0x00, 0x36, 0xB1, 0x1A, 0x03, 31);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -156,7 +156,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>6B223B6A-162E-4AA9-B39F-05D678FC6D77, 100</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey SynchronizedLyrics => new PropertyKey(0x6B223B6A, 0x162E, 0x4AA9, 0xB3, 0x9F, 0x05, 0xD6, 0x78, 0xFC, 0x6D, 0x77, 100);
+		public static PropertyKey SynchronizedLyrics => new(0x6B223B6A, 0x162E, 0x4AA9, 0xB3, 0x9F, 0x05, 0xD6, 0x78, 0xFC, 0x6D, 0x77, 100);
 
 		/// <summary>
 		/// </summary>
@@ -167,6 +167,6 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_MUSIC) 56A3372E-CE9C-11D2-9F0E-006097C686F6, 7 (PIDSI_MUSIC_TRACK)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey TrackNumber => new PropertyKey(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 7);
+		public static PropertyKey TrackNumber => new(0x56A3372E, 0xCE9C, 0x11D2, 0x9F, 0x0E, 0x00, 0x60, 0x97, 0xC6, 0x86, 0xF6, 7);
 	}
 }

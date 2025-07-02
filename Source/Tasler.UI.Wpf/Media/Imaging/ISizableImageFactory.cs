@@ -13,21 +13,15 @@ public interface ISizeableImageFactory
 
 public class SizeableImageLoadedEventArgs : EventArgs
 {
-	public SizeableImageLoadedEventArgs(ImageSource imageSource)
-	{
-		this.ImageSource = imageSource;
-	}
+	public SizeableImageLoadedEventArgs(ImageSource imageSource) => this.ImageSource = imageSource;
 
-	public ImageSource ImageSource { get; private set; }
+	public ImageSource ImageSource { get; init; }
 }
 
 public class SizeableImageFailedEventArgs : EventArgs
 {
-	public SizeableImageFailedEventArgs(Exception exception)
-	{
-		this.Exception = exception;
-	}
+	public SizeableImageFailedEventArgs(Exception? exception) => this.Exception = exception;
 
-	public Exception Exception { get; private set; }
+	public Exception? Exception { get; init; }
 }
 

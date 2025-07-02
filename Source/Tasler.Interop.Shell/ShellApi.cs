@@ -1,70 +1,43 @@
 using System.Runtime.InteropServices;
-using System.Text;
+using System.Runtime.InteropServices.Marshalling;
+using Tasler.Interop.Com;
 
 namespace Tasler.Interop.Shell;
 
-public static class ShellApi
+public static partial class ShellApi
 {
-	private const string Shell32 = "shell32.dll";
-
-	[DllImport(Shell32, ExactSpelling = true, PreserveSig = false)]
-	public static extern IShellFolder SHGetDesktopFolder();
-
 	public static IShellFolder2 GetDesktopFolder()
 	{
-		return (IShellFolder2)SHGetDesktopFolder();
+		IShellFolder folder = null!;
+		var hr = NativeMethods.SHGetDesktopFolder(out folder);
+		if (hr < 0)
+			Marshal.ThrowExceptionForHR(hr);
+
+		return (IShellFolder2)folder;
 	}
 
-	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 1)]
-	[DllImport(Shell32, ExactSpelling = true, PreserveSig = false)]
-	public static extern object SHCreateItemFromIDList(
-		ItemIdList pidl,
-		ref Guid iid);
+	public static TInterface CreateItemFromIDList<TInterface>(ItemIdList pidl)
+	{
+		var iid = typeof(TInterface).GUID;
+		int hr = NativeMethods.SHCreateItemFromIDList(pidl, ref iid, out nint value);
+		if (hr < 0)
+			Marshal.ThrowExceptionForHR(hr);
 
-	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 3)]
-	[DllImport(Shell32, ExactSpelling = true, PreserveSig = false)]
-	public static extern object SHCreateItemWithParent(
+		return (TInterface)ComApi.Wrappers.GetOrCreateObjectForComInstance(value, CreateObjectFlags.Unwrap);
+	}
+
+	public static TInterface CreateItemWithParent<TInterface>(
 		ItemIdList parentItemIdList,
 		IShellFolder parentShellFolder,
-		ChildItemIdList childItemIdList,
-		ref Guid riid);
+		ChildItemIdList childItemIdList)
+	{
+		var iid = typeof(TInterface).GUID;
+		var hr = NativeMethods.SHCreateItemWithParent(parentItemIdList, parentShellFolder, childItemIdList, ref iid, out nint value);
+		if (hr < 0)
+			Marshal.ThrowExceptionForHR(hr);
 
-	[DllImport(Shell32, ExactSpelling = true, PreserveSig = false)]
-	public static extern ItemIdList SHGetIDListFromObject(
-		[MarshalAs(UnmanagedType.IUnknown)]
-		object punk);
-
-	[return: MarshalAs(UnmanagedType.Bool)]
-	[DllImport(Shell32, ExactSpelling = true)]
-	public static extern bool ILIsEqual(
-		ItemIdList pidl1,
-		ItemIdList pidl2);
-
-	[return: MarshalAs(UnmanagedType.Bool)]
-	[DllImport(Shell32, ExactSpelling = true)]
-	public static extern bool ILIsEqual(
-		ItemIdList pidl1,
-		ChildItemIdList pidl2);
-
-	[return: MarshalAs(UnmanagedType.Bool)]
-	[DllImport(Shell32, ExactSpelling = true)]
-	public static extern bool ILIsEqual(
-		ChildItemIdList pidl1,
-		ItemIdList pidl2);
-
-	[return: MarshalAs(UnmanagedType.Bool)]
-	[DllImport(Shell32, ExactSpelling = true)]
-	public static extern bool ILIsEqual(
-		ChildItemIdList pidl1,
-		ChildItemIdList pidl2);
-
-	[return: MarshalAs(UnmanagedType.Bool)]
-	[DllImport(Shell32, CharSet = CharSet.Auto)]
-	public static extern bool SHGetPathFromIDListEx(
-		ItemIdList pidl,
-		StringBuilder pszPath,
-		uint cchPath,
-		GPFIDL uOpts);
+		return (TInterface)ComApi.Wrappers.GetOrCreateObjectForComInstance(value, CreateObjectFlags.Unwrap);
+	}
 
 	public static string GetFolderParseName(ItemIdList folderIdList)
 	{
@@ -74,43 +47,94 @@ public static class ShellApi
 		{
 			Guid iid = typeof(IShellFolder).GUID;
 			IShellFolder folderParent = (IShellFolder)ShellApi.GetDesktopFolder();
+			var folderParentPointer = folderParent.BindToObject(folderParentIdList, null, ref iid);
 			if (!folderParentIdList.IsEmpty)
-				folderParent = (IShellFolder)folderParent.BindToObject(folderParentIdList, null, ref iid);
+				ComApi.Wrappers.GetOrCreateObjectForComInstance(folderParentPointer, CreateObjectFlags.Unwrap);
 
 			using StrRet strRet = folderParent.GetDisplayNameOf(folderInParentIdList, SHGDNF.ForParsing);
 			return strRet.Value;
 		}
 	}
 
-
-	[DllImport(Shell32, CharSet = CharSet.Auto, PreserveSig = false)]
-	private static extern nint SHGetNameFromIDList(
-			ItemIdList pidlAbsolute,
-			SIGDN sigdnName);
-
 	public static string GetNameFromIDList(ItemIdList pidlAbsolute, SIGDN sigdnName)
 	{
-		nint pszName = ShellApi.SHGetNameFromIDList(pidlAbsolute, sigdnName);
-		string name = (pszName != nint.Zero) ? Marshal.PtrToStringAuto(pszName) : string.Empty;
-		Marshal.FreeCoTaskMem(pszName);
-		return name;
+		int hr = NativeMethods.SHGetNameFromIDList(pidlAbsolute, sigdnName, out var name);
+		if (hr < 0)
+			Marshal.ThrowExceptionForHR(hr);
+		return name?.Value ?? string.Empty;
 	}
 
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("LibraryImportGenerator", "SYSLIB1052:Specified configuration is not supported by source-generated P/Invokes.", Justification = "<Pending>")]
+	public static partial class NativeMethods
+	{
+		private const string Shell32 = "shell32.dll";
 
-	[DllImport(Shell32, CharSet = CharSet.Auto, PreserveSig = true)]
-	public static extern int SHGetKnownFolderIDList(
-		KnownFolderId rfid,
-		KnownFolderFlags dwFlags,
-		nint hToken,
-		out ItemIdList ppidl);
+		[LibraryImport(Shell32)]
+		public static partial int SHGetDesktopFolder(out IShellFolder shellFolder);
 
-	[DllImport(Shell32, CharSet = CharSet.Auto, PreserveSig = false)]
-	public static extern ItemIdList SHGetKnownFolderIDList(
-		KnownFolderId rfid,
-		KnownFolderFlags dwFlags,
-		nint hToken);
+		[LibraryImport(Shell32)]
+		public static partial int SHCreateItemFromIDList(ItemIdList pidl, ref Guid iid, out nint ppv);
 
-} // End: ShellApi
+		[LibraryImport(Shell32)]
+		public static partial int SHCreateItemWithParent(
+			ItemIdList parentItemIdList,
+			IShellFolder parentShellFolder,
+			ChildItemIdList childItemIdList,
+			ref Guid riid,
+			out nint ppv);
+
+		[LibraryImport(Shell32)]
+		public static partial int SHGetIDListFromObject(
+			[MarshalAs(UnmanagedType.IUnknown)] object punk,
+			out ItemIdList piidList);
+
+		[LibraryImport(Shell32)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool ILIsEqual(
+			ItemIdList pidl1,
+			ItemIdList pidl2);
+
+		[LibraryImport(Shell32)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool ILIsEqual(
+			ItemIdList pidl1,
+			ChildItemIdList pidl2);
+
+		[LibraryImport(Shell32)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool ILIsEqual(
+			ChildItemIdList pidl1,
+			ItemIdList pidl2);
+
+		[LibraryImport(Shell32)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool ILIsEqual(
+			ChildItemIdList pidl1,
+			ChildItemIdList pidl2);
+
+		[LibraryImport(Shell32)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static partial bool SHGetPathFromIDListEx(
+			ItemIdList pidl,
+			[MarshalUsing(CountElementName = nameof(cchPath))][Out] char[] pszPath,
+			uint cchPath,
+			GPFIDL uOpts);
+
+		[LibraryImport(Shell32)]
+		public static partial int SHGetNameFromIDList(
+			ItemIdList pidlAbsolute,
+			SIGDN sigdnName,
+			out SafeCoTaskMemString ppszName);
+
+		[LibraryImport(Shell32)]
+		public static partial int SHGetKnownFolderIDList(
+			KnownFolderId rfid,
+			KnownFolderFlags dwFlags,
+			nint hToken,
+			out ItemIdList ppidl);
+	}
+}
 
 [Flags]
 public enum GPFIDL
@@ -124,5 +148,3 @@ public enum GPFIDL
 	/// <summary>Include UNC printer names too (non file system item).</summary>
 	UncPrinter = 0x0002,
 }
-
- // End: namespace

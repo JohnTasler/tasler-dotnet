@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Tasler.Interop;
 using Tasler.Interop.Gdi;
 using Tasler.Interop.Shell;
 using Tasler.Windows.Diagnostics;
@@ -14,10 +15,10 @@ namespace Tasler.Windows.Shell
 	public class ItemImageFactory : DispatcherObject, IDisposable, ISizeableImageFactory
 	{
 		#region Instance Fields
-		private object lockObject = new object();
-		private ItemIdList itemIdList;
-		private RequestItem requestItemInProgress;
-		private RequestItem requestItemRecent = new RequestItem(Int32Size.Empty);
+		private object _lockObject = new();
+		private ItemIdList _itemIdList;
+		private RequestItem? _requestItemInProgress;
+		private RequestItem _requestItemRecent = new(Int32Size.Empty);
 		#endregion Instance Fields
 
 		#region Construction / Finalization
@@ -25,7 +26,7 @@ namespace Tasler.Windows.Shell
 		{
 			if (itemIdList.Value == IntPtr.Zero)
 				throw new ArgumentNullException("itemIdList");
-			this.itemIdList = itemIdList;
+			_itemIdList = itemIdList;
 		}
 
 		~ItemImageFactory()
@@ -38,10 +39,10 @@ namespace Tasler.Windows.Shell
 		#region IDisposable Members
 		public void Dispose()
 		{
-			lock (this.lockObject)
+			lock (_lockObject)
 			{
-				this.itemIdList.Dispose();
-				this.requestItemInProgress = null;
+				_itemIdList.Dispose();
+				_requestItemInProgress = null;
 			}
 			GC.SuppressFinalize(this);
 		}
@@ -52,30 +53,29 @@ namespace Tasler.Windows.Shell
 		public void RequestImageSource(Int32Size size)
 		{
 			// If the most recent image has the same size, raise the Loaded event
-			if (this.requestItemRecent.Size == size)
+			if (_requestItemRecent.Size == size)
 			{
-				if (this.Loaded != null)
-					this.Loaded(this, new SizeableImageLoadedEventArgs(this.requestItemRecent.BitmapSource));
+				this.Loaded?.Invoke(this, new SizeableImageLoadedEventArgs(_requestItemRecent.BitmapSource));
 				return;
 			}
 
 			// If an image of the same size is being processed, ignore the request
-			lock (this.lockObject)
-				if (this.requestItemInProgress != null && this.requestItemInProgress.Size == size)
+			lock (_lockObject)
+				if (_requestItemInProgress is not null && _requestItemInProgress.Size == size)
 					return;
 
 			Debug.WriteLine(
 				string.Format("{0:X8} ItemImageFactory.RequestImageSource: size={1}x{2}",
 				ThreadIdleCounter.Instance.Counter, size.Width, size.Height));
 
-			lock (this.lockObject)
-				this.requestItemInProgress = new RequestItem(size);
+			lock (_lockObject)
+				_requestItemInProgress = new RequestItem(size);
 			ThreadPool.QueueUserWorkItem(this.ThreadProc);
 		}
 
-		public event EventHandler<SizeableImageLoadedEventArgs> Loaded;
+		public event EventHandler<SizeableImageLoadedEventArgs>? Loaded;
 
-		public event EventHandler<SizeableImageFailedEventArgs> Failed;
+		public event EventHandler<SizeableImageFailedEventArgs>? Failed;
 
 		#endregion ISizeableImageFactory Members
 
@@ -84,16 +84,16 @@ namespace Tasler.Windows.Shell
 		{
 			get
 			{
-				lock (this.lockObject)
-					return this.itemIdList.Value == IntPtr.Zero;
+				lock (_lockObject)
+					return _itemIdList.Value == IntPtr.Zero;
 			}
 		}
 
-		private void ThreadProc(object param)
+		private void ThreadProc(object? param)
 		{
 			Int32Size size = new Int32Size();
-			IShellItemImageFactory imageFactory = null;
-			lock (this.lockObject)
+			IShellItemImageFactory? imageFactory;
+			lock (_lockObject)
 			{
 				if (this.IsDisposed)
 				{
@@ -101,18 +101,18 @@ namespace Tasler.Windows.Shell
 					return;
 				}
 
-				if (this.requestItemInProgress == null)
+				if (_requestItemInProgress is null)
 				{
 					Debug.WriteLine("ItemImageFactory.ThreadProc: this.requestItemInProgress is null.");
 					return;
 				}
 
 				Guid iid = typeof(IShellItemImageFactory).GUID;
-				imageFactory = (IShellItemImageFactory)ShellApi.SHCreateItemFromIDList(this.itemIdList, ref iid);
-				size = this.requestItemInProgress.Size;
-				this.requestItemInProgress.Thread = Thread.CurrentThread;
-				this.requestItemInProgress.Thread.Name = this.GetType().FullName;
-				this.requestItemInProgress.Thread.SetApartmentState(ApartmentState.MTA);
+				imageFactory = (IShellItemImageFactory)ShellApi.CreateItemFromIDList<IShellItemImageFactory>(_itemIdList);
+				size = _requestItemInProgress.Size;
+				_requestItemInProgress.Thread = Thread.CurrentThread;
+				_requestItemInProgress.Thread.Name = this.GetType().FullName;
+				_requestItemInProgress.Thread.SetApartmentState(ApartmentState.MTA);
 			}
 
 #if DEBUG
@@ -121,7 +121,7 @@ namespace Tasler.Windows.Shell
 #endif // DEBUG
 
 			IntPtr hBitmap;
-			int hr = imageFactory.GetImage(size.ToSIZE(), SIIGB.BiggerSizeOk, out hBitmap);
+			int hr = imageFactory.GetImage(size, SIIGB.BiggerSizeOk, out hBitmap);
 
 #if DEBUG
 				stopwatch.Stop();
@@ -143,7 +143,7 @@ namespace Tasler.Windows.Shell
 					return;
 				}
 
-				hr = imageFactory.GetImage(size.ToSIZE(), SIIGB.BiggerSizeOk | SIIGB.IconOnly, out hBitmap);
+				hr = imageFactory.GetImage(size, SIIGB.BiggerSizeOk | SIIGB.IconOnly, out hBitmap);
 			}
 
 			// Notify main thread of success or failure
@@ -157,7 +157,7 @@ namespace Tasler.Windows.Shell
 					string.Format("ItemImageFactory.ThreadProc: IShellItemImageFactory.GetImage({0}x{1}) returned {2:X8} for SIIGB.IconOnly",
 						size.Width, size.Height, hr));
 
-				SizeableImageFailedEventArgs args = new SizeableImageFailedEventArgs(Marshal.GetExceptionForHR(hr));
+				SizeableImageFailedEventArgs args = new SizeableImageFailedEventArgs(Marshal.GetExceptionForHR(hr)!);
 				base.Dispatcher.BeginInvoke(new Action<SizeableImageFailedEventArgs>(this.OnFailed), args);
 			}
 		}
@@ -186,14 +186,14 @@ namespace Tasler.Windows.Shell
 				hBitmap, IntPtr.Zero, sourceRect, BitmapSizeOptions.FromEmptyOptions());
 
 			// Save the new recent work item
-			this.requestItemRecent = workItemNew;
+			_requestItemRecent = workItemNew;
 
 			// Clear the work item in progress
-			lock (this.lockObject)
-				this.requestItemInProgress = null;
+			lock (_lockObject)
+				_requestItemInProgress = null;
 
 			// Raise the event if a handler is registered
-			if (this.Loaded != null)
+			if (this.Loaded is not null)
 			{
 				SizeableImageLoadedEventArgs args = new SizeableImageLoadedEventArgs(workItemNew.BitmapSource);
 				this.Loaded(this, args);
@@ -202,17 +202,16 @@ namespace Tasler.Windows.Shell
 
 		private void OnFailed(SizeableImageFailedEventArgs e)
 		{
-			Debug.WriteLine("ItemImageFactory.OnFailed: ExceptionMessage=" + e.Exception.Message);
+			Debug.WriteLine("ItemImageFactory.OnFailed: ExceptionMessage=" + e.Exception?.Message);
 			Debug.Assert(base.CheckAccess());
 			base.VerifyAccess();
 
 			// Clear the work item in progress
-			lock (this.lockObject)
-				this.requestItemInProgress = null;
+			lock (_lockObject)
+				_requestItemInProgress = null!;
 
 			// Raise the event if any handlers are registered
-			if (this.Failed != null)
-				this.Failed(this, e);
+			this.Failed?.Invoke(this, e);
 		}
 		#endregion Private Implementation
 
@@ -220,9 +219,9 @@ namespace Tasler.Windows.Shell
 		private class RequestItem
 		{
 			#region Instance Fields
-			public Thread Thread;
+			public Thread Thread = null!;
 			public Int32Size Size;
-			public BitmapSource BitmapSource;
+			public BitmapSource BitmapSource = null!;
 			#endregion Instance Fields
 
 			#region Construction

@@ -2,34 +2,29 @@ using System.Runtime.InteropServices;
 
 namespace Tasler.Interop.Shell;
 
-public static class PropSysApi
+public static partial class PropSysApi
 {
-	[DllImport("propsys.dll", ExactSpelling = true, PreserveSig = true)]
-	private static extern int PSGetNameFromPropertyKey(
-		PropertyKey propkey,
-		out SafeCoTaskMemHandle ppszCanonicalName);
-
-	public static string GetNameFromPropertyKey(
-		PropertyKey propkey)
+	public static string GetNameFromPropertyKey(PropertyKey propkey)
 	{
-		string name = string.Empty;
-		SafeCoTaskMemHandle pszCanonicalName = new SafeCoTaskMemHandle();
-		int hr = PSGetNameFromPropertyKey(propkey, out pszCanonicalName);
-		if (hr == 0)
-		{
-			name = Marshal.PtrToStringUni(pszCanonicalName.DangerousGetHandle());
-			pszCanonicalName.Close();
-		}
+		SafeCoTaskMemString pszCanonicalName = null!;
+		int hr = NativeMethods.PSGetNameFromPropertyKey(propkey, out pszCanonicalName);
+		if (hr < 0)
+			Marshal.ThrowExceptionForHR(hr);
 
-		return name;
+		return pszCanonicalName.Value ?? string.Empty;
 	}
 
-	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 1)]
-	[DllImport("propsys.dll", ExactSpelling = true)]
-	public static extern object PSGetPropertyDescription(
-		PropertyKey propkey,
-		ref Guid riid);
+	public static partial class NativeMethods
+	{
+		private const string PropSys = "propsys.dll";
 
-} // End: PropSysApi
+		[LibraryImport(PropSys)]
+		internal static partial int PSGetNameFromPropertyKey(PropertyKey propkey, out SafeCoTaskMemString ppszCanonicalName);
 
- // End: namespace
+		[LibraryImport(PropSys)]
+		internal static partial int PSGetPropertyDescription(
+			PropertyKey propkey,
+			ref Guid riid,
+			out nint ppv);
+	}
+}

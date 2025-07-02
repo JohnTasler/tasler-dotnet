@@ -1,10 +1,16 @@
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.InteropServices.Marshalling;
+using CommunityToolkit.Diagnostics;
 
 namespace Tasler.Interop.Com;
 
 public static partial class ComApi
 {
+	public static readonly StrategyBasedComWrappers Wrappers =
+		new StrategyBasedComWrappers().RegisterForTrackingSupport().RegisterForMarshalling();
+
 	/// <summary>
 	/// Creates a COM object instance for the specified class and returns a pointer to the requested interface.
 	/// </summary>
@@ -17,7 +23,7 @@ public static partial class ComApi
 	/// </exception>
 	public static nint CoCreateInstance(Guid clsid, Guid iid, ClsCtx dwClsContext = ClsCtx.Default)
 	{
-		int hr = NativeMehods.CoCreateInstance(ref clsid, nint.Zero, dwClsContext, ref iid, out nint ppv);
+		int hr = NativeMethods.CoCreateInstance(ref clsid, nint.Zero, dwClsContext, ref iid, out nint ppv);
 		if (hr < 0)
 			Marshal.ThrowExceptionForHR(hr);
 
@@ -27,7 +33,9 @@ public static partial class ComApi
 	public static TInterface CoCreateInstance<TInterface>(Guid clsid, ClsCtx dwClsContext = ClsCtx.Default)
 		where TInterface : class
 	{
-		return (TInterface)Marshal.GetObjectForIUnknown(CoCreateInstance(clsid, typeof(TInterface).GUID, dwClsContext));
+		return (TInterface)Wrappers.GetOrCreateObjectForComInstance(
+			CoCreateInstance(clsid, typeof(TInterface).GUID, dwClsContext),
+			CreateObjectFlags.UniqueInstance);
 	}
 
 	public static TInterface CoCreateInstance<TClass, TInterface>(ClsCtx dwClsContext = ClsCtx.Default)
@@ -37,27 +45,59 @@ public static partial class ComApi
 		return CoCreateInstance<TInterface>(typeof(TClass).GUID, dwClsContext);
 	}
 
-	public static IRunningObjectTable GetRunningObjectTable()
+	public static IRunningObjectTable GetRunningObjectTable(out nint rotHandle)
 	{
-		var hr = NativeMehods.GetRunningObjectTable(0, out nint rot);
-		if (hr != 0)
+		var hr = NativeMethods.GetRunningObjectTable(0, out rotHandle);
+		if (hr < 0)
 			Marshal.ThrowExceptionForHR(hr);
 
-		return (IRunningObjectTable)Marshal.GetObjectForIUnknown(rot);
+		return (IRunningObjectTable)Wrappers.GetOrCreateObjectForComInstance(rotHandle, CreateObjectFlags.Unwrap);
 	}
 
 	public static IBindCtx CreateBindCtx()
 	{
-		var hr = NativeMehods.CreateBindCtx(0, out nint ctx);
-		if (hr != 0)
+		var hr = NativeMethods.CreateBindCtx(0, out nint ctx);
+		if (hr < 0)
 			Marshal.ThrowExceptionForHR(hr);
 
-		return (IBindCtx)Marshal.GetObjectForIUnknown(ctx);
+		return (IBindCtx)Wrappers.GetOrCreateObjectForComInstance(ctx, CreateObjectFlags.Unwrap);
+	}
+
+	public static TQuery QueryInterface<TQuery>(this object @this)
+		where TQuery : class
+	{
+		if (@this is TQuery query)
+			return query;
+
+		var wrapperPtr = Wrappers.GetOrCreateComInterfaceForObject(@this, CreateComInterfaceFlags.None);
+		int hr = Marshal.QueryInterface(wrapperPtr, typeof(TQuery).GUID, out nint queryPtr);
+		if (hr < 0)
+			Marshal.ThrowExceptionForHR(hr);
+
+		return (TQuery)Wrappers.GetOrCreateObjectForComInstance(queryPtr, CreateObjectFlags.None);
 	}
 
 	#region Nested Types
 
-	private static partial class NativeMehods
+	public static TWrappers RegisterForTrackingSupport<TWrappers>(this TWrappers @this)
+		where TWrappers : ComWrappers
+	{
+		Guard.IsNotNull(@this);
+
+		ComWrappers.RegisterForTrackerSupport(@this);
+		return (TWrappers)@this;
+	}
+
+	public static TWrappers RegisterForMarshalling<TWrappers>(this TWrappers @this)
+		where TWrappers : ComWrappers
+	{
+		Guard.IsNotNull(@this);
+
+		ComWrappers.RegisterForMarshalling(@this);
+		return (TWrappers)@this;
+	}
+
+	private static partial class NativeMethods
 	{
 		private const string ApiLib = "ole32.dll";
 

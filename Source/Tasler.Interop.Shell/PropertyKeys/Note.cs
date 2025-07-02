@@ -13,7 +13,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>4776CAFA-BCE4-4CB1-A23E-265E76D8EB11, 100</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Color => new PropertyKey(0x4776CAFA, 0xBCE4, 0x4CB1, 0xA2, 0x3E, 0x26, 0x5E, 0x76, 0xD8, 0xEB, 0x11, 100);
+		public static PropertyKey Color => new(0x4776CAFA, 0xBCE4, 0x4CB1, 0xA2, 0x3E, 0x26, 0x5E, 0x76, 0xD8, 0xEB, 0x11, 100);
 
 		/// <summary>Possible discrete values for PKEY_Color.</summary>
 		public enum ColorValues : ushort
@@ -36,6 +36,6 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>46B4E8DE-CDB2-440D-885C-1658EB65B914, 100</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey ColorText => new PropertyKey(0x46B4E8DE, 0xCDB2, 0x440D, 0x88, 0x5C, 0x16, 0x58, 0xEB, 0x65, 0xB9, 0x14, 100);
+		public static PropertyKey ColorText => new(0x46B4E8DE, 0xCDB2, 0x440D, 0x88, 0x5C, 0x16, 0x58, 0xEB, 0x65, 0xB9, 0x14, 100);
 	}
 }

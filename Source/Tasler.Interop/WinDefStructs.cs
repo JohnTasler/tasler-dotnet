@@ -8,6 +8,8 @@ namespace Tasler.Interop;
 [StructLayout(LayoutKind.Sequential)]
 public struct POINT
 {
+	public static readonly POINT Empty = new(0, 0);
+
 	#region Instance Fields
 	public int X;
 	public int Y;
@@ -35,6 +37,8 @@ public struct POINT
 [StructLayout(LayoutKind.Sequential)]
 public struct SIZE
 {
+	public static readonly SIZE Empty = new(0, 0);
+
 	#region Instance Fields
 	public int Width;
 	public int Height;
@@ -62,6 +66,8 @@ public struct SIZE
 [StructLayout(LayoutKind.Sequential)]
 public struct RECT
 {
+	public static readonly RECT Empty = new(0, 0, 0, 0);
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RECT"/> struct.
 	/// </summary>
