@@ -34,7 +34,8 @@ public abstract class HostedApplication : Application, IProvideHost
 	/// <summary>
 	/// Application Entry Point worker
 	/// <summary>
-	/// Initializes and runs a hosted WPF application with dependency injection, view-model mapping, and host lifecycle management.
+	/// Initializes and runs a hosted WPF application with dependency injection, view-model mapping,
+	/// and host lifecycle management.
 	/// </summary>
 	/// <typeparam name="TApp">
 	/// The application type, which must inherit from <see cref="HostedApplication"/> and implement

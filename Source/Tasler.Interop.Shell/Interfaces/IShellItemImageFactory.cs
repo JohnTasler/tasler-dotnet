@@ -1,19 +1,15 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
+using Tasler.Windows;
 
 namespace Tasler.Interop.Shell;
 
-[ComImport]
-[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-[Guid("bcc18b79-ba16-442f-80c4-8a59c30c463b")]
-public interface IShellItemImageFactory
+[GeneratedComInterface]
+[Guid("BCC18B79-BA16-442F-80C4-8A59C30C463B")]
+public partial interface IShellItemImageFactory
 {
 	[PreserveSig]
-	[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-	int GetImage(
-		SIZE size,
-		SIIGB flags,
-		out nint hBitmap);
+	int GetImage(Int32Size size, SIIGB flags, out nint hBitmap);
 }
 
 [Flags]

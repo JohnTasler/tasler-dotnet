@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using Tasler.Interop.Gdi;
 using Tasler.Interop.Kernel;
+using Tasler.Extensions;
 
 namespace Tasler.Interop.User;
 
@@ -51,11 +52,9 @@ public struct WINDOWPOS
 [StructLayout(LayoutKind.Sequential)]
 public struct WINDOWPLACEMENT
 {
-	public static readonly int MarshalSizeOf = Marshal.SizeOf<WINDOWPLACEMENT>();
-
 	public WINDOWPLACEMENT() { }
-	private int _length = MarshalSizeOf;
-	public int Flags;
+	private int _length = WINDOWPLACEMENT.SizeOf;
+	public WindowPlacementFlags Flags;
 	public SW ShowCommand;
 	public POINT MinimizedPosition;
 	public POINT MaximizedPosition;

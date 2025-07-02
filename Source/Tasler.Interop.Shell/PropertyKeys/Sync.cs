@@ -13,7 +13,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>7BD5533E-AF15-44DB-B8C8-BD6624E1D032, 13</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey Comments => new PropertyKey(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 13);
+		public static PropertyKey Comments => new(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 13);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -23,7 +23,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>CE50C159-2FB8-41FD-BE68-D3E042E274BC, 4</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey ConflictDescription => new PropertyKey(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 4);
+		public static PropertyKey ConflictDescription => new(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 4);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -33,7 +33,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>CE50C159-2FB8-41FD-BE68-D3E042E274BC, 6</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey ConflictFirstLocation => new PropertyKey(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 6);
+		public static PropertyKey ConflictFirstLocation => new(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 6);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -43,7 +43,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>CE50C159-2FB8-41FD-BE68-D3E042E274BC, 7</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey ConflictSecondLocation => new PropertyKey(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 7);
+		public static PropertyKey ConflictSecondLocation => new(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 7);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -53,7 +53,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>7BD5533E-AF15-44DB-B8C8-BD6624E1D032, 2</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey HandlerCollectionID => new PropertyKey(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 2);
+		public static PropertyKey HandlerCollectionID => new(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 2);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -63,7 +63,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>7BD5533E-AF15-44DB-B8C8-BD6624E1D032, 3</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey HandlerID => new PropertyKey(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 3);
+		public static PropertyKey HandlerID => new(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 3);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -73,7 +73,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>CE50C159-2FB8-41FD-BE68-D3E042E274BC, 2</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey HandlerName => new PropertyKey(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 2);
+		public static PropertyKey HandlerName => new(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 2);
 
 		/// <summary>
 		/// </summary>
@@ -84,7 +84,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>7BD5533E-AF15-44DB-B8C8-BD6624E1D032, 8</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey HandlerType => new PropertyKey(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 8);
+		public static PropertyKey HandlerType => new(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 8);
 
 		/// <summary>Possible discrete values for PKEY_HandlerType.</summary>
 		public enum HandlerTypeValues : uint
@@ -106,7 +106,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>7BD5533E-AF15-44DB-B8C8-BD6624E1D032, 9</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey HandlerTypeLabel => new PropertyKey(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 9);
+		public static PropertyKey HandlerTypeLabel => new(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 9);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -116,7 +116,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>7BD5533E-AF15-44DB-B8C8-BD6624E1D032, 6</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey ItemID => new PropertyKey(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 6);
+		public static PropertyKey ItemID => new(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 6);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -126,6 +126,6 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>CE50C159-2FB8-41FD-BE68-D3E042E274BC, 3</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey ItemName => new PropertyKey(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 3);
+		public static PropertyKey ItemName => new(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 3);
 	}
 }

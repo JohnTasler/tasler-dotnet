@@ -1,5 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
+using Tasler.Buffers;
+using Tasler.Extensions;
 
 namespace Tasler.Interop.Shell;
 
@@ -8,76 +10,105 @@ public struct StrRet : IDisposable
 {
 	#region Instance Fields
 	private STRRET_TYPE _type;
-	[MarshalAs(UnmanagedType.ByValArray, SizeConst = 260)]
-	private byte[] _cStr;
+	private unsafe fixed byte _cStr[260];
 	#endregion Instance Fields
 
 	#region IDisposable Members
 	public void Dispose()
 	{
+		if (this.GetWStr() == nint.Zero)
+			return;
+
 		if (_type == STRRET_TYPE.WStr)
 		{
 			Marshal.FreeCoTaskMem(this.GetWStr());
-			Array.Clear(_cStr, 0, nint.Size);
+			unsafe
+			{
+				fixed (byte* ptr = _cStr)
+				{
+					BitConverter.TryWriteBytes(new Span<byte>(ptr, sizeof(nint)), 0);
+				}
+			}
 		}
 	}
 	#endregion IDisposable Members
 
 	#region Properties
-	public string Value
+	public readonly string Value
 	{
 		get
 		{
-			string? value = null;
-			switch (_type)
+			if (this.GetWStr() != nint.Zero)
 			{
-				case STRRET_TYPE.WStr:
+				switch (_type)
+				{
+					case STRRET_TYPE.WStr:
 					{
-						value = Marshal.PtrToStringUni(this.GetWStr());
-						break;
+						return Marshal.PtrToStringUni(this.GetWStr()) ?? string.Empty;
 					}
-				case STRRET_TYPE.CStr:
+					case STRRET_TYPE.CStr:
 					{
-						char[] chars = new char[_cStr.Length];
-						Encoding.ASCII.GetDecoder().GetChars(_cStr, 0, _cStr.Length, chars, 0, true);
-						value = new string(chars);
-						break;
+						unsafe
+						{
+							fixed (byte* strPointer = _cStr)
+							{
+								var stringSpan = new ReadOnlySpan<byte>(strPointer, 260);
+								var length = stringSpan.IndexOf((byte)0);
+								var decoder = Encoding.UTF8.GetDecoder();
+								var characterCount = decoder.GetCharCount(strPointer, length, true);
+								using (var characters = new SharedArrayPoolRenter<char>(characterCount))
+								{
+									decoder.GetChars(stringSpan, characters.Data, true);
+									return new(characters.Data);
+								}
+							}
+						}
 					}
+				}
 			}
 
-			return value ?? string.Empty;
+			return string.Empty;
 		}
 	}
 	#endregion Properties
 
 	#region Methods
-	public string GetValue(ItemIdList itemIdList)
+	public readonly string GetValue(ItemIdList itemIdList)
 	{
 		return this.GetValue(itemIdList.Value);
 	}
 
-	public string GetValue(ChildItemIdList childItemIdList)
+	public readonly string GetValue(ChildItemIdList childItemIdList)
 	{
 		return this.GetValue(childItemIdList.Value);
 	}
 	#endregion Methods
 
 	#region Private Implementation
-	private nint GetWStr()
+	private readonly nint GetWStr()
 	{
-		Int64 ptr = BitConverter.ToInt64(_cStr, 0);
-		if (nint.Size == 4)
-			ptr &= 0x00000000FFFFFFFF;
-		return new nint(ptr);
+		unsafe
+		{
+			fixed (byte* pointer = _cStr)
+			{
+				return (nint)BitConverter.ToInt64(new ReadOnlySpan<byte>(pointer, nint.Size));
+			}
+		}
 	}
 
-	private string GetValue(nint pidl)
+	private readonly string GetValue(nint pidl)
 	{
 		if (_type != STRRET_TYPE.Offset)
 			return this.Value;
-		uint offset = BitConverter.ToUInt32(_cStr, 0);
-		string value = Marshal.PtrToStringAnsi(new nint(pidl.ToInt64() + offset));
-		return value;
+
+		unsafe
+		{
+			fixed (byte* ptr = _cStr)
+			{
+				uint offset = BitConverter.ToUInt32(new ReadOnlySpan<byte>(ptr, sizeof(uint)));
+				return Marshal.PtrToStringAnsi(new nint(pidl + offset))!;
+			}
+		}
 	}
 	#endregion Private Implementation
 

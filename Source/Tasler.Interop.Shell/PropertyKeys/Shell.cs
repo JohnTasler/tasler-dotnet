@@ -13,7 +13,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_ShellDetails) 28636AA6-953D-11D2-B5D6-00C04FD918D0, 2 (PID_DESCRIPTIONID)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey DescriptionID => new PropertyKey(0x28636AA6, 0x953D, 0x11D2, 0xB5, 0xD6, 0x00, 0xC0, 0x4F, 0xD9, 0x18, 0xD0, 2);
+		public static PropertyKey DescriptionID => new(0x28636AA6, 0x953D, 0x11D2, 0xB5, 0xD6, 0x00, 0xC0, 0x4F, 0xD9, 0x18, 0xD0, 2);
 
 		/// <summary>
 		/// Expresses the SFGAO flags of a link as string values and is used as a query optimization.
@@ -25,7 +25,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>D6942081-D53B-443D-AD47-5E059D9CD27A, 3</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey TargetSFGAOFlagsStrings => new PropertyKey(0xD6942081, 0xD53B, 0x443D, 0xAD, 0x47, 0x5E, 0x05, 0x9D, 0x9C, 0xD2, 0x7A, 3);
+		public static PropertyKey TargetSFGAOFlagsStrings => new(0xD6942081, 0xD53B, 0x443D, 0xAD, 0x47, 0x5E, 0x05, 0x9D, 0x9C, 0xD2, 0x7A, 3);
 
 		/// <summary></summary>
 		/// <remarks>
@@ -35,7 +35,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>5CBF2787-48CF-4208-B90E-EE5E5D420294, 2  (PKEYs relating to URLs.  Used by IE History.)</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey TargetUrl => new PropertyKey(0x5CBF2787, 0x48CF, 0x4208, 0xB9, 0x0E, 0xEE, 0x5E, 0x5D, 0x42, 0x02, 0x94, 2);
+		public static PropertyKey TargetUrl => new(0x5CBF2787, 0x48CF, 0x4208, 0xB9, 0x0E, 0xEE, 0x5E, 0x5D, 0x42, 0x02, 0x94, 2);
 
 		/// <summary>
 		/// Expresses the SFGAO flags as string values and is used as a query optimization.</summary>
@@ -46,7 +46,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>D6942081-D53B-443D-AD47-5E059D9CD27A, 2</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey SFGAOFlagsStrings => new PropertyKey(0xD6942081, 0xD53B, 0x443D, 0xAD, 0x47, 0x5E, 0x05, 0x9D, 0x9C, 0xD2, 0x7A, 2);
+		public static PropertyKey SFGAOFlagsStrings => new(0xD6942081, 0xD53B, 0x443D, 0xAD, 0x47, 0x5E, 0x05, 0x9D, 0x9C, 0xD2, 0x7A, 2);
 
 		/// <summary>Possible discrete values for PKEY_SFGAOFlagsStrings.</summary>
 		public static class SFGAOFlags

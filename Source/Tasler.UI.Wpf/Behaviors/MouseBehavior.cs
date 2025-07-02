@@ -444,12 +444,12 @@ public class MouseBehavior : Behavior<FrameworkElement>
 
 	private bool HasContextMenu
 	{
-		get { return this._hasContextMenu; }
+		get { return _hasContextMenu; }
 		set
 		{
-			if (this._hasContextMenu != value)
+			if (_hasContextMenu != value)
 			{
-				this._hasContextMenu = value;
+				_hasContextMenu = value;
 				SubscribeToLeftClickAsNeeded();
 				SubscribeToRightClickAsNeeded();
 			}
@@ -502,9 +502,9 @@ public class MouseBehavior : Behavior<FrameworkElement>
 
 	private void SubscribeToLeftClick(bool subscribe)
 	{
-		if (this.isSubscribedToLeftClick != subscribe)
+		if (_isSubscribedToLeftClick != subscribe)
 		{
-			this.isSubscribedToLeftClick = subscribe;
+			_isSubscribedToLeftClick = subscribe;
 
 			if (subscribe)
 				MouseExtensions.AddLeftClickHandler(AssociatedObject, AssociatedObject_MouseLeftClick);
@@ -512,7 +512,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 				MouseExtensions.RemoveLeftClickHandler(AssociatedObject, AssociatedObject_MouseLeftClick);
 		}
 	}
-	private bool isSubscribedToLeftClick;
+	private bool _isSubscribedToLeftClick;
 
 	private void SubscribeToLeftClickAsNeeded()
 	{
@@ -523,9 +523,9 @@ public class MouseBehavior : Behavior<FrameworkElement>
 
 	private void SubscribeToRightClick(bool subscribe)
 	{
-		if (this.isSubscribedToRightClick != subscribe)
+		if (_isSubscribedToRightClick != subscribe)
 		{
-			this.isSubscribedToRightClick = subscribe;
+			_isSubscribedToRightClick = subscribe;
 
 			if (subscribe)
 				MouseExtensions.AddRightClickHandler(AssociatedObject, AssociatedObject_MouseRightClick);
@@ -533,7 +533,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 				MouseExtensions.RemoveRightClickHandler(AssociatedObject, AssociatedObject_MouseRightClick);
 		}
 	}
-	private bool isSubscribedToRightClick;
+	private bool _isSubscribedToRightClick;
 
 	private void SubscribeToRightClickAsNeeded()
 	{
@@ -566,7 +566,6 @@ public class MouseBehavior : Behavior<FrameworkElement>
 				e.Handled = true;
 				contextPopup.PlacementTarget = AssociatedObject;
 				contextPopup.SetCurrentValue(Popup.IsOpenProperty, true);
-
 			});
 		}
 	}
@@ -587,7 +586,7 @@ public class MouseBehavior : Behavior<FrameworkElement>
 
 	private void AssociatedObject_ContextMenuPropertyChanged(object? sender, EventArgs e)
 	{
-		this.HasContextMenu = this.AssociatedObject is not null && this.AssociatedObject.ContextMenu is not null;
+		this.HasContextMenu = this.AssociatedObject?.ContextMenu is not null;
 	}
 
 	private void AssociatedObject_ContextPopupPropertyChanged(object? sender, EventArgs e)
@@ -628,7 +627,6 @@ public class MouseBehavior : Behavior<FrameworkElement>
 	}
 
 	#endregion Event Handlers
-
 }
 
 [Flags]

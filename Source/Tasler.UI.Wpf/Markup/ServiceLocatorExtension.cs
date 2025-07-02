@@ -10,9 +10,9 @@ public class ServiceLocatorExtension : MarkupExtension
 	{
 		this.Type = type;
 
-		if (Application.Current is HostedApplication hostedApp)
+		if (Application.Current is IHost hostedApp)
 		{
-			this.Host = hostedApp.Host;
+			this.Host = hostedApp;
 		}
 		else
 		{

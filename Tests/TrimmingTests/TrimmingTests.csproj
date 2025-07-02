@@ -15,6 +15,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Source\Tasler.ComponentModel\Tasler.ComponentModel.csproj" />
 		<ProjectReference Include="..\..\Source\Tasler.Core\Tasler.Core.csproj" />
+		<ProjectReference Include="..\..\Source\Tasler.Interop.Shell\Tasler.Interop.Shell.csproj" />
 		<ProjectReference Include="..\..\Source\Tasler.Interop\Tasler.Interop.csproj" />
 		<ProjectReference Include="..\..\Source\Tasler.UI.Wpf\Tasler.UI.Wpf.csproj" />
 	</ItemGroup>
