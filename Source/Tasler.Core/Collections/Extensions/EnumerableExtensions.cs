@@ -138,4 +138,30 @@ public static class EnumerableExtensions
 		element = matchElement;
 		return matchIndex;
 	}
+
+	/// <summary>
+	/// Returns a new enumerable that contains the elements of the source enumerable, excluding the specified element.
+	/// </summary>
+	/// <typeparam name="T">The type of elements in the enumerable.</typeparam>
+	/// <param name="this">The source enumerable.</param>
+	/// <param name="element">The element to exclude.</param>
+	/// <returns>A new enumerable with the specified element excluded.</returns>
+	public static IEnumerable<T> Exclude<T>(this IEnumerable<T> @this, T element)
+		=> @this.Where(e => !EqualityComparer<T>.Default.Equals(e, element));
+
+	/// <summary>
+	/// Disposes all object in the specified enumerable sequence.
+	/// </summary>
+	/// <typeparam name="T">The type of the element sequence. Must implement <see cref="IDisposable"/>.</typeparam>
+	/// <param name="this">The source enumerable. The method does nothing if this is <see langword="null"/>.</param>
+	/// <seealso cref="Tasler.Collections.CollectionExtensions.DisposeAllAndClear{T}(ICollection{T})"/>
+	public static void DisposeAll<T>(this IEnumerable<T> @this)
+		where T : IDisposable
+	{
+		if (@this is null)
+			return;
+
+		foreach (var item in @this)
+			item.Dispose();
+	}
 }

@@ -10,9 +10,11 @@ public class SharedArrayPoolRenter<T> : IDisposable
 	/// Rents an array of at least the specified minimum length from the shared array pool.
 	/// </summary>
 	/// <param name="minimumLength">The minimum required length of the rented array.</param>
-	public SharedArrayPoolRenter(int minimumLength)
+	public SharedArrayPoolRenter(int minimumLength, bool clearArray = true)
 	{
 		this.Data = ArrayPool<T>.Shared.Rent(minimumLength);
+		if (clearArray)
+			Array.Clear(this.Data);
 	}
 
 	/// <summary>
