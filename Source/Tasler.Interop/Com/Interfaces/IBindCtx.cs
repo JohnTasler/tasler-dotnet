@@ -3,13 +3,13 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace Tasler.Interop.Com;
 
-[GeneratedComInterface]
+[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("0000000E-0000-0000-C000-000000000046")]
 public partial interface IBindCtx
 {
-	void RegisterObjectBound([MarshalAs(UnmanagedType.Interface)] object unknown);
+	void RegisterObjectBound(nint unknown);
 
-	void RevokeObjectBound([MarshalAs(UnmanagedType.Interface)] object unknown);
+	void RevokeObjectBound(nint unknown);
 
 	void ReleaseBoundObjects();
 
@@ -19,13 +19,11 @@ public partial interface IBindCtx
 
 	IRunningObjectTable GetRunningObjectTable();
 
-	void RegisterObjectParam([MarshalAs(UnmanagedType.LPWStr)] string pszKey, [MarshalAs(UnmanagedType.Interface)] object unknown);
+	void RegisterObjectParam(string pszKey, nint unknown);
 
-	[return: MarshalAs(UnmanagedType.Interface)]
-	object GetObjectParam([MarshalAs(UnmanagedType.LPWStr)] string pszKey);
+	nint GetObjectParam(string pszKey);
 
 	IEnumString EnumObjectParam();
 
-	[PreserveSig]
-	int RevokeObjectParam([MarshalAs(UnmanagedType.LPWStr)] string pszKey);
+	void RevokeObjectParam(string pszKey);
 }

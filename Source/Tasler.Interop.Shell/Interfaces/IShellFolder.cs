@@ -81,7 +81,7 @@ public enum SHCOLSTATEF : uint
 	DisplayMask = 0xf000
 }
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
+//[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("000214E6-0000-0000-C000-000000000046")]
 public partial interface IShellFolder
@@ -91,47 +91,36 @@ public partial interface IShellFolder
 		IBindCtx pbc,
 		string pszDisplayName,
 		out uint pchEaten,
-		out ItemIdList ppidl, // nint
+		out nint ppidl,
 		ref SFGAOF pdwAttributes);
 
 	IEnumIDList EnumObjects(nint hwnd, SHCONTF grfFlags);
 
-	nint BindToObject(
-		ItemIdList pidl,
-		IBindCtx? pbc,
-		ref Guid riid);
+	nint BindToObject(nint pidl, IBindCtx? pbc, ref Guid riid);
 
-	nint BindToStorage(
-		ItemIdList pidl,
-		IBindCtx? pbc,
-		ref Guid riid);
+	nint BindToStorage(nint pidl, IBindCtx? pbc, ref Guid riid);
 
 	[PreserveSig]
-	int CompareIDs(
-		nint lParam,
-		ItemIdList pidl1,
-		ItemIdList pidl2);
+	int CompareIDs(nint lParam, nint pidl1, nint pidl2);
 
-	nint CreateViewObject(
-		nint hwndOwner,
-		ref Guid riid);
+	nint CreateViewObject(nint hwndOwner, ref Guid riid);
 
 	void GetAttributesOf(
 		uint cidl,
 		[MarshalUsing(CountElementName = nameof(cidl))]
-		ChildItemIdList[] apidl,
+		nint[] apidl,
 		ref SFGAOF rgfInOut);
 
 	nint GetUIObjectOf(
 		nint hwndOwner,
 		uint cidl,
 		[MarshalUsing(CountElementName = nameof(cidl))]
-		ItemIdList[] apidl,
+		nint[] apidl,
 		ref Guid riid,
 		nint rgfReserved);
 
 	StrRet GetDisplayNameOf(
-		ChildItemIdList pidl,
+		nint pidl,
 		SHGDNF uFlags);
 
 	ChildItemIdList SetNameOf(

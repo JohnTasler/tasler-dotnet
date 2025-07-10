@@ -11,12 +11,12 @@ public static class Guids
 	public const string IID_ICurrentWorkingDirectory = "91956D21-9276-11D1-921A-006097DF5BD4";
 	public const string IID_IEnumACString            = "8E74C210-CF9D-4eaf-A403-7356428F0A5A";
 	public const string IID_IObjMgr                  = "00BB2761-6A77-11D0-A535-00C04FD7D062";
-	public const string CLSID_ACLCustomMRU           = "6935DB93-21E8-4CCC-BEB9-9FE3C77A297A";    // Custom MRU AutoCompleted List
-	public const string CLSID_ACLHistory             = "00BB2764-6A77-11D0-A535-00C04FD7D062";    // Microsoft History AutoComplete List
-	public const string CLSID_ACListISF              = "03C036F1-A186-11D0-824A-00AA005B4383";    // Microsoft Shell Folder AutoComplete List
-	public const string CLSID_ACLMRU                 = "6756A641-DE71-11D0-831B-00AA005B4383";    // MRU AutoComplete List
-	public const string CLSID_ACLMulti               = "00BB2765-6A77-11D0-A535-00C04FD7D062";    // Microsoft Multiple AutoComplete List Container
-	public const string CLSID_AutoComplete           = "00BB2763-6A77-11D0-A535-00C04FD7D062";    // Microsoft AutoComplete
+	public const string CLSID_ACLCustomMRU           = "6935DB93-21E8-4CCC-BEB9-9FE3C77A297A";    // Custom MRU AutoComplete List                   (IACList, IEnumString)
+	public const string CLSID_ACLHistory             = "00BB2764-6A77-11D0-A535-00C04FD7D062";    // Microsoft History AutoComplete List            (         IEnumString, IEnumACString)
+	public const string CLSID_ACListISF              = "03C036F1-A186-11D0-824A-00AA005B4383";    // Microsoft Shell Folder AutoComplete List       (IACList, IEnumString, IACList2, ICurrentWorkingDirectory, IPersistFolder, IPersistIDList)
+	public const string CLSID_ACLMRU                 = "6756A641-DE71-11D0-831B-00AA005B4383";    // MRU AutoComplete List                          (IACList, IEnumString)
+	public const string CLSID_ACLMulti               = "00BB2765-6A77-11D0-A535-00C04FD7D062";    // Microsoft Multiple AutoComplete List Container (IACList, IEnumString, IEnumACString, IObjMgr, IPersist, IPersistFolder)
+	public const string CLSID_AutoComplete           = "00BB2763-6A77-11D0-A535-00C04FD7D062";    // Microsoft AutoComplete                         (         IEnumString, IAutoComplete, IAutoComplete2,  IAutoCompleteDropDown, IAccessible, IDispatch)
 
 	public static readonly Guid Guid_IACList                  = new(IID_IACList                 );
 	public static readonly Guid Guid_IACList2                 = new(IID_IACList2                );

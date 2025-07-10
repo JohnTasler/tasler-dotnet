@@ -3,7 +3,7 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace Tasler.Interop.Shell;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
+//[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("93F2F68C-1D1B-11d3-A30E-00C04F79ABD1")]
 public partial interface IShellFolder2 : IShellFolder

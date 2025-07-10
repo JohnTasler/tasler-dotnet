@@ -56,9 +56,9 @@ public static class ComEnumeratorExtensions
 	/// <param name="elements">The elements array to be filled by the COM enumerator.</param>
 	/// <param name="elementsFetched">The count of elements retrieved.</param>
 	/// <returns>
-	/// The HRESULT of the fetch (<see cref="IEnumString.Next(int, SafeCoTaskMemString[], out int)"/>) operation.
+	/// The HRESULT of the fetch (<see cref="IEnumString.Next(int, nint[], out int)"/>) operation.
 	/// </returns>
-	public static int FetchString(IEnumString enumerator, SafeCoTaskMemString[] elements, out int elementsFetched)
+	public static int FetchString(IEnumString enumerator, nint[] elements, out int elementsFetched)
 		=> enumerator.Next(elements.Length, elements, out elementsFetched);
 
 	/// <summary>
@@ -82,8 +82,12 @@ public static class ComEnumeratorExtensions
 	/// </summary>
 	/// <param name="this">The <see cref="IEnumString"/> instance.</param>
 	/// <returns>An <see cref="IEnumerable{String}"/>.</returns>
-	public static IEnumerable<string?> AsEnumerable(this IEnumString @this)
-		=> @this.AsEnumerable<IEnumString, SafeCoTaskMemString>(FetchString).Select(s => s.Value);
+	public static IEnumerable<string> AsEnumerable(this IEnumString @this)
+		=> @this.AsEnumerable<IEnumString, nint>(FetchString).Select(s =>
+		{
+			using (var ms = new SafeCoTaskMemString { Handle = s })
+				return ms.Value;
+		});
 
 	/// <summary>
 	/// Wraps a COM enumeration sequence in an <see cref="IEnumerable{T}"/>.

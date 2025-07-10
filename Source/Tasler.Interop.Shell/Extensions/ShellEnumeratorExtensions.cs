@@ -16,7 +16,7 @@ public static class ShellEnumeratorExtensions
 	/// <returns>
 	/// The HRESULT of the fetch (<see cref="IEnumIDList.Next(int, ItemIdList[], out int)"/>) operation.
 	/// </returns>
-	public static int FetchIDList(IEnumIDList enumerator, ItemIdList[] elements, out int elementsFetched)
+	public static int FetchIDList(IEnumIDList enumerator, nint[] elements, out int elementsFetched)
 		=> enumerator.Next(elements.Length, elements, out elementsFetched);
 
 	/// <summary>
@@ -42,7 +42,7 @@ public static class ShellEnumeratorExtensions
 	/// <param name="this">The <see cref="IEnumIDList"/> instance.</param>
 	/// <returns>An <see cref="IEnumerable{ItemIdList}"/>.</returns>
 	public static IEnumerable<ItemIdList> AsEnumerable(this IEnumIDList @this)
-		=> @this.AsEnumerable<IEnumIDList, ItemIdList>(FetchIDList);
+		=> @this.AsEnumerable<IEnumIDList, nint>(FetchIDList).Select(n => new ItemIdList { Handle = n });
 
 	/// <summary>
 	/// Wraps a COM <see cref="IEnumExtraSearch"/> to an <see cref="IEnumerable{EXTRASEARCH}"/>.
