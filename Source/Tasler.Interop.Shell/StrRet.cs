@@ -34,7 +34,7 @@ public struct StrRet : IDisposable
 	#endregion IDisposable Members
 
 	#region Properties
-	public readonly string Value
+	public readonly string? Value
 	{
 		get
 		{
@@ -67,7 +67,7 @@ public struct StrRet : IDisposable
 				}
 			}
 
-			return string.Empty;
+			return null;
 		}
 	}
 	#endregion Properties
@@ -99,7 +99,7 @@ public struct StrRet : IDisposable
 	private readonly string GetValue(nint pidl)
 	{
 		if (_type != STRRET_TYPE.Offset)
-			return this.Value;
+			return this.Value ?? string.Empty;
 
 		unsafe
 		{

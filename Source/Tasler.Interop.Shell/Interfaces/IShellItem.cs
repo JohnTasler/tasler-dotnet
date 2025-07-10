@@ -4,7 +4,7 @@ using Tasler.Interop.Com;
 
 namespace Tasler.Interop.Shell;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
+// [System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("43826D1E-E718-42EE-BC55-A1E261C37BFE")]
 public partial interface IShellItem

@@ -161,7 +161,7 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 		=> !ItemIdList.Equals(pidl1, pidl2);
 
 	public static bool Equals(ItemIdList pidl1, ItemIdList pidl2)
-		=> ShellApi.NativeMethods.ILIsEqual(pidl1, pidl2);
+		=> ShellApi.NativeMethods.ILIsEqual(pidl1.Handle, pidl2.Handle);
 
 	public bool Equals(ItemIdList value) => Equals(this, value);
 
@@ -172,7 +172,7 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 		=> !ItemIdList.Equals(pidl1, pidl2);
 
 	public static bool Equals(ItemIdList pidl1, ChildItemIdList pidl2)
-		=> ShellApi.NativeMethods.ILIsEqual(pidl1, pidl2);
+		=> ShellApi.NativeMethods.ILIsEqual(pidl1.Handle, pidl2.Handle);
 
 	public bool Equals(ChildItemIdList value) => Equals(this, value);
 	#endregion Equality Comparisons
@@ -222,7 +222,7 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 			}
 
 			byte[] childPidl = new byte[cb + sizeof(ushort)];
-			Marshal.Copy(new nint(base.handle.ToInt64() + offset), childPidl, 0, childPidl.Length - sizeof(ushort));
+			Marshal.Copy(base.handle + offset, childPidl, 0, childPidl.Length - sizeof(ushort));
 
 			return new ChildItemIdList(childPidl);
 		}
@@ -354,7 +354,7 @@ public class ChildItemIdList : SafeCoTaskMemHandle
 		=> !ChildItemIdList.Equals(pidl1, pidl2);
 
 	public static bool Equals(ChildItemIdList pidl1, ChildItemIdList pidl2)
-		=> ShellApi.NativeMethods.ILIsEqual(pidl1, pidl2);
+		=> ShellApi.NativeMethods.ILIsEqual(pidl1.Handle, pidl2.Handle);
 
 	public bool Equals(ChildItemIdList value) => Equals(this, value);
 
@@ -365,7 +365,7 @@ public class ChildItemIdList : SafeCoTaskMemHandle
 		=> !ItemIdList.Equals(pidl1, pidl2);
 
 	public static bool Equals(ChildItemIdList pidl1, ItemIdList pidl2)
-		=> ShellApi.NativeMethods.ILIsEqual(pidl1, pidl2);
+		=> ShellApi.NativeMethods.ILIsEqual(pidl1.Handle, pidl2.Handle);
 
 	public bool Equals(ItemIdList value) => Equals(this, value);
 	#endregion Equality Comparisons

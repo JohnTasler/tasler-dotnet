@@ -12,7 +12,7 @@ public class SafeCoTaskMemString : SafeCoTaskMemHandle
 
 	#region Properties
 
-	public string? Value => Marshal.PtrToStringUni(base.handle);
+	public string Value => Marshal.PtrToStringUni(base.handle) ?? string.Empty;
 
 	#endregion Properties
 

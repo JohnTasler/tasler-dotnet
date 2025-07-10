@@ -23,19 +23,14 @@ public partial interface IStream
 	/// <param name="newPosition">Upon return this is set to the value of the new seek pointer from
 	/// the beginning of the stream.</param>
 	/// <returns></returns>
-	[PreserveSig]
 	int Seek(long offset, STREAM_SEEK origin, out ulong newPosition);
 
-	[PreserveSig]
 	int SetSize(ulong newSize);
 
-	[PreserveSig]
 	int CopyTo(IStream targetStream, ulong byteCount, out ulong bytesRead, out ulong bytesWritten);
 
-	[PreserveSig]
 	int Commit(STGCOMMIT commitFlags);
 
-	[PreserveSig]
 	int Revert();
 
 	/// <summary>
@@ -44,7 +39,6 @@ public partial interface IStream
 	/// <param name="offset">Specifies the byte offset for the beginning of the range.</param>
 	/// <param name="byteCount">Specifies, in bytes, the length of the range to be restricted.</param>
 	/// <param name="lockType">Specifies the type of restrictions being requested on accessing the range.</param>
-	[PreserveSig]
 	int LockRegion(ulong offset, ulong byteCount, LockType lockType);
 
 	/// <summary>
@@ -53,7 +47,6 @@ public partial interface IStream
 	/// <param name="offset">Specifies the byte offset for the beginning of the range.</param>
 	/// <param name="byteCount">Specifies, in bytes, the length of the range that is restricted.</param>
 	/// <param name="lockType">Specifies the type of access restrictions previously placed on the range.</param>
-	[PreserveSig]
 	int UnlockRegion(ulong offset, ulong byteCount, LockType lockType);
 
 	/// <summary>
@@ -66,10 +59,7 @@ public partial interface IStream
 	/// <see cref="STATSTG.Name"/> member is not supplied, thus saving a memory-allocation operation.
 	/// The other possible value, <see cref="STATFLAG.Default"/>, indicates that all members of the
 	/// <see cref="STATSTG"/> structure be supplied.</param>
-	[PreserveSig]
 	int Stat(out STATSTG statStg, STATFLAG statFlag);
 
-	[PreserveSig]
 	int Clone(out IStream ppstm);
-
 }

@@ -3,10 +3,9 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace Tasler.Interop.Com;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
 [GeneratedComInterface]
 [Guid("00000101-0000-0000-C000-000000000046")]
-public partial interface IEnumString : IUnknown
+public partial interface IEnumString
 {
 	/// <summary>Retrieves the next <see cref="nint"/> string pointers in the enumeration sequence.</summary>
 	/// <param name="elementCount">The number of <see cref="nint"/> string pointers to retrieve.</param>
@@ -16,11 +15,8 @@ public partial interface IEnumString : IUnknown
 	/// HRESULT indicating success or failure. S_FALSE indicates that less that the specified
 	/// <paramref name="elementCount"/> elements were retrieved.
 	/// </returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
-	[PreserveSig]
-	int Next(int elementCount, [MarshalUsing(CountElementName = nameof(elementCount))] [Out] SafeCoTaskMemString[] elements, out int elementsFetched);
+	int Next(int elementCount, [MarshalUsing(CountElementName = nameof(elementCount))] [Out] nint[] elements, out int elementsFetched);
 
-	[PreserveSig]
 	int Skip(uint elementCount);
 
 	void Reset();

@@ -64,13 +64,17 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 	public T? GetObject<T>(IMoniker moniker)
 		where T : class
 	{
-		object? runningObject = null;
-		_rot?.GetObject(moniker, out runningObject);
-
-		if (runningObject is T result)
+		if (_rot is not null)
 		{
-			Marshal.ReleaseComObject(runningObject);
-			return result;
+			_rot.GetObject(moniker, out nint runningObjectPtr);
+
+			object runningObject = ComApi.Wrappers.GetOrCreateObjectForComInstance(runningObjectPtr, CreateObjectFlags.Unwrap);
+			if (runningObject is T result)
+			{
+				return result;
+			}
+
+			Marshal.Release(runningObjectPtr);
 		}
 
 		return null;

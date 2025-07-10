@@ -4,15 +4,13 @@ using Tasler.Interop.Kernel;
 
 namespace Tasler.Interop.Com;
 
-[GeneratedComInterface]
+[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("0000000f-0000-0000-C000-000000000046")]
 public partial interface IMoniker	: IPersistStream
 {
-	[return: MarshalAs(UnmanagedType.Interface)]
-	object BindToObject(IBindCtx pbc, IMoniker? pmkToLeft, ref Guid riidResult);
+	nint BindToObject(IBindCtx pbc, IMoniker? pmkToLeft, ref Guid riidResult);
 
-	[return: MarshalAs(UnmanagedType.Interface)]
-	object BindToStorage(IBindCtx pbc, IMoniker? pmkToLeft, ref Guid riid);
+	nint BindToStorage(IBindCtx pbc, IMoniker? pmkToLeft, ref Guid riid);
 
 	IMoniker Reduce(IBindCtx pbc, int dwReduceHowFar, nint ppmkToLeft);
 
@@ -20,12 +18,10 @@ public partial interface IMoniker	: IPersistStream
 
 	IEnumMoniker Enum([MarshalAs(UnmanagedType.Bool)] bool fForward);
 
-	[PreserveSig]
 	int IsEqual(IMoniker pmkOtherMoniker);
 
 	int Hash();
 
-	[PreserveSig]
 	int IsRunning(IBindCtx pbc, IMoniker? pmkToLeft, IMoniker? pmkNewlyRunning);
 
 	FILETIME GetTimeOfLastChange(IBindCtx pbc, IMoniker? pmkToLeft);
@@ -36,12 +32,10 @@ public partial interface IMoniker	: IPersistStream
 
 	IMoniker RelativePathTo(IMoniker pmkOther);
 
-	[return: MarshalAs(UnmanagedType.LPWStr)]
 	string GetDisplayName(IBindCtx pbc, IMoniker? pmkToLeft);
 
-	IMoniker ParseDisplayName(IBindCtx pbc, IMoniker? pmkToLeft, [MarshalAs(UnmanagedType.LPWStr)] string pszDisplayName, out int pchEaten);
+	IMoniker ParseDisplayName(IBindCtx pbc, IMoniker? pmkToLeft, string pszDisplayName, out int pchEaten);
 
-	[PreserveSig]
 	int IsSystemMoniker(out MKSYS pdwMksys);
 }
 

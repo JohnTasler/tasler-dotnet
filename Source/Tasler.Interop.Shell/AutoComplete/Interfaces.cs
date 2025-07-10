@@ -9,10 +9,10 @@ namespace Tasler.Interop.Shell.AutoComplete;
 public partial interface IObjMgr
 {
 	void Append(IEnumString punk);
-	void Remove (IEnumString punk);
+	void Remove(IEnumString punk);
 }
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1230:Specifying 'GeneratedComInterfaceAttribute' on an interface that has a base interface defined in another assembly is not supported", Justification = "Allowed")]
+//[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1230:Specifying 'GeneratedComInterfaceAttribute' on an interface that has a base interface defined in another assembly is not supported", Justification = "Allowed")]
 [GeneratedComInterface]
 [Guid(Guids.IID_IEnumACString)]
 public partial interface IEnumACString : IEnumString
@@ -25,12 +25,12 @@ public partial interface IEnumACString : IEnumString
 	AutoCompleteOption GetEnumOptions();
 }
 
-[GeneratedComInterface]
+[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid(Guids.IID_IACList)]
 public partial interface IACList
 {
 	[PreserveSig]
-	int Expand([MarshalAs(UnmanagedType.LPWStr)] string pszExpand);
+	int Expand(string pszExpand);
 }
 
 [GeneratedComInterface]
@@ -43,11 +43,11 @@ public partial interface IACList2 : IACList
 	AutoCompleteListOptions GetOptions();
 }
 
-[GeneratedComInterface]
+[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid(Guids.IID_IAutoComplete)]
 public partial interface IAutoComplete
 {
-	int Init(nint hwndEdit, IEnumString punkACL, [MarshalAs(UnmanagedType.LPWStr)] string pwszRegKeyPath, [MarshalAs(UnmanagedType.LPWStr)] string  pwszQuickComplete);
+	int Init(nint hwndEdit, IEnumString punkACL, string pwszRegKeyPath, string pwszQuickComplete);
 
 	int Enable([MarshalAs(UnmanagedType.Bool)] bool fEnable);
 }
