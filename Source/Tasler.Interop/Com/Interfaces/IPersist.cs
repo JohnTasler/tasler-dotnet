@@ -14,11 +14,12 @@ public partial interface IPersist
 [Guid("00000109-0000-0000-C000-000000000046")]
 public partial interface IPersistStream : IPersist
 {
+	[PreserveSig]
 	int IsDirty();
 
-	int Load(IStream stream);
+	void Load(IStream stream);
 
-	int Save(IStream stream, [MarshalAs(UnmanagedType.Bool)] bool fClearDirty);
+	void Save(IStream stream, [MarshalAs(UnmanagedType.Bool)] bool fClearDirty);
 
 	ulong GetSizeMax();
 }
@@ -27,58 +28,68 @@ public partial interface IPersistStream : IPersist
 [Guid("7FD52380-4E07-101B-AE2D-08002B2EC713")]
 public partial interface IPersistStreamInit : IPersist
 {
-	int InitNew();
+	[PreserveSig]
+	int IsDirty();
 
-	int Load(IStream stream);
+	void Load(IStream stream);
 
-	int Save(IStream stream, [MarshalAs(UnmanagedType.Bool)] bool fClearDirty);
+	void Save(IStream stream, [MarshalAs(UnmanagedType.Bool)] bool fClearDirty);
+
+	ulong GetSizeMax();
+
+	void InitNew();
 }
 
 [GeneratedComInterface]
 [Guid("0000010A-0000-0000-C000-000000000046")]
 public partial interface IPersistStorage : IPersist
 {
+	[PreserveSig]
 	int IsDirty();
 
-	int InitNew(IStorage storage);
+	void InitNew(IStorage storage);
 
-	int Load(IStorage storage);
+	void Load(IStorage storage);
 
-	int Save(IStorage storage, [MarshalAs(UnmanagedType.Bool)] bool fSameAsLoad);
+	void Save(IStorage storage, [MarshalAs(UnmanagedType.Bool)] bool fSameAsLoad);
 
-	int SaveCompleted(IStorage storage);
+	void SaveCompleted(IStorage storage);
 
-	int HandsOffStorage();
+	void HandsOffStorage();
 }
 
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("0000010B-0000-0000-C000-000000000046")]
 public partial interface IPersistFile : IPersist
 {
+	[PreserveSig]
 	int IsDirty();
 
-	int Load(string fileName, uint dwMode);
+	void Load(string fileName, STGM mode);
 
+	[PreserveSig]
 	int Save(string fileName, [MarshalAs(UnmanagedType.Bool)] bool fRemember);
 
-	int SaveCompleted(string fileName);
+	void SaveCompleted(string fileName);
 
-	string GetCurFile();
+	[PreserveSig]
+	int GetCurFile(out string? fileName);
 }
 
 [GeneratedComInterface]
 [Guid("BD1AE5E0-A6AE-11CE-BD37-504200C10000")]
 public partial interface IPersistMemory : IPersist
 {
+	[PreserveSig]
 	int IsDirty();
 
-	int Load(nint pMem, uint cbSize);
+	void Load(nint pMem, uint cbSize);
 
-	int Save(nint pMem, [MarshalAs(UnmanagedType.Bool)] bool fClearDirty, uint cbSize);
+	uint Save(nint pMem, [MarshalAs(UnmanagedType.Bool)] bool fClearDirty );
 
 	uint GetSizeMax();
 
-	int InitNew();
+	void InitNew();
 }
 
 public static class IPersistExtensions
