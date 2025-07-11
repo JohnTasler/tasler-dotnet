@@ -18,10 +18,12 @@ public partial interface IMoniker	: IPersistStream
 
 	IEnumMoniker Enum([MarshalAs(UnmanagedType.Bool)] bool fForward);
 
+	[PreserveSig]
 	int IsEqual(IMoniker pmkOtherMoniker);
 
 	int Hash();
 
+	[PreserveSig]
 	int IsRunning(IBindCtx pbc, IMoniker? pmkToLeft, IMoniker? pmkNewlyRunning);
 
 	FILETIME GetTimeOfLastChange(IBindCtx pbc, IMoniker? pmkToLeft);
@@ -36,6 +38,7 @@ public partial interface IMoniker	: IPersistStream
 
 	IMoniker ParseDisplayName(IBindCtx pbc, IMoniker? pmkToLeft, string pszDisplayName, out int pchEaten);
 
+	[PreserveSig]
 	int IsSystemMoniker(out MKSYS pdwMksys);
 }
 

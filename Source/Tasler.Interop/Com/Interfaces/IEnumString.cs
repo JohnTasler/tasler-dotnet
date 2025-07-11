@@ -15,8 +15,10 @@ public partial interface IEnumString
 	/// HRESULT indicating success or failure. S_FALSE indicates that less that the specified
 	/// <paramref name="elementCount"/> elements were retrieved.
 	/// </returns>
+	[PreserveSig]
 	int Next(int elementCount, [MarshalUsing(CountElementName = nameof(elementCount))] [Out] nint[] elements, out int elementsFetched);
 
+	[PreserveSig]
 	int Skip(uint elementCount);
 
 	void Reset();
