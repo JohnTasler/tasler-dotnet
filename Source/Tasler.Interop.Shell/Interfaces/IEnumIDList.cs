@@ -4,7 +4,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace Tasler.Interop.Shell;
 
 //[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
-[GeneratedComInterface]
+[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("000214F2-0000-0000-C000-000000000046")]
 public partial interface IEnumIDList
 {

@@ -4,7 +4,7 @@ namespace Tasler.Extensions;
 
 public static class UnmanagedExtensions
 {
-	extension<T>(T) where T : unmanaged
+	extension<T>(T @this) where T : unmanaged
 	{
 		/// <summary>
 		/// Gets the binary size of an unmanaged type at compile time.

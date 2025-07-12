@@ -18,8 +18,8 @@ public struct Int32Size : IFormattable
 	#endregion Static Fields
 
 	#region Instance Fields
-	private int _width;
-	private int _height;
+	private readonly int _width;
+	private readonly int _height;
 	#endregion Instance Fields
 
 	#region Construction
@@ -41,25 +41,25 @@ public struct Int32Size : IFormattable
 	#endregion Construction
 
 	#region Properties
-	public int Width
+	public readonly int Width
 	{
 		get => _width;
-		set => _width = value;
+		init => _width = value;
 	}
 
-	public int Height
+	public readonly int Height
 	{
 		get => _height;
-		set => _height = value;
+		init => _height = value;
 	}
 
-	public bool IsEmpty => (_width == 0) && (_height == 0);
+	public readonly bool IsEmpty => (_width == 0) && (_height == 0);
 	#endregion Properties
 
 	#region Methods
 	public static Int32Size Parse(string source)
 	{
-		if (string.IsNullOrWhiteSpace(source) || source == "Empty")
+		if (string.IsNullOrWhiteSpace(source) || source == nameof(Empty))
 			return Int32Size.Empty;
 
 		char[] separators = [' ', ';', '\0'];
@@ -73,22 +73,23 @@ public struct Int32Size : IFormattable
 		return size;
 	}
 
-	public string ToString(IFormatProvider provider)
+	public readonly string ToString(IFormatProvider provider)
 	{
 		return ((IFormattable)this).ToString(null, provider);
 	}
 
-	string IFormattable.ToString(string? format, IFormatProvider? provider)
+	readonly string IFormattable.ToString(string? format, IFormatProvider? provider)
 	{
 		if (this.IsEmpty)
-			return "Empty";
+			return nameof(Empty);
 		char numericListSeparator = (NumberFormatInfo.GetInstance(provider).CurrencyDecimalSeparator == ",") ? ';' : ',';
 		return string.Format(provider, "{1:" + format + "}{0}{2:" + format + "}", numericListSeparator, _width, _height);
 	}
 
-	public readonly Size ToSize() => new(_width, _height);
-
-	public readonly SIZE ToSIZE() => new(_width, _height);
+	public static implicit operator Size(Int32Size input) => new(input.Width, input.Height);
+	public static implicit operator SIZE(Int32Size input) => new(input.Width, input.Height);
+	public static implicit operator Int32Size(Size input) => new(input);
+	public static implicit operator Int32Size(SIZE input) => new(input);
 
 	#endregion Methods
 
@@ -104,11 +105,11 @@ public struct Int32Size : IFormattable
 	#endregion Equality Comparisons
 
 	#region Overrides
-	public override readonly bool Equals(object? o) => o is Int32Size size && Equals(this, size);
+	public readonly override bool Equals(object? o) => o is Int32Size size && Equals(this, size);
 
-	public override int GetHashCode() => HashCode.Combine(this.Width, this.Height);
+	public readonly override int GetHashCode() => HashCode.Combine(this.Width, this.Height);
 
-	public override string ToString() => ((IFormattable)this).ToString(null, null);
+	public readonly override string ToString() => ((IFormattable)this).ToString(null, null);
 	#endregion Overrides
 }
 

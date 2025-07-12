@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices.Marshalling;
 using CommunityToolkit.Diagnostics;
 
@@ -8,8 +6,8 @@ namespace Tasler.Interop.Com;
 
 public static partial class ComApi
 {
-	public static readonly StrategyBasedComWrappers Wrappers = new();
-//		new StrategyBasedComWrappers().RegisterForTrackingSupport().RegisterForMarshalling();
+	public static readonly StrategyBasedComWrappers Wrappers = // new();
+		new StrategyBasedComWrappers().RegisterForTrackingSupport().RegisterForMarshalling();
 
 	/// <summary>
 	/// Creates a COM object instance for the specified class and returns a pointer to the requested interface.

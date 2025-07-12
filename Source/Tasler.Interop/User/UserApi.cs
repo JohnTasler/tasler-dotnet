@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
+using System.Security.Principal;
 using Tasler.Extensions;
 using Tasler.Interop.Gdi;
 
@@ -272,7 +274,7 @@ public static partial class UserApi
 
 		[LibraryImport(ApiLib, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
 		public static partial int GetClassNameW(
-			SafeHwnd hwnd, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[] text, int nMaxCount);
+			SafeHwnd hwnd, [MarshalUsing(CountElementName = nameof(nMaxCount))] [Out] char[] text, int nMaxCount);
 
 		[LibraryImport(ApiLib, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -392,7 +394,8 @@ public static partial class UserApi
 		/// <returns>A handle to the created icon or cursor, or 0 if creation fails.</returns>
 		[LibraryImport(ApiLib, SetLastError = true)]
 		public static partial nint CreateIconFromResourceEx(
-			byte[] presbits, uint dwResSize, [MarshalAs(UnmanagedType.Bool)] bool fIcon,
+			[MarshalUsing(CountElementName = nameof(dwResSize))][In] byte[] presbits,
+			uint dwResSize, [MarshalAs(UnmanagedType.Bool)] bool fIcon,
 			uint dwVer, int cxDesired, int cyDesired, uint Flags);
 
 		/// <summary>

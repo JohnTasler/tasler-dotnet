@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using Tasler.Interop.Com;
 using Tasler.Interop.Shell.AutoComplete;
 using TrimmingTests;
@@ -6,7 +7,10 @@ using TrimmingTests;
 Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
 Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
 
-var objMgr = ComApi.CoCreateInstance<IObjMgr>(Guids.Guid_ACLMulti);
+nint objMgrRaw = ComApi.CoCreateInstance(Guids.Guid_ACLMulti, Guids.Guid_IObjMgr);
+var objMgr = (IObjMgr)ComApi.Wrappers.GetOrCreateObjectForComInstance(objMgrRaw, CreateObjectFlags.UniqueInstance);
+var objMgrEnumString = ComApi.CoCreateInstance<IEnumString>(Guids.Guid_ACLMulti);
+//var objMgr = ComApi.CoCreateInstance<IEnumString>(Guids.Guid_ACLMulti);
 var acList = ComApi.CoCreateInstance<IACList>(Guids.Guid_ACListISF);
 
 var enumString = (IEnumString)acList!;
