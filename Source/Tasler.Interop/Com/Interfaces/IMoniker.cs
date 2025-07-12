@@ -21,6 +21,7 @@ public partial interface IMoniker	: IPersistStream
 	[PreserveSig]
 	int IsEqual(IMoniker pmkOtherMoniker);
 
+	[PreserveSig]
 	int Hash();
 
 	[PreserveSig]

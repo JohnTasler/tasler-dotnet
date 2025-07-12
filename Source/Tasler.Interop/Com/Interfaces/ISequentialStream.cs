@@ -7,7 +7,8 @@ namespace Tasler.Interop.Com.Interfaces;
 [Guid("0C733A30-2A1C-11CE-ADE5-00AA0044773D")]
 public partial interface ISequentialStream
 {
-	int Read(nint pv, uint byteCount, out uint bytesRead);
+	[PreserveSig]
+	int Read([MarshalUsing(CountElementName = nameof(byteCount))] [Out] byte[] data, int byteCount, out uint bytesRead);
 
-	int Write(nint pv, uint byteCount, out uint bytesWritten);
+	void Write([MarshalUsing(CountElementName = nameof(byteCount))] [In] byte[] data, uint byteCount, out uint bytesWritten);
 }

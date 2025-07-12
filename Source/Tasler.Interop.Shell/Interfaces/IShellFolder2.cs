@@ -16,9 +16,9 @@ public partial interface IShellFolder2 : IShellFolder
 
 	SHCOLSTATEF GetDefaultColumnState(uint iColumn);
 
-	nint GetDetailsEx(ChildItemIdList pidl, PropertyKey pscid);
+	nint GetDetailsEx(nint pidl, PropertyKey pscid);
 
-	SHELLDETAILS GetDetailsOf(ChildItemIdList pidl, uint iColumn);
+	SHELLDETAILS GetDetailsOf(nint pidl, uint iColumn);
 
 	PropertyKey MapColumnToSCID(uint iColumn);
 }

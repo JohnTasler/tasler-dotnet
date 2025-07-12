@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using System.Security.Principal;
 using Tasler.Interop.Kernel;
 
 namespace Tasler.Interop.Com;
@@ -8,33 +9,37 @@ namespace Tasler.Interop.Com;
 [Guid("0000000B-0000-0000-C000-000000000046")]
 public partial interface IStorage
 {
-	int CreateStream(string pwcsName, STGM mode, uint reserved1, uint reserved2, out IStream ppstm);
+	IStream CreateStream(string pwcsName, STGM mode, uint reserved1, uint reserved2);
 
-	int OpenStream(string pwcsName, nint reserved1, STGM mode, uint reserved2, out IStream ppstm);
+	IStream OpenStream(string pwcsName, nint reserved1, STGM mode, uint reserved2);
 
+	[PreserveSig]
 	int CreateStorage(string pwcsName, STGM mode, uint reserved1, uint reserved2, out IStorage ppstg);
 
-	int OpenStorage(string pwcsName, IStorage pstgPriority, STGM mode, nint snbExclude, uint reserved, out IStorage ppstg);
+	[PreserveSig]
+	int OpenStorage(string pwcsName, IStorage reserved1, STGM mode, nint reserved2, uint reserved3, out IStorage ppstg);
 
-	int CopyTo(uint ciidExclude, ref Guid rgiidExclude, nint snbExclude, IStorage pstgDest);
+	void CopyTo(uint ciidExclude,
+		[MarshalUsing(CountElementName = nameof(ciidExclude))] [In] Guid[] rgiidExclude, nint snbExclude, IStorage pstgDest);
 
-	int MoveElementTo(string pwcsName, IStorage pstgDest, nint pwcsNewName, STGMOVE moveFlags);
+	void MoveElementTo(string pwcsName, IStorage pstgDest, string pwcsNewName, STGMOVE moveFlags);
 
+	[PreserveSig]
 	int Commit(STGCOMMIT commitFlags);
 
-	int Revert();
+	void Revert();
 
-	int EnumElements(uint reserved1, nint reserved2, uint reserved3, out IEnumSTATSTG ppenum);
+	IEnumSTATSTG EnumElements(uint reserved1, nint reserved2, uint reserved3);
 
-	int DestroyElement(string pwcsName);
+	void DestroyElement(string pwcsName);
 
-	int RenameElement(string pwcsOldName, string pwcsNewName);
+	void RenameElement(string oldName, string newName);
 
-	int SetElementTimes(string pwcsName, ref FILETIME pctime, ref FILETIME patime, ref FILETIME pmtime);
+	void SetElementTimes(string name, nint pctime, nint patime, nint pmtime);
 
-	int SetClass(ref Guid clsid);
+	void SetClass(ref Guid clsid);
 
-	int SetStateBits(uint grfStateBits, uint grfMask);
+	void SetStateBits(uint grfStateBits, uint grfMask);
 
-	int Stat(out STATSTG pstatstg, STATFLAG statFlag);
+	void Stat(out STATSTG pstatstg, STATFLAG statFlag);
 }

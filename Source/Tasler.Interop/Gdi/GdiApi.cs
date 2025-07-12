@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
+using System.Security.Principal;
 using Microsoft.Win32.SafeHandles;
 
 namespace Tasler.Interop.Gdi;
@@ -113,7 +115,10 @@ public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.Cr
 
 		[LibraryImport(ApiLib)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static partial bool PolyPolyline(SafeHdc hdc, POINT[] pt, uint[] dwPolyPoints, int count);
+		public static partial bool PolyPolyline(SafeHdc hdc,
+			[In] POINT[] points,
+			[MarshalUsing(CountElementName = nameof(count))] [In] uint[] dwPolyPoints,
+			int count);
 
 		[LibraryImport(ApiLib)]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -134,7 +139,7 @@ public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.Cr
 		[LibraryImport(ApiLib, SetLastError = true)]
 		public static partial SafeGdiPenOwned ExtCreatePen(
 				PenStyle penStyle, int width, LOGBRUSH logBrush, int segmentCount,
-				[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] int[] segments);
+				[MarshalUsing(CountElementName = nameof(segmentCount))] [In] int[] segments);
 
 		[LibraryImport(ApiLib, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]

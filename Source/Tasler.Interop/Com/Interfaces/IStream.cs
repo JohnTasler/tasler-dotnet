@@ -1,11 +1,12 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using Tasler.Interop.Com.Interfaces;
 
 namespace Tasler.Interop.Com;
 
 [GeneratedComInterface]
 [Guid("0000000C-0000-0000-C000-000000000046")]
-public partial interface IStream
+public partial interface IStream : ISequentialStream
 {
 	/// <summary>
 	/// changes the seek pointer to a new location. The new location is relative to either the
@@ -23,15 +24,15 @@ public partial interface IStream
 	/// <param name="newPosition">Upon return this is set to the value of the new seek pointer from
 	/// the beginning of the stream.</param>
 	/// <returns></returns>
-	int Seek(long offset, STREAM_SEEK origin, out ulong newPosition);
+	void Seek(long offset, STREAM_SEEK origin, out ulong newPosition);
 
-	int SetSize(ulong newSize);
+	void SetSize(ulong newSize);
 
-	int CopyTo(IStream targetStream, ulong byteCount, out ulong bytesRead, out ulong bytesWritten);
+	void CopyTo(IStream targetStream, ulong byteCount, out ulong bytesRead, out ulong bytesWritten);
 
-	int Commit(STGCOMMIT commitFlags);
+	void Commit(STGCOMMIT commitFlags);
 
-	int Revert();
+	void Revert();
 
 	/// <summary>
 	/// Locks the region.
@@ -39,7 +40,7 @@ public partial interface IStream
 	/// <param name="offset">Specifies the byte offset for the beginning of the range.</param>
 	/// <param name="byteCount">Specifies, in bytes, the length of the range to be restricted.</param>
 	/// <param name="lockType">Specifies the type of restrictions being requested on accessing the range.</param>
-	int LockRegion(ulong offset, ulong byteCount, LockType lockType);
+	void LockRegion(ulong offset, ulong byteCount, LockType lockType);
 
 	/// <summary>
 	/// Removes the access restriction on a previously locked range of bytes.
@@ -47,7 +48,7 @@ public partial interface IStream
 	/// <param name="offset">Specifies the byte offset for the beginning of the range.</param>
 	/// <param name="byteCount">Specifies, in bytes, the length of the range that is restricted.</param>
 	/// <param name="lockType">Specifies the type of access restrictions previously placed on the range.</param>
-	int UnlockRegion(ulong offset, ulong byteCount, LockType lockType);
+	void UnlockRegion(ulong offset, ulong byteCount, LockType lockType);
 
 	/// <summary>
 	/// Retrieves a <see cref="STATSTG"/> structure containing information for this byte array object.
@@ -59,7 +60,7 @@ public partial interface IStream
 	/// <see cref="STATSTG.Name"/> member is not supplied, thus saving a memory-allocation operation.
 	/// The other possible value, <see cref="STATFLAG.Default"/>, indicates that all members of the
 	/// <see cref="STATSTG"/> structure be supplied.</param>
-	int Stat(out STATSTG statStg, STATFLAG statFlag);
+	void Stat(out STATSTG statStg, STATFLAG statFlag);
 
-	int Clone(out IStream ppstm);
+	IStream Clone();
 }

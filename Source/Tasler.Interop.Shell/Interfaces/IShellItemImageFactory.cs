@@ -1,6 +1,5 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using Tasler.Windows;
 
 namespace Tasler.Interop.Shell;
 
@@ -9,7 +8,7 @@ namespace Tasler.Interop.Shell;
 public partial interface IShellItemImageFactory
 {
 	[PreserveSig]
-	int GetImage(Int32Size size, SIIGB flags, out nint hBitmap);
+	int GetImage(SIZE size, SIIGB flags, out nint hBitmap);
 }
 
 [Flags]
