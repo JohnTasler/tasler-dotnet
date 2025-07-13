@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+using Tasler.Extensions;
+using Tasler.Collections.Extensions;
 
 #if WINDOWS_UWP
 using Windows.UI.Xaml;
@@ -10,7 +12,6 @@ namespace Tasler.UI.Xaml.Controls;
 #elif WINDOWS_WPF
 using System.Windows;
 using System.Windows.Controls;
-using Tasler.Collections;
 using Tasler.Windows.Extensions;
 namespace Tasler.Windows.Controls;
 

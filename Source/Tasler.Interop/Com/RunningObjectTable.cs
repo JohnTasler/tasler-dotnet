@@ -1,10 +1,10 @@
 using System.Collections;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Tasler.Interop.Com.Extensions;
 
 namespace Tasler.Interop.Com;
 
-public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
+public class RunningObjectTable : IDisposable, IEnumerable<IMoniker?>
 {
 	#region Instance Fields
 	private IRunningObjectTable _rot;
@@ -37,10 +37,10 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 
 	#region IEnumerable<IMoniker> Members
 
-	public IEnumerator<IMoniker> GetEnumerator()
+	public IEnumerator<IMoniker?> GetEnumerator()
 	{
 		var enumMoniker = _rot.EnumRunning();
-		return enumMoniker.AsEnumerable<IEnumMoniker, IMoniker>(ComEnumeratorExtensions.FetchIMoniker).GetEnumerator() ?? throw new COMException();
+		return enumMoniker.AsEnumerable().GetEnumerator();
 	}
 
 	#endregion IEnumerable<IMoniker> Members

@@ -5,7 +5,7 @@ namespace Tasler.Interop.Com;
 
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("0000010C-0000-0000-C000-000000000046")]
-public partial interface IPersist
+public partial interface IPersist : IUnknown
 {
 	Guid GetClassID();
 }
