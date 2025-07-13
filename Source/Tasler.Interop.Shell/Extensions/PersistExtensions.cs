@@ -1,5 +1,5 @@
 
-namespace Tasler.Interop.Shell;
+namespace Tasler.Interop.Shell.Extensions;
 
 public static class PersistExtensions
 {
