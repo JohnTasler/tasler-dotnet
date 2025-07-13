@@ -7,13 +7,12 @@ namespace Tasler.Interop.Com;
 public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 {
 	#region Instance Fields
-	private nint _rotHandle;
 	private IRunningObjectTable _rot;
 	#endregion Instance Fields
 
 	public RunningObjectTable()
 	{
-		_rot = ComApi.GetRunningObjectTable(out _rotHandle);
+		_rot = ComApi.GetRunningObjectTable();
 	}
 
 	#region Finalizer
@@ -29,17 +28,8 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker>
 		var rot = Interlocked.Exchange(ref _rot, null!);
 		if (rot is not null)
 		{
-			var rotHandle = Interlocked.Exchange(ref _rotHandle, nint.Zero);
-			Debug.Assert(rotHandle != nint.Zero);
-			Marshal.Release(rotHandle);
+			rot.Release();
 			GC.SuppressFinalize(this);
-		}
-		else
-		{
-			#if DEBUG
-			var rotHandle = Interlocked.Exchange(ref _rotHandle, nint.Zero);
-			Debug.Assert(rotHandle == nint.Zero);
-			#endif
 		}
 	}
 

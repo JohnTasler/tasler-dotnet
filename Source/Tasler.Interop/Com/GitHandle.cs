@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 
 namespace Tasler.Interop.Com;
 
@@ -10,12 +9,12 @@ public class GitHandleBase : IDisposable
 
 	#region Properties
 
-	protected static IGlobalInterfaceTable Git { get; } = (IGlobalInterfaceTable)new StdGlobalInterfaceTable();
+	protected static IGlobalInterfaceTable Git => ComApi.GetGlobalInterfaceTable();
 
 	public int Cookie
 	{
 		get => _cookie;
-		protected set => Interlocked.CompareExchange(ref _cookie, value, 0);
+		protected set => Interlocked.Exchange(ref _cookie, value);
 	}
 
 	#endregion Properties
@@ -48,10 +47,9 @@ public class GitHandleBase : IDisposable
 		var cookie = Interlocked.Exchange(ref _cookie, 0);
 		if (cookie != 0)
 		{
-			Git.RevokeInterfaceFromGlobal(cookie);
+			IGlobalInterfaceTableExtensions.RevokeInterfaceFromGlobal(Git, cookie);
+			GC.SuppressFinalize(this);
 		}
-
-		GC.SuppressFinalize(this);
 	}
 
 	#endregion IDisposable Members
@@ -64,11 +62,7 @@ public class GitHandle<T> : GitHandleBase
 	public GitHandle(T unknown)
 	{
 		Guid iid = typeof(T).GUID;
-		int hr = Git.RegisterInterfaceInGlobal(unknown, ref iid, out int cookie);
-		if (hr < 0)
-			Marshal.ThrowExceptionForHR(hr);
-		else
-			base.Cookie = cookie;
+		base.Cookie = Git.RegisterInterfaceInGlobal(unknown, iid);
 	}
 	#endregion Construction
 
@@ -78,10 +72,7 @@ public class GitHandle<T> : GitHandleBase
 		get
 		{
 			Guid iid = typeof(T).GUID;
-			int hr = Git.GetInterfaceFromGlobal(base.Cookie, ref iid, out var unknown);
-			if (hr < 0)
-				Marshal.ThrowExceptionForHR(hr);
-			return (T)unknown;
+			return Git.GetInterfaceFromGlobal<T>(base.Cookie);
 		}
 	}
 	#endregion Properties

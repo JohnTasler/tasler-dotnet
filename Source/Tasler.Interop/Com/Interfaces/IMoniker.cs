@@ -12,7 +12,7 @@ public partial interface IMoniker	: IPersistStream
 
 	nint BindToStorage(IBindCtx pbc, IMoniker? pmkToLeft, ref Guid riid);
 
-	IMoniker Reduce(IBindCtx pbc, int dwReduceHowFar, nint ppmkToLeft);
+	IMoniker Reduce(IBindCtx pbc, int dwReduceHowFar, ref IMoniker? ppmkToLeft);
 
 	IMoniker ComposeWith(IMoniker pmkRight, [MarshalAs(UnmanagedType.Bool)] bool fOnlyIfNotGeneric);
 
