@@ -6,8 +6,7 @@ namespace Tasler.Interop.Com;
 
 public static partial class ComApi
 {
-	public static readonly StrategyBasedComWrappers Wrappers = // new();
-		new StrategyBasedComWrappers().RegisterForTrackingSupport().RegisterForMarshalling();
+	public static readonly StrategyBasedComWrappers Wrappers = new();
 
 	/// <summary>
 	/// Creates a COM object instance for the specified class and returns a pointer to the requested interface.
@@ -43,9 +42,14 @@ public static partial class ComApi
 		return CoCreateInstance<TInterface>(typeof(TClass).GUID, dwClsContext);
 	}
 
-	public static IRunningObjectTable GetRunningObjectTable(out nint rotHandle)
+	public static IGlobalInterfaceTable GetGlobalInterfaceTable()
 	{
-		var hr = NativeMethods.GetRunningObjectTable(0, out rotHandle);
+		return CoCreateInstance<IGlobalInterfaceTable>(new Guid("00000323-0000-0000-C000-000000000046"));
+	}
+
+	public static IRunningObjectTable GetRunningObjectTable()
+	{
+		var hr = NativeMethods.GetRunningObjectTable(0, out nint rotHandle);
 		if (hr < 0)
 			Marshal.ThrowExceptionForHR(hr);
 

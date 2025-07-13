@@ -5,7 +5,7 @@ namespace Tasler.Interop.Com;
 
 [GeneratedComInterface]
 [Guid("00000010-0000-0000-C000-000000000046")]
-public partial interface IRunningObjectTable
+public partial interface IRunningObjectTable : IUnknown
 {
 	[PreserveSig]
 	int Register(int grfFlags, nint punkObject, IMoniker pmkObjectName, out uint cookie);
