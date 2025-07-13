@@ -48,16 +48,14 @@ public static class IMonikerExtensions
 	extension(IMoniker moniker)
 	{
 		public IMoniker Reduce(IBindCtx pbc, int dwReduceHowFar)
-			=> moniker.Reduce(pbc, dwReduceHowFar, nint.Zero);
-
-		public IMoniker Reduce(IBindCtx pbc, int dwReduceHowFar, ref IMoniker monikerToLeft)
 		{
-			GCHandle handle = GCHandle.Alloc(monikerToLeft, GCHandleType.Pinned);
-			using (new DisposeScopeExit(() => handle.Free()))
-			{
-				handle.AddrOfPinnedObject();
-				return moniker.Reduce(pbc, dwReduceHowFar, handle.AddrOfPinnedObject());
-			}
+			IMoniker? toLeft = null;
+			return moniker.Reduce(pbc, dwReduceHowFar, ref toLeft);
+		}
+
+		public IMoniker Reduce(IBindCtx pbc, int dwReduceHowFar, ref IMoniker? monikerToLeft)
+		{
+			return moniker.Reduce(pbc, dwReduceHowFar, ref monikerToLeft);
 		}
 	}
 }
