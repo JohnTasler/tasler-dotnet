@@ -1,3 +1,4 @@
+using Tasler.Extensions;
 
 namespace Tasler.ComponentModel;
 
@@ -20,7 +21,7 @@ public static class IChildExtensions
 
 	public static IEnumerable<object> GetSelfAndAncestors(this IChild source)
 	{
-		return source.AsEnumerable<object>().Concat(source.GetAncestors());
+		return source.AsSingleItemEnumerable().Concat(source.GetAncestors());
 	}
 
 	public static bool GetIsItemSelected(this IChild source)

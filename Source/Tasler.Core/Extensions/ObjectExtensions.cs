@@ -1,4 +1,4 @@
-namespace Tasler;
+namespace Tasler.Extensions;
 
 // TODO: NEEDS_UNIT_TESTS
 
@@ -16,7 +16,7 @@ public static class ObjectExtensions
 	/// <returns>
 	/// An <see cref="IEnumerable{TSource}"/> containing a single element - the specified object instance.
 	/// </returns>
-	public static IEnumerable<T> AsEnumerable<T>(this T @this)
+	public static IEnumerable<T> AsSingleItemEnumerable<T>(this T @this)
 		where T : class => [@this];
 
 	/// <summary>
