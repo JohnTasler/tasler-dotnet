@@ -1,7 +1,7 @@
 using System.Collections;
 using CommunityToolkit.Diagnostics;
 
-namespace Tasler.Collections;
+namespace Tasler.Collections.Extensions;
 
 // TODO: NEEDS_UNIT_TESTS
 
