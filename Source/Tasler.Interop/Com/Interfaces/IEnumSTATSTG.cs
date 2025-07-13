@@ -5,7 +5,7 @@ namespace Tasler.Interop.Com;
 
 [GeneratedComInterface]
 [Guid("0000000D-0000-0000-C000-000000000046")]
-public partial interface IEnumSTATSTG
+public partial interface IEnumSTATSTG : IUnknown
 {
 	/// <summary>Retrieves the next <see cref="STATSTG"/> structures in the enumeration sequence.</summary>
 	/// <param name="elementCount">The number of <see cref="STATSTG"/> structures to retrieve.</param>

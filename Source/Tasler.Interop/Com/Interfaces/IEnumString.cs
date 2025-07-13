@@ -5,7 +5,7 @@ namespace Tasler.Interop.Com;
 
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("00000101-0000-0000-C000-000000000046")]
-public partial interface IEnumString
+public partial interface IEnumString : IUnknown
 {
 	/// <summary>Retrieves the next <see cref="nint"/> string pointers in the enumeration sequence.</summary>
 	/// <param name="elementCount">The number of <see cref="nint"/> string pointers to retrieve.</param>

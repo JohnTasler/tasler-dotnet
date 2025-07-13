@@ -11,7 +11,7 @@ namespace Tasler.Interop.Com;
 /// </summary>
 [GeneratedComInterface]
 [Guid("0000000A-0000-0000-C000-000000000046")]
-public partial interface ILockBytes
+public partial interface ILockBytes : IUnknown
 {
 	/// <summary>
 	/// Reads a specified number of bytes starting at a specified offset from the beginning of the

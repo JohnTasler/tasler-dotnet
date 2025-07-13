@@ -6,7 +6,7 @@ namespace Tasler.Interop.Com;
 
 [GeneratedComInterface]
 [Guid("00000103-0000-0000-C000-000000000046")]
-public partial interface IEnumFORMATETC
+public partial interface IEnumFORMATETC : IUnknown
 {
 	/// <summary>Retrieves the next <see cref="FORMATETC"/> structures in the enumeration sequence.</summary>
 	/// <param name="elementCount">The number of <see cref="FORMATETC"/> structures to retrieve.</param>

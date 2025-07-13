@@ -1,13 +1,11 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using System.Security.Principal;
-using Tasler.Interop.Kernel;
 
 namespace Tasler.Interop.Com;
 
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("0000000B-0000-0000-C000-000000000046")]
-public partial interface IStorage
+public partial interface IStorage : IUnknown
 {
 	IStream CreateStream(string pwcsName, STGM mode, uint reserved1, uint reserved2);
 
