@@ -61,3 +61,14 @@ public partial interface IAutoComplete2 : IAutoComplete
 
 	AutoCompleteOptions GetOptions();
 }
+
+[Guid(Guids.IID_ICurrentWorkingDirectory)]
+[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
+public partial interface ICurrentWorkingDirectory : IUnknown
+{
+	[PreserveSig]
+	int GetDirectory([MarshalUsing(CountElementName = nameof(cchSize))] [Out] char[] pwzPath, uint cchSize);
+
+	[PreserveSig]
+	int SetDirectory(string pwzPath);
+}

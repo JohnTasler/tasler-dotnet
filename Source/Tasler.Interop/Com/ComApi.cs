@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using CommunityToolkit.Diagnostics;
+using Tasler.Interop.Com.Interfaces;
 
 namespace Tasler.Interop.Com;
 
@@ -42,6 +43,30 @@ public static partial class ComApi
 		return CoCreateInstance<TInterface>(typeof(TClass).GUID, dwClsContext);
 	}
 
+	public static uint CoRegisterClassObject(Guid rclsid, nint pUnk, ClsCtx dwClsContext, RegCls flags)
+	{
+		int hr = NativeMethods.CoRegisterClassObject(ref rclsid, pUnk, dwClsContext, flags, out uint lpdwRegister);
+		if (hr < 0)
+			Marshal.ThrowExceptionForHR(hr);
+
+		return lpdwRegister;
+	}
+
+	public static uint CoRegisterClassObject(Guid clsID, IClassFactory classFactory, ClsCtx dwClsContext, RegCls flags)
+	{
+		nint pUnk = Wrappers.GetOrCreateComInterfaceForObject(classFactory, CreateComInterfaceFlags.None);
+		return CoRegisterClassObject(clsID, pUnk, dwClsContext, flags);
+	}
+
+	public static uint CoRegisterClassObject<T>(ClsCtx dwClsContext, RegCls flags)
+		where T : class, IUnknown, new()
+	{
+		var classFactory = new DefaultClassFactory(() => new T());
+		return CoRegisterClassObject(typeof(T).GUID, classFactory, dwClsContext, flags);
+	}
+
+	public static int CoRevokeClassObject(uint dwRegister) => NativeMethods.CoRevokeClassObject(dwRegister);
+
 	public static IGlobalInterfaceTable GetGlobalInterfaceTable()
 	{
 		return CoCreateInstance<IGlobalInterfaceTable>(new Guid("00000323-0000-0000-C000-000000000046"));
@@ -78,9 +103,6 @@ public static partial class ComApi
 
 		return (TQuery)Wrappers.GetOrCreateObjectForComInstance(queryPtr, CreateObjectFlags.None);
 	}
-
-	#region Nested Types
-
 	public static TWrappers RegisterForTrackingSupport<TWrappers>(this TWrappers @this)
 		where TWrappers : ComWrappers
 	{
@@ -99,6 +121,9 @@ public static partial class ComApi
 		return (TWrappers)@this;
 	}
 
+
+	#region Nested Types
+
 	private static partial class NativeMethods
 	{
 		private const string ApiLib = "ole32.dll";
@@ -108,6 +133,28 @@ public static partial class ComApi
 			ref Guid rclsid,
 			nint pUnkOuter,
 			ClsCtx dwClsContext,
+			ref Guid riid,
+			out nint ppv);
+
+		[LibraryImport(ApiLib)]
+		public static partial int CoRegisterClassObject(
+			ref Guid rclsid,
+			nint pUnk,
+			ClsCtx dwClsContext,
+			RegCls flags,
+			out uint lpdwRegister
+		);
+
+		[LibraryImport(ApiLib)]
+		public static partial int CoRevokeClassObject(
+			uint dwRegister
+		);
+
+		[LibraryImport(ApiLib)]
+		public static partial int CoGetClassObject(
+			ref Guid rclsid,
+			ClsCtx dwClsContext,
+			nint pvReserved,
 			ref Guid riid,
 			out nint ppv);
 
