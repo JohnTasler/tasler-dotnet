@@ -4,6 +4,8 @@ using Tasler.Extensions;
 using Tasler.Interop.Com;
 using Tasler.Interop.Com.Extensions;
 using Tasler.Interop.Shell.AutoComplete;
+using System.Diagnostics;
+
 
 
 #if WINDOWS_UWP
@@ -19,7 +21,7 @@ using System.Windows.Input;
 namespace Tasler.Windows.Attachments;
 #endif
 
-public static partial class AutoComplete
+public abstract partial class AutoComplete
 {
 	private class PrivateBehavior : Behavior<TextBox>
 	{
@@ -38,9 +40,13 @@ public static partial class AutoComplete
 
 		private void ResetMode()
 		{
+			if (this.Mode != AutoCompleteMode.None)
+				this.ResetSources();
 		}
 
-		public AutoCompleteFlags Flags
+		public bool UseTabKey { get; set; }
+
+		public AutoCompleteSources Sources
 		{
 			get;
 			set
@@ -60,41 +66,45 @@ public static partial class AutoComplete
 			if (_enumString is not null)
 				Marshal.Release(ComApi.Wrappers.GetOrCreateComInterfaceForObject(_enumString, CreateComInterfaceFlags.None));
 
-			_acMultiList = ComApi.CoCreateInstance<IACList>(Guids.Guid_ACLMulti);
+//			_acMultiList = ComApi.CoCreateInstance<IACList>(Guids.Guid_ACLMulti);
+			_acMultiList = ComApi.CoCreateInstance<IACList>(new Guid("F66C5CE8-2EF9-41D4-A55D-CC65B5F8D114"));
 			IObjMgr objMgr = (IObjMgr)_acMultiList;
 
-			var flags = this.Flags;
-			if (flags == AutoCompleteFlags.Default)
-				flags = AutoCompleteFlags.FileSystem | AutoCompleteFlags.UrlAll;
+			var flags = this.Sources;
+			if (flags == AutoCompleteSources.Default)
+				flags = AutoCompleteSources.FileSystem | AutoCompleteSources.UrlAll;
 
-			if (flags.HasFlag(AutoCompleteFlags.UrlHistory))
+			//if (flags.HasAnyFlag(AutoCompleteSources.FileSystem | AutoCompleteSources.FileSystemOnly | AutoCompleteSources.FileSystemDirs | AutoCompleteSources.VirtualNamespace))
 			{
-				objMgr.Append(ComApi.CoCreateInstance<IEnumString>(Guids.Guid_ACLHistory));
-			}
+				//var options = AutoCompleteListOptions.None;
+				//if (flags.HasAnyFlag(AutoCompleteSources.FileSystem))
+				//	options = AutoCompleteListOptions.FileSysOnly | AutoCompleteListOptions.CurrentDir | AutoCompleteListOptions.Desktop | AutoCompleteListOptions.MyComputer;
+				//if (flags.HasAnyFlag(AutoCompleteSources.FileSystemOnly | AutoCompleteSources.FileSystemDirs))
+				//	options |=  AutoCompleteListOptions.CurrentDir | AutoCompleteListOptions.Desktop | AutoCompleteListOptions.MyComputer;
+				//if (flags.HasAnyFlag(AutoCompleteSources.FileSystemOnly))
+				//	options |= AutoCompleteListOptions.FileSysOnly;
+				//if (flags.HasAnyFlag(AutoCompleteSources.FileSystemDirs))
+				//	options |= AutoCompleteListOptions.FileSysDirs;
+				//if (flags.HasAnyFlag(AutoCompleteSources.VirtualNamespace))
+				//	options |= AutoCompleteListOptions.VirtualNamespace;
 
-			if (flags.HasFlag(AutoCompleteFlags.UrlMru))
-			{
-				objMgr.Append(ComApi.CoCreateInstance<IEnumString>(Guids.Guid_ACLMRU));
-			}
+				//options = AutoCompleteListOptions.CurrentDir | AutoCompleteListOptions.MyComputer;
 
-			if (flags.HasFlag(AutoCompleteFlags.FileSystem | AutoCompleteFlags.FileSystemOnly | AutoCompleteFlags.FileSystemDirs | AutoCompleteFlags.VirtualNamespace))
-			{
-				var options = AutoCompleteListOptions.None;
-				if (flags.HasAnyFlag(AutoCompleteFlags.FileSystem))
-					options = AutoCompleteListOptions.FileSysOnly | AutoCompleteListOptions.CurrentDir | AutoCompleteListOptions.Desktop | AutoCompleteListOptions.MyComputer;
-				if (flags.HasAnyFlag(AutoCompleteFlags.FileSystemOnly | AutoCompleteFlags.FileSystemDirs))
-					options |=  AutoCompleteListOptions.CurrentDir | AutoCompleteListOptions.Desktop | AutoCompleteListOptions.MyComputer;
-				if (flags.HasAnyFlag(AutoCompleteFlags.FileSystemOnly))
-					options |= AutoCompleteListOptions.FileSysOnly;
-				if (flags.HasAnyFlag(AutoCompleteFlags.FileSystemDirs))
-					options |= AutoCompleteListOptions.FileSysDirs;
-				if (flags.HasAnyFlag(AutoCompleteFlags.VirtualNamespace))
-					options |= AutoCompleteListOptions.VirtualNamespace;
-
-				var acList = ComApi.CoCreateInstance<IACList2>(Guids.Guid_ACListISF);
-				acList.SetOptions(options);
+//				var acList = ComApi.CoCreateInstance<IACList2>(Guids.Guid_ACListISF);
+				var acList = ComApi.CoCreateInstance<IACList2>(new Guid("2C1C211F-1859-4D6A-B291-E82B95609C9A"));
+				//acList.SetOptions(options);
 				objMgr.Append((IEnumString)acList);
 			}
+
+			//if (flags.HasAnyFlag(AutoCompleteSources.UrlMru))
+			//{
+			//	objMgr.Append(ComApi.CoCreateInstance<IEnumString>(Guids.Guid_ACLMRU));
+			//}
+
+			//if (flags.HasAnyFlag(AutoCompleteSources.UrlHistory))
+			//{
+			//	objMgr.Append(ComApi.CoCreateInstance<IEnumString>(Guids.Guid_ACLHistory));
+			//}
 
 			// TODO: Add custom list if specified
 
@@ -113,16 +123,21 @@ public static partial class AutoComplete
 		{
 			AssociatedObject.TextChanged += this.AssociatedObject_TextChanged;
 			AssociatedObject.KeyDown += this.AssociatedObject_KeyDown;
+			AssociatedObject.KeyUp += this.AssociatedObject_KeyUp;
+			this.RefreshSuggestions();
 		}
 
 		private void AssociatedObject_Loaded(object sender, RoutedEventArgs args)
 		{
+			Debug.WriteLine($"AssociatedObject_Loaded:");
 			AssociatedObject.Loaded -= this.AssociatedObject_Loaded;
 			this.DoAttach();
 		}
 
 		private void AssociatedObject_TextChanged(object sender, TextChangedEventArgs e)
 		{
+			Debug.WriteLine($"AssociatedObject_TextChanged: _inTextChanged={_inTextChanged}");
+
 			if (_inTextChanged)
 				return;
 
@@ -135,7 +150,7 @@ public static partial class AutoComplete
 			}
 			else
 			{
-				int hr = _acMultiList?.Expand(value) ?? -1;
+				int hr = _acMultiList.Expand(value);
 				if (hr < 0 || !value.EndsWith('\\'))
 				{
 					var suggestions = GetSuggestions(AssociatedObject)
@@ -148,26 +163,35 @@ public static partial class AutoComplete
 				}
 
 				var suggestionCollection = GetSuggestions(AssociatedObject);
-				if (suggestionCollection.Count() > 0)
+				var matchingText = suggestionCollection.FirstOrDefault(s => s.StartsWith(value, StringComparison.CurrentCultureIgnoreCase));
+				if (matchingText is not null)
 				{
-					AssociatedObject.Select(value.Length, AssociatedObject.Text.Length - value.Length);
-					AssociatedObject.Text = suggestionCollection[0];
+					var valueLength = value.Length;
+					AssociatedObject.Text = matchingText;
+					AssociatedObject.Select(valueLength, matchingText.Length - valueLength);
 				}
 			}
-
 		}
 
 		private void RefreshSuggestions()
 		{
-			SetSuggestions(AssociatedObject, new(_enumString?.AsEnumerable() ?? []));
+			var suggestions = _enumString.AsEnumerable().ToList();
+			SetSuggestions(AssociatedObject, new(suggestions));
 		}
 
 		private void AssociatedObject_KeyDown(object sender, KeyEventArgs e)
 		{
+			Debug.WriteLine($"AssociatedObject_KeyDown: Key={e.Key}");
 		}
 
-		private IACList? _acMultiList;
-		private IEnumString? _enumString;
+		private void AssociatedObject_KeyUp(object sender, KeyEventArgs e)
+		{
+			Debug.WriteLine($"AssociatedObject_KeyUp: Key={e.Key}");
+		}
+
+
+		private IACList _acMultiList = null!;
+		private IEnumString _enumString = null!;
 		private bool _inTextChanged;
 
 		protected override void OnDetaching()
