@@ -25,6 +25,17 @@ public enum ClsCtx
 	Activate64BitServer = 0x80000
 }
 
+[Flags]
+public enum RegCls : uint
+{
+	SingleUse = 0,
+	MultipleUse = 1,
+	MultiSeparate = 2,
+	Suspended = 4,
+	Surrogate = 8,
+	Agile = 0x10
+}
+
 public enum STGTY
 {
 	/// <summary>Indicates that the storage element is a storage object.</summary>

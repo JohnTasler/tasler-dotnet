@@ -16,7 +16,7 @@ public static class Guids
 	public const string CLSID_ACListISF              = "03C036F1-A186-11D0-824A-00AA005B4383";    // Microsoft Shell Folder AutoComplete List       (IACList, IEnumString, IACList2, ICurrentWorkingDirectory, IPersistFolder, IPersistIDList)
 	public const string CLSID_ACLMRU                 = "6756A641-DE71-11D0-831B-00AA005B4383";    // MRU AutoComplete List                          (IACList, IEnumString)
 	public const string CLSID_ACLMulti               = "00BB2765-6A77-11D0-A535-00C04FD7D062";    // Microsoft Multiple AutoComplete List Container (IACList, IEnumString, IEnumACString, IObjMgr, IPersist, IPersistFolder)
-	public const string CLSID_AutoComplete           = "00BB2763-6A77-11D0-A535-00C04FD7D062";    // Microsoft AutoComplete                         (         IEnumString, IAutoComplete, IAutoComplete2,  IAutoCompleteDropDown, IAccessible, IDispatch)
+	public const string CLSID_AutoComplete           = "00BB2763-6A77-11D0-A535-00C04FD7D062";    // Microsoft AutoComplete                         (         IEnumString, IAutoComplete, IAutoComplete2, IAutoCompleteDropDown, IAccessible, IDispatch)
 
 	public static readonly Guid Guid_IACList                  = new(IID_IACList                 );
 	public static readonly Guid Guid_IACList2                 = new(IID_IACList2                );
