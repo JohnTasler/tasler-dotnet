@@ -14,7 +14,9 @@ using Tasler.Windows.Extensions;
 namespace Tasler.Windows.Attachments;
 #endif
 
-public static partial class AutoComplete
+using APFactory = AttachedPropertyFactory<AutoComplete>;
+
+public abstract partial class AutoComplete
 {
 	#region PrivateBehavior
 	/// <summary>
@@ -36,7 +38,7 @@ public static partial class AutoComplete
 	private const string Mode = nameof(Mode);
 
 	public static readonly DependencyProperty ModeProperty =
-		AttachedPropertyFactory.Register<AutoCompleteMode>(typeof(AutoComplete), Mode, AutoCompleteMode.None, ModePropertyChanged);
+		APFactory.Register(Mode, AutoCompleteMode.None, ModePropertyChanged);
 
 	public static AutoCompleteMode GetMode(TextBox textBox) => (AutoCompleteMode)textBox.GetValue(ModeProperty);
 
@@ -52,7 +54,7 @@ public static partial class AutoComplete
 
 		if (oldValue == AutoCompleteMode.None)
 		{
-			var behavior = CreateBehaviorIfNeeded(textBox);
+			var behavior = GetOrCreateBehavior(textBox);
 			behavior.Mode = newValue;
 		}
 		else if (newValue == AutoCompleteMode.None)
@@ -68,29 +70,78 @@ public static partial class AutoComplete
 
 	#endregion Mode
 
+	#region UseTabKey
+
+	private const string UseTabKey = nameof(UseTabKey);
+
+	public static readonly DependencyProperty UseTabKeyProperty =
+		APFactory.Register<bool>(UseTabKey, true, UseTabKeyPropertyChanged);
+
+	public static bool GetUseTabKey(TextBox textBox) => (bool)textBox.GetValue(UseTabKeyProperty);
+
+	public static void SetUseTabKey(TextBox textBox, bool mode) => textBox.SetValue(UseTabKeyProperty, mode);
+
+	private static void UseTabKeyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var textBox = d as TextBox;
+		Guard.IsNotNull(textBox);
+		var newValue = (bool)e.NewValue;
+
+		var behavior = GetOrCreateBehavior(textBox);
+		behavior.UseTabKey = newValue;
+	}
+
+	#endregion UseTabKey
+
+	#region Sources
+
+	private const string Sources = nameof(Sources);
+
+	public static readonly DependencyProperty SourcesProperty =
+		APFactory.Register<AutoCompleteSources>(Sources, AutoCompleteSources.Default, SourcesPropertyChanged);
+
+	public static AutoCompleteSources GetSources(TextBox textBox) => (AutoCompleteSources)textBox.GetValue(SourcesProperty);
+
+	public static void SetSources(TextBox textBox, AutoCompleteSources mode) => textBox.SetValue(SourcesProperty, mode);
+
+	private static void SourcesPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var textBox = d as TextBox;
+		Guard.IsNotNull(textBox);
+
+		var newValue = (AutoCompleteSources)e.NewValue;
+		var behavior = GetOrCreateBehavior(textBox);
+		behavior.Sources = newValue;
+	}
+
+	#endregion Sources
+
 	#region Suggestions
 
 	private const string Suggestions = nameof(Suggestions);
 
 	private static readonly DependencyPropertyKey SuggestionsPropertyKey =
-		AttachedPropertyFactory.RegisterReadOnly<ObservableCollection<string>>(typeof(AutoComplete), Suggestions, []);
+		APFactory.RegisterReadOnly<ObservableCollection<string>>(Suggestions, []);
 
-	public static DependencyProperty SuggestionsProperty => SuggestionsPropertyKey.DependencyProperty;
+	public static DependencyProperty SuggestionsProperty
+		=> SuggestionsPropertyKey.DependencyProperty;
 
-	public static ObservableCollection<string> GetSuggestions(TextBox textBox) => (ObservableCollection<string>)textBox.GetValue(SuggestionsProperty);
+	public static ObservableCollection<string> GetSuggestions(TextBox textBox)
+		=> (ObservableCollection<string>)textBox.GetValue(SuggestionsProperty);
 
-	private static void SetSuggestions(TextBox textBox, ObservableCollection<string> mode) => textBox.SetValue(SuggestionsPropertyKey, mode);
+	internal static void SetSuggestions(TextBox textBox, ObservableCollection<string> suggestions)
+		=> textBox.SetValue(SuggestionsPropertyKey, suggestions);
 
 	#endregion Suggestions
 
-	private static PrivateBehavior CreateBehaviorIfNeeded(TextBox textBox)
+	private static PrivateBehavior GetOrCreateBehavior(TextBox textBox)
 	{
 		var behavior = GetPrivateBehavior(textBox);
 		if (behavior is null)
 		{
 			behavior = new PrivateBehavior();
 			behavior.Attach(textBox);
-			textBox.SetValue(PrivateBehaviorPropertyKey.DependencyProperty, behavior);
+			SetPrivateBehavior(textBox, behavior);
 		}
 
 		return behavior;

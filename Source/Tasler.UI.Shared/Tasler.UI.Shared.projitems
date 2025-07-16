@@ -17,7 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AttachedPropertyFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attachments\AutoComplete.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attachments\AutoComplete.PrivateBehavior.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Attachments\AutoCompleteFlags.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attachments\AutoCompleteSources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attachments\AutoCompleteMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ApplicationSettingsExtensions.AutoSaveHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ApplicationSettingsExtensions.cs" />
