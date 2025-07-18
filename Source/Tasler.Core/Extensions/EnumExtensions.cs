@@ -108,16 +108,18 @@ public static class EnumExtensions
 	}
 	#endregion Bit Testing
 
+#if !DEBUG
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
 	private static T IsEnumBitFlags<T>(this T @this)
 		where T : Enum, IConvertible
 	{
 	#if DEBUG
 		var underlyingType = Enum.GetUnderlyingType(typeof(T));
-		if ((!typeof(IUnsignedNumber<uint>).IsAssignableFrom(underlyingType)
+		if (!typeof(IUnsignedNumber<uint>).IsAssignableFrom(underlyingType)
 			&& !typeof(IUnsignedNumber<ushort>).IsAssignableFrom(underlyingType)
-			&& !typeof(IUnsignedNumber<ulong>).IsAssignableFrom(underlyingType))
-			|| !typeof(T).GetCustomAttributes<FlagsAttribute>(false).Any())
+			&& !typeof(IUnsignedNumber<ulong>).IsAssignableFrom(underlyingType)
+			&& !typeof(T).GetCustomAttributes<FlagsAttribute>(false).Any())
 		{
 			throw new InvalidEnumArgumentException(string.Format(Resources.EnumNotFlagsExceptionFormat1, typeof(T).FullName));
 		}
