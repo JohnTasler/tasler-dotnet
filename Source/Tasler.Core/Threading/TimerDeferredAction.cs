@@ -66,7 +66,7 @@ public class TimerDeferredAction : IDisposable
 	/// <summary>
 	/// Starts or restarts the timer interval.
 	/// </summary>
-	public void Trigger()
+	public TimerDeferredAction Trigger()
 	{
 		// Stop any pending timer
 		_timer?.Stop();
@@ -74,6 +74,8 @@ public class TimerDeferredAction : IDisposable
 		// Start the timer
 		_timer?.Start();
 		_hasBeenTriggered = true;
+
+		return this;
 	}
 
 	/// <summary>
@@ -82,10 +84,11 @@ public class TimerDeferredAction : IDisposable
 	/// <remarks>
 	/// This method does nothing if called when no deferral interval has been triggered.
 	/// </remarks>
-	public void Expire()
+	public TimerDeferredAction Expire()
 	{
 		if (_hasBeenTriggered)
 			this.Timer_Tick(_timer, EventArgs.Empty);
+		return this;
 	}
 
 	#endregion Methods
