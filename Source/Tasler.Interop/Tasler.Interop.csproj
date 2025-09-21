@@ -36,7 +36,7 @@
 	<!-- Package References -->
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
-		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.7" />
+		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.9" />
 	</ItemGroup>
 
 	<!-- Project References -->

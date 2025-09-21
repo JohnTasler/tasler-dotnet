@@ -41,7 +41,7 @@
 
 	<!-- Package References -->
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
 	</ItemGroup>
 
 	<!-- Project References -->
