@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.Marshalling;
 using Tasler.Interop.Com;
+using Tasler.Interop.Com.Extensions;
 using Tasler.Interop.Shell.AutoComplete;
 using TrimmingTests;
 
@@ -114,7 +114,9 @@ while (true)
 				if (hr < 0)
 					Console.WriteLine($"{hr:X8} {Marshal.GetExceptionForHR(hr)?.Message}");
 
-				var firstMatch = acMultiEnumString.AsEnumerable().FirstOrDefault(s => (s??string.Empty).StartsWith(saveInput, StringComparison.CurrentCultureIgnoreCase));
+				var firstMatch = acMultiEnumString.AsEnumerable()
+					.FirstOrDefault(s => (s??string.Empty)
+					.StartsWith(saveInput, StringComparison.CurrentCultureIgnoreCase));
 				if (firstMatch is not null)
 					input = firstMatch;
 			}
