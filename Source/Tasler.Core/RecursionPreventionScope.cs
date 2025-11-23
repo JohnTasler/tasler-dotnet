@@ -1,4 +1,6 @@
 
+using System.Runtime.CompilerServices;
+
 namespace Tasler;
 
 /// <summary>
@@ -20,6 +22,14 @@ public readonly ref struct RecursionPreventionScope : IDisposable
 {
 	private readonly ref bool _flag;
 
+	/// <summary>
+	/// Gets a recursion scope, controlled by a caller-provided flag.
+	/// </summary>
+	/// <param name="flag">A reference to the caller-provided flag.</param>
+	/// <returns>
+	/// A <see cref="RecursionPreventionScope"/> to be used in a <see langword="using"/> statement or
+	/// manually disposed.
+	/// </returns>
 	public static RecursionPreventionScope GetScope(ref bool flag)
 	{
 		return flag ? default(RecursionPreventionScope) : new RecursionPreventionScope(ref flag);
@@ -31,17 +41,11 @@ public readonly ref struct RecursionPreventionScope : IDisposable
 		_flag = ref flag;
 	}
 
-	public bool IsInScope
-	{
-		get
-		{
-			unsafe
-			{
-				fixed (bool* pLeft = &_flag)
-					return pLeft == null;
-			}
-		}
-	}
+	/// <summary>Gets a value indicating whether this instance is in scope.</summary>
+	/// <value>
+	/// <see langword="true"/> if this instance is in scope; otherwise, <see langword="false"/>.
+	/// </value>
+	public bool IsInScope => !Unsafe.IsNullRef(ref _flag) && _flag;
 
 	void IDisposable.Dispose()
 	{

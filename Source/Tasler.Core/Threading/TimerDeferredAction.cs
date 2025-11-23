@@ -68,12 +68,14 @@ public class TimerDeferredAction : IDisposable
 	/// </summary>
 	public TimerDeferredAction Trigger()
 	{
+		var timer = _timer;
+
 		// Stop any pending timer
-		_timer?.Stop();
+		timer?.Stop();
 
 		// Start the timer
-		_timer?.Start();
-		_hasBeenTriggered = true;
+		timer?.Start();
+		Interlocked.Exchange(ref _hasBeenTriggered, true);
 
 		return this;
 	}
@@ -86,8 +88,9 @@ public class TimerDeferredAction : IDisposable
 	/// </remarks>
 	public TimerDeferredAction Expire()
 	{
-		if (_hasBeenTriggered)
-			this.Timer_Tick(_timer, EventArgs.Empty);
+		var timer = _timer;
+		if (Interlocked.Exchange(ref _hasBeenTriggered, false) && timer is not null)
+			this.Timer_Tick(timer, EventArgs.Empty);
 		return this;
 	}
 
@@ -101,9 +104,10 @@ public class TimerDeferredAction : IDisposable
 	public void Dispose()
 	{
 		this.Expire();
-		_action = null;
-		(_timer as IDisposable)?.Dispose();
-		_timer = null;
+
+		Interlocked.Exchange(ref _action, null);
+		var timer = Interlocked.Exchange(ref _timer, null);
+		(timer as IDisposable)?.Dispose();
 		GC.SuppressFinalize(this);
 	}
 
@@ -120,20 +124,17 @@ public class TimerDeferredAction : IDisposable
 	{
 		// Stop the timer
 		_timer?.Stop();
-		_hasBeenTriggered = false;
+		Interlocked.Exchange(ref _hasBeenTriggered, false);
 
 		// Perform the action
-		if (_action != null)
+		try
 		{
-			try
-			{
-				_action();
-			}
-			catch (Exception ex)
-			{
-				Debug.Fail("TimerDeferredAction.Timer_Tick: execution of action threw an exception", ex.Message);
-				throw;
-			}
+			_action?.Invoke();
+		}
+		catch (Exception ex)
+		{
+			Debug.Fail("TimerDeferredAction.Timer_Tick: execution of action threw an exception", ex.Message);
+			throw;
 		}
 	}
 	#endregion Event Handlers
