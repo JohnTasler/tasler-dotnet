@@ -18,7 +18,7 @@ public partial interface IRunningObjectTable : IUnknown
 	[PreserveSig]
 	int GetObject(IMoniker pmkObjectName, out nint ppunkObject);
 
-	void NoteChangeTime(int dwRegister, out ulong pfiletime);
+	void NoteChangeTime(int dwRegister, in ulong pfiletime);
 
 	[PreserveSig]
 	int GetTimeOfLastChange(IMoniker pmkObjectName, out ulong pfiletime);

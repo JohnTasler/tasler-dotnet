@@ -7,7 +7,7 @@ namespace Tasler.Interop.Com;
 public class RunningObjectTable : IDisposable, IEnumerable<IMoniker?>
 {
 	#region Instance Fields
-	private IRunningObjectTable _rot;
+	private IRunningObjectTable? _rot;
 	#endregion Instance Fields
 
 	public RunningObjectTable()
@@ -25,7 +25,7 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker?>
 	#region IDisposable Members
 	public void Dispose()
 	{
-		var rot = Interlocked.Exchange(ref _rot, null!);
+		var rot = Interlocked.Exchange(ref _rot, null);
 		if (rot is not null)
 		{
 			rot.Release();
@@ -39,8 +39,12 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker?>
 
 	public IEnumerator<IMoniker?> GetEnumerator()
 	{
-		var enumMoniker = _rot.EnumRunning();
-		return enumMoniker.AsEnumerable().GetEnumerator();
+		var enumMoniker = _rot?.EnumRunning();
+		var enumerable = enumMoniker is not null
+			? enumMoniker.AsEnumerable()
+			: ((IEnumerable<IMoniker?>)[]);
+
+		return enumerable.GetEnumerator();
 	}
 
 	#endregion IEnumerable<IMoniker> Members
@@ -54,9 +58,10 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker?>
 	public T? GetObject<T>(IMoniker moniker)
 		where T : class
 	{
-		if (_rot is not null)
+		var rot = _rot;
+		if (rot is not null)
 		{
-			_rot.GetObject(moniker, out nint runningObjectPtr);
+			rot.GetObject(moniker, out nint runningObjectPtr);
 
 			object runningObject = ComApi.Wrappers.GetOrCreateObjectForComInstance(runningObjectPtr, CreateObjectFlags.Unwrap);
 			if (runningObject is T result)
