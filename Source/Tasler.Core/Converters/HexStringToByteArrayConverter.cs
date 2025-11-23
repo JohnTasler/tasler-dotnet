@@ -6,9 +6,9 @@ namespace Tasler.Converters;
 
 // TODO: NEEDS_UNIT_TESTS
 
-public class HexStringToByteArrayConverter : TypeConverter
+public partial class HexStringToByteArrayConverter : TypeConverter
 {
-	private static readonly Regex _nonHexDigitRegex = new Regex("[^0-9a-fA-F]");
+	private static readonly Regex _nonHexDigitRegex = NonHexDigitRegex();
 
 	public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
 	{
@@ -58,4 +58,7 @@ public class HexStringToByteArrayConverter : TypeConverter
 
 		return base.ConvertTo(context, culture, value, destinationType);
 	}
+
+	[GeneratedRegex("[^0-9a-fA-F]")]
+	private static partial Regex NonHexDigitRegex();
 }

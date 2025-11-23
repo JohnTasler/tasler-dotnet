@@ -6,8 +6,6 @@ using Tasler.Interop.Com.Extensions;
 using Tasler.Interop.Shell.AutoComplete;
 using System.Diagnostics;
 
-
-
 #if WINDOWS_UWP
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
