@@ -10,5 +10,9 @@ namespace Tasler.Interop.Shell;
 [SuppressMessage("ComInterfaceGenerator", "SYSLIB1230:Specifying 'GeneratedComInterfaceAttribute' on an interface that has a base interface defined in another assembly is not supported", Justification = "Allowed")]
 public partial interface IPersistFolder : IPersist
 {
-	void Initialize(nint pidl);
+	/// <summary>
+/// Initializes the folder object with the specified ITEMIDLIST (PIDL).
+/// </summary>
+/// <param name="pidl">A pointer to an ITEMIDLIST (PIDL) that identifies the folder to initialize.</param>
+void Initialize(nint pidl);
 }

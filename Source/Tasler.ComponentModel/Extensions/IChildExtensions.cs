@@ -19,11 +19,21 @@ public static class IChildExtensions
 		}
 	}
 
+	/// <summary>
+	/// Produces a sequence that contains the specified child followed by its ancestor chain.
+	/// </summary>
+	/// <param name="source">The starting child whose self and ancestors to enumerate.</param>
+	/// <returns>An <see cref="IEnumerable{Object}"/> containing the source as the first element, then each ancestor in order.</returns>
 	public static IEnumerable<object> GetSelfAndAncestors(this IChild source)
 	{
 		return source.AsSingleItemEnumerable().Concat(source.GetAncestors());
 	}
 
+	/// <summary>
+	/// Determines whether the given item is selected within an ancestor selection container.
+	/// </summary>
+	/// <param name="source">The item to check for selection state.</param>
+	/// <returns>`true` if an ancestor multiple-selection container contains the item in its SelectedItems or an ancestor single-selection container has the item as its SelectedItem; `false` otherwise.</returns>
 	public static bool GetIsItemSelected(this IChild source)
 	{
 		var ancestors = source.GetSelfAndAncestors();

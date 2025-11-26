@@ -96,7 +96,13 @@ public static class EnumExtensions
 	///   <see langword="true" /> if the bit field or <b>any</b> bit fields that are set in
 	///   <paramref name="flags" /> are also set in the current instance;
 	///   otherwise, <see langword="false" />.
-	/// </returns>
+	/// <summary>
+	/// Determines whether any of the specified flag bits are set on the enum instance.
+	/// </summary>
+	/// <param name="@this">The enum value to test.</param>
+	/// <param name="flags">The flag or combination of flags to check for.</param>
+	/// <returns>`true` if any bit in <paramref name="flags"/> is set on <paramref name="@this"/>, `false` otherwise.</returns>
+	/// <exception cref="InvalidEnumArgumentException">Thrown in DEBUG builds when <typeparamref name="T"/> is not a flags-capable enum (not marked with <see cref="FlagsAttribute"/> and not using an unsigned underlying type).</exception>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool HasAnyFlag<T>(this T @this, T flags)
 		where T : struct, Enum, IConvertible
@@ -109,6 +115,12 @@ public static class EnumExtensions
 	#endregion Bit Testing
 
 #if !DEBUG
+	/// <summary>
+	/// Validates that the enum type is suitable for bit-flag operations and returns the original value.
+	/// </summary>
+	/// <typeparam name="T">The enum type to validate.</typeparam>
+	/// <returns>The original enum value.</returns>
+	/// <exception cref="InvalidEnumArgumentException">In DEBUG builds, thrown when the enum's underlying type is not an unsigned numeric type and the enum is not marked with <see cref="FlagsAttribute"/>.</exception>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 	private static T IsEnumBitFlags<T>(this T @this)

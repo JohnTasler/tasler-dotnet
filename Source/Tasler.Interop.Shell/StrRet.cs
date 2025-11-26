@@ -14,6 +14,12 @@ public struct StrRet : IDisposable
 	#endregion Instance Fields
 
 	#region IDisposable Members
+	/// <summary>
+	/// Releases unmanaged memory held when the instance represents a wide-character string and clears its stored pointer.
+	/// </summary>
+	/// <remarks>
+	/// If the stored wide-string pointer is null, the method does nothing. When the instance's type is <c>WStr</c>, the method frees the unmanaged memory returned by the shell and zeroes the pointer slot in the internal buffer.
+	/// </remarks>
 	public void Dispose()
 	{
 		if (this.GetWStr() == nint.Zero)
@@ -73,11 +79,21 @@ public struct StrRet : IDisposable
 	#endregion Properties
 
 	#region Methods
+	/// <summary>
+	/// Resolve the stored shell string to a managed string using the provided ItemIdList.
+	/// </summary>
+	/// <param name="itemIdList">The ItemIdList whose PIDL value is used to resolve offset-based STRRET values.</param>
+	/// <returns>The resolved string for this STRRET; returns an empty string when no value is available.</returns>
 	public readonly string GetValue(ItemIdList itemIdList)
 	{
 		return this.GetValue(itemIdList.Value);
 	}
 
+	/// <summary>
+	/// Gets the string representation for the specified child item id list.
+	/// </summary>
+	/// <param name="childItemIdList">The child item id list whose PIDL is used to resolve the returned string.</param>
+	/// <returns>The resolved string for the child item; empty string if no value is available.</returns>
 	public readonly string GetValue(ChildItemIdList childItemIdList)
 	{
 		return this.GetValue(childItemIdList.Value);
@@ -85,6 +101,10 @@ public struct StrRet : IDisposable
 	#endregion Methods
 
 	#region Private Implementation
+	/// <summary>
+	/// Reads the native pointer value stored at the start of the internal fixed `_cStr` buffer.
+	/// </summary>
+	/// <returns>The pointer value contained in the first pointer-sized bytes of `_cStr`; `nint.Zero` if those bytes are zero.</returns>
 	private readonly nint GetWStr()
 	{
 		unsafe
@@ -96,6 +116,11 @@ public struct StrRet : IDisposable
 		}
 	}
 
+	/// <summary>
+	/// Resolve an Offset-type STRRET against the given PIDL and return the referenced ANSI string.
+	/// </summary>
+	/// <param name="pidl">Pointer to the start of the item ID list (PIDL) used when the STRRET type is Offset.</param>
+	/// <returns>The ANSI string located at (pidl + offset) when the STRRET type is Offset; otherwise the struct's Value or an empty string.</returns>
 	private readonly string GetValue(nint pidl)
 	{
 		if (_type != STRRET_TYPE.Offset)

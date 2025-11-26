@@ -1,4 +1,3 @@
-
 namespace Tasler.Interop.Com;
 
 public class GitHandleBase : IDisposable
@@ -42,6 +41,9 @@ public class GitHandleBase : IDisposable
 
 	#region IDisposable Members
 
+	/// <summary>
+	/// Atomically clears the stored Global Interface Table cookie and, if a cookie was present, revokes the associated interface from the Global Interface Table and suppresses finalization.
+	/// </summary>
 	public void Dispose()
 	{
 		var cookie = Interlocked.Exchange(ref _cookie, 0);
@@ -59,6 +61,10 @@ public class GitHandle<T> : GitHandleBase
 	where T : class
 {
 	#region Construction
+	/// <summary>
+	/// Registers the provided COM interface in the Global Interface Table and stores the resulting cookie on the instance.
+	/// </summary>
+	/// <param name="unknown">The interface instance to register in the Global Interface Table; typically a COM interface implementation of type <typeparamref name="T"/>.</param>
 	public GitHandle(T unknown)
 	{
 		Guid iid = typeof(T).GUID;

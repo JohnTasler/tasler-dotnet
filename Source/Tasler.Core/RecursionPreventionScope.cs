@@ -1,4 +1,3 @@
-
 using System.Runtime.CompilerServices;
 
 namespace Tasler;
@@ -29,12 +28,20 @@ public readonly ref struct RecursionPreventionScope : IDisposable
 	/// <returns>
 	/// A <see cref="RecursionPreventionScope"/> to be used in a <see langword="using"/> statement or
 	/// manually disposed.
-	/// </returns>
+	/// <summary>
+	/// Creates a recursion-prevention scope by setting the provided flag to true if it is not already set.
+	/// </summary>
+	/// <param name="flag">The caller-owned boolean that will be set to true for the lifetime of the returned scope.</param>
+	/// <returns>An active RecursionPreventionScope that set <paramref name="flag"/> to true, or a default (inactive) scope if the flag was already true.</returns>
 	public static RecursionPreventionScope GetScope(ref bool flag)
 	{
 		return flag ? default(RecursionPreventionScope) : new RecursionPreventionScope(ref flag);
 	}
 
+	/// <summary>
+	/// Initializes an active recursion-prevention scope by setting the provided flag to true and capturing a reference to it.
+	/// </summary>
+	/// <param name="flag">The caller's recursion flag to activate and retain by reference for the scope's lifetime.</param>
 	private RecursionPreventionScope(ref bool flag)
 	{
 		flag = true;
@@ -47,6 +54,12 @@ public readonly ref struct RecursionPreventionScope : IDisposable
 	/// </value>
 	public bool IsInScope => !Unsafe.IsNullRef(ref _flag) && _flag;
 
+	/// <summary>
+	/// Clears the caller's recursion-prevention flag when this scope is not active.
+	/// </summary>
+	/// <remarks>
+	/// If the scope is active, disposal does nothing; otherwise the referenced flag is set to <c>false</c>.
+	/// </remarks>
 	void IDisposable.Dispose()
 	{
 		if (!IsInScope)
