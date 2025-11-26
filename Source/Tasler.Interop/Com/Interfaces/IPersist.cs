@@ -7,5 +7,9 @@ namespace Tasler.Interop.Com;
 [Guid("0000010C-0000-0000-C000-000000000046")]
 public partial interface IPersist : IUnknown
 {
-	Guid GetClassID();
+	/// <summary>
+/// Retrieves the class identifier (CLSID) of the object.
+/// </summary>
+/// <returns>The class identifier (CLSID) as a <see cref="Guid"/>.</returns>
+Guid GetClassID();
 }

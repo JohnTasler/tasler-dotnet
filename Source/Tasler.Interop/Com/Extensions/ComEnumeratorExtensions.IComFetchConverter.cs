@@ -13,7 +13,11 @@ public static partial class ComEnumeratorExtensions
 		/// Converts the specified element from a COM type to a more .NET-friendly type.
 		/// </summary>
 		/// <param name="element">The element to convert.</param>
-		/// <returns>The converted element.</returns>
+		/// <summary>
+/// Converts a COM element to its .NET-friendly representation.
+/// </summary>
+/// <param name="element">The COM item to convert.</param>
+/// <returns>The converted .NET-friendly item.</returns>
 		static abstract TItem Convert(TComItem element);
 	}
 }

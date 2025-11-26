@@ -10,6 +10,11 @@ public partial class HexStringToByteArrayConverter : TypeConverter
 {
 	private static readonly Regex _nonHexDigitRegex = NonHexDigitRegex();
 
+	/// <summary>
+	/// Determines whether this converter can convert an object of the specified source type to the converter's target type.
+	/// </summary>
+	/// <param name="sourceType">The type to evaluate for conversion support.</param>
+	/// <returns>`true` if <paramref name="sourceType"/> is `string`; otherwise the result from the base converter.</returns>
 	public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
 	{
 		if (sourceType == typeof(string))
@@ -45,6 +50,10 @@ public partial class HexStringToByteArrayConverter : TypeConverter
 		return base.ConvertFrom(context, culture, value);
 	}
 
+	/// <summary>
+	/// Converts a byte array to a space-separated string of two-digit uppercase hexadecimal values when the destination type is <see cref="string"/>.
+	/// </summary>
+	/// <returns>The space-separated uppercase hex string for the provided byte array, or the result returned by the base converter for other inputs.</returns>
 	public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
 	{
 		if (destinationType == typeof(string) && value is byte[])
@@ -59,6 +68,10 @@ public partial class HexStringToByteArrayConverter : TypeConverter
 		return base.ConvertTo(context, culture, value, destinationType);
 	}
 
+	/// <summary>
+	/// Creates a regular expression that matches any character that is not a hexadecimal digit (0-9, a-f, A-F).
+	/// </summary>
+	/// <returns>A <see cref="Regex"/> that matches characters other than 0-9, a-f, or A-F.</returns>
 	[GeneratedRegex("[^0-9a-fA-F]")]
 	private static partial Regex NonHexDigitRegex();
 }

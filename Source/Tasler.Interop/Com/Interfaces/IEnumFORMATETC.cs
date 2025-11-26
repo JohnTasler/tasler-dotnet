@@ -15,6 +15,14 @@ public partial interface IEnumFORMATETC : IUnknown
 	/// <returns>
 	/// HRESULT indicating success or failure. S_FALSE indicates that less that the specified
 	/// <paramref name="elementCount"/> elements were retrieved.
+	/// <summary>
+	/// Retrieves up to a specified number of FORMATETC structures from the enumeration sequence.
+	/// </summary>
+	/// <param name="elementCount">The maximum number of FORMATETC structures to retrieve.</param>
+	/// <param name="elements">An output array that receives the retrieved FORMATETC structures; the array must have space for at least <paramref name="elementCount"/> entries.</param>
+	/// <param name="elementsFetched">Outputs the actual number of FORMATETC structures written into <paramref name="elements"/>.</param>
+	/// <returns>
+	/// An HRESULT: S_OK if <paramref name="elementCount"/> structures were retrieved, S_FALSE if fewer structures were retrieved, or an error code on failure.
 	/// </returns>
 	[PreserveSig]
 	int Next(int elementCount, [MarshalUsing(CountElementName = nameof(elementCount))][Out] FORMATETC[] elements, out int elementsFetched);
@@ -24,7 +32,11 @@ public partial interface IEnumFORMATETC : IUnknown
 	/// <returns>
 	/// HRESULT indicating success or failure. S_FALSE indicates that less that the specified
 	/// <paramref name="elementCount"/> elements were skipped.
-	/// </returns>
+	/// <summary>
+	/// Skips the specified number of FORMATETC structures in the enumeration sequence.
+	/// </summary>
+	/// <param name="elementCount">The number of elements to skip.</param>
+	/// <returns>An HRESULT: `S_OK` if the requested number of elements were skipped, `S_FALSE` if fewer were skipped, or an error code on failure.</returns>
 	[PreserveSig]
 	int Skip(int elementCount);
 
@@ -32,6 +44,9 @@ public partial interface IEnumFORMATETC : IUnknown
 	void Reset();
 
 	/// <summary>Clones the current enumeration object.</summary>
-	/// <returns>A new <see cref="IEnumFORMATETC"/> object that is a clone of the current one.</returns>
+	/// <summary>
+/// Creates a new enumerator that represents the same position in the enumeration as the current object.
+/// </summary>
+/// <returns>An <see cref="IEnumFORMATETC"/> instance that is a clone of the current enumerator.</returns>
 	IEnumFORMATETC Clone();
 }

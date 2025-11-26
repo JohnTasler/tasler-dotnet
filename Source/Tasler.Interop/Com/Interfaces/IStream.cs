@@ -23,23 +23,52 @@ public partial interface IStream : ISequentialStream
 	/// <see cref="STREAM_SEEK"/> enumeration.</param>
 	/// <param name="newPosition">Upon return this is set to the value of the new seek pointer from
 	/// the beginning of the stream.</param>
-	/// <returns></returns>
+	/// <summary>
+/// Moves the stream's current seek pointer to a new position relative to the specified origin.
+/// </summary>
+/// <param name="offset">Byte displacement to apply from <paramref name="origin"/>. When <paramref name="origin"/> is <c>STREAM_SEEK.Set</c>, <paramref name="offset"/> is treated as an unsigned value.</param>
+/// <param name="origin">Reference point used to calculate the new position (beginning, current, or end of the stream).</param>
+/// <param name="newPosition">Receives the resulting position of the seek pointer measured from the beginning of the stream.</param>
+/// <returns></returns>
 	void Seek(long offset, STREAM_SEEK origin, out ulong newPosition);
 
-	void SetSize(ulong newSize);
+	/// <summary>
+/// Sets the total size of the stream to the specified value.
+/// </summary>
+/// <param name="newSize">The desired stream size in bytes.</param>
+void SetSize(ulong newSize);
 
-	void CopyTo(IStream targetStream, ulong byteCount, out ulong bytesRead, out ulong bytesWritten);
+	/// <summary>
+/// Copies up to a specified number of bytes from this stream into another stream.
+/// </summary>
+/// <param name="targetStream">The destination stream that receives the data.</param>
+/// <param name="byteCount">The maximum number of bytes to copy.</param>
+/// <param name="bytesRead">Receives the number of bytes actually read from this stream.</param>
+/// <param name="bytesWritten">Receives the number of bytes actually written to <paramref name="targetStream"/>.</param>
+void CopyTo(IStream targetStream, ulong byteCount, out ulong bytesRead, out ulong bytesWritten);
 
-	void Commit(STGCOMMIT commitFlags);
+	/// <summary>
+/// Commits changes made to the stream according to the specified commit flags.
+/// </summary>
+/// <param name="commitFlags">Flags that control how the commit is performed (for example, whether changes are flushed to permanent storage and the commit semantics).</param>
+void Commit(STGCOMMIT commitFlags);
 
-	void Revert();
+	/// <summary>
+/// Reverts uncommitted changes made to the stream since the last commit, restoring the stream to its previous state.
+/// </summary>
+void Revert();
 
 	/// <summary>
 	/// Locks the region.
 	/// </summary>
 	/// <param name="offset">Specifies the byte offset for the beginning of the range.</param>
 	/// <param name="byteCount">Specifies, in bytes, the length of the range to be restricted.</param>
-	/// <param name="lockType">Specifies the type of restrictions being requested on accessing the range.</param>
+	/// <summary>
+/// Applies a lock to a specified byte range of the stream.
+/// </summary>
+/// <param name="offset">Start position of the region to lock, in bytes from the beginning of the stream.</param>
+/// <param name="byteCount">Length of the region to lock, in bytes.</param>
+/// <param name="lockType">Specifies the type of restrictions to apply when accessing the range.</param>
 	void LockRegion(ulong offset, ulong byteCount, LockType lockType);
 
 	/// <summary>
@@ -47,7 +76,12 @@ public partial interface IStream : ISequentialStream
 	/// </summary>
 	/// <param name="offset">Specifies the byte offset for the beginning of the range.</param>
 	/// <param name="byteCount">Specifies, in bytes, the length of the range that is restricted.</param>
-	/// <param name="lockType">Specifies the type of access restrictions previously placed on the range.</param>
+	/// <summary>
+/// Removes a previously applied lock from a region of the stream.
+/// </summary>
+/// <param name="offset">Start offset of the region, in bytes from the beginning of the stream.</param>
+/// <param name="byteCount">Length of the region to unlock, in bytes.</param>
+/// <param name="lockType">Specifies the type of access restrictions that were applied to the region.</param>
 	void UnlockRegion(ulong offset, ulong byteCount, LockType lockType);
 
 	/// <summary>
@@ -59,8 +93,16 @@ public partial interface IStream : ISequentialStream
 	/// enumeration. If the <see cref="STATFLAG.NONAME"/> is specified, the
 	/// <see cref="STATSTG.Name"/> member is not supplied, thus saving a memory-allocation operation.
 	/// The other possible value, <see cref="STATFLAG.Default"/>, indicates that all members of the
-	/// <see cref="STATSTG"/> structure be supplied.</param>
+	/// <summary>
+/// Retrieves a STATSTG structure that contains information about this stream.
+/// </summary>
+/// <param name="statStg">Receives the STATSTG structure with the stream's statistics.</param>
+/// <param name="statFlag">Controls which members of the STATSTG are returned (for example, requesting no name vs. all fields).</param>
 	void Stat(out STATSTG statStg, STATFLAG statFlag);
 
-	IStream Clone();
+	/// <summary>
+/// Creates a new stream object that references the same underlying data and has its position set to match this stream.
+/// </summary>
+/// <returns>An <see cref="IStream"/> representing the cloned stream positioned at the same location as the original.</returns>
+IStream Clone();
 }

@@ -7,6 +7,13 @@ namespace Tasler.Interop.Shell;
 [Guid("BCC18B79-BA16-442F-80C4-8A59C30C463B")]
 public partial interface IShellItemImageFactory
 {
+	/// <summary>
+	/// Retrieves a bitmap for the shell item at the requested size and with the specified retrieval options.
+	/// </summary>
+	/// <param name="size">Desired dimensions of the returned image.</param>
+	/// <param name="flags">Options that control how the image is retrieved and processed (see <see cref="SIIGB"/>).</param>
+	/// <param name="hBitmap">Receives a handle to the resulting HBITMAP on success; set to zero on failure.</param>
+	/// <returns>An HRESULT code: `S_OK` on success and a failure code otherwise. The returned `hBitmap`, when non-zero, is owned by the caller and should be freed (for example, with DeleteObject).</returns>
 	[PreserveSig]
 	int GetImage(SIZE size, SIIGB flags, out nint hBitmap);
 }

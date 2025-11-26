@@ -10,7 +10,15 @@ namespace Tasler.Interop.Shell;
 [SuppressMessage("ComInterfaceGenerator", "SYSLIB1230:Specifying 'GeneratedComInterfaceAttribute' on an interface that has a base interface defined in another assembly is not supported", Justification = "Allowed")]
 public partial interface IPersistIDList : IPersist
 {
-	void SetIDList(nint pidl);
+	/// <summary>
+/// Sets the object's pointer to an item identifier list (PIDL).
+/// </summary>
+/// <param name="pidl">A native pointer to an item ID list (PIDL).</param>
+void SetIDList(nint pidl);
 
-	void GetIDList(out nint ppidl);
+	/// <summary>
+/// Retrieves the pointer to the item's ID list (PIDL).
+/// </summary>
+/// <param name="ppidl">When this method returns, contains a native pointer to the item's PIDL.</param>
+void GetIDList(out nint ppidl);
 }

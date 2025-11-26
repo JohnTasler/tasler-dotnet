@@ -12,7 +12,13 @@ public struct BIND_OPTS
 	public STGM       Mode;
 	public uint       TickCountDeadline;
 
-	public BIND_OPTS() { }
+	/// <summary>
+/// Initializes a new instance of the <see cref="BIND_OPTS"/> struct.
+/// </summary>
+/// <remarks>
+/// Ensures the internal size field is set to the size of the struct for native interop marshalling.
+/// </remarks>
+public BIND_OPTS() { }
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -32,6 +38,12 @@ public struct STATSTG : IDisposable
 
 	public readonly string Name => Marshal.PtrToStringUni(_name) ?? string.Empty;
 
+	/// <summary>
+	/// Releases the unmanaged memory holding the STATSTG name and clears the internal pointer.
+	/// </summary>
+	/// <remarks>
+	/// Performs a thread-safe release of the internal name pointer; if no unmanaged memory is allocated, this method does nothing. After calling Dispose, the Name property will return an empty string.
+	/// </remarks>
 	public void Dispose()
 	{
 		nint name = Interlocked.Exchange(ref _name, nint.Zero);

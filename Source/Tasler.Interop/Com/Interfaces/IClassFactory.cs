@@ -7,7 +7,18 @@ namespace Tasler.Interop.Com.Interfaces;
 [GeneratedComInterface]
 public partial interface IClassFactory : IUnknown
 {
-	nint CreateInstance(nint pUnkOuter, ref Guid riid);
+	/// <summary>
+/// Creates a new COM object instance and obtains the requested interface.
+/// </summary>
+/// <param name="pUnkOuter">Pointer to the outer IUnknown for aggregation, or zero if not aggregating.</param>
+/// <param name="riid">Reference to the GUID of the interface being requested on the new object.</param>
+/// <returns>Native pointer to the requested interface on success; on failure the returned value contains a COM error code (HRESULT) encoded as a pointer.</returns>
+nint CreateInstance(nint pUnkOuter, ref Guid riid);
 
-	int LockServer([MarshalAs(UnmanagedType.Bool)] bool fLock);
+	/// <summary>
+/// Locks or unlocks the COM server to control whether it remains loaded in memory.
+/// </summary>
+/// <param name="fLock">`true` to lock the server (increment the lock count); `false` to unlock the server (decrement the lock count).</param>
+/// <returns>An HRESULT status code indicating success or failure of the operation.</returns>
+int LockServer([MarshalAs(UnmanagedType.Bool)] bool fLock);
 }

@@ -40,7 +40,11 @@ public struct PropertyKey
 	/// Initializes a new instance of the <see cref="PropertyKey"/> structure.
 	/// </summary>
 	/// <param name="fmtid">A unique <see cref="Guid"/> for the property. <seealso cref="M:fmtid"/></param>
-	/// <param name="pid">A property identifier (PID). <seealso cref="M:pid"/></param>
+	/// <summary>
+	/// Initializes a new PropertyKey that identifies a property by its format identifier (FMTID) and property identifier (PID).
+	/// </summary>
+	/// <param name="fmtid">The property set's format identifier (FMTID).</param>
+	/// <param name="pid">The property identifier (PID). PIDs 0 and 1 are reserved; use values starting at <see cref="PropertyKey.FirstUsable"/> (2).</param>
 	public PropertyKey(Guid fmtid, int pid)
 	{
 		this.FormatId = fmtid;
@@ -51,7 +55,11 @@ public struct PropertyKey
 	/// Initializes a new instance of the <see cref="PropertyKey"/> structure.
 	/// </summary>
 	/// <param name="fmtid">A string representation of a unique <see cref="Guid"/> for the property. <seealso cref="M:fmtid"/></param>
-	/// <param name="pid">A property identifier (PID). <seealso cref="M:pid"/></param>
+	/// <summary>
+	/// Initializes a new PropertyKey with the specified format identifier and property identifier.
+	/// </summary>
+	/// <param name="fmtid">The string representation of the FMTID GUID.</param>
+	/// <param name="pid">The property identifier (PID). Use 2 or greater for user-defined properties; 0 and 1 are reserved.</param>
 	public PropertyKey(string fmtid, int pid)
 	{
 		this.FormatId = new Guid(fmtid);
