@@ -87,7 +87,7 @@ public static class IGlobalInterfaceTableExtensions
 	/// <summary>
 	/// Retrieves a managed instance of the specified COM interface from the Global Interface Table using the supplied registration cookie.
 	/// </summary>
-	/// <param name="@this">The global interface table instance.</param>
+	/// <param name="this">The global interface table instance.</param>
 	/// <param name="dwCookie">The registration cookie that identifies the interface in the Global Interface Table.</param>
 	/// <returns>The managed instance of <typeparamref name="TInterface"/> that represents the COM interface associated with the cookie.</returns>
 	/// <exception cref="System.Runtime.InteropServices.COMException">Thrown if the underlying COM call returns a failing HRESULT.</exception>

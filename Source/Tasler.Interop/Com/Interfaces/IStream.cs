@@ -9,7 +9,7 @@ namespace Tasler.Interop.Com;
 public partial interface IStream : ISequentialStream
 {
 	/// <summary>
-	/// changes the seek pointer to a new location. The new location is relative to either the
+	/// Changes the seek pointer to a new location. The new location is relative to either the
 	/// beginning of the stream, the end of the stream, or the current seek pointer.
 	/// </summary>
 	/// <param name="offset">The displacement to be added to the location indicated by
@@ -23,39 +23,32 @@ public partial interface IStream : ISequentialStream
 	/// <see cref="STREAM_SEEK"/> enumeration.</param>
 	/// <param name="newPosition">Upon return this is set to the value of the new seek pointer from
 	/// the beginning of the stream.</param>
-	/// <summary>
-/// Moves the stream's current seek pointer to a new position relative to the specified origin.
-/// </summary>
-/// <param name="offset">Byte displacement to apply from <paramref name="origin"/>. When <paramref name="origin"/> is <c>STREAM_SEEK.Set</c>, <paramref name="offset"/> is treated as an unsigned value.</param>
-/// <param name="origin">Reference point used to calculate the new position (beginning, current, or end of the stream).</param>
-/// <param name="newPosition">Receives the resulting position of the seek pointer measured from the beginning of the stream.</param>
-	/// <returns></returns>
 	void Seek(long offset, STREAM_SEEK origin, out ulong newPosition);
 
 	/// <summary>
-/// Sets the total size of the stream to the specified value.
-/// </summary>
-/// <param name="newSize">The desired stream size in bytes.</param>
+	/// Sets the total size of the stream to the specified value.
+	/// </summary>
+	/// <param name="newSize">The desired stream size in bytes.</param>
 	void SetSize(ulong newSize);
 
 	/// <summary>
-/// Copies up to a specified number of bytes from this stream into another stream.
-/// </summary>
-/// <param name="targetStream">The destination stream that receives the data.</param>
-/// <param name="byteCount">The maximum number of bytes to copy.</param>
-/// <param name="bytesRead">Receives the number of bytes actually read from this stream.</param>
-/// <param name="bytesWritten">Receives the number of bytes actually written to <paramref name="targetStream"/>.</param>
+	/// Copies up to a specified number of bytes from this stream into another stream.
+	/// </summary>
+	/// <param name="targetStream">The destination stream that receives the data.</param>
+	/// <param name="byteCount">The maximum number of bytes to copy.</param>
+	/// <param name="bytesRead">Receives the number of bytes actually read from this stream.</param>
+	/// <param name="bytesWritten">Receives the number of bytes actually written to <paramref name="targetStream"/>.</param>
 	void CopyTo(IStream targetStream, ulong byteCount, out ulong bytesRead, out ulong bytesWritten);
 
 	/// <summary>
-/// Commits changes made to the stream according to the specified commit flags.
-/// </summary>
-/// <param name="commitFlags">Flags that control how the commit is performed (for example, whether changes are flushed to permanent storage and the commit semantics).</param>
+	/// Commits changes made to the stream according to the specified commit flags.
+	/// </summary>
+	/// <param name="commitFlags">Flags that control how the commit is performed (for example, whether changes are flushed to permanent storage and the commit semantics).</param>
 	void Commit(STGCOMMIT commitFlags);
 
 	/// <summary>
-/// Reverts uncommitted changes made to the stream since the last commit, restoring the stream to its previous state.
-/// </summary>
+	/// Reverts uncommitted changes made to the stream since the last commit, restoring the stream to its previous state.
+	/// </summary>
 	void Revert();
 
 	/// <summary>
@@ -87,8 +80,8 @@ public partial interface IStream : ISequentialStream
 	void Stat(out STATSTG statStg, STATFLAG statFlag);
 
 	/// <summary>
-/// Creates a new stream object that references the same underlying data and has its position set to match this stream.
-/// </summary>
-/// <returns>An <see cref="IStream"/> representing the cloned stream positioned at the same location as the original.</returns>
+	/// Creates a new stream object that references the same underlying data and has its position set to match this stream.
+	/// </summary>
+	/// <returns>An <see cref="IStream"/> representing the cloned stream positioned at the same location as the original.</returns>
 	IStream Clone();
 }

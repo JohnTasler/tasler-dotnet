@@ -7,8 +7,6 @@ public static class CollectionExtensions
 	/// Disposes all object in the specified collection and then clears the collection.
 	/// </summary>
 	/// <typeparam name="T">The type of the element sequence. Must implement <see cref="IDisposable"/>.</typeparam>
-	/// <param name="this">The source collection. The method does nothing if this is <see langword="null"/>.</param>
-	/// <summary>
 	/// Disposes every IDisposable in the collection and then removes all elements from the collection.
 	/// </summary>
 	/// <param name="@this">The collection whose items will be disposed and which will be cleared; if null, no action is taken.</param>

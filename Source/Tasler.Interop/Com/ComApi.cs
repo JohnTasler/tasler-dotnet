@@ -146,7 +146,7 @@ public static partial class ComApi
 	/// <summary>
 	/// Obtains the requested COM interface from the given object, returning the object itself when it already implements TQuery.
 	/// </summary>
-	/// <param name="@this">The source object to query for the interface.</param>
+	/// <param name="this">The source object to query for the interface.</param>
 	/// <returns>The requested interface as TQuery.</returns>
 	/// <exception cref="System.Runtime.InteropServices.COMException">Thrown when the native QueryInterface call fails with a COM error.</exception>
 	public static TQuery QueryInterface<TQuery>(this object @this)
@@ -180,7 +180,7 @@ public static partial class ComApi
 	/// Enables COM marshalling support on the provided ComWrappers instance.
 	/// </summary>
 	/// <typeparam name="TWrappers">The specific ComWrappers subtype.</typeparam>
-	/// <param name="@this">The ComWrappers instance to enable marshalling on.</param>
+	/// <param name="this">The ComWrappers instance to enable marshalling on.</param>
 	/// <returns>The same <typeparamref name="TWrappers"/> instance.</returns>
 	public static TWrappers RegisterForMarshalling<TWrappers>(this TWrappers @this)
 		where TWrappers : ComWrappers

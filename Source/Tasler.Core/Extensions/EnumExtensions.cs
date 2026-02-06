@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Tasler.Properties;
@@ -126,16 +127,16 @@ public static class EnumExtensions
 	private static T IsEnumBitFlags<T>(this T @this)
 		where T : Enum, IConvertible
 	{
-	#if DEBUG
+#if DEBUG
 		var underlyingType = Enum.GetUnderlyingType(typeof(T));
-		if (!typeof(IUnsignedNumber<uint>).IsAssignableFrom(underlyingType)
+		if (!typeof(T).GetCustomAttributes<FlagsAttribute>(false).Any() ||
+			(!typeof(IUnsignedNumber<uint>).IsAssignableFrom(underlyingType)
 			&& !typeof(IUnsignedNumber<ushort>).IsAssignableFrom(underlyingType)
-			&& !typeof(IUnsignedNumber<ulong>).IsAssignableFrom(underlyingType)
-			&& !typeof(T).GetCustomAttributes<FlagsAttribute>(false).Any())
+			&& !typeof(IUnsignedNumber<ulong>).IsAssignableFrom(underlyingType)))
 		{
 			throw new InvalidEnumArgumentException(string.Format(Resources.EnumNotFlagsExceptionFormat1, typeof(T).FullName));
 		}
-	#endif
+#endif
 
 		return @this;
 	}

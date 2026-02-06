@@ -16,7 +16,7 @@ public static partial class ShellEnumeratorExtensions
 	/// <summary>
 	/// Wraps an <see cref="IEnumExtraSearch"/> COM enumerator as a sequence of <see cref="EXTRASEARCH"/> items.
 	/// </summary>
-	/// <param name="@this">The <see cref="IEnumExtraSearch"/> instance to enumerate.</param>
+	/// <param name="this">The <see cref="IEnumExtraSearch"/> instance to enumerate.</param>
 	/// <param name="blockSize">Maximum number of items to fetch per underlying COM enumeration call.</param>
 	/// <returns>A sequence of <see cref="EXTRASEARCH"/> structures retrieved from the COM enumerator.</returns>
 	public static IEnumerable<EXTRASEARCH> AsEnumerable(this IEnumExtraSearch @this, int blockSize = ComEnumeratorExtensions.DefaultEnumerationBlockSize)

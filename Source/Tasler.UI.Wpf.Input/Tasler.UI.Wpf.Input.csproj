@@ -7,7 +7,7 @@
 		<RootNamespace>Tasler.Windows.Input</RootNamespace>
 		<ProjectGuid>{4D4B272C-D636-41A3-9726-5A442BDD0750}</ProjectGuid>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>net9.0-windows</TargetFrameworks>
+		<TargetFrameworks>net10.0-windows</TargetFrameworks>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
 		<DefineConstants>WINDOWS_WPF</DefineConstants>

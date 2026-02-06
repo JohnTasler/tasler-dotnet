@@ -37,10 +37,6 @@ public struct PropertyKey
 
 	#region Construction
 	/// <summary>
-	/// Initializes a new instance of the <see cref="PropertyKey"/> structure.
-	/// </summary>
-	/// <param name="fmtid">A unique <see cref="Guid"/> for the property. <seealso cref="M:fmtid"/></param>
-	/// <summary>
 	/// Initializes a new PropertyKey that identifies a property by its format identifier (FMTID) and property identifier (PID).
 	/// </summary>
 	/// <param name="fmtid">The property set's format identifier (FMTID).</param>
@@ -51,10 +47,6 @@ public struct PropertyKey
 		this.PropertyId = pid;
 	}
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="PropertyKey"/> structure.
-	/// </summary>
-	/// <param name="fmtid">A string representation of a unique <see cref="Guid"/> for the property. <seealso cref="M:fmtid"/></param>
 	/// <summary>
 	/// Initializes a new PropertyKey with the specified format identifier and property identifier.
 	/// </summary>

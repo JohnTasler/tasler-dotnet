@@ -14,7 +14,6 @@ public static partial class ComEnumeratorExtensions
 	/// <typeparam name="TItem">The target item type produced by the converter.</typeparam>
 	/// <typeparam name="TConverter">A converter that transforms <typeparamref name="TComItem"/> instances into <typeparamref name="TItem"/>.</typeparam>
 	/// <param name="this">The COM enumerator instance.</param>
-	/// <param name="fetchFunction">The <see cref="FetchFunction{TCollection, TItem}"/> that is
 	/// typed to return the correct item type.</param>
 	/// <param name="blockSize">The number of elements to request per fetch operation.</param>
 	/// <returns>An <see cref="IEnumerable{TItem}"/> that yields converted items from the underlying COM enumeration.</returns>
@@ -32,7 +31,6 @@ public static partial class ComEnumeratorExtensions
 	/// <typeparam name="TComItem">The COM item type returned by the native enumeration.</typeparam>
 	/// <typeparam name="TFetcher">A fetcher that implements <c>IComFetcher&lt;TComCollection, TComItem&gt;</c> to retrieve blocks of items.</typeparam>
 	/// <param name="this">The COM enumerator instance.</param>
-	/// <param name="fetchFunction">The <see cref="FetchFunction{TCollection, TItem}"/> that is
 	/// <param name="blockSize">Maximum number of items to request from the COM enumerator per fetch operation.</param>
 	/// <returns>An <see cref="IEnumerable{TComItem}"/> that yields non-null items fetched from the COM collection.</returns>
 	/// <exception cref="System.Exception">Thrown when the underlying fetch returns a negative HRESULT; the thrown exception corresponds to that HRESULT.</exception>

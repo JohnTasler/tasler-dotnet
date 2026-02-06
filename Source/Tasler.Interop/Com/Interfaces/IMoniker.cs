@@ -132,21 +132,27 @@ public partial interface IMoniker	: IPersistStream
 
 public static class IMonikerExtensions
 {
-	/// <summary>
-	/// Reduces the moniker, allowing the caller to provide or receive the left-side moniker used in reduction.
-	/// </summary>
-	/// <param name="pbc">Binding context used during reduction.</param>
-	/// <param name="dwReduceHowFar">Specifies how far to reduce the moniker.</param>
-	/// <param name="monikerToLeft">On input, an optional left-side moniker; on output, receives the left-side moniker resulting from reduction.</param>
-	/// <returns>The reduced moniker.</returns>
 	extension(IMoniker moniker)
 	{
+		/// <summary>
+		/// Reduces the moniker, allowing the caller to provide or receive the left-side moniker used in reduction.
+		/// </summary>
+		/// <param name="pbc">Binding context used during reduction.</param>
+		/// <param name="dwReduceHowFar">Specifies how far to reduce the moniker.</param>
+		/// <returns>The reduced moniker.</returns>
 		public IMoniker Reduce(IBindCtx pbc, int dwReduceHowFar)
 		{
 			IMoniker? toLeft = null;
 			return moniker.Reduce(pbc, dwReduceHowFar, ref toLeft);
 		}
 
+		/// <summary>
+		/// Reduces the moniker, allowing the caller to provide or receive the left-side moniker used in reduction.
+		/// </summary>
+		/// <param name="pbc">Binding context used during reduction.</param>
+		/// <param name="dwReduceHowFar">Specifies how far to reduce the moniker.</param>
+		/// <param name="monikerToLeft">On input, an optional left-side moniker; on output, receives the left-side moniker resulting from reduction.</param>
+		/// <returns>The reduced moniker.</returns>
 		public IMoniker Reduce(IBindCtx pbc, int dwReduceHowFar, ref IMoniker? monikerToLeft)
 		{
 			return moniker.Reduce(pbc, dwReduceHowFar, ref monikerToLeft);

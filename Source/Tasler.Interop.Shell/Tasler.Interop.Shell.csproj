@@ -6,7 +6,7 @@
 		<RootNamespace>Tasler.Interop.Shell</RootNamespace>
 		<ProjectGuid>{4090FB61-0858-4AE8-A30D-B34464A9505F}</ProjectGuid>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>net9.0-windows</TargetFrameworks>
+		<TargetFrameworks>net10.0-windows</TargetFrameworks>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
