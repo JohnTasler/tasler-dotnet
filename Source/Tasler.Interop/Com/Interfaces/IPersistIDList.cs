@@ -11,14 +11,14 @@ namespace Tasler.Interop.Shell;
 public partial interface IPersistIDList : IPersist
 {
 	/// <summary>
-/// Sets the object's pointer to an item identifier list (PIDL).
-/// </summary>
-/// <param name="pidl">A native pointer to an item ID list (PIDL).</param>
-void SetIDList(nint pidl);
+	/// Sets the object's pointer to an item identifier list (PIDL).
+	/// </summary>
+	/// <param name="pidl">A native pointer to an item ID list (PIDL).</param>
+	void SetIDList(nint pidl);
 
 	/// <summary>
-/// Retrieves the pointer to the item's ID list (PIDL).
-/// </summary>
-/// <param name="ppidl">When this method returns, contains a native pointer to the item's PIDL.</param>
-void GetIDList(out nint ppidl);
+	/// Retrieves the pointer to the item's ID list (PIDL).
+	/// </summary>
+	/// <param name="ppidl">When this method returns, contains a native pointer to the item's PIDL.</param>
+	void GetIDList(out nint ppidl);
 }

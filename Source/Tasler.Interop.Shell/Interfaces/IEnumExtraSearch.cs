@@ -8,8 +8,6 @@ namespace Tasler.Interop.Shell;
 [Guid("0E700BE1-9DB6-11d1-A1CE-00C04FD75D13")]
 public partial interface IEnumExtraSearch
 {
-	/// <param name="elementCount"></param>
-	/// <param name="elements"></param>
 	/// <summary>
 	/// Retrieves up to <paramref name="elementCount"/> EXTRASEARCH entries from the enumerator into the provided buffer.
 	/// </summary>
@@ -29,15 +27,15 @@ public partial interface IEnumExtraSearch
 	int Skip(int elementsToSkip);
 
 	/// <summary>
-/// Resets the enumeration to the initial position so the next call to Next retrieves elements from the start.
-/// </summary>
-void Reset();
+	/// Resets the enumeration to the initial position so the next call to Next retrieves elements from the start.
+	/// </summary>
+	void Reset();
 
 	/// <summary>
-/// Creates a new enumerator that duplicates the current enumerator's state.
-/// </summary>
-/// <returns>An <see cref="IEnumExtraSearch"/> instance positioned at the same point in the enumeration as the current one.</returns>
-IEnumExtraSearch Clone();
+	/// Creates a new enumerator that duplicates the current enumerator's state.
+	/// </summary>
+	/// <returns>An <see cref="IEnumExtraSearch"/> instance positioned at the same point in the enumeration as the current one.</returns>
+	IEnumExtraSearch Clone();
 }
 
 [StructLayout(LayoutKind.Sequential)]

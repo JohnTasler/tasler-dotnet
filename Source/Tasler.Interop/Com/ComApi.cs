@@ -18,14 +18,6 @@ public static partial class ComApi
 	/// <returns>A native pointer to the requested COM interface.</returns>
 	/// <exception cref="System.Runtime.InteropServices.COMException">
 	/// Thrown if the underlying COM call fails.
-	/// <summary>
-	/// Creates a COM object for the specified CLSID and returns a native pointer to the requested interface IID.
-	/// </summary>
-	/// <param name="clsid">The CLSID of the COM class to instantiate.</param>
-	/// <param name="iid">The IID of the interface to retrieve from the created COM object.</param>
-	/// <param name="dwClsContext">The execution context for the code that manages the newly created object.</param>
-	/// <returns>A raw native pointer to the requested interface.</returns>
-	/// <exception cref="System.Runtime.InteropServices.COMException">Thrown when the underlying COM call returns a failure HRESULT.</exception>
 	public static nint CoCreateInstance(Guid clsid, Guid iid, ClsCtx dwClsContext = ClsCtx.Default)
 	{
 		int hr = NativeMethods.CoCreateInstance(ref clsid, nint.Zero, dwClsContext, ref iid, out nint ppv);
@@ -108,11 +100,11 @@ public static partial class ComApi
 	}
 
 	/// <summary>
-/// Revokes a previously registered class object using its registration cookie.
-/// </summary>
-/// <param name="dwRegister">The registration cookie returned by CoRegisterClassObject.</param>
-/// <returns>The HRESULT returned by CoRevokeClassObject; `0` (S_OK) on success, a negative value on failure.</returns>
-public static int CoRevokeClassObject(uint dwRegister) => NativeMethods.CoRevokeClassObject(dwRegister);
+	/// Revokes a previously registered class object using its registration cookie.
+	/// </summary>
+	/// <param name="dwRegister">The registration cookie returned by CoRegisterClassObject.</param>
+	/// <returns>The HRESULT returned by CoRevokeClassObject; `0` (S_OK) on success, a negative value on failure.</returns>
+	public static int CoRevokeClassObject(uint dwRegister) => NativeMethods.CoRevokeClassObject(dwRegister);
 
 	/// <summary>
 	/// Creates a COM Global Interface Table (GIT) instance.
@@ -252,15 +244,15 @@ public static int CoRevokeClassObject(uint dwRegister) => NativeMethods.CoRevoke
 		);
 
 		/// <summary>
-			/// Obtains a class object (for example, a class factory) for the specified CLSID and returns a pointer to the requested interface.
-			/// </summary>
-			/// <param name="rclsid">The CLSID of the class for which the class object is requested.</param>
-			/// <param name="dwClsContext">Context in which the code that manages the newly created object will run (CLSCTX flags).</param>
-			/// <param name="pvReserved">Reserved; must be zero.</param>
-			/// <param name="riid">The IID of the interface being requested on the class object.</param>
-			/// <param name="ppv">Receives a pointer to the requested interface on success.</param>
-			/// <returns>An HRESULT value: `S_OK` on success; otherwise an error code. On success `ppv` receives the requested interface pointer.</returns>
-			[LibraryImport(ApiLib)]
+		/// Obtains a class object (for example, a class factory) for the specified CLSID and returns a pointer to the requested interface.
+		/// </summary>
+		/// <param name="rclsid">The CLSID of the class for which the class object is requested.</param>
+		/// <param name="dwClsContext">Context in which the code that manages the newly created object will run (CLSCTX flags).</param>
+		/// <param name="pvReserved">Reserved; must be zero.</param>
+		/// <param name="riid">The IID of the interface being requested on the class object.</param>
+		/// <param name="ppv">Receives a pointer to the requested interface on success.</param>
+		/// <returns>An HRESULT value: `S_OK` on success; otherwise an error code. On success `ppv` receives the requested interface pointer.</returns>
+		[LibraryImport(ApiLib)]
 		public static partial int CoGetClassObject(
 			ref Guid rclsid,
 			ClsCtx dwClsContext,

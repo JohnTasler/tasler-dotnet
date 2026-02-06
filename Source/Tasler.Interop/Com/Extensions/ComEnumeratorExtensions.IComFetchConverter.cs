@@ -10,14 +10,10 @@ public static partial class ComEnumeratorExtensions
 	public interface IComFetchConverter<TComItem, TItem>
 	{
 		/// <summary>
-		/// Converts the specified element from a COM type to a more .NET-friendly type.
+		/// Converts a COM element to its .NET-friendly representation.
 		/// </summary>
-		/// <param name="element">The element to convert.</param>
-		/// <summary>
-/// Converts a COM element to its .NET-friendly representation.
-/// </summary>
-/// <param name="element">The COM item to convert.</param>
-/// <returns>The converted .NET-friendly item.</returns>
+		/// <param name="element">The COM item to convert.</param>
+		/// <returns>The converted .NET-friendly item.</returns>
 		static abstract TItem Convert(TComItem element);
 	}
 }

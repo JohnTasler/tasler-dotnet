@@ -17,32 +17,32 @@ public partial interface IPersistStorage : IPersist
 	int IsDirty();
 
 	/// <summary>
-/// Initializes the instance to use the provided storage for its persistent state.
-/// </summary>
-/// <param name="storage">The IStorage to initialize for storing the object's persistent state.</param>
-void InitNew(IStorage storage);
+	/// Initializes the instance to use the provided storage for its persistent state.
+	/// </summary>
+	/// <param name="storage">The IStorage to initialize for storing the object's persistent state.</param>
+	void InitNew(IStorage storage);
 
 	/// <summary>
-/// Loads the object's persisted state from the specified storage.
-/// </summary>
-/// <param name="storage">The storage object to read the persisted state from.</param>
-void Load(IStorage storage);
+	/// Loads the object's persisted state from the specified storage.
+	/// </summary>
+	/// <param name="storage">The storage object to read the persisted state from.</param>
+	void Load(IStorage storage);
 
 	/// <summary>
-/// Saves the object's persistent state to the specified storage.
-/// </summary>
-/// <param name="storage">The storage object to receive the saved state.</param>
-/// <param name="fSameAsLoad">`true` if the provided storage is the same one used when the object was loaded; `false` if the storage is different.</param>
-void Save(IStorage storage, [MarshalAs(UnmanagedType.Bool)] bool fSameAsLoad);
+	/// Saves the object's persistent state to the specified storage.
+	/// </summary>
+	/// <param name="storage">The storage object to receive the saved state.</param>
+	/// <param name="fSameAsLoad">`true` if the provided storage is the same one used when the object was loaded; `false` if the storage is different.</param>
+	void Save(IStorage storage, [MarshalAs(UnmanagedType.Bool)] bool fSameAsLoad);
 
 	/// <summary>
-/// Signals that a previously initiated Save operation has completed for the specified storage.
-/// </summary>
-/// <param name="storage">The storage object for which the save completed; the caller may resume using or release this storage.</param>
-void SaveCompleted(IStorage storage);
+	/// Signals that a previously initiated Save operation has completed for the specified storage.
+	/// </summary>
+	/// <param name="storage">The storage object for which the save completed; the caller may resume using or release this storage.</param>
+	void SaveCompleted(IStorage storage);
 
 	/// <summary>
-/// Releases the object's reference to its current storage.
-/// </summary>
-void HandsOffStorage();
+	/// Releases the object's reference to its current storage.
+	/// </summary>
+	void HandsOffStorage();
 }

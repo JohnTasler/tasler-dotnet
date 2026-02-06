@@ -122,15 +122,15 @@ public static partial class ShellApi
 		public static partial int SHCreateItemFromIDList(nint pidl, ref Guid iid, out nint ppv);
 
 		/// <summary>
-			/// Creates a shell item object for a child item using an optional parent PIDL or parent IShellFolder.
-			/// </summary>
-			/// <param name="parentItemIdList">Pointer to the parent item's PIDL, or <c>0</c> if not used.</param>
-			/// <param name="parentShellFolder">Optional parent <see cref="IShellFolder"/> COM interface, or <c>null</c> if not used.</param>
-			/// <param name="childItemIdList">Pointer to the child item's PIDL relative to the parent, or an absolute PIDL if no parent is supplied.</param>
-			/// <param name="riid">Reference to the IID of the interface requested on the created item.</param>
-			/// <param name="ppv">Receives the created item as an <see cref="IShellItem"/> instance when the call succeeds.</param>
-			/// <returns>HRESULT value: <c>S_OK</c> on success, otherwise a COM error code.</returns>
-			[LibraryImport(Shell32)]
+		/// Creates a shell item object for a child item using an optional parent PIDL or parent IShellFolder.
+		/// </summary>
+		/// <param name="parentItemIdList">Pointer to the parent item's PIDL, or <c>0</c> if not used.</param>
+		/// <param name="parentShellFolder">Optional parent <see cref="IShellFolder"/> COM interface, or <c>null</c> if not used.</param>
+		/// <param name="childItemIdList">Pointer to the child item's PIDL relative to the parent, or an absolute PIDL if no parent is supplied.</param>
+		/// <param name="riid">Reference to the IID of the interface requested on the created item.</param>
+		/// <param name="ppv">Receives the created item as an <see cref="IShellItem"/> instance when the call succeeds.</param>
+		/// <returns>HRESULT value: <c>S_OK</c> on success, otherwise a COM error code.</returns>
+		[LibraryImport(Shell32)]
 		public static partial int SHCreateItemWithParent(
 			nint parentItemIdList,
 			IShellFolder parentShellFolder,
@@ -158,14 +158,14 @@ public static partial class ShellApi
 		public static partial bool ILIsEqual(nint pidl1, nint pidl2);
 
 		/// <summary>
-			/// Retrieves a file-system path for the specified PIDL and writes the null-terminated path into the provided character buffer.
-			/// </summary>
-			/// <param name="pidl">A pointer to an item identifier list (PIDL) that identifies the item.</param>
-			/// <param name="pszPath">A character array that receives the null-terminated path string; must have room for <paramref name="cchPath"/> characters.</param>
-			/// <param name="cchPath">The size of <paramref name="pszPath"/> in characters.</param>
-			/// <param name="uOpts">Flags that control path extraction behavior.</param>
-			/// <returns>`true` if a path was written to <paramref name="pszPath"/>, `false` otherwise.</returns>
-			[LibraryImport(Shell32)]
+		/// Retrieves a file-system path for the specified PIDL and writes the null-terminated path into the provided character buffer.
+		/// </summary>
+		/// <param name="pidl">A pointer to an item identifier list (PIDL) that identifies the item.</param>
+		/// <param name="pszPath">A character array that receives the null-terminated path string; must have room for <paramref name="cchPath"/> characters.</param>
+		/// <param name="cchPath">The size of <paramref name="pszPath"/> in characters.</param>
+		/// <param name="uOpts">Flags that control path extraction behavior.</param>
+		/// <returns>`true` if a path was written to <paramref name="pszPath"/>, `false` otherwise.</returns>
+		[LibraryImport(Shell32)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static partial bool SHGetPathFromIDListEx(
 			nint pidl,
@@ -184,14 +184,14 @@ public static partial class ShellApi
 		public static partial int SHGetNameFromIDList(nint pidlAbsolute, SIGDN sigdnName, out nint ppszName);
 
 		/// <summary>
-			/// Retrieves an ITEMIDLIST (PIDL) that identifies a known folder specified by its known-folder ID.
-			/// </summary>
-			/// <param name="rfid">The identifier (KNOWNFOLDERID) of the known folder to retrieve.</param>
-			/// <param name="dwFlags">Flags that control retrieval behavior.</param>
-			/// <param name="hToken">An access token that represents a particular user, or zero to use the current user.</param>
-			/// <param name="ppidl">When the method returns successfully, receives a pointer to the allocated PIDL for the known folder; the caller must free this with CoTaskMemFree.</param>
-			/// <returns>An HRESULT value indicating success or failure. On success, `ppidl` contains the allocated PIDL for the requested known folder.</returns>
-			[LibraryImport(Shell32)]
+		/// Retrieves an ITEMIDLIST (PIDL) that identifies a known folder specified by its known-folder ID.
+		/// </summary>
+		/// <param name="rfid">The identifier (KNOWNFOLDERID) of the known folder to retrieve.</param>
+		/// <param name="dwFlags">Flags that control retrieval behavior.</param>
+		/// <param name="hToken">An access token that represents a particular user, or zero to use the current user.</param>
+		/// <param name="ppidl">When the method returns successfully, receives a pointer to the allocated PIDL for the known folder; the caller must free this with CoTaskMemFree.</param>
+		/// <returns>An HRESULT value indicating success or failure. On success, `ppidl` contains the allocated PIDL for the requested known folder.</returns>
+		[LibraryImport(Shell32)]
 		public static partial int SHGetKnownFolderIDList(
 			KnownFolderId rfid,
 			KnownFolderFlags dwFlags,

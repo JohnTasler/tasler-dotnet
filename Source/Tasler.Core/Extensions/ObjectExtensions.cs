@@ -16,7 +16,7 @@ public static class ObjectExtensions
 	/// <returns>
 	/// An <see cref="IEnumerable{TSource}"/> containing a single element - the specified object instance.
 	/// <summary>
-		/// Produces a sequence containing the instance as its single element.
+		/// Produces a sequence containing the specified instance as its single element.
 		/// </summary>
 		/// <param name="@this">The instance to wrap in an enumerable. May be <c>null</c>; the resulting sequence will contain a single <c>null</c> element in that case.</param>
 		/// <returns>An <see cref="IEnumerable{T}"/> that yields the provided instance exactly once.</returns>

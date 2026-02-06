@@ -34,13 +34,13 @@ public static partial class PropSysApi
 		internal static partial int PSGetNameFromPropertyKey(PropertyKey propkey, out SafeCoTaskMemString ppszCanonicalName);
 
 		/// <summary>
-			/// Retrieves a property description object for the specified property key using the requested interface IID.
-			/// </summary>
-			/// <param name="propkey">The property key identifying the property whose description is requested.</param>
-			/// <param name="riid">The IID of the interface being requested; identifies the interface returned in <paramref name="ppv"/>.</param>
-			/// <param name="ppv">Receives a pointer to the requested interface on success; the caller is responsible for releasing the returned COM pointer.</param>
-			/// <returns>The HRESULT returned by the native call indicating success or failure.</returns>
-			[LibraryImport(PropSys)]
+		/// Retrieves a property description object for the specified property key using the requested interface IID.
+		/// </summary>
+		/// <param name="propkey">The property key identifying the property whose description is requested.</param>
+		/// <param name="riid">The IID of the interface being requested; identifies the interface returned in <paramref name="ppv"/>.</param>
+		/// <param name="ppv">Receives a pointer to the requested interface on success; the caller is responsible for releasing the returned COM pointer.</param>
+		/// <returns>The HRESULT returned by the native call indicating success or failure.</returns>
+		[LibraryImport(PropSys)]
 		internal static partial int PSGetPropertyDescription(
 			PropertyKey propkey,
 			ref Guid riid,

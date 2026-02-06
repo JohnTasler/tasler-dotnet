@@ -29,14 +29,14 @@ public partial interface IStream : ISequentialStream
 /// <param name="offset">Byte displacement to apply from <paramref name="origin"/>. When <paramref name="origin"/> is <c>STREAM_SEEK.Set</c>, <paramref name="offset"/> is treated as an unsigned value.</param>
 /// <param name="origin">Reference point used to calculate the new position (beginning, current, or end of the stream).</param>
 /// <param name="newPosition">Receives the resulting position of the seek pointer measured from the beginning of the stream.</param>
-/// <returns></returns>
+	/// <returns></returns>
 	void Seek(long offset, STREAM_SEEK origin, out ulong newPosition);
 
 	/// <summary>
 /// Sets the total size of the stream to the specified value.
 /// </summary>
 /// <param name="newSize">The desired stream size in bytes.</param>
-void SetSize(ulong newSize);
+	void SetSize(ulong newSize);
 
 	/// <summary>
 /// Copies up to a specified number of bytes from this stream into another stream.
@@ -45,30 +45,25 @@ void SetSize(ulong newSize);
 /// <param name="byteCount">The maximum number of bytes to copy.</param>
 /// <param name="bytesRead">Receives the number of bytes actually read from this stream.</param>
 /// <param name="bytesWritten">Receives the number of bytes actually written to <paramref name="targetStream"/>.</param>
-void CopyTo(IStream targetStream, ulong byteCount, out ulong bytesRead, out ulong bytesWritten);
+	void CopyTo(IStream targetStream, ulong byteCount, out ulong bytesRead, out ulong bytesWritten);
 
 	/// <summary>
 /// Commits changes made to the stream according to the specified commit flags.
 /// </summary>
 /// <param name="commitFlags">Flags that control how the commit is performed (for example, whether changes are flushed to permanent storage and the commit semantics).</param>
-void Commit(STGCOMMIT commitFlags);
+	void Commit(STGCOMMIT commitFlags);
 
 	/// <summary>
 /// Reverts uncommitted changes made to the stream since the last commit, restoring the stream to its previous state.
 /// </summary>
-void Revert();
+	void Revert();
 
 	/// <summary>
 	/// Locks the region.
 	/// </summary>
 	/// <param name="offset">Specifies the byte offset for the beginning of the range.</param>
 	/// <param name="byteCount">Specifies, in bytes, the length of the range to be restricted.</param>
-	/// <summary>
-/// Applies a lock to a specified byte range of the stream.
-/// </summary>
-/// <param name="offset">Start position of the region to lock, in bytes from the beginning of the stream.</param>
-/// <param name="byteCount">Length of the region to lock, in bytes.</param>
-/// <param name="lockType">Specifies the type of restrictions to apply when accessing the range.</param>
+	/// <param name="lockType">Specifies the type of restrictions being requested on accessing the range.</param>
 	void LockRegion(ulong offset, ulong byteCount, LockType lockType);
 
 	/// <summary>
@@ -76,12 +71,7 @@ void Revert();
 	/// </summary>
 	/// <param name="offset">Specifies the byte offset for the beginning of the range.</param>
 	/// <param name="byteCount">Specifies, in bytes, the length of the range that is restricted.</param>
-	/// <summary>
-/// Removes a previously applied lock from a region of the stream.
-/// </summary>
-/// <param name="offset">Start offset of the region, in bytes from the beginning of the stream.</param>
-/// <param name="byteCount">Length of the region to unlock, in bytes.</param>
-/// <param name="lockType">Specifies the type of access restrictions that were applied to the region.</param>
+	/// <param name="lockType">Specifies the type of access restrictions previously placed on the range.</param>
 	void UnlockRegion(ulong offset, ulong byteCount, LockType lockType);
 
 	/// <summary>
@@ -93,16 +83,12 @@ void Revert();
 	/// enumeration. If the <see cref="STATFLAG.NONAME"/> is specified, the
 	/// <see cref="STATSTG.Name"/> member is not supplied, thus saving a memory-allocation operation.
 	/// The other possible value, <see cref="STATFLAG.Default"/>, indicates that all members of the
-	/// <summary>
-/// Retrieves a STATSTG structure that contains information about this stream.
-/// </summary>
-/// <param name="statStg">Receives the STATSTG structure with the stream's statistics.</param>
-/// <param name="statFlag">Controls which members of the STATSTG are returned (for example, requesting no name vs. all fields).</param>
+	/// <see cref="STATSTG"/> structure be supplied.</param>
 	void Stat(out STATSTG statStg, STATFLAG statFlag);
 
 	/// <summary>
 /// Creates a new stream object that references the same underlying data and has its position set to match this stream.
 /// </summary>
 /// <returns>An <see cref="IStream"/> representing the cloned stream positioned at the same location as the original.</returns>
-IStream Clone();
+	IStream Clone();
 }

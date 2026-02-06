@@ -1,3 +1,4 @@
+
 namespace Tasler.Interop.Com;
 
 public static class PersistExtensions
@@ -11,19 +12,18 @@ public static class PersistExtensions
 		Guid ClassID => @this.GetClassID();
 	}
 
-	/// <summary>
-	/// Indicates whether the stream has unsaved changes.
-	/// </summary>
-	/// <returns>`true` if the stream has unsaved changes, `false` otherwise.</returns>
-	///
-	/// <summary>
-	/// Gets the maximum size, in bytes, required to save the stream's persistent representation.
-	/// </summary>
-	/// <returns>The maximum size in bytes required to save the stream's persistent representation.</returns>
 	extension(IPersistStream @this)
 	{
+		/// <summary>
+		/// Indicates whether the stream has unsaved changes.
+		/// </summary>
+		/// <returns>`true` if the stream has unsaved changes, `false` otherwise.</returns>
 		bool IsDirty => @this.IsDirty() == 0;
 
+		/// <summary>
+		/// Gets the maximum size, in bytes, required to save the stream's persistent representation.
+		/// </summary>
+		/// <returns>The maximum size in bytes required to save the stream's persistent representation.</returns>
 		ulong MaximumSize => @this.GetSizeMax();
 	}
 
@@ -42,36 +42,36 @@ public static class PersistExtensions
 		ulong MaximumSize => @this.GetSizeMax();
 	}
 
-	/// <summary>
-	/// Indicates whether the persistent storage object has unsaved changes.
-	/// </summary>
-	/// <returns>`true` if the object has unsaved changes, `false` otherwise.</returns>
 	extension(IPersistStorage @this)
 	{
+		/// <summary>
+		/// Indicates whether the persistent storage object has unsaved changes.
+		/// </summary>
+		/// <returns>`true` if the object has unsaved changes, `false` otherwise.</returns>
 		bool IsDirty => @this.IsDirty() == 0;
 	}
 
-	/// <summary>
-	/// Indicates whether the object associated with the persistent file has unsaved changes.
-	/// </summary>
-	/// <returns>`true` if the object has unsaved changes, `false` otherwise.</returns>
 	extension(IPersistFile @this)
 	{
+		/// <summary>
+		/// Indicates whether the object associated with the persistent file has unsaved changes.
+		/// </summary>
+		/// <returns>`true` if the object has unsaved changes, `false` otherwise.</returns>
 		bool IsDirty => @this.IsDirty() == 0;
 	}
 
-	/// <summary>
-	/// Indicates whether the object has unsaved changes.
-	/// </summary>
-	/// <returns>`true` if the object has unsaved changes, `false` otherwise.</returns>
-	/// <summary>
-	/// Gets the maximum number of bytes required to save the object.
-	/// </summary>
-	/// <returns>The maximum size in bytes.</returns>
 	extension(IPersistMemory @this)
 	{
+		/// <summary>
+		/// Indicates whether the object has unsaved changes.
+		/// </summary>
+		/// <returns>`true` if the object has unsaved changes, `false` otherwise.</returns>
 		bool IsDirty => @this.IsDirty() == 0;
 
+		/// <summary>
+		/// Gets the maximum number of bytes required to save the object.
+		/// </summary>
+		/// <returns>The maximum size in bytes.</returns>
 		uint MaximumSize => @this.GetSizeMax();
 	}
 }

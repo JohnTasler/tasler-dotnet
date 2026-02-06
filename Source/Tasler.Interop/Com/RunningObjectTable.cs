@@ -30,7 +30,8 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker?>
 	/// Releases the underlying running object table and suppresses the finalizer.
 	/// </summary>
 	/// <remarks>
-	/// If a running object table instance is held, it is released and GC.SuppressFinalize is called; calling Dispose again is a no-op.
+	/// If a running object table instance is held, it is released and GC.SuppressFinalize is called;
+	/// calling Dispose again is a no-op.
 	/// </remarks>
 	public void Dispose()
 	{
@@ -49,7 +50,9 @@ public class RunningObjectTable : IDisposable, IEnumerable<IMoniker?>
 	/// <summary>
 	/// Enumerates the monikers currently registered in the running object table.
 	/// </summary>
-	/// <returns>An enumerator over the registered monikers; each element is an IMoniker or null.</returns>
+	/// <returns>
+	/// An enumerator over the registered monikers; each element is an IMoniker or null.
+	/// </returns>
 	public IEnumerator<IMoniker?> GetEnumerator()
 	{
 		var enumMoniker = _rot?.EnumRunning();
@@ -73,10 +76,12 @@ IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 	#endregion IEnumerable Members
 
 	/// <summary>
-	/// Retrieve the running COM object identified by the given moniker and return it as type T when available and compatible.
+	/// Retrieve the running COM object identified by the given moniker and return it as type T when
+	/// available and compatible.
 	/// </summary>
 	/// <param name="moniker">The moniker that identifies the running COM object to retrieve.</param>
-	/// <returns>`T` instance corresponding to the moniker if present and compatible; otherwise `null`. If a COM object is obtained but does not match `T`, its COM reference is released.</returns>
+	/// <returns>`T` instance corresponding to the moniker if present and compatible; otherwise `null`.
+	/// If a COM object is obtained but does not match `T`, its COM reference is released.</returns>
 	public T? GetObject<T>(IMoniker moniker)
 		where T : class
 	{

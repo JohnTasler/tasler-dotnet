@@ -16,36 +16,37 @@ public partial interface IShellItem
 /// <param name="bhid">The handler ID (BHID) GUID to bind.</param>
 /// <param name="riid">The GUID of the interface being requested from the handler.</param>
 /// <returns>A native pointer to the requested handler interface, or zero if the operation failed.</returns>
-nint BindToHandler(IBindCtx pbc, ref Guid bhid, ref Guid riid);
+	nint BindToHandler(IBindCtx pbc, ref Guid bhid, ref Guid riid);
 
 	/// <summary>
-/// Retrieves the parent shell item of this item.
-/// </summary>
-/// <returns>The parent <see cref="IShellItem"/>, or <c>null</c> if this item has no parent.</returns>
-IShellItem GetParent();
+	/// Retrieves the parent shell item of this item.
+	/// </summary>
+	/// <returns>The parent <see cref="IShellItem"/>, or <c>null</c> if this item has no parent.</returns>
+	IShellItem GetParent();
 
 	/// <summary>
-/// Retrieves the item's display name formatted according to the specified SIGDN value.
-/// </summary>
-/// <param name="sigdnName">The format in which the display name should be returned.</param>
-/// <returns>
-/// A native pointer to a null-terminated UTF-16 string containing the requested display name, or zero if the operation failed. The returned memory is allocated by the callee and must be freed by the caller (for example, with CoTaskMemFree).
-/// </returns>
-nint GetDisplayName(SIGDN sigdnName); /// <summary>
-/// Queries the shell item's attributes according to the provided mask.
-/// </summary>
-/// <param name="mask">Flags specifying which attributes to retrieve; only these flags are evaluated.</param>
-/// <returns>An <see cref="SFGAOF"/> value with flags set for the attributes that apply to the item.</returns>
+	/// Retrieves the item's display name formatted according to the specified SIGDN value.
+	/// </summary>
+	/// <param name="sigdnName">The format in which the display name should be returned.</param>
+	/// <returns>
+	/// A native pointer to a null-terminated UTF-16 string containing the requested display name, or zero if the operation failed. The returned memory is allocated by the callee and must be freed by the caller (for example, with CoTaskMemFree).
+	/// </returns>
+	nint GetDisplayName(SIGDN sigdnName);
 
+	/// <summary>
+	/// Queries the shell item's attributes according to the provided mask.
+	/// </summary>
+	/// <param name="mask">Flags specifying which attributes to retrieve; only these flags are evaluated.</param>
+	/// <returns>An <see cref="SFGAOF"/> value with flags set for the attributes that apply to the item.</returns>
 	SFGAOF GetAttributes(SFGAOF mask);
 
 	/// <summary>
-/// Compares this shell item with another using the specified comparison hint.
-/// </summary>
-/// <param name="shellItem">The shell item to compare against.</param>
-/// <param name="hint">Hint that controls which fields or comparison method to use.</param>
-/// <returns>A negative value if this item precedes <paramref name="shellItem"/>, zero if they are equivalent, or a positive value if this item follows <paramref name="shellItem"/>.</returns>
-int Compare(IShellItem shellItem, SHELLITEMCOMPAREHINT hint);
+	/// Compares this shell item with another using the specified comparison hint.
+	/// </summary>
+	/// <param name="shellItem">The shell item to compare against.</param>
+	/// <param name="hint">Hint that controls which fields or comparison method to use.</param>
+	/// <returns>A negative value if this item precedes <paramref name="shellItem"/>, zero if they are equivalent, or a positive value if this item follows <paramref name="shellItem"/>.</returns>
+	int Compare(IShellItem shellItem, SHELLITEMCOMPAREHINT hint);
 }
 
 

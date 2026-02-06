@@ -8,8 +8,8 @@ namespace Tasler.Interop.Shell;
 public partial interface IPersistFolder2 : IPersistFolder
 {
 	/// <summary>
-/// Retrieves the PIDL (pointer to an item identifier list) that identifies the current folder.
-/// </summary>
-/// <param name="ppidl">Receives a pointer to the ITEMIDLIST for the current folder. The caller is responsible for freeing the returned PIDL when it is no longer needed.</param>
-void GetCurFolder(out nint ppidl);
+	/// Retrieves the PIDL (pointer to an item identifier list) that identifies the current folder.
+	/// </summary>
+	/// <param name="ppidl">Receives a pointer to the ITEMIDLIST for the current folder. The caller is responsible for freeing the returned PIDL when it is no longer needed.</param>
+	void GetCurFolder(out nint ppidl);
 }

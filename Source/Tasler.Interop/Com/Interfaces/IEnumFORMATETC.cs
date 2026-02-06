@@ -27,13 +27,8 @@ public partial interface IEnumFORMATETC : IUnknown
 	[PreserveSig]
 	int Next(int elementCount, [MarshalUsing(CountElementName = nameof(elementCount))][Out] FORMATETC[] elements, out int elementsFetched);
 
-	/// <summary>Skips a specified number of <see cref="FORMATETC"/> structures in the enumeration sequence.</summary>
-	/// <param name="elementCount">The number of <see cref="FORMATETC"/> structures to skip.</param>
-	/// <returns>
-	/// HRESULT indicating success or failure. S_FALSE indicates that less that the specified
-	/// <paramref name="elementCount"/> elements were skipped.
 	/// <summary>
-	/// Skips the specified number of FORMATETC structures in the enumeration sequence.
+	/// Skips the specified number of <see cref="FORMATETC"/> structures in the enumeration sequence.
 	/// </summary>
 	/// <param name="elementCount">The number of elements to skip.</param>
 	/// <returns>An HRESULT: `S_OK` if the requested number of elements were skipped, `S_FALSE` if fewer were skipped, or an error code on failure.</returns>
@@ -43,10 +38,9 @@ public partial interface IEnumFORMATETC : IUnknown
 	/// <summary>Resets the enumeration sequence to the beginning.</summary>
 	void Reset();
 
-	/// <summary>Clones the current enumeration object.</summary>
 	/// <summary>
-/// Creates a new enumerator that represents the same position in the enumeration as the current object.
-/// </summary>
-/// <returns>An <see cref="IEnumFORMATETC"/> instance that is a clone of the current enumerator.</returns>
+	/// Clones the current enumeration object, by creating a new enumerator that represents the same position in the enumeration as the current object.
+	/// </summary>
+	/// <returns>An <see cref="IEnumFORMATETC"/> instance that is a clone of the current enumerator.</returns>
 	IEnumFORMATETC Clone();
 }

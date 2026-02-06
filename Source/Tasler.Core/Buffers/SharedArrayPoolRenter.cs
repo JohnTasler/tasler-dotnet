@@ -6,12 +6,7 @@ public class SharedArrayPoolRenter<T> : IDisposable
 {
 	public T[] Data { get; private set; }
 
-	/// <summary>
-	/// Rents an array of at least the specified minimum length from the shared array pool.
-	/// </summary>
-	/// <param name="minimumLength">The minimum required length of the rented array.</param>
-	/// <summary>
-	/// Rents an array from ArrayPool&lt;T&gt;.Shared with at least the specified minimum length.
+	/// Rents an array from ArrayPool{T}.Shared with at least the specified minimum length.
 	/// </summary>
 	/// <param name="minimumLength">Minimum required length of the rented array.</param>
 	/// <param name="clearArray">Whether to clear the rented array's contents after renting.</param>

@@ -26,13 +26,13 @@ public partial interface IEnumMoniker : IUnknown
 	int Skip(int celt);
 
 	/// <summary>
-/// Resets the enumerator to the beginning of the moniker sequence.
-/// </summary>
-void Reset();
+	/// Resets the enumerator to the beginning of the moniker sequence.
+	/// </summary>
+	void Reset();
 
 	/// <summary>
-/// Creates a new enumerator positioned at the same place in the enumeration.
-/// </summary>
-/// <returns>A new <see cref="IEnumMoniker"/> initialized to the same enumeration state as the current enumerator.</returns>
-IEnumMoniker Clone();
+	/// Creates a new enumerator positioned at the same place in the enumeration.
+	/// </summary>
+	/// <returns>A new <see cref="IEnumMoniker"/> initialized to the same enumeration state as the current enumerator.</returns>
+	IEnumMoniker Clone();
 }

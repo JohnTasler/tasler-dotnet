@@ -19,10 +19,10 @@ public partial interface IRunningObjectTable : IUnknown
 	int Register(int grfFlags, nint punkObject, IMoniker pmkObjectName, out uint cookie);
 
 	/// <summary>
-/// Removes a previously registered object from the running object table using its registration cookie.
-/// </summary>
-/// <param name="cookie">The registration cookie returned by Register that identifies the entry to revoke.</param>
-void Revoke(uint cookie);
+	/// Removes a previously registered object from the running object table using its registration cookie.
+	/// </summary>
+	/// <param name="cookie">The registration cookie returned by Register that identifies the entry to revoke.</param>
+	void Revoke(uint cookie);
 
 	/// <summary>
 	/// Determines whether the object identified by the specified moniker is currently registered as running.
@@ -42,11 +42,11 @@ void Revoke(uint cookie);
 	int GetObject(IMoniker pmkObjectName, out nint ppunkObject);
 
 	/// <summary>
-/// Notifies the running object table of an updated change time for a registered object.
-/// </summary>
-/// <param name="dwRegister">Identifier of the registration whose change time is being updated.</param>
-/// <param name="pfiletime">New change time as a 64-bit Windows FILETIME value.</param>
-void NoteChangeTime(int dwRegister, in ulong pfiletime);
+	/// Notifies the running object table of an updated change time for a registered object.
+	/// </summary>
+	/// <param name="dwRegister">Identifier of the registration whose change time is being updated.</param>
+	/// <param name="pfiletime">New change time as a 64-bit Windows FILETIME value.</param>
+	void NoteChangeTime(int dwRegister, in ulong pfiletime);
 
 	/// <summary>
 	/// Retrieves the last-modified time for the running object identified by the specified moniker.
@@ -58,8 +58,8 @@ void NoteChangeTime(int dwRegister, in ulong pfiletime);
 	int GetTimeOfLastChange(IMoniker pmkObjectName, out ulong pfiletime);
 
 	/// <summary>
-/// Obtains an enumerator for the monikers of all objects currently registered in the running object table.
-/// </summary>
-/// <returns>An <see cref="IEnumMoniker"/> that enumerates the monikers of running objects.</returns>
-IEnumMoniker EnumRunning();
+	/// Obtains an enumerator for the monikers of all objects currently registered in the running object table.
+	/// </summary>
+	/// <returns>An <see cref="IEnumMoniker"/> that enumerates the monikers of running objects.</returns>
+	IEnumMoniker EnumRunning();
 }

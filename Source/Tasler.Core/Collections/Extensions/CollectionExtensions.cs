@@ -1,3 +1,4 @@
+
 namespace Tasler.Collections;
 
 public static class CollectionExtensions

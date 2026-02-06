@@ -11,13 +11,13 @@ namespace Tasler.Interop.Com;
 public partial interface IGlobalInterfaceTable : IUnknown
 {
 	/// <summary>
-		/// Registers a COM interface pointer in the Global Interface Table and obtains a cookie that identifies the registration.
-		/// </summary>
-		/// <param name="pUnk">A pointer to the COM interface (an `IUnknown` or other interface pointer) to register.</param>
-		/// <param name="riid">The interface identifier (IID) of the interface being requested from the registered object.</param>
-		/// <param name="pdwCookie">When the method returns, receives a cookie that can be used to revoke the registration or retrieve the interface.</param>
-		/// <returns>An HRESULT indicating success or failure (for example, `S_OK` on success). Negative values represent failure codes.</returns>
-		[PreserveSig]
+	/// Registers a COM interface pointer in the Global Interface Table and obtains a cookie that identifies the registration.
+	/// </summary>
+	/// <param name="pUnk">A pointer to the COM interface (an `IUnknown` or other interface pointer) to register.</param>
+	/// <param name="riid">The interface identifier (IID) of the interface being requested from the registered object.</param>
+	/// <param name="pdwCookie">When the method returns, receives a cookie that can be used to revoke the registration or retrieve the interface.</param>
+	/// <returns>An HRESULT indicating success or failure (for example, `S_OK` on success). Negative values represent failure codes.</returns>
+	[PreserveSig]
 	int RegisterInterfaceInGlobal(
 		nint pUnk,
 		ref Guid riid,
@@ -32,13 +32,13 @@ public partial interface IGlobalInterfaceTable : IUnknown
 	int RevokeInterfaceFromGlobal(int dwCookie);
 
 	/// <summary>
-		/// Retrieves a pointer to the interface identified by <paramref name="riid"/> from the global interface table using the specified registration cookie.
-		/// </summary>
-		/// <param name="dwCookie">The registration cookie that identifies the previously registered interface in the global table.</param>
-		/// <param name="riid">The IID of the interface to retrieve.</param>
-		/// <param name="ppv">When the method returns, contains the pointer to the requested interface.</param>
-		/// <returns>An HRESULT value: S_OK on success; a COM error code otherwise.</returns>
-		[PreserveSig]
+	/// Retrieves a pointer to the interface identified by <paramref name="riid"/> from the global interface table using the specified registration cookie.
+	/// </summary>
+	/// <param name="dwCookie">The registration cookie that identifies the previously registered interface in the global table.</param>
+	/// <param name="riid">The IID of the interface to retrieve.</param>
+	/// <param name="ppv">When the method returns, contains the pointer to the requested interface.</param>
+	/// <returns>An HRESULT value: S_OK on success; a COM error code otherwise.</returns>
+	[PreserveSig]
 	int GetInterfaceFromGlobal(
 		int dwCookie,
 		ref Guid riid,
@@ -48,12 +48,12 @@ public partial interface IGlobalInterfaceTable : IUnknown
 public static class IGlobalInterfaceTableExtensions
 {
 	/// <summary>
-		/// Registers a managed object in the COM Global Interface Table using the IID for T.
-		/// </summary>
-		/// <typeparam name="T">The interface or class type whose IID will be used for registration.</typeparam>
-		/// <param name="pUnk">The managed object to register in the global table.</param>
-		/// <returns>The cookie assigned by the Global Interface Table for the registered interface.</returns>
-		public static int RegisterInterfaceInGlobal<T>(this IGlobalInterfaceTable @this, T pUnk)
+	/// Registers a managed object in the COM Global Interface Table using the IID for T.
+	/// </summary>
+	/// <typeparam name="T">The interface or class type whose IID will be used for registration.</typeparam>
+	/// <param name="pUnk">The managed object to register in the global table.</param>
+	/// <returns>The cookie assigned by the Global Interface Table for the registered interface.</returns>
+	public static int RegisterInterfaceInGlobal<T>(this IGlobalInterfaceTable @this, T pUnk)
 		=> RegisterInterfaceInGlobal(@this, pUnk!, typeof(T).GUID);
 
 	/// <summary>

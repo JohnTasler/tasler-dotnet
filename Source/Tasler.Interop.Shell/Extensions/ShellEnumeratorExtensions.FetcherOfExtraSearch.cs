@@ -19,13 +19,7 @@ public static partial class ShellEnumeratorExtensions
 		/// <param name="elementsFetched">The count of elements retrieved.</param>
 		/// <returns>
 		/// The HRESULT of the fetch (<see cref="IEnumExtraSearch.Next"/>) operation.
-		/// <summary>
-			/// Fetches up to the provided array's length of EXTRASEARCH items from the specified IEnumExtraSearch into the array.
-			/// </summary>
-			/// <param name="enumerator">The COM enumerator to read items from.</param>
-			/// <param name="elements">The destination array to receive fetched EXTRASEARCH items.</param>
-			/// <param name="elementsFetched">The number of items actually written into <paramref name="elements"/>.</param>
-			/// <returns>The HRESULT returned by IEnumExtraSearch.Next.</returns>
+		/// </returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int Fetch(IEnumExtraSearch enumerator, EXTRASEARCH[] elements, out int elementsFetched)
 			=> enumerator.Next(elements.Length, elements, out elementsFetched);

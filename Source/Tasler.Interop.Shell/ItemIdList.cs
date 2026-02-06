@@ -164,11 +164,11 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 	}
 
 	/// <summary>
-		/// Determines whether the unmanaged item identifier list (PIDL) is empty.
-		/// </summary>
-		/// <param name="pidl">A pointer to a PIDL (pointer to an SHITEMID list); may be <c>nint.Zero</c>.</param>
-		/// <returns><c>true</c> if <paramref name="pidl"/> is null or represents an empty PIDL, <c>false</c> otherwise.</returns>
-		internal static bool GetIsEmpty(nint pidl)
+	/// Determines whether the unmanaged item identifier list (PIDL) is empty.
+	/// </summary>
+	/// <param name="pidl">A pointer to a PIDL (pointer to an SHITEMID list); may be <c>nint.Zero</c>.</param>
+	/// <returns><c>true</c> if <paramref name="pidl"/> is null or represents an empty PIDL, <c>false</c> otherwise.</returns>
+	internal static bool GetIsEmpty(nint pidl)
 		=> (pidl == nint.Zero) || (Marshal.ReadInt16(pidl) == 0);
 	#endregion Methods
 
@@ -180,20 +180,20 @@ public class ItemIdList : SafeCoTaskMemHandle, IList<ChildItemIdList>
 		=> !ItemIdList.Equals(pidl1, pidl2);
 
 	/// <summary>
-		/// Determines whether two ItemIdList instances represent the same item identifier list (PIDL).
-		/// </summary>
-		/// <param name="pidl1">The first ItemIdList to compare.</param>
-		/// <param name="pidl2">The second ItemIdList to compare.</param>
-		/// <returns>`true` if the two lists represent the same PIDL, `false` otherwise.</returns>
-		public static bool Equals(ItemIdList pidl1, ItemIdList pidl2)
+	/// Determines whether two ItemIdList instances represent the same item identifier list (PIDL).
+	/// </summary>
+	/// <param name="pidl1">The first ItemIdList to compare.</param>
+	/// <param name="pidl2">The second ItemIdList to compare.</param>
+	/// <returns>`true` if the two lists represent the same PIDL, `false` otherwise.</returns>
+	public static bool Equals(ItemIdList pidl1, ItemIdList pidl2)
 		=> ShellApi.NativeMethods.ILIsEqual(pidl1.Handle, pidl2.Handle);
 
 	/// <summary>
-/// Determines whether this ItemIdList is equal to the specified ItemIdList.
-/// </summary>
-/// <param name="value">The ItemIdList to compare with this instance.</param>
-/// <returns>`true` if the lists represent the same item identifier list, `false` otherwise.</returns>
-public bool Equals(ItemIdList value) => Equals(this, value);
+	/// Determines whether this ItemIdList is equal to the specified ItemIdList.
+	/// </summary>
+	/// <param name="value">The ItemIdList to compare with this instance.</param>
+	/// <returns>`true` if the lists represent the same item identifier list, `false` otherwise.</returns>
+	public bool Equals(ItemIdList value) => Equals(this, value);
 
 	public static bool operator ==(ItemIdList pidl1, ChildItemIdList pidl2)
 		=> ItemIdList.Equals(pidl1, pidl2);
@@ -202,20 +202,20 @@ public bool Equals(ItemIdList value) => Equals(this, value);
 		=> !ItemIdList.Equals(pidl1, pidl2);
 
 	/// <summary>
-		/// Determines whether the specified ItemIdList and ChildItemIdList represent the same shell item.
-		/// </summary>
-		/// <param name="pidl1">The parent or full item identifier list to compare.</param>
-		/// <param name="pidl2">The child item identifier list to compare.</param>
-		/// <returns>`true` if both identifier lists refer to the same shell item, `false` otherwise.</returns>
-		public static bool Equals(ItemIdList pidl1, ChildItemIdList pidl2)
+	/// Determines whether the specified ItemIdList and ChildItemIdList represent the same shell item.
+	/// </summary>
+	/// <param name="pidl1">The parent or full item identifier list to compare.</param>
+	/// <param name="pidl2">The child item identifier list to compare.</param>
+	/// <returns>`true` if both identifier lists refer to the same shell item, `false` otherwise.</returns>
+	public static bool Equals(ItemIdList pidl1, ChildItemIdList pidl2)
 		=> ShellApi.NativeMethods.ILIsEqual(pidl1.Handle, pidl2.Handle);
 
 	/// <summary>
-/// Determines whether this instance represents the same item identifier list as the specified ChildItemIdList.
-/// </summary>
-/// <param name="value">The ChildItemIdList to compare with the current instance.</param>
-/// <returns>`true` if the two represent the same item identifier list, `false` otherwise.</returns>
-public bool Equals(ChildItemIdList value) => Equals(this, value);
+	/// Determines whether this instance represents the same item identifier list as the specified ChildItemIdList.
+	/// </summary>
+	/// <param name="value">The ChildItemIdList to compare with the current instance.</param>
+	/// <returns>`true` if the two represent the same item identifier list, `false` otherwise.</returns>
+	public bool Equals(ChildItemIdList value) => Equals(this, value);
 	#endregion Equality Comparisons
 
 	#region Overrides
@@ -233,10 +233,10 @@ public bool Equals(ChildItemIdList value) => Equals(this, value);
 	}
 
 	/// <summary>
-/// Computes a hash code representing the underlying item identifier list.
-/// </summary>
-/// <returns>A 32-bit hash code for the contents of the underlying PIDL handle.</returns>
-public override int GetHashCode() => ItemIdList.GetHashCode(base.handle);
+	/// Computes a hash code representing the underlying item identifier list.
+	/// </summary>
+	/// <returns>A 32-bit hash code for the contents of the underlying PIDL handle.</returns>
+	public override int GetHashCode() => ItemIdList.GetHashCode(base.handle);
 
 	/// <summary>
 	/// Produces a human-readable representation of the ItemIdList and its child entries.
@@ -255,27 +255,27 @@ public override int GetHashCode() => ItemIdList.GetHashCode(base.handle);
 
 	#region IList<ChildItemIdList> Members
 	/// <summary>
-/// Gets the zero-based index of the specified child item within this ItemIdList.
-/// </summary>
-/// <param name="item">The child item to locate.</param>
-/// <returns>The zero-based index of <paramref name="item"/> if found; otherwise -1.</returns>
-/// <exception cref="NotImplementedException">The method is not implemented.</exception>
-public int IndexOf(ChildItemIdList item) => throw new NotImplementedException();
+	/// Gets the zero-based index of the specified child item within this ItemIdList.
+	/// </summary>
+	/// <param name="item">The child item to locate.</param>
+	/// <returns>The zero-based index of <paramref name="item"/> if found; otherwise -1.</returns>
+	/// <exception cref="NotImplementedException">The method is not implemented.</exception>
+	public int IndexOf(ChildItemIdList item) => throw new NotImplementedException();
 
 	/// <summary>
-/// Inserts a child item identifier into the list at the specified index.
-/// </summary>
-/// <param name="index">Zero-based position at which to insert the child item.</param>
-/// <param name="item">The child item identifier to insert.</param>
-/// <exception cref="NotImplementedException">Always thrown; insertion is not implemented.</exception>
-public void Insert(int index, ChildItemIdList item) => throw new NotImplementedException();
+	/// Inserts a child item identifier into the list at the specified index.
+	/// </summary>
+	/// <param name="index">Zero-based position at which to insert the child item.</param>
+	/// <param name="item">The child item identifier to insert.</param>
+	/// <exception cref="NotImplementedException">Always thrown; insertion is not implemented.</exception>
+	public void Insert(int index, ChildItemIdList item) => throw new NotImplementedException();
 
 	/// <summary>
-/// Removal by index is not supported; this method always throws <see cref="NotImplementedException"/>.
-/// </summary>
-/// <param name="index">The zero-based index of the element to remove.</param>
-/// <exception cref="NotImplementedException">Always thrown because indexed removal is not implemented.</exception>
-public void RemoveAt(int index) => throw new NotImplementedException();
+	/// Removal by index is not supported; this method always throws <see cref="NotImplementedException"/>.
+	/// </summary>
+	/// <param name="index">The zero-based index of the element to remove.</param>
+	/// <exception cref="NotImplementedException">Always thrown because indexed removal is not implemented.</exception>
+	public void RemoveAt(int index) => throw new NotImplementedException();
 
 	public ChildItemIdList this[int index]
 	{
@@ -303,24 +303,24 @@ public void RemoveAt(int index) => throw new NotImplementedException();
 
 	#region ICollection<ChildItemIdList> Members
 	/// <summary>
-/// Attempts to add a child item to the list — not supported for this read-only collection.
-/// </summary>
-/// <param name="item">The child item to add.</param>
-/// <exception cref="System.NotImplementedException">Always thrown because adding items is not implemented for ItemIdList.</exception>
-public void Add(ChildItemIdList item) => throw new NotImplementedException();
+	/// Attempts to add a child item to the list — not supported for this read-only collection.
+	/// </summary>
+	/// <param name="item">The child item to add.</param>
+	/// <exception cref="System.NotImplementedException">Always thrown because adding items is not implemented for ItemIdList.</exception>
+	public void Add(ChildItemIdList item) => throw new NotImplementedException();
 
 	/// <summary>
-/// Attempts to remove all child item identifiers from the list; this operation is not supported.
-/// </summary>
-/// <exception cref="System.NotImplementedException">Always thrown.</exception>
-public void Clear() => throw new NotImplementedException();
+	/// Attempts to remove all child item identifiers from the list; this operation is not supported.
+	/// </summary>
+	/// <exception cref="System.NotImplementedException">Always thrown.</exception>
+	public void Clear() => throw new NotImplementedException();
 
 	/// <summary>
-/// Determines whether the list contains the specified child item identifier.
-/// </summary>
-/// <param name="item">The child item identifier to locate in the list.</param>
-/// <returns>`true` if the list contains the specified child item identifier, `false` otherwise.</returns>
-public bool Contains(ChildItemIdList item) => throw new NotImplementedException();
+	/// Determines whether the list contains the specified child item identifier.
+	/// </summary>
+	/// <param name="item">The child item identifier to locate in the list.</param>
+	/// <returns>`true` if the list contains the specified child item identifier, `false` otherwise.</returns>
+	public bool Contains(ChildItemIdList item) => throw new NotImplementedException();
 
 	/// <summary>
 	/// Copies the child item identifier lists from this ItemIdList into the specified destination array starting at the given index.
@@ -355,12 +355,12 @@ public bool Contains(ChildItemIdList item) => throw new NotImplementedException(
 	public bool IsReadOnly => true;
 
 	/// <summary>
-/// Attempts to remove the specified child item from the list.
-/// </summary>
-/// <param name="item">The child item to remove.</param>
-/// <returns>`true` if the item was found and removed, `false` otherwise.</returns>
-/// <exception cref="NotImplementedException">Always thrown; removal is not supported.</exception>
-public bool Remove(ChildItemIdList item) => throw new NotImplementedException();
+	/// Attempts to remove the specified child item from the list.
+	/// </summary>
+	/// <param name="item">The child item to remove.</param>
+	/// <returns>`true` if the item was found and removed, `false` otherwise.</returns>
+	/// <exception cref="NotImplementedException">Always thrown; removal is not supported.</exception>
+	public bool Remove(ChildItemIdList item) => throw new NotImplementedException();
 	#endregion ICollection<ChildItemIdList> Members
 
 	#region IEnumerable<ChildItemIdList> Members
@@ -386,10 +386,10 @@ public bool Remove(ChildItemIdList item) => throw new NotImplementedException();
 
 	#region IEnumerable Members
 	/// <summary>
-/// Provides an enumerator that iterates the child item identifiers in this ItemIdList.
-/// </summary>
-/// <returns>An <see cref="IEnumerator"/> that enumerates the <see cref="ChildItemIdList"/> elements.</returns>
-IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+	/// Provides an enumerator that iterates the child item identifiers in this ItemIdList.
+	/// </summary>
+	/// <returns>An <see cref="IEnumerator"/> that enumerates the <see cref="ChildItemIdList"/> elements.</returns>
+	IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 	#endregion IEnumerable Members
 }
 
@@ -459,20 +459,20 @@ public class ChildItemIdList : SafeCoTaskMemHandle
 		=> !ChildItemIdList.Equals(pidl1, pidl2);
 
 	/// <summary>
-		/// Determines whether two child item identifier lists represent the same item.
-		/// </summary>
-		/// <param name="pidl1">The first child item identifier list to compare.</param>
-		/// <param name="pidl2">The second child item identifier list to compare.</param>
-		/// <returns>`true` if both child item identifier lists represent the same item identifier list; `false` otherwise.</returns>
-		public static bool Equals(ChildItemIdList pidl1, ChildItemIdList pidl2)
+	/// Determines whether two child item identifier lists represent the same item.
+	/// </summary>
+	/// <param name="pidl1">The first child item identifier list to compare.</param>
+	/// <param name="pidl2">The second child item identifier list to compare.</param>
+	/// <returns>`true` if both child item identifier lists represent the same item identifier list; `false` otherwise.</returns>
+	public static bool Equals(ChildItemIdList pidl1, ChildItemIdList pidl2)
 		=> ShellApi.NativeMethods.ILIsEqual(pidl1.Handle, pidl2.Handle);
 
 	/// <summary>
-/// Determines whether this instance represents the same item identifier list as the specified ChildItemIdList.
-/// </summary>
-/// <param name="value">The ChildItemIdList to compare with the current instance.</param>
-/// <returns>`true` if the two represent the same item identifier list, `false` otherwise.</returns>
-public bool Equals(ChildItemIdList value) => Equals(this, value);
+	/// Determines whether this instance represents the same item identifier list as the specified ChildItemIdList.
+	/// </summary>
+	/// <param name="value">The ChildItemIdList to compare with the current instance.</param>
+	/// <returns>`true` if the two represent the same item identifier list, `false` otherwise.</returns>
+	public bool Equals(ChildItemIdList value) => Equals(this, value);
 
 	public static bool operator ==(ChildItemIdList pidl1, ItemIdList pidl2)
 		=> ItemIdList.Equals(pidl1, pidl2);
@@ -481,20 +481,20 @@ public bool Equals(ChildItemIdList value) => Equals(this, value);
 		=> !ItemIdList.Equals(pidl1, pidl2);
 
 	/// <summary>
-		/// Determine whether a ChildItemIdList and an ItemIdList represent the same item identifier list.
-		/// </summary>
-		/// <param name="pidl1">The child item identifier list to compare.</param>
-		/// <param name="pidl2">The item identifier list to compare against.</param>
-		/// <returns>`true` if both arguments represent the same item identifier list, `false` otherwise.</returns>
-		public static bool Equals(ChildItemIdList pidl1, ItemIdList pidl2)
+	/// Determine whether a ChildItemIdList and an ItemIdList represent the same item identifier list.
+	/// </summary>
+	/// <param name="pidl1">The child item identifier list to compare.</param>
+	/// <param name="pidl2">The item identifier list to compare against.</param>
+	/// <returns>`true` if both arguments represent the same item identifier list, `false` otherwise.</returns>
+	public static bool Equals(ChildItemIdList pidl1, ItemIdList pidl2)
 		=> ShellApi.NativeMethods.ILIsEqual(pidl1.Handle, pidl2.Handle);
 
 	/// <summary>
-/// Determines whether this ItemIdList is equal to the specified ItemIdList.
-/// </summary>
-/// <param name="value">The ItemIdList to compare with this instance.</param>
-/// <returns>`true` if the lists represent the same item identifier list, `false` otherwise.</returns>
-public bool Equals(ItemIdList value) => Equals(this, value);
+	/// Determines whether this ItemIdList is equal to the specified ItemIdList.
+	/// </summary>
+	/// <param name="value">The ItemIdList to compare with this instance.</param>
+	/// <returns>`true` if the lists represent the same item identifier list, `false` otherwise.</returns>
+	public bool Equals(ItemIdList value) => Equals(this, value);
 	#endregion Equality Comparisons
 
 	#region Overrides
@@ -512,10 +512,10 @@ public bool Equals(ItemIdList value) => Equals(this, value);
 	}
 
 	/// <summary>
-/// Computes a hash code representing the underlying item identifier list.
-/// </summary>
-/// <returns>A 32-bit hash code for the contents of the underlying PIDL handle.</returns>
-public override int GetHashCode() => ItemIdList.GetHashCode(base.handle);
+	/// Computes a hash code representing the underlying item identifier list.
+	/// </summary>
+	/// <returns>A 32-bit hash code for the contents of the underlying PIDL handle.</returns>
+	public override int GetHashCode() => ItemIdList.GetHashCode(base.handle);
 
 	/// <summary>
 	/// Produces a hex-formatted string of the pidl bytes enclosed in braces.

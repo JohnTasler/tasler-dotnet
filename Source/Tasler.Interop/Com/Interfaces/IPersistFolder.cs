@@ -11,8 +11,8 @@ namespace Tasler.Interop.Shell;
 public partial interface IPersistFolder : IPersist
 {
 	/// <summary>
-/// Initializes the folder object with the specified ITEMIDLIST (PIDL).
-/// </summary>
-/// <param name="pidl">A pointer to an ITEMIDLIST (PIDL) that identifies the folder to initialize.</param>
-void Initialize(nint pidl);
+	/// Initializes the folder object with the specified ITEMIDLIST (PIDL).
+	/// </summary>
+	/// <param name="pidl">A pointer to an ITEMIDLIST (PIDL) that identifies the folder to initialize.</param>
+	void Initialize(nint pidl);
 }

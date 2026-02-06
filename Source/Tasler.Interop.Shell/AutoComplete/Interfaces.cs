@@ -9,15 +9,16 @@ namespace Tasler.Interop.Shell.AutoComplete;
 public partial interface IObjMgr
 {
 	/// <summary>
-/// Adds an IEnumString enumerator to the object manager.
-/// </summary>
-/// <param name="punk">The IEnumString enumerator to add.</param>
-void Append(IEnumString punk);
+	/// Adds an IEnumString enumerator to the object manager.
+	/// </summary>
+	/// <param name="punk">The IEnumString enumerator to add.</param>
+	void Append(IEnumString punk);
+
 	/// <summary>
-/// Removes the specified string enumerator from the object manager.
-/// </summary>
-/// <param name="punk">The IEnumString instance to remove from the manager.</param>
-void Remove(IEnumString punk);
+	/// Removes the specified string enumerator from the object manager.
+	/// </summary>
+	/// <param name="punk">The IEnumString instance to remove from the manager.</param>
+	void Remove(IEnumString punk);
 }
 
 [Guid(Guids.IID_IEnumACString)]
@@ -39,13 +40,13 @@ public partial interface IEnumACString : IEnumString
 /// Sets the enumeration options that control how auto-complete strings are produced and filtered.
 /// </summary>
 /// <param name="dwOptions">Flags specifying the auto-complete enumeration behavior to apply.</param>
-void SetEnumOptions(AutoCompleteOption dwOptions);
+	void SetEnumOptions(AutoCompleteOption dwOptions);
 
 	/// <summary>
 /// Gets the options currently applied to auto-complete string enumeration.
 /// </summary>
 /// <returns>The current <see cref="AutoCompleteOption"/> flags controlling enumeration behavior.</returns>
-AutoCompleteOption GetEnumOptions();
+	AutoCompleteOption GetEnumOptions();
 }
 
 [Guid(Guids.IID_IACList)]
@@ -77,7 +78,7 @@ public partial interface IACList2 : IACList
 /// Retrieves the current auto-complete list options.
 /// </summary>
 /// <returns>The current <see cref="AutoCompleteListOptions"/> value.</returns>
-AutoCompleteListOptions GetOptions();
+	AutoCompleteListOptions GetOptions();
 }
 
 [Guid(Guids.IID_IAutoComplete)]
@@ -92,14 +93,14 @@ public partial interface IAutoComplete
 /// <param name="pwszRegKeyPath">Optional registry key path used by the auto-complete implementation; may be null or empty.</param>
 /// <param name="pwszQuickComplete">Optional quick-complete string to seed suggestions; may be null or empty.</param>
 /// <returns>HRESULT-style status code: S_OK (0) on success, otherwise an HRESULT error code.</returns>
-int Init(nint hwndEdit, IEnumString punkACL, string pwszRegKeyPath, string pwszQuickComplete);
+	int Init(nint hwndEdit, IEnumString punkACL, string pwszRegKeyPath, string pwszQuickComplete);
 
 	/// <summary>
 /// Enables or disables the auto-complete behavior for the associated edit control.
 /// </summary>
 /// <param name="fEnable">`true` to enable auto-complete, `false` to disable it.</param>
 /// <returns>HRESULT indicating success or failure; `S_OK` on success.</returns>
-int Enable([MarshalAs(UnmanagedType.Bool)] bool fEnable);
+	int Enable([MarshalAs(UnmanagedType.Bool)] bool fEnable);
 }
 
 [Guid(Guids.IID_IAutoComplete)]
@@ -118,7 +119,7 @@ public partial interface IAutoComplete2 : IAutoComplete
 /// Gets the currently configured auto-complete options.
 /// </summary>
 /// <returns>The currently configured AutoCompleteOptions flags.</returns>
-AutoCompleteOptions GetOptions();
+	AutoCompleteOptions GetOptions();
 }
 
 [Guid(Guids.IID_ICurrentWorkingDirectory)]

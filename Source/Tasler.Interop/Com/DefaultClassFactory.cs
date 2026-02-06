@@ -24,5 +24,5 @@ public partial class DefaultClassFactory(Func<IUnknown> _creatorFunc) : IClassFa
 /// </summary>
 /// <param name="fLock">True to request locking the server, false to request unlocking it.</param>
 /// <returns>0 to indicate success.</returns>
-public int LockServer(bool fLock) => 0;
+	public int LockServer(bool fLock) => 0;
 }

@@ -17,29 +17,29 @@ public partial interface IPersistStreamInit : IPersist
 	int IsDirty();
 
 	/// <summary>
-/// Loads the object's persisted state from the specified COM stream.
-/// </summary>
-/// <param name="stream">COM stream to read the object's persisted state from.</param>
-void Load(IStream stream);
+	/// Loads the object's persisted state from the specified COM stream.
+	/// </summary>
+	/// <param name="stream">COM stream to read the object's persisted state from.</param>
+	void Load(IStream stream);
 
 	/// <summary>
-/// Persists the object's state to the provided stream.
-/// </summary>
-/// <param name="stream">The stream to which the object's state will be written.</param>
-/// <param name="fClearDirty">If true, clears the object's modified (dirty) state after saving; if false, retains the dirty state.</param>
-void Save(IStream stream, [MarshalAs(UnmanagedType.Bool)] bool fClearDirty);
+	/// Persists the object's state to the provided stream.
+	/// </summary>
+	/// <param name="stream">The stream to which the object's state will be written.</param>
+	/// <param name="fClearDirty">If true, clears the object's modified (dirty) state after saving; if false, retains the dirty state.</param>
+	void Save(IStream stream, [MarshalAs(UnmanagedType.Bool)] bool fClearDirty);
 
 	/// <summary>
-/// Retrieves the maximum number of bytes required to save the object's persistent state.
-/// </summary>
-/// <returns>The maximum size in bytes needed to persist the object.</returns>
-ulong GetSizeMax();
+	/// Retrieves the maximum number of bytes required to save the object's persistent state.
+	/// </summary>
+	/// <returns>The maximum size in bytes needed to persist the object.</returns>
+	ulong GetSizeMax();
 
 	/// <summary>
-/// Initializes the object to a new persisted state for subsequent use.
-/// </summary>
-/// <remarks>
-/// Resets the object's persisted state so it behaves as if newly created for persistence operations.
-/// </remarks>
-void InitNew();
+	/// Initializes the object to a new persisted state for subsequent use.
+	/// </summary>
+	/// <remarks>
+	/// Resets the object's persisted state so it behaves as if newly created for persistence operations.
+	/// </remarks>
+	void InitNew();
 }

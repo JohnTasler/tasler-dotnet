@@ -16,56 +16,33 @@ public partial interface ILockBytes : IUnknown
 	/// <summary>
 	/// Reads a specified number of bytes starting at a specified offset from the beginning of the
 	/// byte array object.
-	/// </summary>
-	/// <param name="offset">Specifies the starting point from the beginning of the byte array for
-	/// reading data.</param>
-	/// <param name="pv">Pointer to the buffer into which the byte array is read. The size of this
-	/// buffer is contained in <paramref name="byteCount"/>.</param>
-	/// <param name="byteCount">Specifies the number of bytes of data to attempt to read from the
-	/// byte array.</param>
-	/// <param name="bytesRead">Upon return this contains the actual number of bytes read from the
 	/// <summary>
-/// Reads up to <paramref name="byteCount"/> bytes from the byte array starting at <paramref name="offset"/> into the buffer pointed to by <paramref name="pv"/>.
-/// </summary>
-/// <param name="offset">Zero-based byte offset in the byte array where reading begins.</param>
-/// <param name="pv">Pointer to the destination buffer that receives the data.</param>
-/// <param name="byteCount">Maximum number of bytes to read.</param>
-/// <param name="bytesRead">The actual number of bytes read into <paramref name="pv"/>.</param>
+	/// Reads up to <paramref name="byteCount"/> bytes from the byte array starting at <paramref name="offset"/> into the buffer pointed to by <paramref name="pv"/>.
+	/// </summary>
+	/// <param name="offset">Zero-based byte offset in the byte array where reading begins.</param>
+	/// <param name="pv">Pointer to the destination buffer that receives the data.</param>
+	/// <param name="byteCount">Maximum number of bytes to read.</param>
+	/// <param name="bytesRead">The actual number of bytes read into <paramref name="pv"/>.</param>
 	void ReadAt(ulong offset, nint pv, uint byteCount, out uint bytesRead);
 
 	/// <summary>
-	/// Writes the specified number of bytes starting at a specified offset from the beginning of the
-	/// byte array.
+	/// Writes up to <paramref name="byteCount"/> bytes from the memory buffer pointed to by <paramref name="pv"/> into the byte array starting at <paramref name="offset"/>.
 	/// </summary>
-	/// <param name="offset">Specifies the starting point from the beginning of the byte array for
-	/// the data to be written.</param>
-	/// <param name="pv">Pointer to the buffer containing the data to be written.</param>
-	/// <param name="byteCount">Specifies the number of bytes of data to attempt to write into the
-	/// byte array.</param>
-	/// <param name="bytesWritten">Upon return this contains the actual number of bytes written to
-	/// <summary>
-/// Writes up to <paramref name="byteCount"/> bytes from the memory buffer pointed to by <paramref name="pv"/> into the byte array starting at <paramref name="offset"/>.
-/// </summary>
-/// <param name="offset">Byte offset in the target byte array at which to begin writing.</param>
-/// <param name="pv">Pointer to the source buffer containing the bytes to write.</param>
-/// <param name="byteCount">Maximum number of bytes to write from <paramref name="pv"/>.</param>
-/// <param name="bytesWritten">Outputs the actual number of bytes written.</param>
+	/// <param name="offset">Byte offset in the target byte array at which to begin writing.</param>
+	/// <param name="pv">Pointer to the source buffer containing the bytes to write.</param>
+	/// <param name="byteCount">Maximum number of bytes to write from <paramref name="pv"/>.</param>
+	/// <param name="bytesWritten">Outputs the actual number of bytes written.</param>
 	void WriteAt(ulong offset, nint pv, uint byteCount, out uint bytesWritten);
 
 	/// <summary>
-	/// Ensures that any internal buffers maintained by the ILockBytes implementation are written out
-	/// to the underlying physical storage.
+	/// Forces any internal buffers to be written to the underlying physical storage.
 	/// </summary>
 	/// <remarks>
 	/// <para><see cref="ILockBytes.Flush"/> flushes internal buffers to the underlying storage device.</para>
 	/// <para>The COM-provided implementation of compound files calls this method during a transacted commit
 	/// operation to provide a two-phase commit process that protects against loss of data.</para>
-	/// <summary>
-/// Forces any internal buffers to be written to the underlying physical storage.
-/// </summary>
-/// <remarks>
-/// Ensures data buffered by the byte-array object is committed to its backing store.
-/// </remarks>
+	/// Ensures data buffered by the byte-array object is committed to its backing store.
+	/// </remarks>
 	void Flush();
 
 	/// <summary>Changes the size of the byte array.</summary>
@@ -81,14 +58,6 @@ public partial interface ILockBytes : IUnknown
 	/// because of cache buffering in the operating system or network. However, callers must be able
 	/// to deal with this return code because some <see cref="ILockBytes"/> implementations might
 	/// support it.</para>
-	/// <summary>
-	/// Changes the size of the byte-array storage to the specified length.
-	/// </summary>
-	/// <param name="byteCount">The desired size of the storage in bytes.</param>
-	/// <returns>
-	/// An HRESULT-style status code: `S_OK` on success, or an error code on failure (for example, `STG_E_MEDIUMFULL` if the underlying storage is full).</returns>
-	/// <remarks>
-	/// If the size is increased, the new region's contents are undefined. If the size is decreased, the storage is truncated to the specified length.
 	/// </remarks>
 	[PreserveSig]
 	int SetSize(ulong byteCount);
@@ -98,12 +67,7 @@ public partial interface ILockBytes : IUnknown
 	/// </summary>
 	/// <param name="offset">Specifies the byte offset for the beginning of the range.</param>
 	/// <param name="byteCount">Specifies, in bytes, the length of the range to be restricted.</param>
-	/// <summary>
-/// Applies an access restriction to a contiguous range of bytes in the byte-array object.
-/// </summary>
-/// <param name="offset">The starting byte position of the region within the byte array.</param>
-/// <param name="byteCount">The length of the region in bytes to which the lock is applied.</param>
-/// <param name="lockType">Specifies the type of restriction to apply to the region (e.g., shared, exclusive, or deny modes).</param>
+	/// <param name="lockType">Specifies the type of restrictions being requested on accessing the range.</param>
 	void LockRegion(ulong offset, ulong byteCount, LockType lockType);
 
 	/// <summary>
@@ -111,12 +75,7 @@ public partial interface ILockBytes : IUnknown
 	/// </summary>
 	/// <param name="offset">Specifies the byte offset for the beginning of the range.</param>
 	/// <param name="byteCount">Specifies, in bytes, the length of the range that is restricted.</param>
-	/// <summary>
-/// Removes access restrictions on a specified range of bytes.
-/// </summary>
-/// <param name="offset">The zero-based byte offset at which the range begins.</param>
-/// <param name="byteCount">The length of the range, in bytes.</param>
-/// <param name="lockType">The kind of lock or access restriction to remove for the specified range.</param>
+	/// <param name="lockType">Specifies the type of access restrictions previously placed on the range.</param>
 	void UnlockRegion(ulong offset, ulong byteCount, LockType lockType);
 
 	/// <summary>
@@ -128,10 +87,6 @@ public partial interface ILockBytes : IUnknown
 	/// enumeration. If the <see cref="STATFLAG.NONAME"/> is specified, the
 	/// <see cref="STATSTG.Name"/> member is not supplied, thus saving a memory-allocation operation.
 	/// The other possible value, <see cref="STATFLAG.Default"/>, indicates that all members of the
-	/// <summary>
-/// Retrieves a STATSTG structure containing information about this byte-array object.
-/// </summary>
-/// <param name="statStg">When this method returns, contains a STATSTG structure with the object's statistics.</param>
-/// <param name="statFlag">Specifies which STATSTG fields to populate (for example, use STATFLAG.NONAME to omit the Name field).</param>
+	/// <see cref="STATSTG"/> structure be supplied.</param>
 	void Stat(out STATSTG statStg, STATFLAG statFlag);
 }

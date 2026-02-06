@@ -17,11 +17,11 @@ public partial interface IPersistFile : IPersist
 	int IsDirty();
 
 	/// <summary>
-/// Loads the object's state from the specified file using the provided storage mode.
-/// </summary>
-/// <param name="fileName">Path to the file to load the object's state from.</param>
-/// <param name="mode">STGM flags that specify access, sharing, and creation semantics for opening the file.</param>
-void Load(string fileName, STGM mode);
+	/// Loads the object's state from the specified file using the provided storage mode.
+	/// </summary>
+	/// <param name="fileName">Path to the file to load the object's state from.</param>
+	/// <param name="mode">STGM flags that specify access, sharing, and creation semantics for opening the file.</param>
+	void Load(string fileName, STGM mode);
 
 	/// <summary>
 	/// Saves the object to the specified file and optionally remembers the file name for future saves.
@@ -33,10 +33,10 @@ void Load(string fileName, STGM mode);
 	int Save(string fileName, [MarshalAs(UnmanagedType.Bool)] bool fRemember);
 
 	/// <summary>
-/// Notifies the object that a save operation has completed for the specified file.
-/// </summary>
-/// <param name="fileName">The path of the file for which the save operation has completed.</param>
-void SaveCompleted(string fileName);
+	/// Notifies the object that a save operation has completed for the specified file.
+	/// </summary>
+	/// <param name="fileName">The path of the file for which the save operation has completed.</param>
+	void SaveCompleted(string fileName);
 
 	/// <summary>
 	/// Retrieves the current file path associated with the object.

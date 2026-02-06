@@ -8,8 +8,6 @@ namespace Tasler.Interop.Shell;
 [Guid("000214F2-0000-0000-C000-000000000046")]
 public partial interface IEnumIDList
 {
-	/// <param name="elementCount"></param>
-	/// <param name="elements"></param>
 	/// <summary>
 	/// Retrieves up to a specified number of item identifier lists from the enumeration.
 	/// </summary>
@@ -31,13 +29,13 @@ public partial interface IEnumIDList
 	int Skip(int elementsToSkip);
 
 	/// <summary>
-/// Resets the enumerator to the beginning of the sequence so subsequent calls begin from the first element.
-/// </summary>
-void Reset();
+	/// Resets the enumerator to the beginning of the sequence so subsequent calls begin from the first element.
+	/// </summary>
+	void Reset();
 
 	/// <summary>
-/// Creates a copy of the enumerator preserving its current position.
-/// </summary>
-/// <returns>An IEnumIDList instance positioned at the same location as the current enumerator.</returns>
-IEnumIDList Clone();
+	/// Creates a copy of the enumerator preserving its current position.
+	/// </summary>
+	/// <returns>An IEnumIDList instance positioned at the same location as the current enumerator.</returns>
+	IEnumIDList Clone();
 }

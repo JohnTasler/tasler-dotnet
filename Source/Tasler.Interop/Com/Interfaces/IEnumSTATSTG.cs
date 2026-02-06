@@ -7,13 +7,6 @@ namespace Tasler.Interop.Com;
 [Guid("0000000D-0000-0000-C000-000000000046")]
 public partial interface IEnumSTATSTG : IUnknown
 {
-	/// <summary>Retrieves the next <see cref="STATSTG"/> structures in the enumeration sequence.</summary>
-	/// <param name="elementCount">The number of <see cref="STATSTG"/> structures to retrieve.</param>
-	/// <param name="elements">An array to receive the retrieved <see cref="STATSTG"/> structures.</param>
-	/// <param name="elementsFetched">The actual number of <see cref="STATSTG"/> structures retrieved.</param>
-	/// <returns>
-	/// HRESULT indicating success or failure. S_FALSE indicates that less that the specified
-	/// <paramref name="elementCount"/> elements were retrieved.
 	/// <summary>
 	/// Retrieves up to <paramref name="elementCount"/> STATSTG structures from the enumeration sequence.
 	/// </summary>
@@ -42,10 +35,9 @@ public partial interface IEnumSTATSTG : IUnknown
 	/// <summary>Resets the enumeration sequence to the beginning.</summary>
 	void Reset();
 
-	/// <summary>Clones the current enumeration object.</summary>
 	/// <summary>
-/// Creates a new enumerator that duplicates the current enumeration state.
-/// </summary>
-/// <returns>A new <see cref="IEnumSTATSTG"/> instance positioned at the same element as the current enumerator.</returns>
+	/// Clones the current enumeration object, by creating a new enumerator that duplicates the current enumeration state.
+	/// </summary>
+	/// <returns>A new <see cref="IEnumSTATSTG"/> instance positioned at the same element as the current enumerator.</returns>
 	IEnumSTATSTG Clone();
 }

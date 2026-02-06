@@ -9,16 +9,16 @@ namespace Tasler.Interop.Shell
 	public partial interface IExtractImage
 	{
 		/// <summary>
-			/// Retrieves the image location and preferred thumbnail parameters, writing the path into the provided character buffer and returning size and flag information.
-			/// </summary>
-			/// <param name="pathBuffer">Buffer that receives the null-terminated wide-character path to the image; only valid up to <paramref name="pathBufferCharacterCount"/> characters.</param>
-			/// <param name="pathBufferCharacterCount">The number of characters available in <paramref name="pathBuffer"/>.</param>
-			/// <param name="unused">Reserved; callers must pass zero.</param>
-			/// <param name="prgSize">On input, the desired thumbnail size; on output, the size the extractor will provide or recommends.</param>
-			/// <param name="dwRecClrDepth">Requested color depth for the thumbnail, in bits per pixel.</param>
-			/// <param name="pdwFlags">On input, flags that modify extraction behavior; on output, flags indicating extractor capabilities or requirements.</param>
-			/// <returns>An HRESULT value: `S_OK` on success, or an error code on failure.</returns>
-			[PreserveSig]
+		/// Retrieves the image location and preferred thumbnail parameters, writing the path into the provided character buffer and returning size and flag information.
+		/// </summary>
+		/// <param name="pathBuffer">Buffer that receives the null-terminated wide-character path to the image; only valid up to <paramref name="pathBufferCharacterCount"/> characters.</param>
+		/// <param name="pathBufferCharacterCount">The number of characters available in <paramref name="pathBuffer"/>.</param>
+		/// <param name="unused">Reserved; callers must pass zero.</param>
+		/// <param name="prgSize">On input, the desired thumbnail size; on output, the size the extractor will provide or recommends.</param>
+		/// <param name="dwRecClrDepth">Requested color depth for the thumbnail, in bits per pixel.</param>
+		/// <param name="pdwFlags">On input, flags that modify extraction behavior; on output, flags indicating extractor capabilities or requirements.</param>
+		/// <returns>An HRESULT value: `S_OK` on success, or an error code on failure.</returns>
+		[PreserveSig]
 		int GetLocation(
 			[MarshalUsing(CountElementName = nameof(pathBufferCharacterCount))][Out] char[] pathBuffer,
 			int pathBufferCharacterCount,
@@ -28,12 +28,12 @@ namespace Tasler.Interop.Shell
 			ref IEIFlags pdwFlags);
 
 		/// <summary>
-/// Extracts a thumbnail and returns a native HBITMAP handle for it.
-/// </summary>
-/// <returns>
-/// A native HBITMAP handle to the extracted thumbnail as an `nint`; `IntPtr.Zero` on failure. The caller is responsible for releasing the HBITMAP (for example, by calling `DeleteObject`).
-/// </returns>
-nint ExtractThumbnail();  // HBITMAP
+		/// Extracts a thumbnail and returns a native HBITMAP handle for it.
+		/// </summary>
+		/// <returns>
+		/// A native HBITMAP handle to the extracted thumbnail as an `nint`; `IntPtr.Zero` on failure. The caller is responsible for releasing the HBITMAP (for example, by calling `DeleteObject`).
+		/// </returns>
+		nint ExtractThumbnail();  // HBITMAP
 	}
 
 	[Flags]
