@@ -119,7 +119,7 @@ public static class EnumerableExtensions
 	/// <param name="element">When this method returns, the element of the sequence that satisfies the condition, if one is found;
 	/// otherwise, the default value for the <typeparamref name="TSource"/>. This parameter is passed uninitialized. </param>
 	/// <param name="predicate">A function to test each element for a condition.</param>
-	/// <returns>The index of the last element if found in the sequence; otherwise, -1.</returns>
+	/// <returns>The zero-based index of the last matching element, or -1 if no element satisfies <paramref name="predicate"/>.</returns>
 	public static int LastIndex<TSource>(this IEnumerable<TSource> @this, out TSource? element, Func<TSource, bool> predicate)
 	{
 		Guard.IsNotNull(@this);
@@ -140,12 +140,12 @@ public static class EnumerableExtensions
 	}
 
 	/// <summary>
-	/// Returns a new enumerable that contains the elements of the source enumerable, excluding the specified element.
+	/// Produces a sequence that excludes all elements equal to the specified element.
 	/// </summary>
 	/// <typeparam name="T">The type of elements in the enumerable.</typeparam>
-	/// <param name="this">The source enumerable.</param>
-	/// <param name="element">The element to exclude.</param>
-	/// <returns>A new enumerable with the specified element excluded.</returns>
+	/// <param name="this">The source sequence.</param>
+	/// <param name="element">The element to exclude from the sequence.</param>
+	/// <returns>An <see cref="IEnumerable{T}"/> that yields the elements from <paramref name="this"/> in order except those that are equal to <paramref name="element"/> using the default equality comparer.</returns>
 	public static IEnumerable<T> Exclude<T>(this IEnumerable<T> @this, T element)
 		=> @this.Where(e => !EqualityComparer<T>.Default.Equals(e, element));
 

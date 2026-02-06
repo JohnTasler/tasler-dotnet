@@ -136,7 +136,7 @@ public partial class SegmentItemBar : SegmentBarBase
 		#region Intensity
 
 		[ObservableProperty]
-		public partial double Intensity { get; set; }
+		private double _intensity;
 
 		#endregion Intensity
 

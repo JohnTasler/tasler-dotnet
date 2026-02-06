@@ -65,7 +65,10 @@ public class TimerDeferredAction : IDisposable
 	#region Methods
 	/// <summary>
 	/// Starts or restarts the timer interval.
+	/// <summary>
+	/// Restarts the deferral timer and marks that a deferred action should run when the interval elapses.
 	/// </summary>
+	/// <returns>The current <see cref="TimerDeferredAction"/> instance for fluent chaining.</returns>
 	public TimerDeferredAction Trigger()
 	{
 		var timer = _timer;
@@ -85,7 +88,13 @@ public class TimerDeferredAction : IDisposable
 	/// </summary>
 	/// <remarks>
 	/// This method does nothing if called when no deferral interval has been triggered.
+	/// <summary>
+	/// Forces immediate execution of the deferred action if a trigger has occurred since the last expiration.
+	/// </summary>
+	/// <remarks>
+	/// If no trigger is pending, this method has no effect.
 	/// </remarks>
+	/// <returns>The current <see cref="TimerDeferredAction"/> instance.</returns>
 	public TimerDeferredAction Expire()
 	{
 		var timer = _timer;
@@ -100,7 +109,12 @@ public class TimerDeferredAction : IDisposable
 
 	/// <summary>
 	/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+	/// <summary>
+	/// Releases resources used by the instance and ensures any pending deferred action is executed.
 	/// </summary>
+	/// <remarks>
+	/// Forces execution of a pending action if one was triggered, clears internal references, disposes the timer if applicable, and suppresses finalization.
+	/// </remarks>
 	public void Dispose()
 	{
 		this.Expire();
@@ -120,6 +134,10 @@ public class TimerDeferredAction : IDisposable
 	#endregion Instance Fields
 
 	#region Event Handlers
+	/// <summary>
+	/// Handles the timer's tick: stops the timer, clears the triggered flag, and invokes the deferred action.
+	/// </summary>
+	/// <exception cref="Exception">Propagates any exception thrown by the deferred action after logging it via Debug.Fail.</exception>
 	private void Timer_Tick(object? sender, EventArgs e)
 	{
 		// Stop the timer

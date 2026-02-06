@@ -16,38 +16,32 @@ public partial interface ILockBytes : IUnknown
 	/// <summary>
 	/// Reads a specified number of bytes starting at a specified offset from the beginning of the
 	/// byte array object.
+	/// <summary>
+	/// Reads up to <paramref name="byteCount"/> bytes from the byte array starting at <paramref name="offset"/> into the buffer pointed to by <paramref name="pv"/>.
 	/// </summary>
-	/// <param name="offset">Specifies the starting point from the beginning of the byte array for
-	/// reading data.</param>
-	/// <param name="pv">Pointer to the buffer into which the byte array is read. The size of this
-	/// buffer is contained in <paramref name="byteCount"/>.</param>
-	/// <param name="byteCount">Specifies the number of bytes of data to attempt to read from the
-	/// byte array.</param>
-	/// <param name="bytesRead">Upon return this contains the actual number of bytes read from the
-	/// byte array.</param>
+	/// <param name="offset">Zero-based byte offset in the byte array where reading begins.</param>
+	/// <param name="pv">Pointer to the destination buffer that receives the data.</param>
+	/// <param name="byteCount">Maximum number of bytes to read.</param>
+	/// <param name="bytesRead">The actual number of bytes read into <paramref name="pv"/>.</param>
 	void ReadAt(ulong offset, nint pv, uint byteCount, out uint bytesRead);
 
 	/// <summary>
-	/// Writes the specified number of bytes starting at a specified offset from the beginning of the
-	/// byte array.
+	/// Writes up to <paramref name="byteCount"/> bytes from the memory buffer pointed to by <paramref name="pv"/> into the byte array starting at <paramref name="offset"/>.
 	/// </summary>
-	/// <param name="offset">Specifies the starting point from the beginning of the byte array for
-	/// the data to be written.</param>
-	/// <param name="pv">Pointer to the buffer containing the data to be written.</param>
-	/// <param name="byteCount">Specifies the number of bytes of data to attempt to write into the
-	/// byte array.</param>
-	/// <param name="bytesWritten">Upon return this contains the actual number of bytes written to
-	/// the byte array.</param>
+	/// <param name="offset">Byte offset in the target byte array at which to begin writing.</param>
+	/// <param name="pv">Pointer to the source buffer containing the bytes to write.</param>
+	/// <param name="byteCount">Maximum number of bytes to write from <paramref name="pv"/>.</param>
+	/// <param name="bytesWritten">Outputs the actual number of bytes written.</param>
 	void WriteAt(ulong offset, nint pv, uint byteCount, out uint bytesWritten);
 
 	/// <summary>
-	/// Ensures that any internal buffers maintained by the ILockBytes implementation are written out
-	/// to the underlying physical storage.
+	/// Forces any internal buffers to be written to the underlying physical storage.
 	/// </summary>
 	/// <remarks>
 	/// <para><see cref="ILockBytes.Flush"/> flushes internal buffers to the underlying storage device.</para>
 	/// <para>The COM-provided implementation of compound files calls this method during a transacted commit
 	/// operation to provide a two-phase commit process that protects against loss of data.</para>
+	/// Ensures data buffered by the byte-array object is committed to its backing store.
 	/// </remarks>
 	void Flush();
 

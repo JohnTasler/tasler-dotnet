@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<UseWPF>true</UseWPF>
@@ -7,7 +7,7 @@
 		<RootNamespace>Tasler.Windows</RootNamespace>
 		<ProjectGuid>{CC6BE222-DE4B-412A-9743-80C187F43EE1}</ProjectGuid>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>net9.0-windows</TargetFrameworks>
+		<TargetFrameworks>net10.0-windows</TargetFrameworks>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<DocumentationFile Condition="'$(Configuration)'=='Release'">$(OutputPath)\$(AssemblyName).xml</DocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -44,8 +44,8 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="9.9.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="10.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
 	</ItemGroup>
 

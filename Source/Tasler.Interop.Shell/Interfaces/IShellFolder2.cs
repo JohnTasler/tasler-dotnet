@@ -8,18 +8,54 @@ namespace Tasler.Interop.Shell;
 [Guid("93F2F68C-1D1B-11d3-A30E-00C04F79ABD1")]
 public partial interface IShellFolder2 : IShellFolder
 {
+	/// <summary>
+	/// Retrieve the folder's default search identifier.
+	/// </summary>
+	/// <returns>A Guid representing the folder's default search.</returns>
 	Guid GetDefaultSearchGUID();
 
+	/// <summary>
+	/// Enumerates extra searches registered for this folder.
+	/// </summary>
+	/// <returns>An <see cref="IEnumExtraSearch"/> that enumerates the folder's extra searches.</returns>
 	IEnumExtraSearch EnumSearches();
 
+	/// <summary>
+	/// Gets the default column index for a specified resource set.
+	/// </summary>
+	/// <param name="dwRes">Resource flag that selects which set of column defaults to query.</param>
+	/// <param name="pSort">Receives the index of the default column used for sorting.</param>
+	/// <returns>The default column index for the specified resource set.</returns>
 	uint GetDefaultColumn(uint dwRes, out uint pSort);
 
+	/// <summary>
+	/// Gets the default state flags for the specified column.
+	/// </summary>
+	/// <param name="iColumn">Zero-based index of the column.</param>
+	/// <returns>A <see cref="SHCOLSTATEF"/> value describing the column's default state flags.</returns>
 	SHCOLSTATEF GetDefaultColumnState(uint iColumn);
 
+	/// <summary>
+	/// Retrieves the extended property value for the item identified by the specified PIDL using the provided property key.
+	/// </summary>
+	/// <param name="pidl">A pointer to the item's PIDL (item identifier list) that is relative to the folder implementing this interface.</param>
+	/// <param name="pscid">The property key that identifies which property to retrieve.</param>
+	/// <returns>An IntPtr referencing the retrieved property value for the specified item and property key.</returns>
 	nint GetDetailsEx(nint pidl, PropertyKey pscid);
 
+	/// <summary>
+	/// Retrieves column details for the specified item or for the folder itself.
+	/// </summary>
+	/// <param name="pidl">A pointer to the item's ITEMIDLIST that identifies the item; <c>0</c> (NULL) refers to the folder itself.</param>
+	/// <param name="iColumn">The zero-based column index whose details are requested.</param>
+	/// <returns>A <see cref="SHELLDETAILS"/> structure describing the column (format, average character count, and string information).</returns>
 	SHELLDETAILS GetDetailsOf(nint pidl, uint iColumn);
 
+	/// <summary>
+	/// Maps a shell folder column index to its corresponding property key (SCID).
+	/// </summary>
+	/// <param name="iColumn">Zero-based column index.</param>
+	/// <returns>The PropertyKey corresponding to the specified column.</returns>
 	PropertyKey MapColumnToSCID(uint iColumn);
 }
 

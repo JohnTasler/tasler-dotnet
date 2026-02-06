@@ -6,7 +6,7 @@
 		<RootNamespace>Tasler</RootNamespace>
 		<ProjectGuid>{6692957C-4E2B-415B-A03A-4B3DBCAC071B}</ProjectGuid>
 		<OutputType>Library</OutputType>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
@@ -57,7 +57,6 @@
 	<!-- Package References -->
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
-		<PackageReference Include="System.Memory" Version="4.6.3" />
 	</ItemGroup>
 
 </Project>
