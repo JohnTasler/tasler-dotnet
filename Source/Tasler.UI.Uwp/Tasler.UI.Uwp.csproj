@@ -30,11 +30,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Core\DispatcherQueueExtensions.cs" />
+		<Compile Remove="Core\DispatcherQueueExtensions.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Xaml\Threading\" />
+		<Folder Include="Xaml\Threading\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -47,8 +47,8 @@
 
 	<!-- Package References -->
 	<ItemGroup>
-	  <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
-	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="10.3.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
 	</ItemGroup>
