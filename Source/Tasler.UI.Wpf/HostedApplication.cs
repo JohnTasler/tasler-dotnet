@@ -82,8 +82,8 @@ public abstract class HostedApplication : Application, IProvideHost
 		viewModelMapper.AddMapping<TMainViewModel, TMainView>();
 		TApp.Populate(viewModelMapper);
 
-		var loggerProvider = host.Services.GetService<ILoggerProvider>();
-		var logger = loggerProvider?.CreateLogger("Tasler.Windows");
+		var loggerFactory = host.Services.GetService<ILoggerFactory>();
+		var logger = loggerFactory?.CreateLogger("Tasler.Windows");
 		logger?.LogInformation(
 			$"Config location: {ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath}");
 

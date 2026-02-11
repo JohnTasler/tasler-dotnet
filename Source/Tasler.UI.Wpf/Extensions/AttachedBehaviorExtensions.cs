@@ -17,7 +17,6 @@ public static class AttachedBehaviorExtensions
 		Guard.IsNotNull(dpk);
 		Guard.IsNotNull(d);
 		Guard.IsNotNull(e);
-		Guard.IsNotNull(isDefaultTest);
 
 		var element = (TElement)d;
 		var newValue = (TValue)e.NewValue;
