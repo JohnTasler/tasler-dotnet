@@ -52,27 +52,7 @@ public static partial class PopupManagement
 	}
 
 	private static void AllowsOpenPopupsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		var element = (FrameworkElement)d;
-		var newValue = (bool)e.NewValue;
-		if (newValue)
-		{
-			var behavior = (PrivateBehavior)element.GetValue(PrivateBehaviorPropertyKey.DependencyProperty);
-			if (behavior is not null)
-			{
-				// Detach and dereference the behavior when the newValue is true, since true is the default value
-				behavior.Detach();
-				element.ClearValue(PrivateBehaviorPropertyKey);
-			}
-		}
-		else
-		{
-			// Create and attach the behavior only when the newValue is false, since false is the non-default value
-			var behavior = new PrivateBehavior();
-			behavior.Attach(element);
-			element.SetValue(PrivateBehaviorPropertyKey, behavior);
-		}
-	}
+		=> PrivateBehaviorPropertyKey.BehaviorPropertyChanged<FrameworkElement, PrivateBehavior, bool>(d, e, true);
 
 	#endregion AllowsOpenPopups
 

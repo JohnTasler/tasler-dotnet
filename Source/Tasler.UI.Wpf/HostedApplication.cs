@@ -1,9 +1,11 @@
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Markup;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Tasler.ComponentModel;
 using Tasler.ComponentModel.Hosting;
 
@@ -81,6 +83,11 @@ public abstract class HostedApplication : Application, IProvideHost
 		var viewModelMapper = host.Services.GetService<IViewModelMapper>()!;
 		viewModelMapper.AddMapping<TMainViewModel, TMainView>();
 		TApp.Populate(viewModelMapper);
+
+		var loggerProvider = host.Services.GetService<ILoggerProvider>();
+		var logger = loggerProvider?.CreateLogger("Tasler.Windows");
+		logger?.LogInformation(
+			$"Config location: {ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath}");
 
 		// Create, initialize, and run the application
 		var app = host.Services.GetService<TApp>()!;
