@@ -23,7 +23,6 @@ public static partial class WindowPersistence
 	/// placement is persisted.
 	/// </summary>
 	/// <param name="element">The <see cref="Window"/> for which to get the property value.</param>
-	/// <returns>The attached property value. </returns>
 	/// <returns>The key into the <see cref="ApplicationSettingsBase"/>-derived class where the window
 	/// placement is persisted.</returns>
 	/// <exception cref="ArgumentNullException"><paramref name="element"/> is <see langword="null"/>.</exception>
@@ -68,7 +67,6 @@ public static partial class WindowPersistence
 	/// placement is persisted.
 	/// </summary>
 	/// <param name="element">The <see cref="Window"/> for which to get the property value.</param>
-	/// <returns>The attached property value. </returns>
 	/// <returns>An instance of the <see cref="ApplicationSettingsBase"/>-derived class.</returns>
 	/// <exception cref="ArgumentNullException"><paramref name="element"/> is <see langword="null"/>.</exception>
 	public static ApplicationSettingsBase GetSettings(Window element)
