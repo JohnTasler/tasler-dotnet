@@ -34,6 +34,10 @@ public static class AttachedBehaviorExtensions
 		}
 		else
 		{
+			// Detach any existing behavior before creating a new one
+			var existing = (TBehacvior)element.GetValue(dpk.DependencyProperty);
+			existing?.Detach();
+
 			// Create and attach the behavior only when the newValue is not its default value
 			var behavior = new TBehacvior();
 			behavior.Attach(element);
@@ -49,6 +53,6 @@ public static class AttachedBehaviorExtensions
 		where TElement : FrameworkElement
 		where TBehacvior : Behavior<TElement>, new()
 	{
-		dpk.BehaviorPropertyChanged<TElement, TBehacvior, TValue>(d, e, v => e.NewValue == (object)defaultValue!);
+		dpk.BehaviorPropertyChanged<TElement, TBehacvior, TValue>(d, e, v => e.NewValue.Equals((object)defaultValue!));
 	}
 }

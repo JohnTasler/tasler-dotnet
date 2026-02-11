@@ -4,6 +4,7 @@ using System.Windows.Interop;
 using CommunityToolkit.Diagnostics;
 using Microsoft.Xaml.Behaviors;
 using Tasler.Configuration;
+using Tasler.Windows;
 using Tasler.Windows.Model;
 
 namespace Tasler.Windows.Attachments;
@@ -17,11 +18,11 @@ public static partial class WindowPersistence
 			if (this.AssociatedObject is null)
 				return;
 
-			this.AssociatedObject.SourceInitialized -= this.AssociatedObject_SourceInitialized;
-			this.AssociatedObject.StateChanged -= this.AssociatedObject_PlacementChanged;
-			this.AssociatedObject.SizeChanged -= this.AssociatedObject_PlacementChanged;
-			this.AssociatedObject.LocationChanged -= this.AssociatedObject_PlacementChanged;
-			this.AssociatedObject.Closed -= this.AssociatedObject_Closed;
+			this.AssociatedObject.SourceInitialized += this.AssociatedObject_SourceInitialized;
+			this.AssociatedObject.StateChanged += this.AssociatedObject_PlacementChanged;
+			this.AssociatedObject.SizeChanged += this.AssociatedObject_PlacementChanged;
+			this.AssociatedObject.LocationChanged += this.AssociatedObject_PlacementChanged;
+			this.AssociatedObject.Closed += this.AssociatedObject_Closed;
 		}
 
 		private void AssociatedObject_SourceInitialized(object? sender, EventArgs e)
@@ -84,7 +85,7 @@ public static partial class WindowPersistence
 				}
 				else
 				{
-					throw new NotSupportedException("");
+					throw new NotSupportedException(Properties.Resources.IncorrectUseOfWindowPersistence);
 				}
 			}
 		}

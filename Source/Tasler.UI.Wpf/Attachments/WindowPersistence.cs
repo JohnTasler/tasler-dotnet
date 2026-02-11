@@ -15,7 +15,7 @@ public static partial class WindowPersistence
 	/// Identifies the <c>Key</c> attached property.
 	/// </summary>
 	public static readonly DependencyProperty KeyProperty =
-		DependencyProperty.RegisterAttached("Key", typeof(string), typeof(PopupManagement),
+		DependencyProperty.RegisterAttached("Key", typeof(string), typeof(WindowPersistence),
 			new PropertyMetadata(null, KeyPropertyChanged));
 
 	/// <summary>
@@ -38,7 +38,8 @@ public static partial class WindowPersistence
 	/// placement is persisted.
 	/// </summary>
 	/// <param name="element">The <see cref="Window"/> for which to set the property value.</param>
-	/// <param name="value"><see langword="true"/> to allow popups; <see langword="false"/> to block them.</param>
+	/// <param name="value">The key into the <see cref="ApplicationSettingsBase"/>-derived class where the window
+	/// placement is persisted.</param>
 	/// <exception cref="ArgumentNullException"><paramref name="element"/> is <see langword="null"/>.</exception>
 	public static void SetKey(Window element, string value)
 	{
@@ -59,7 +60,7 @@ public static partial class WindowPersistence
 	/// Identifies the <c>Settings</c> attached property.
 	/// </summary>
 	public static readonly DependencyProperty SettingsProperty =
-		DependencyProperty.RegisterAttached("Settings", typeof(ApplicationSettingsBase), typeof(PopupManagement),
+		DependencyProperty.RegisterAttached("Settings", typeof(ApplicationSettingsBase), typeof(WindowPersistence),
 			new PropertyMetadata(null, SettingsPropertyChanged));
 
 	/// <summary>

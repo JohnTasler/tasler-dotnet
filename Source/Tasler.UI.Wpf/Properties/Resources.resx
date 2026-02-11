@@ -132,6 +132,9 @@
   <data name="HostedViewTypeMustBeUIElementFormat1" xml:space="preserve">
     <value>The Type must be assignable to UIElement: {0}</value>
   </data>
+  <data name="IncorrectUseOfWindowPersistence" xml:space="preserve">
+    <value>Incorrect use of WindowPersistence. Both Settings and Key must be specified.</value>
+  </data>
   <data name="MustCreateChildCollectionOfTypeFormat1" xml:space="preserve">
     <value>The TreeRootNodeViewModelBase.CreateChildCollection override must return a non-null collection of type '{0}'.</value>
   </data>
