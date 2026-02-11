@@ -27,20 +27,18 @@ public static class AttachedBehaviorExtensions
 			{
 				// Detach and dereference the behavior when the newValue is its default value
 				behavior.Detach();
-				element.ClearValue(dpk.DependencyProperty);
+				element.ClearValue(dpk);
 			}
 		}
 		else
 		{
 			// Create and attach the behavior or reuse the existing behavior
-			if (element.GetValue(dpk.DependencyProperty) is TBehavior existing)
+			TBehavior existing = (TBehavior)element.GetValue(dpk.DependencyProperty);
+			var behavior = existing is null ? new TBehavior() : existing;
+			if (behavior != existing)
 			{
-				var behavior = existing is null ? new TBehavior() : existing;
-				if (behavior != existing)
-				{
-					behavior.Attach(element);
-					element.SetValue(dpk, behavior);
-				}
+				behavior.Attach(element);
+				element.SetValue(dpk, behavior);
 			}
 		}
 	}
