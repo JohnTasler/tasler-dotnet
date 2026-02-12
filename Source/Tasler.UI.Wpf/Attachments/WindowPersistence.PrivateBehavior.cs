@@ -70,7 +70,7 @@ public sealed partial class WindowPersistence
 
 		public int Add() => ++_referenceCount;
 
-		public int Release() => --_referenceCount;
+		public int Release() => Math.Max(--_referenceCount, 0);
 
 		private int _referenceCount;
 

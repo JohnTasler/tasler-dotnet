@@ -15,7 +15,6 @@ public static class AttachedBehaviorExtensions
 	{
 		Guard.IsNotNull(dpk);
 		Guard.IsNotNull(d);
-		Guard.IsNotNull(e);
 
 		var element = (TElement)d;
 		var behavior = (TBehavior)element.GetValue(dpk.DependencyProperty);

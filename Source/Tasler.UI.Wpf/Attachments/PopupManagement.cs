@@ -39,16 +39,13 @@ public sealed partial class PopupManagement
 	private static readonly DependencyPropertyKey PrivateWindowBehaviorPropertyKey =
 		APFactory.RegisterReadOnly<PrivateWindowBehavior>("PrivateWindowBehavior");
 
-	private static PrivateWindowBehavior? GetPrivateWindowBehavior(Window? window)
+	private static PrivateWindowBehavior? GetPrivateWindowBehavior(Window window)
 	{
-		Guard.IsNotNull(window);
 		return (PrivateWindowBehavior)window.GetValue(PrivateWindowBehaviorPropertyKey.DependencyProperty);
 	}
 
-	private static void SetPrivateWindowBehavior(Window? window, PrivateWindowBehavior? value)
+	private static void SetPrivateWindowBehavior(Window window, PrivateWindowBehavior? value)
 	{
-		Guard.IsNotNull(window);
-
 		if (value is null)
 			window.ClearValue(PrivateWindowBehaviorPropertyKey);
 		else
