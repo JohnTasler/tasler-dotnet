@@ -5,7 +5,9 @@ using Tasler.Windows.Extensions;
 
 namespace Tasler.Windows.Attachments;
 
-public static partial class PopupManagement
+using APFactory = Tasler.Windows.AttachedPropertyFactory<PopupManagement>;
+
+public sealed partial class PopupManagement
 {
 	#region Constructors
 	static PopupManagement()
@@ -13,9 +15,44 @@ public static partial class PopupManagement
 		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(Window_Loaded), true);
 		EventManager.RegisterClassHandler(typeof(Popup), Popup.OpenedEvent, new RoutedEventHandler(Popup_Opened), true);
 	}
+
+	private PopupManagement() { }
 	#endregion Constructors
 
 	#region Attached Properties
+
+	#region PrivateBehavior
+
+	/// <summary>
+	/// Identifies the <see cref="PrivateBehavior"/> dependency property key.
+	/// </summary>
+	private static readonly DependencyPropertyKey PrivateBehaviorPropertyKey =
+		APFactory.RegisterReadOnly<PrivateBehavior>("PrivateBehavior");
+
+	#endregion PrivateBehavior
+
+	#region PrivateWindowBehavior
+
+	/// <summary>
+	/// Identifies the <see cref="PrivateWindowBehavior"/> dependency property.
+	/// </summary>
+	private static readonly DependencyPropertyKey PrivateWindowBehaviorPropertyKey =
+		APFactory.RegisterReadOnly<PrivateWindowBehavior>("PrivateWindowBehavior");
+
+	private static PrivateWindowBehavior? GetPrivateWindowBehavior(Window window)
+	{
+		return (PrivateWindowBehavior)window.GetValue(PrivateWindowBehaviorPropertyKey.DependencyProperty);
+	}
+
+	private static void SetPrivateWindowBehavior(Window window, PrivateWindowBehavior? value)
+	{
+		if (value is null)
+			window.ClearValue(PrivateWindowBehaviorPropertyKey);
+		else
+			window.SetValue(PrivateWindowBehaviorPropertyKey, value);
+	}
+
+	#endregion PrivateWindowBehavior
 
 	#region AllowsOpenPopups
 
@@ -23,8 +60,8 @@ public static partial class PopupManagement
 	/// Identifies the <c>AllowsOpenPopups</c> attached property.
 	/// </summary>
 	public static readonly DependencyProperty AllowsOpenPopupsProperty =
-		DependencyProperty.RegisterAttached("AllowsOpenPopups", typeof(bool), typeof(PopupManagement),
-			new PropertyMetadata(true, AllowsOpenPopupsPropertyChanged));
+		APFactory.Register<bool>("AllowsOpenPopups", true,
+			PrivateBehaviorPropertyKey.BehaviorPropertyChanged<FrameworkElement, PrivateBehavior, bool>);
 
 	/// <summary>
 	/// Gets a value indicating whether popups are allowed to open for the specified element.
@@ -51,29 +88,6 @@ public static partial class PopupManagement
 		element.SetValue(AllowsOpenPopupsProperty, value);
 	}
 
-	private static void AllowsOpenPopupsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		var element = (FrameworkElement)d;
-		var newValue = (bool)e.NewValue;
-		if (newValue)
-		{
-			var behavior = (PrivateBehavior)element.GetValue(PrivateBehaviorPropertyKey.DependencyProperty);
-			if (behavior is not null)
-			{
-				// Detach and dereference the behavior when the newValue is true, since true is the default value
-				behavior.Detach();
-				element.ClearValue(PrivateBehaviorPropertyKey);
-			}
-		}
-		else
-		{
-			// Create and attach the behavior only when the newValue is false, since false is the non-default value
-			var behavior = new PrivateBehavior();
-			behavior.Attach(element);
-			element.SetValue(PrivateBehaviorPropertyKey, behavior);
-		}
-	}
-
 	#endregion AllowsOpenPopups
 
 	#region IsAlwaysAllowedToOpen
@@ -82,8 +96,7 @@ public static partial class PopupManagement
 	/// Identifies the <c>IsAlwaysAllowedToOpen</c> attached property.
 	/// </summary>
 	public static readonly DependencyProperty IsAlwaysAllowedToOpenProperty =
-		DependencyProperty.RegisterAttached("IsAlwaysAllowedToOpen", typeof(bool), typeof(PopupManagement),
-			new PropertyMetadata(false));
+		APFactory.Register<bool>("IsAlwaysAllowedToOpen", false);
 
 	/// <summary>
 	/// Gets whether the specified element is always allowed to open popups, regardless of blocking rules.
@@ -116,8 +129,7 @@ public static partial class PopupManagement
 	#region ArePopupsBlocked
 
 	private static readonly DependencyPropertyKey ArePopupsBlockedPropertyKey =
-		DependencyProperty.RegisterAttachedReadOnly("ArePopupsBlocked", typeof(bool), typeof(PopupManagement),
-			new PropertyMetadata(false));
+		APFactory.RegisterReadOnly<bool>("ArePopupsBlocked", false);
 
 	/// <summary>
 	/// Identifies the <see cref="ArePopupsBlocked"/> attached property.
@@ -145,52 +157,13 @@ public static partial class PopupManagement
 
 	#endregion ArePopupsBlocked
 
-	#region PrivateBehavior
-
-	/// <summary>
-	/// Identifies the <see cref="PrivateBehavior"/> dependency property key.
-	/// </summary>
-	private static readonly DependencyPropertyKey PrivateBehaviorPropertyKey =
-		DependencyProperty.RegisterAttachedReadOnly("PrivateBehavior", typeof(PrivateBehavior), typeof(PopupManagement),
-			new PropertyMetadata());
-
-	#endregion PrivateBehavior
-
-	#region PrivateWindowBehavior
-
-	/// <summary>
-	/// Identifies the <see cref="PrivateWindowBehavior"/> dependency property.
-	/// </summary>
-	private static readonly DependencyPropertyKey PrivateWindowBehaviorPropertyKey =
-		DependencyProperty.RegisterAttachedReadOnly("PrivateWindowBehavior", typeof(PrivateWindowBehavior), typeof(PopupManagement),
-			new PropertyMetadata());
-
-	private static PrivateWindowBehavior? GetPrivateWindowBehavior(Window? window)
-	{
-		Guard.IsNotNull(window);
-		return (PrivateWindowBehavior)window.GetValue(PrivateWindowBehaviorPropertyKey.DependencyProperty);
-	}
-
-	private static void SetPrivateWindowBehavior(Window? window, PrivateWindowBehavior? value)
-	{
-		Guard.IsNotNull(window);
-
-		if (value is null)
-			window.ClearValue(PrivateWindowBehaviorPropertyKey);
-		else
-			window.SetValue(PrivateWindowBehaviorPropertyKey, value);
-	}
-
-	#endregion PrivateWindowBehavior
-
 	#endregion Attached Properties
 
 	#region Event Handlers
 
 	private static void Window_Loaded(object sender, RoutedEventArgs e)
 	{
-		var window = sender as Window;
-		if (window is not null)
+		if (sender is Window window)
 		{
 			var topWindow = window.GetSelfAndOwners().Last();
 			var windowBehavior = GetPrivateWindowBehavior(topWindow);
@@ -201,8 +174,7 @@ public static partial class PopupManagement
 
 	private static void Popup_Opened(object sender, RoutedEventArgs e)
 	{
-		var popup = sender as Popup;
-		if (popup is not null && !GetIsAlwaysAllowedToOpen(popup))
+		if (sender is Popup popup && !GetIsAlwaysAllowedToOpen(popup))
 		{
 			var window = Window.GetWindow(popup).GetSelfAndOwners().LastOrDefault();
 			if (window is not null)

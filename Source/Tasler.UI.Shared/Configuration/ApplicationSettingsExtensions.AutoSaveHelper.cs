@@ -30,8 +30,8 @@ public static partial class ApplicationSettingsExtensions
 		{
 			// Save the specified settings and subscribe to some of its events
 			this.Settings = settings;
-			this.Settings.PropertyChanged += this.Settings_OnPropertyChanged;
 			this.Settings.SettingsLoaded += this.Settings_OnSettingsLoaded;
+			this.Settings.PropertyChanged += this.Settings_OnPropertyChanged;
 
 			// Create a DeferredAction with the specified deferral time
 			this.DeferredAction = new DispatcherTimerDeferredAction(deferralTimeSpan, this.Settings.Save);
@@ -122,7 +122,7 @@ public static partial class ApplicationSettingsExtensions
 				// Check for the INotifyPropertyChanged interface
 				var notifyPropertyChanged = propertyValue.PropertyValue as INotifyPropertyChanged;
 
-				// Subscribe to the PropertChanged event
+				// Subscribe to the PropertyChanged event
 				if (notifyPropertyChanged is not null)
 					notifyPropertyChanged.PropertyChanged += (s, ve) => this.ItemPropertyChanged(propertyValue.Name);
 			}

@@ -138,7 +138,7 @@ namespace Tasler.Windows.Attachments
 		#endregion Clones
 
 		#region ReferenceCache
-			private static readonly DependencyProperty ReferenceCacheProperty =
+		private static readonly DependencyProperty ReferenceCacheProperty =
 			DependencyProperty.RegisterAttached("ReferenceCache", typeof(HashSet<object>),
 				typeof(InputBindingService), new PropertyMetadata(null));
 

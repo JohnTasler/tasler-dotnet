@@ -6,7 +6,7 @@ using Tasler.Windows.Extensions;
 
 namespace Tasler.Windows.Attachments;
 
-public static partial class PopupManagement
+public sealed partial class PopupManagement
 {
 	private class PrivateBehavior : Behavior<FrameworkElement>
 	{
@@ -14,8 +14,6 @@ public static partial class PopupManagement
 
 		protected override void OnAttached()
 		{
-			base.OnAttached();
-
 			if (DesignerProperties.GetIsInDesignMode(AssociatedObject))
 			{
 				this.Detach();
@@ -36,8 +34,6 @@ public static partial class PopupManagement
 
 		protected override void OnDetaching()
 		{
-			base.OnDetaching();
-
 			if (_window is not null)
 			{
 				var windowBehavior = PopupManagement.GetPrivateWindowBehavior(_window);
@@ -53,7 +49,7 @@ public static partial class PopupManagement
 		private void NotifyWindowBehavior(Window window)
 		{
 			var windowBehavior = PopupManagement.GetPrivateWindowBehavior(window);
-			if (windowBehavior == null)
+			if (windowBehavior is null)
 				windowBehavior = new PrivateWindowBehavior(window);
 
 			windowBehavior.AddPopupBlockingElement(AssociatedObject);
@@ -61,7 +57,7 @@ public static partial class PopupManagement
 
 		private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
 		{
-			Trace.WriteLineIf(this.AssociatedObject == null, "Not expecting AssociatedObject to be null. How did this happen?");
+			Trace.WriteLineIf(this.AssociatedObject is null, "Not expecting AssociatedObject to be null. How did this happen?");
 
 			var associatedObject = this.AssociatedObject ?? sender as FrameworkElement;
 			if (associatedObject is not null)
@@ -69,7 +65,7 @@ public static partial class PopupManagement
 				if (_window is null)
 				{
 					_window = Window.GetWindow(this.AssociatedObject).GetSelfAndOwners().LastOrDefault();
-					Trace.WriteLineIf(_window == null, "Not expecting this.window to be null. The FrameworkElement is loaded, so it should be in the logical tree of a Window.");
+					Trace.WriteLineIf(_window is null, "Not expecting this.window to be null. The FrameworkElement is loaded, so it should be in the logical tree of a Window.");
 
 					if (_window != null)
 						this.NotifyWindowBehavior(_window);
