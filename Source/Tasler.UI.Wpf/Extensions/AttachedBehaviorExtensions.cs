@@ -9,8 +9,7 @@ public static class AttachedBehaviorExtensions
 	public static void BehaviorPropertyChanged<TElement, TBehavior, TValue>(
 		this DependencyPropertyKey dpk,
 		DependencyObject d,
-		DependencyPropertyChangedEventArgs e,
-		Func<TValue, bool>? isDefaultTest)
+		DependencyPropertyChangedEventArgs e)
 		where TElement : FrameworkElement
 		where TBehavior : Behavior<TElement>, new()
 	{
@@ -19,38 +18,37 @@ public static class AttachedBehaviorExtensions
 		Guard.IsNotNull(e);
 
 		var element = (TElement)d;
+		var behavior = (TBehavior)element.GetValue(dpk.DependencyProperty);
 		var newValue = (TValue)e.NewValue;
-		if (isDefaultTest is not null && isDefaultTest(newValue))
+		var defaultValue = dpk.DependencyProperty.GetMetadata(d).DefaultValue;
+		if (object.Equals(newValue, defaultValue))
 		{
-			var behavior = (TBehavior)element.GetValue(dpk.DependencyProperty);
+			int remainingReferences = (behavior is ICountReferences countReferences)
+				? countReferences.Release()
+				: 0;
+
 			if (behavior is not null)
 			{
-				// Detach and dereference the behavior when the newValue is its default value
-				behavior.Detach();
-				element.ClearValue(dpk);
+				if (remainingReferences == 0)
+				{
+					// Detach and dereference the behavior when the newValue is its default value
+					behavior.Detach();
+					element.ClearValue(dpk);
+				}
 			}
 		}
 		else
 		{
-			// Create and attach the behavior or reuse the existing behavior
-			TBehavior existing = (TBehavior)element.GetValue(dpk.DependencyProperty);
-			var behavior = existing is null ? new TBehavior() : existing;
-			if (behavior != existing)
+			behavior ??= new TBehavior();
+			int remainingReferences = behavior is ICountReferences countReferences
+				? countReferences.Add()
+				: 1;
+
+			if (remainingReferences == 1)
 			{
 				behavior.Attach(element);
 				element.SetValue(dpk, behavior);
 			}
 		}
-	}
-
-	public static void BehaviorPropertyChanged<TElement, TBehavior, TValue>(
-		this DependencyPropertyKey dpk,
-		DependencyObject d,
-		DependencyPropertyChangedEventArgs e,
-		TValue defaultValue = default(TValue)!)
-		where TElement : FrameworkElement
-		where TBehavior : Behavior<TElement>, new()
-	{
-		dpk.BehaviorPropertyChanged<TElement, TBehavior, TValue>(d, e, v => e.NewValue.Equals((object)defaultValue!));
 	}
 }

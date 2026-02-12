@@ -126,7 +126,7 @@ public partial class SignalLevelMeter : Control
 		}
 	}
 
-#endregion Value
+	#endregion Value
 
 	#region DisplayValue
 

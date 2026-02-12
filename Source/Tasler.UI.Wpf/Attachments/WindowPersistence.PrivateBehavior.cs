@@ -1,22 +1,29 @@
+using System.ComponentModel;
 using System.Configuration;
+using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using CommunityToolkit.Diagnostics;
 using Microsoft.Xaml.Behaviors;
 using Tasler.Configuration;
-using Tasler.Windows;
 using Tasler.Windows.Model;
 
 namespace Tasler.Windows.Attachments;
 
-public static partial class WindowPersistence
+public sealed partial class WindowPersistence
 {
-	private class PrivateBehavior : Behavior<Window>
+	private class PrivateBehavior : Behavior<Window>, ICountReferences
 	{
 		protected override void OnAttached()
 		{
 			if (this.AssociatedObject is null)
 				return;
+
+			if (DesignerProperties.GetIsInDesignMode(AssociatedObject))
+			{
+				this.Detach();
+				return;
+			}
 
 			this.AssociatedObject.SourceInitialized += this.AssociatedObject_SourceInitialized;
 			this.AssociatedObject.StateChanged += this.AssociatedObject_PlacementChanged;
@@ -46,6 +53,7 @@ public static partial class WindowPersistence
 				&& source.Handle != nint.Zero)
 			{
 				placement.Get(new() { Handle = source.Handle });
+				this.Placement = placement;
 			}
 		}
 
@@ -60,6 +68,12 @@ public static partial class WindowPersistence
 			GetSettings(this.AssociatedObject)?.ExpireAutoSaveDeferral();
 		}
 
+		public int Add() => ++_referenceCount;
+
+		public int Release() => --_referenceCount;
+
+		private int _referenceCount;
+
 		private WindowPlacementModel? Placement
 		{
 			get
@@ -67,12 +81,15 @@ public static partial class WindowPersistence
 				if (WindowPersistence.GetSettings(this.AssociatedObject) is ApplicationSettingsBase settings
 					&& WindowPersistence.GetKey(this.AssociatedObject) is string key)
 				{
-					return settings[key] is WindowPlacementModel placement
-						? placement
-						: null;
+					if (settings.Properties.OfType<SettingsProperty>().Any(p => p.Name.Equals(key, StringComparison.OrdinalIgnoreCase)))
+					{
+						return settings[key] is WindowPlacementModel placement
+							? placement
+							: null;
+					}
 				}
 
-				return null;
+				return new WindowPlacementModel();
 			}
 			set
 			{

@@ -5,18 +5,31 @@ using Tasler.Windows.Extensions;
 
 namespace Tasler.Windows.Attachments;
 
-public static partial class WindowPersistence
+using APFactory = Tasler.Windows.AttachedPropertyFactory<WindowPersistence>;
+
+public sealed partial class WindowPersistence
 {
+	private WindowPersistence() {}
+
 	#region Attached Properties
+
+	#region PrivateBehavior
+
+	/// <summary>
+	/// Identifies the <see cref="PrivateBehavior"/> dependency property key.
+	/// </summary>
+	private static readonly DependencyPropertyKey PrivateBehaviorPropertyKey =
+		APFactory.RegisterReadOnly<PrivateBehavior>("PrivateBehavior");
+
+	#endregion PrivateBehavior
 
 	#region Key
 
 	/// <summary>
 	/// Identifies the <c>Key</c> attached property.
 	/// </summary>
-	public static readonly DependencyProperty KeyProperty =
-		DependencyProperty.RegisterAttached("Key", typeof(string), typeof(WindowPersistence),
-			new PropertyMetadata(null, KeyPropertyChanged));
+	public static readonly DependencyProperty KeyProperty = APFactory.Register<string>("Key",
+			PrivateBehaviorPropertyKey.BehaviorPropertyChanged<Window, PrivateBehavior, string>);
 
 	/// <summary>
 	/// Gets the key into the <see cref="ApplicationSettingsBase"/>-derived class where the window
@@ -46,11 +59,6 @@ public static partial class WindowPersistence
 		element.SetValue(KeyProperty, value);
 	}
 
-	private static void KeyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		PrivateBehaviorPropertyKey.BehaviorPropertyChanged<Window, PrivateBehavior, string>(d, e, string.IsNullOrEmpty);
-	}
-
 	#endregion Key
 
 	#region Settings
@@ -59,8 +67,8 @@ public static partial class WindowPersistence
 	/// Identifies the <c>Settings</c> attached property.
 	/// </summary>
 	public static readonly DependencyProperty SettingsProperty =
-		DependencyProperty.RegisterAttached("Settings", typeof(ApplicationSettingsBase), typeof(WindowPersistence),
-			new PropertyMetadata(null, SettingsPropertyChanged));
+		APFactory.Register<ApplicationSettingsBase>("Settings",
+			PrivateBehaviorPropertyKey.BehaviorPropertyChanged<Window, PrivateBehavior, ApplicationSettingsBase>);
 
 	/// <summary>
 	/// Gets the instance of the <see cref="ApplicationSettingsBase"/>-derived class where the window
@@ -88,23 +96,7 @@ public static partial class WindowPersistence
 		element.SetValue(SettingsProperty, value);
 	}
 
-	private static void SettingsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		PrivateBehaviorPropertyKey.BehaviorPropertyChanged<Window, PrivateBehavior, ApplicationSettingsBase>(d, e);
-	}
-
 	#endregion Settings
-
-	#region PrivateBehavior
-
-	/// <summary>
-	/// Identifies the <see cref="PrivateBehavior"/> dependency property key.
-	/// </summary>
-	private static readonly DependencyPropertyKey PrivateBehaviorPropertyKey =
-		DependencyProperty.RegisterAttachedReadOnly("PrivateBehavior", typeof(PrivateBehavior), typeof(WindowPersistence),
-			new PropertyMetadata());
-
-	#endregion PrivateBehavior
 
 	#endregion Attached Properties
 }

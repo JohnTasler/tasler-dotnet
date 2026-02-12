@@ -6,7 +6,7 @@ using Tasler.Windows.Extensions;
 
 namespace Tasler.Windows.Attachments;
 
-public static partial class PopupManagement
+public sealed partial class PopupManagement
 {
 	private class PrivateWindowBehavior : Behavior<Window>
 	{
