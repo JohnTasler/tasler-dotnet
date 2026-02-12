@@ -41,7 +41,7 @@ public static class AttachedBehaviorExtensions
 		{
 			behavior ??= new TBehavior();
 			int remainingReferences = behavior is ICountReferences countReferences
-				? countReferences.Add()
+				? object.Equals(e.OldValue, defaultValue) ? countReferences.Add() : 0
 				: 1;
 
 			if (remainingReferences == 1)

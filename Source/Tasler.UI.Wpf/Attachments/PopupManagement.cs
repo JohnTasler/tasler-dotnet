@@ -91,9 +91,6 @@ public sealed partial class PopupManagement
 		element.SetValue(AllowsOpenPopupsProperty, value);
 	}
 
-	private static void AllowsOpenPopupsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> PrivateBehaviorPropertyKey.BehaviorPropertyChanged<FrameworkElement, PrivateBehavior, bool>(d, e);
-
 	#endregion AllowsOpenPopups
 
 	#region IsAlwaysAllowedToOpen
