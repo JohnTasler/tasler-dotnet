@@ -127,8 +127,8 @@
   </data>
   <data name="KeyNotFoundExceptionFormat2" xml:space="preserve">
     <value>The given key was not present in the dictionary:
-	    key.GetType.FullName = {0}
-	key.ToString() = {1}</value>
+    key.GetType.FullName = {0}
+    key.ToString() = {1}</value>
   </data>
   <data name="EnumNotFlagsExceptionFormat1" xml:space="preserve">
     <value>Cannot use enumeration type {0} as bit flags</value>
@@ -138,5 +138,14 @@
   </data>
   <data name="ToStringNull" xml:space="preserve">
     <value>(null)</value>
+  </data>
+  <data name="NullOrNonNull_Null" xml:space="preserve">
+    <value>&lt;null&gt;</value>
+  </data>
+  <data name="NullOrNonNull_NonNull" xml:space="preserve">
+    <value>&lt;non-null&gt;</value>
+  </data>
+  <data name="NullOrNonNull_AddressEquals" xml:space="preserve">
+    <value>Address=</value>
   </data>
 </root>

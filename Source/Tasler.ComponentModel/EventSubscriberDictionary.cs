@@ -1,64 +1,54 @@
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using CommunityToolkit.Diagnostics;
 
-namespace Tasler.ComponentModel;
-
-// TODO: NEEDS_UNIT_TESTS
+namespace Tasler;
 
 public class EventSubscriberDictionary<TKey, TDelegate>
 	: IDictionary<TKey, EventSubscriber<TDelegate>?>
 	, INotifyCollectionChanged
 	, INotifyPropertyChanged
-	where TKey : notnull
-	where TDelegate : notnull, System.Delegate
+	where TDelegate : Delegate
 {
 	#region Instance Fields
-	private readonly IDictionary<TKey, EventSubscriber<TDelegate>?> _innerDictionary;
+	private IDictionary<TKey, EventSubscriber<TDelegate>?> _innerDictionary;
 	#endregion Instance Fields
 
 	#region Constructors
-
 	/// <summary>
-	/// Initializes a new instance of the <see cref="EventSubscriberDictionary{TKey, TDelegate}" /> class.
+	/// Initializes a new instance of the <see cref="EventSubscriberDictionary{TDelegate}" /> class.
 	/// </summary>
 	/// <param name="innerDictionary">The inner dictionary on which this object implements its functionality.</param>
 	public EventSubscriberDictionary(IDictionary<TKey, EventSubscriber<TDelegate>?> innerDictionary)
-		=> _innerDictionary = innerDictionary;
-
+	{
+		Guard.IsNotNull(innerDictionary);
+		_innerDictionary = innerDictionary;
+	}
 	#endregion Constructors
 
 	#region IDictionary<TKey, EventSubscriber<TDelegate>> Members
 
 	public void Add(TKey key, EventSubscriber<TDelegate>? value)
 	{
-		if (this.TryGetValue(key, out var existingValue))
+		var existingValue = this[key];
+		if (existingValue is not null)
 		{
-			if (value != existingValue)
-			{
-				_innerDictionary.Add(key, value);
-				this.CollectionChanged?.RaiseReplace(this, value!, existingValue!);
-				this.PropertyChanged?.Raise(this, "Item[]");
-			}
+			_innerDictionary[key] = value;
 		}
 		else
 		{
 			_innerDictionary.Add(key, value);
 			this.CollectionChanged?.RaiseAdd(this, key!);
-			this.PropertyChanged?.Raise(this, nameof(Count));
-			this.PropertyChanged?.Raise(this, "Item[]");
+
+			if (this.PropertyChanged is not null)
+				this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(Count)));
 		}
 	}
 
-	public bool ContainsKey(TKey key)
-	{
-		return _innerDictionary.ContainsKey(key);
-	}
+	public bool ContainsKey(TKey key) => _innerDictionary.ContainsKey(key);
 
-	public ICollection<TKey> Keys
-	{
-		get { return _innerDictionary.Keys; }
-	}
+	public ICollection<TKey> Keys =>_innerDictionary.Keys;
 
 	public bool Remove(TKey key)
 	{
@@ -66,42 +56,31 @@ public class EventSubscriberDictionary<TKey, TDelegate>
 		if (result)
 		{
 			this.CollectionChanged?.RaiseRemove(this, key!);
+
 			if (this.PropertyChanged is not null)
-			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(Count)));
-				this.PropertyChanged(this, new PropertyChangedEventArgs("Item[]"));
-			}
 		}
 		return result;
 	}
 
-	public bool TryGetValue(TKey key, out EventSubscriber<TDelegate>? value)
-	{
-		return _innerDictionary.TryGetValue(key, out value);
-	}
+	public bool TryGetValue(TKey key, out EventSubscriber<TDelegate>? value) => _innerDictionary.TryGetValue(key, out value);
 
-	public ICollection<EventSubscriber<TDelegate>?> Values
-	{
-		get { return _innerDictionary.Values; }
-	}
+	public ICollection<EventSubscriber<TDelegate>?> Values => _innerDictionary.Values;
 
 	public EventSubscriber<TDelegate>? this[TKey key]
 	{
 		get
 		{
-			_innerDictionary.TryGetValue(key, out EventSubscriber<TDelegate>? result);
+			EventSubscriber<TDelegate>? result = null;
+			_innerDictionary.TryGetValue(key, out result);
 			return result;
 		}
 		set
 		{
 			if (value is null)
-			{
 				this.Remove(key);
-			}
 			else
-			{
 				this.Add(key, value);
-			}
 		}
 	}
 
@@ -122,7 +101,8 @@ public class EventSubscriberDictionary<TKey, TDelegate>
 			_innerDictionary.Clear();
 			this.CollectionChanged?.RaiseRemove(this, keys);
 
-			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+			if (this.PropertyChanged is not null)
+				this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(Count)));
 		}
 	}
 
@@ -136,31 +116,22 @@ public class EventSubscriberDictionary<TKey, TDelegate>
 		_innerDictionary.CopyTo(array, arrayIndex);
 	}
 
-	public int Count
-	{
-		get { return _innerDictionary.Count; }
-	}
+	public int Count => _innerDictionary.Count;
 
-	public bool IsReadOnly
-	{
-		get { return _innerDictionary.IsReadOnly; }
-	}
+	public bool IsReadOnly => _innerDictionary.IsReadOnly;
 
 	bool ICollection<KeyValuePair<TKey, EventSubscriber<TDelegate>?>>.Remove(KeyValuePair<TKey, EventSubscriber<TDelegate>?> item)
 	{
 		return this.Remove(item.Key);
 	}
 
-	#endregion ICollection<KeyValuePair<TKey, EventSubscriber<TDelegate>>> Members
+	#endregion ICollection<KeyValuePair<TKey, EventSubscriber<TDelegate>?>> Members
 
-	#region IEnumerable<KeyValuePair<TKey, EventSubscriber<TDelegate>>> Members
+	#region IEnumerable<KeyValuePair<TKey, EventSubscriber<TDelegate>?>> Members
 
-	public IEnumerator<KeyValuePair<TKey, EventSubscriber<TDelegate>?>> GetEnumerator()
-	{
-		return _innerDictionary.GetEnumerator();
-	}
+	public IEnumerator<KeyValuePair<TKey, EventSubscriber<TDelegate>?>> GetEnumerator() => _innerDictionary.GetEnumerator();
 
-	#endregion IEnumerable<KeyValuePair<TKey, EventSubscriber<TDelegate>>> Members
+	#endregion IEnumerable<KeyValuePair<TKey, EventSubscriber<TDelegate>?>> Members
 
 	#region IEnumerable Members
 

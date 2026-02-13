@@ -114,10 +114,10 @@ public static class PropertyObserver
 		/// </summary>
 		public void Unsubscribe()
 		{
-			if (this.SourceReference != null)
+			if (this.SourceReference is not null)
 			{
 				var source = this.Source;
-				if (source != null)
+				if (source is not null)
 					source.PropertyChanged -= this.Source_PropertyChanged!;
 
 				this.Clear();
@@ -173,7 +173,7 @@ public static class PropertyObserver
 		#region Event Handlers
 		private void Source_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (sender == this.Source && (string.IsNullOrWhiteSpace(e.PropertyName) || e.PropertyName == this.PropertyName))
+			if (sender == this.Source && (string.IsNullOrWhiteSpace(e.PropertyName) || e.PropertyName == this.PropertyName || e.PropertyName == "*"))
 			{
 				this.HandlerAction?.Invoke((T)sender);
 				this.EventHandler?.Invoke(sender, e);
