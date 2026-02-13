@@ -39,11 +39,15 @@ public sealed partial class WindowPersistence
 				&& source.Handle != nint.Zero)
 			{
 				placement.Set(new() { Handle = source.Handle });
+				_isSourceInitialized = true;
 			}
 		}
 
 		private void AssociatedObject_PlacementChanged(object? sender, EventArgs e)
 		{
+			if (!_isSourceInitialized)
+				return;
+
 			var placement = this.Placement;
 			if (placement is null)
 				this.Placement = placement = new WindowPlacementModel();
@@ -70,7 +74,7 @@ public sealed partial class WindowPersistence
 
 		public int Add() => ++_referenceCount;
 
-		public int Release() => Math.Max(--_referenceCount, 0);
+		public int Release() => _referenceCount = Math.Max(--_referenceCount, 0);
 
 		private int _referenceCount;
 
@@ -106,5 +110,7 @@ public sealed partial class WindowPersistence
 				}
 			}
 		}
+
+		private bool _isSourceInitialized;
 	}
 }
