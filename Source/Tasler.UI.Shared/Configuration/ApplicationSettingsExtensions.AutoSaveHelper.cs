@@ -30,11 +30,16 @@ public static partial class ApplicationSettingsExtensions
 		{
 			// Save the specified settings and subscribe to some of its events
 			this.Settings = settings;
-			this.Settings.SettingsLoaded += this.Settings_OnSettingsLoaded;
-			this.Settings.PropertyChanged += this.Settings_OnPropertyChanged;
+			this.Settings.SettingsLoaded += this.Settings_SettingsLoaded;
+			this.Settings.PropertyChanged += this.Settings_PropertyChanged;
 
 			// Create a DeferredAction with the specified deferral time
-			this.DeferredAction = new DispatcherTimerDeferredAction(deferralTimeSpan, this.Settings.Save);
+			this.DeferredAction = new DispatcherTimerDeferredAction(deferralTimeSpan, this.UpdateSettings);
+		}
+
+		private void UpdateSettings()
+		{
+			this.Settings.Save();
 		}
 
 		/// <summary>
@@ -47,19 +52,8 @@ public static partial class ApplicationSettingsExtensions
 		}
 		#endregion Constructor / Finalizer
 
-		#region Properties
-		internal bool IsDisposed
-		{
-			get { return this.DeferredAction is null || this.Settings is null; }
-		}
-		#endregion Properties
-
 		#region Methods
-		internal void Expire()
-		{
-			// Expire the deferred action
-			this.DeferredAction?.Expire();
-		}
+		internal void Expire() => this.DeferredAction?.Expire();
 
 		internal void Expire(TimeSpan deferralTimeSpan)
 		{
@@ -67,33 +61,36 @@ public static partial class ApplicationSettingsExtensions
 			this.Expire();
 
 			// Create a new DeferredAction if the specified deferral time has changed
-			if (this.DeferredAction?.Interval != deferralTimeSpan && this.Settings is not null)
-				this.DeferredAction = new DispatcherTimerDeferredAction(deferralTimeSpan, this.Settings.Save);
+			if (this.DeferredAction.Interval != deferralTimeSpan)
+			{
+				this.DeferredAction.Dispose();
+				this.DeferredAction = new DispatcherTimerDeferredAction(deferralTimeSpan, this.UpdateSettings);
+			}
 		}
 		#endregion
 
 		#region IDisposable Members
 		void IDisposable.Dispose()
 		{
-			using (this.DeferredAction)
-			{
-				this.DeferredAction = null;
-				this.Settings = null;
-				GC.SuppressFinalize(this);
-			}
+			this.DeferredAction.Dispose();
+			this.Settings.Save();
+			foreach (var propertyValue in this.Settings.PropertyValues.OfType<INotifyPropertyChanged>())
+				propertyValue.PropertyChanged -= this.ItemPropertyChanged;
+
+			GC.SuppressFinalize(this);
 		}
 		#endregion IDisposable Members
 
 		#region Private Properties
-		private DispatcherTimerDeferredAction? DeferredAction { get; set; }
-		private ApplicationSettingsBase? Settings { get; set; }
+		private DispatcherTimerDeferredAction DeferredAction { get; set; }
+		private ApplicationSettingsBase Settings { get; set; }
 		#endregion Private Properties
 
 		#region Private Methods
-		private void ItemPropertyChanged(string itemName)
+
+		private void ItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			// Get the specified property value object
-			var propertyValue = this.Settings?.PropertyValues[itemName];
+			var propertyValue = this.Settings.PropertyValues.OfType<SettingsPropertyValue>().FirstOrDefault(v => v.PropertyValue == sender);
 
 			// Set its value to itself, thus marking it as needing to be saved
 			// NOTE: Simply setting the IsDirty on the property value is insufficient.
@@ -111,21 +108,10 @@ public static partial class ApplicationSettingsExtensions
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">A <see cref="SettingsLoadedEventArgs"/> that contains the event data.</param>
-		private void Settings_OnSettingsLoaded(object sender, SettingsLoadedEventArgs e)
+		private void Settings_SettingsLoaded(object sender, SettingsLoadedEventArgs e)
 		{
-			if (this.Settings is null)
-				return;
-
-			// Loop through each property item
-			foreach (SettingsPropertyValue propertyValue in this.Settings.PropertyValues)
-			{
-				// Check for the INotifyPropertyChanged interface
-				var notifyPropertyChanged = propertyValue.PropertyValue as INotifyPropertyChanged;
-
-				// Subscribe to the PropertyChanged event
-				if (notifyPropertyChanged is not null)
-					notifyPropertyChanged.PropertyChanged += (s, ve) => this.ItemPropertyChanged(propertyValue.Name);
-			}
+			foreach (var propertyValue in this.Settings.PropertyValues.OfType<INotifyPropertyChanged>())
+				propertyValue.PropertyChanged += this.ItemPropertyChanged;
 		}
 
 		/// <summary>
@@ -133,14 +119,14 @@ public static partial class ApplicationSettingsExtensions
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">A <see cref="PropertyChangedEventArgs"/> that contains the event data.</param>
-		private void Settings_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			// Check for the INotifyPropertyChanged interface
-			if (this.Settings?[e.PropertyName] is INotifyPropertyChanged notifyPropertyChanged)
+			if (this.Settings[e.PropertyName] is INotifyPropertyChanged notifyPropertyChanged)
 			{
 				// Re-subscribe to the PropertyChanged event
-				notifyPropertyChanged.PropertyChanged -= (s, ve) => this.ItemPropertyChanged(e.PropertyName!);
-				notifyPropertyChanged.PropertyChanged += (s, ve) => this.ItemPropertyChanged(e.PropertyName!);
+				notifyPropertyChanged.PropertyChanged -= this.ItemPropertyChanged;
+				notifyPropertyChanged.PropertyChanged += this.ItemPropertyChanged;
 			}
 
 			// Trigger the deferred action to save the settings

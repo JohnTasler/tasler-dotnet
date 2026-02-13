@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 namespace Tasler.UI.Xaml;
 #elif WINDOWS_WPF
 using System.Windows;
+using System.Windows.Data;
 namespace Tasler.Windows;
 #endif
 
@@ -18,7 +19,7 @@ public static class AttachedPropertyFactory<TOwner> where TOwner : class
 	public static DependencyProperty Register<TProperty>(string propertyName, TProperty defaultValue)
 	{
 		return DependencyProperty.RegisterAttached(propertyName, typeof(TProperty), typeof(TOwner),
-				new PropertyMetadata(defaultValue));
+			new PropertyMetadata(defaultValue));
 	}
 
 	public static DependencyProperty Register<TProperty>(
@@ -31,8 +32,26 @@ public static class AttachedPropertyFactory<TOwner> where TOwner : class
 		string propertyName, TProperty defaultValue, PropertyChangedCallback propertyChangedCallback)
 	{
 		return DependencyProperty.RegisterAttached(propertyName, typeof(TProperty), typeof(TOwner),
-				new PropertyMetadata(defaultValue, propertyChangedCallback));
+			new PropertyMetadata(defaultValue, propertyChangedCallback));
 	}
+
+#if WINDOWS_WPF
+	public static DependencyProperty Register<TProperty>(
+		string propertyName, TProperty defaultValue, PropertyChangedCallback propertyChangedCallback,
+		FrameworkPropertyMetadataOptions options, UpdateSourceTrigger defaultUpdateSourceTrigger)
+	{
+		return DependencyProperty.RegisterAttached(propertyName, typeof(TProperty), typeof(TOwner),
+			new FrameworkPropertyMetadata(defaultValue, options, propertyChangedCallback, null, false, defaultUpdateSourceTrigger));
+	}
+
+	public static DependencyProperty Register<TProperty>(
+		string propertyName, PropertyChangedCallback propertyChangedCallback,
+		FrameworkPropertyMetadataOptions options, UpdateSourceTrigger defaultUpdateSourceTrigger)
+	{
+		return DependencyProperty.RegisterAttached(propertyName, typeof(TProperty), typeof(TOwner),
+			new FrameworkPropertyMetadata(DependencyProperty.UnsetValue, options, propertyChangedCallback, null, false, defaultUpdateSourceTrigger));
+	}
+#endif
 
 	public static DependencyPropertyKey RegisterReadOnly<TProperty>(string propertyName)
 	{
@@ -79,7 +98,7 @@ public static class AttachedPropertyFactory
 	public static DependencyProperty Register<TProperty>(Type ownerType, string propertyName, TProperty defaultValue)
 	{
 		return DependencyProperty.RegisterAttached(propertyName, typeof(TProperty), ownerType,
-				new PropertyMetadata(defaultValue));
+			new PropertyMetadata(defaultValue));
 	}
 
 	public static DependencyProperty Register<TProperty>(

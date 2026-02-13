@@ -15,26 +15,19 @@ public static partial class ApplicationSettingsExtensions
 		var helper = GetAutoSaveHelper(settings);
 		if (helper is null)
 		{
-			helper = new AutoSaveHelper(settings, deferralTimeSpan);
-			settings.Context[_autoSaveHelperKey] = helper;
+			settings.Context[_autoSaveHelperKey] = helper = new AutoSaveHelper(settings, deferralTimeSpan);
 		}
-		else
-		{
-			helper.Expire(deferralTimeSpan);
-		}
+
+		helper.Expire(deferralTimeSpan);
 	}
 
-	public static void ExpireAutoSaveDeferral(this ApplicationSettingsBase settings)
+	public static void ExpireAndClearAutoSaveDeferral(this ApplicationSettingsBase settings)
 	{
 		var helper = GetAutoSaveHelper(settings);
 		if (helper is not null)
 		{
 			helper.Expire();
-		}
-		else
-		{
-			throw new InvalidOperationException(
-				Tasler.Windows.Properties.Resources.ClearAutoSaveDeferralCalledBeforeSetAutoSaveDeferral);
+			ClearAutoSaveDeferral(settings);
 		}
 	}
 
