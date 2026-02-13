@@ -1,35 +1,34 @@
-namespace Tasler.ComponentModel;
 
-// TODO: NEEDS_UNIT_TESTS
+namespace Tasler;
 
 public sealed class EventSubscriber<TDelegate>
-		where TDelegate : System.Delegate
+	where TDelegate : Delegate
 {
-	public TDelegate? Handler { get; private set; }
+	public TDelegate Handler { get; private set; }
 
-	private EventSubscriber(TDelegate? handler)
+	private EventSubscriber(TDelegate handler)
 	{
 		this.Handler = handler;
 	}
 
-	public static EventSubscriber<TDelegate> operator +(EventSubscriber<TDelegate>? source, TDelegate handler)
+	public static EventSubscriber<TDelegate> operator +(EventSubscriber<TDelegate> source, TDelegate handler)
 	{
-		var result = (source != null && source.Handler != null)
-				? Delegate.Combine(source.Handler, handler) as TDelegate
-				: handler;
+		var result = (source is not null && source.Handler is not null)
+			? Delegate.Combine(source.Handler as Delegate, handler as Delegate) as TDelegate
+			: handler;
 
-		return new EventSubscriber<TDelegate>(result);
+		return new EventSubscriber<TDelegate>(result!);
 	}
 
-	public static EventSubscriber<TDelegate>? operator -(EventSubscriber<TDelegate>? source, TDelegate handler)
+	public static EventSubscriber<TDelegate> operator -(EventSubscriber<TDelegate> source, TDelegate handler)
 	{
-		if (source != null)
+		if (source is not null)
 		{
-			source.Handler = Delegate.Remove(source.Handler as Delegate, handler as Delegate) as TDelegate;
-			if (source.Handler == null)
-				source = null;
+			source.Handler = (Delegate.Remove((source.Handler as Delegate)!, (handler as Delegate)!) as TDelegate)!;
+			if (source.Handler is null)
+				source = null!;
 		}
 
-		return source;
+		return source!;
 	}
 }

@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using CommunityToolkit.Diagnostics;
 using Tasler.ComponentModel.Properties;
 
 namespace Tasler.ComponentModel;
@@ -25,7 +26,7 @@ public static class PropertySupport
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
 	public static string ExtractPropertyName<TResult>(Expression<Func<TResult>> propertyExpression)
 	{
-		ValidateArgument.IsNotNull(propertyExpression, nameof(propertyExpression));
+		Guard.IsNotNull(propertyExpression);
 		var memberExpression = ValidateArgument.IsOrIsDerivedFrom<MemberExpression>(propertyExpression.Body, nameof(propertyExpression));
 		var propertyInfo = ValidateArgument.IsOrIsDerivedFrom<PropertyInfo>(memberExpression.Member, nameof(propertyExpression));
 
