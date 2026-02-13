@@ -1,10 +1,11 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Tasler.Diagnostics;
 
-[Obsolete("Use the Diagnostic static class for a shorter class name.", false)]
-public static class DiagnosticExtensions
+[DebuggerStepThrough]
+public static class Diagnostic
 {
 	#region DEBUG
 
@@ -149,17 +150,73 @@ public static class DiagnosticExtensions
 
 	#endregion TRACE
 
+	/// <summary>
+	/// Converts an object to a <see cref="string"/> useful for logging.
+	/// </summary>
+	/// <param name="this"></param>
+	/// <returns>
+	/// This extension method returns one of three type of strings:
+	/// <list type="table">
+	///		<listheader>
+	///			<term>Value of <paramref name="this"/></term>
+	///			<description>Method result</description>
+	///		</listheader>
+	///		<item>
+	///			<term><see langword="null"/></term>
+	///			<description>The string, "&lt;null&gt;".</description>
+	///		</item>
+	///		<item>
+	///			<term>
+	///			Non-<see langword="null"/> and <see cref="object.ToString"/> returns a string that
+	///			contains the object's <see cref="Type.Name"/>, usually indicating the default
+	///			<see cref="object.ToString"/>.
+	///			</term>
+	///			<description>
+	///			"Address=0123456789ABCDEF &lt;non-null&gt;"
+	///			where 0123456789ABCDEF is the hex address of the object.
+	///			</descripton>
+	///		</item>
+	///		<item>
+	///			<term>
+	///			non-<see langword="null"/> and <see cref="object.ToString"/> returns a string that
+	///			does <b>not</b> contain the object's <see cref="Type.Name"/>.
+	///			</term>
+	///			<description>
+	///			"Address=0123456789ABCDEF (return value from <see cref="this.ToString"/>)"
+	///			where 0123456789ABCDEF is the hex address of the object.
+	///			</description>
+	///		</item>
+	/// </list>
+	/// </returns>
 	public static string NullOrNonNull(this object? @this)
 	{
 		if (@this is null)
-			return "<null>";
+			return Properties.Resources.NullOrNonNull_Null;
 
 		var asString = @this.ToString();
 		if (asString is not null && asString.Contains(@this.GetType().Name))
-			asString = "<non-null";
-		return $"HashCode={@this.GetHashCode()} {asString}";
+			asString = Properties.Resources.NullOrNonNull_NonNull;
+
+		nint address = nint.Zero;
+		unsafe
+		{
+			#pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
+			address = (nint)(&@this);
+			#pragma warning restore CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
+		}
+		return $"{Properties.Resources.NullOrNonNull_AddressEquals}{address} {asString}";
 	}
 
+	/// <summary>
+	/// Gets the name of the member from which it was called.
+	/// </summary>
+	/// <param name="memberName">
+	/// The name of the calling member. This should be <see langword="null"/> or not specified , so
+	/// that the compiler will generate the name string.
+	/// </param>
+	/// <returns>
+	/// Returns the name of the calling member.
+	/// </returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static string? GetMemberName([CallerMemberName] string? memberName = null) => memberName;
 }

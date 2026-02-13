@@ -19,7 +19,7 @@ namespace Tasler.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -91,12 +91,39 @@ namespace Tasler.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to The given key was not present in the dictionary:
-        ///	    key.GetType.FullName = {0}
-        ///	key.ToString() = {1}.
+        ///    key.GetType.FullName = {0}
+        ///    key.ToString() = {1}.
         /// </summary>
         internal static string KeyNotFoundExceptionFormat2 {
             get {
                 return ResourceManager.GetString("KeyNotFoundExceptionFormat2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address=.
+        /// </summary>
+        internal static string NullOrNonNull_AddressEquals {
+            get {
+                return ResourceManager.GetString("NullOrNonNull_AddressEquals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;non-null&gt;.
+        /// </summary>
+        internal static string NullOrNonNull_NonNull {
+            get {
+                return ResourceManager.GetString("NullOrNonNull_NonNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;null&gt;.
+        /// </summary>
+        internal static string NullOrNonNull_Null {
+            get {
+                return ResourceManager.GetString("NullOrNonNull_Null", resourceCulture);
             }
         }
         
