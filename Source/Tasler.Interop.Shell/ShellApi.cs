@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Tasler.Interop.Com;
+using Tasler.Interop.User;
 
 namespace Tasler.Interop.Shell;
 
@@ -95,6 +96,11 @@ public static partial class ShellApi
 		if (hr < 0)
 			Marshal.ThrowExceptionForHR(hr);
 		return new SafeCoTaskMemString { Handle = namePtr }.Value;
+	}
+
+	public static void OpenUriInDefaultBrowser(string uri)
+	{
+		NativeMethods.ShellExecuteW(new SafeHwnd(), null, uri, null, null, SW.ShowNormal);
 	}
 
 	//[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
@@ -197,6 +203,15 @@ public static partial class ShellApi
 			KnownFolderFlags dwFlags,
 			nint hToken,
 			out nint ppidl);
+
+		[LibraryImport(Shell32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+		public static partial nint ShellExecuteW(
+			SafeHwnd hwnd,
+			string? lpOperation,
+			string lpFile,
+			string? lpParameters,
+			string? lpDirectory,
+			SW nShowCmd);
 	}
 }
 
