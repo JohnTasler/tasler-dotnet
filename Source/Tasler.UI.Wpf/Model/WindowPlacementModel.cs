@@ -1,4 +1,6 @@
 using System.Windows;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,15 +14,17 @@ namespace Tasler.Windows.Model;
 /// size, position, and state (maximized or normal).
 /// </summary>
 /// <seealso cref="CommunityToolkit.Mvvm.ComponentModel.ObservableObject" />
-public class WindowPlacementModel : ObservableObject
+public class WindowPlacementModel : ObservableObject, IXmlSerializable, IEquatable<WindowPlacementModel>
 {
 	#region Constants
 	private const int c_defaultWidth = 640;
 	private const int c_defaultHeight = 480;
 	#endregion Constants
 
+	public static readonly WindowPlacementModel Unset = new();
+
 	#region Instance Fields
-	private WINDOWPLACEMENT _windowPlacement;
+	private WINDOWPLACEMENT _windowPlacement = new();
 	#endregion Instance Fields
 
 	#region Constructors
@@ -64,71 +68,47 @@ public class WindowPlacementModel : ObservableObject
 
 	#region Properties
 
-	/// <summary>
-	/// Gets or sets a value indicating whether this instance is maximized.
-	/// </summary>
+	/// <summary>Gets or sets a value indicating whether the Window is maximized.</summary>
 	/// <value>
-	///   <see langword="true"/> if this instance is maximized; otherwise, <see langword="false"/>.
+	///   <see langword="true"/> if the Window is maximized; otherwise, <see langword="false"/>.
 	/// </value>
-	[XmlAttribute]
 	public bool IsMaximized
 	{
 		get => _windowPlacement.ShowCommand == SW.ShowMaximized;
 		set => this.SetProperty(ref _windowPlacement.ShowCommand, value ? SW.ShowMaximized : SW.ShowNormal);
 	}
 
-	/// <summary>Gets or sets the maximized width.</summary>
-	/// <value>The maximized width.</value>
-	[XmlAttribute]
-	public int MaximizedX
+	/// <summary>Gets or sets the maximized position.</summary>
+	/// <value>The maximized position.</value>
+	public Point MaximizedPosition
 	{
-		get => _windowPlacement.MaximizedPosition.X;
-		set => this.SetProperty(ref _windowPlacement.MaximizedPosition.X, value);
+		get
+		{
+			return new Point(_windowPlacement.MaximizedPosition.X, _windowPlacement.MaximizedPosition.Y);
+		}
+		set
+		{
+			_windowPlacement.MaximizedPosition.X = (int)value.X;
+			_windowPlacement.MaximizedPosition.Y = (int)value.Y;
+		}
 	}
 
-	/// <summary>Gets or sets the maximized height.</summary>
-	/// <value>The maximized height.</value>
-	[XmlAttribute]
-	public int MaximizedY
+	/// <summary>Gets or sets the normal position of the Window.</summary>
+	public Rect NormalPosition
 	{
-		get => _windowPlacement.MaximizedPosition.Y;
-		set => this.SetProperty(ref _windowPlacement.MaximizedPosition.Y, value);
-	}
-
-	/// <summary>Gets or sets the left coordinate of the normal position rectangle.</summary>
-	/// <value>The left coordinate.</value>
-	[XmlAttribute]
-	public int Left
-	{
-		get => _windowPlacement.NormalPosition.Left;
-		set => this.SetProperty(ref _windowPlacement.NormalPosition.Left, value);
-	}
-
-	/// <summary>Gets or sets the top coordinate of the normal position rectangle.</summary>
-	/// <value>The top coordinate.</value>
-	[XmlAttribute]
-	public int Top
-	{
-		get => _windowPlacement.NormalPosition.Top;
-		set => this.SetProperty(ref _windowPlacement.NormalPosition.Top, value);
-	}
-
-	/// <summary>Gets or sets the right coordinate of the normal position rectangle.</summary>
-	/// <value>The right coordinate.</value>
-	[XmlAttribute]
-	public int Right
-	{
-		get => _windowPlacement.NormalPosition.Right;
-		set => this.SetProperty(ref _windowPlacement.NormalPosition.Right, value);
-	}
-
-	/// <summary>Gets or sets the bottom coordinate of the normal position rectangle.</summary>
-	/// <value>The bottom coordinate.</value>
-	[XmlAttribute]
-	public int Bottom
-	{
-		get => _windowPlacement.NormalPosition.Bottom;
-		set => this.SetProperty(ref _windowPlacement.NormalPosition.Bottom, value);
+		get
+		{
+			return new Rect(
+				_windowPlacement.NormalPosition.Left, _windowPlacement.NormalPosition.Top,
+				_windowPlacement.NormalPosition.Width, _windowPlacement.NormalPosition.Height);
+		}
+		set
+		{
+			_windowPlacement.NormalPosition.Left = (int)(value.X);
+			_windowPlacement.NormalPosition.Top = (int)value.Y;
+			_windowPlacement.NormalPosition.Right = (int)(value.X + value.Width);
+			_windowPlacement.NormalPosition.Bottom = (int)(value.Y + value.Height);
+		}
 	}
 
 	#endregion Properties
@@ -144,15 +124,8 @@ public class WindowPlacementModel : ObservableObject
 	{
 		Guard.IsNotDefault(hwnd.Handle);
 
-		var wp = hwnd.GetWindowPlacement();
-
-		this.IsMaximized = wp.ShowCommand == SW.ShowMaximized;
-		this.MaximizedX = wp.MaximizedPosition.X;
-		this.MaximizedY = wp.MaximizedPosition.Y;
-		this.Left = wp.NormalPosition.Left;
-		this.Top = wp.NormalPosition.Top;
-		this.Right = wp.NormalPosition.Right;
-		this.Bottom = wp.NormalPosition.Bottom;
+		hwnd.GetWindowPlacement(ref _windowPlacement);
+		this.OnPropertyChanged("*");
 	}
 
 	/// <summary>
@@ -164,6 +137,65 @@ public class WindowPlacementModel : ObservableObject
 	{
 		Guard.IsNotDefault(hwnd.Handle);
 		hwnd.SetWindowPlacement(ref _windowPlacement);
+	}
+
+	XmlSchema? IXmlSerializable.GetSchema() => null;
+
+	void IXmlSerializable.ReadXml(XmlReader reader)
+	{
+		if (reader.MoveToAttribute(nameof(IsMaximized)))
+		{
+			this.IsMaximized = bool.TryParse(reader.GetAttribute(nameof(IsMaximized)), out bool sMaximized) && sMaximized;
+		}
+
+		if (reader.MoveToAttribute(nameof(MaximizedPosition)))
+		{
+			var converter = new PointConverter();
+			if (converter.ConvertFromInvariantString(reader.GetAttribute(nameof(MaximizedPosition))!) is Point point)
+			{
+				_windowPlacement.MaximizedPosition.X = (int)point.X;
+				_windowPlacement.MaximizedPosition.Y = (int)point.Y;
+			}
+		}
+
+		if (reader.MoveToAttribute(nameof(NormalPosition)))
+		{
+			var rectConverter = new RectConverter();
+			if (rectConverter.ConvertFromInvariantString(reader.GetAttribute(nameof(NormalPosition))!) is Rect rect)
+			{
+				_windowPlacement.NormalPosition.Left = (int)(rect.X);
+				_windowPlacement.NormalPosition.Top = (int)rect.Y;
+				_windowPlacement.NormalPosition.Right = (int)(rect.X + rect.Width);
+				_windowPlacement.NormalPosition.Bottom = (int)(rect.Y + rect.Height);
+			}
+		}
+
+		this.OnPropertyChanged("*");
+	}
+
+	void IXmlSerializable.WriteXml(XmlWriter writer)
+	{
+		writer.WriteAttributeString(nameof(IsMaximized), this.IsMaximized.ToString());
+
+		var pointConverter = new PointConverter();
+		var point = new Point(_windowPlacement.MaximizedPosition.X, _windowPlacement.MaximizedPosition.Y);
+		writer.WriteAttributeString(nameof(MaximizedPosition), pointConverter.ConvertToInvariantString(point));
+
+		var rectConverter = new RectConverter();
+		var rect = new Rect(
+			_windowPlacement.NormalPosition.Left, _windowPlacement.NormalPosition.Top,
+			_windowPlacement.NormalPosition.Width, _windowPlacement.NormalPosition.Height);
+		writer.WriteAttributeString(nameof(NormalPosition), rectConverter.ConvertToInvariantString(rect));
+	}
+
+	bool IEquatable<WindowPlacementModel>.Equals(WindowPlacementModel? other)
+	{
+		if (other is null)
+			return false;
+
+		return this.IsMaximized == other.IsMaximized
+			&& this.MaximizedPosition == other.MaximizedPosition
+			&& this.NormalPosition == other.NormalPosition;
 	}
 
 	#endregion Methods

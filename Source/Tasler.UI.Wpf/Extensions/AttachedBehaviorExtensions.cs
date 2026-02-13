@@ -19,7 +19,7 @@ public static class AttachedBehaviorExtensions
 		var element = (TElement)d;
 		var behavior = (TBehavior)element.GetValue(dpk.DependencyProperty);
 		var newValue = (TValue)e.NewValue;
-		var defaultValue = dpk.DependencyProperty.GetMetadata(d).DefaultValue;
+		var defaultValue = e.Property.GetMetadata(d).DefaultValue;
 		if (object.Equals(newValue, defaultValue))
 		{
 			int remainingReferences = (behavior is ICountReferences countReferences)

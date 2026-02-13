@@ -63,7 +63,6 @@ public struct WINDOWPLACEMENT
 
 public struct WNDCLASSEX
 {
-	private uint _cbSize = (uint)Marshal.SizeOf<WNDCLASSEX>();
 	public CS                 Style;
 	public WndProcNative?     WndProc;
 	public int                ClasssExtraByteCount;
@@ -92,9 +91,10 @@ public struct WNDCLASSEX
 	}
 }
 
+[StructLayout(LayoutKind.Sequential)]
 public unsafe struct WNDCLASSEXW
 {
-	private uint _size = (uint)Marshal.SizeOf<WNDCLASSEXW>();
+	private uint _size = (uint)WNDCLASSEXW.SizeOf;
 	public uint Style;
 	public nint WndProc;
 	public int  ClasssExtraByteCount;
