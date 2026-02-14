@@ -2,6 +2,7 @@ using System.Configuration;
 using System.Windows;
 using CommunityToolkit.Diagnostics;
 using Tasler.Windows.Extensions;
+using Tasler.Windows.Model;
 
 namespace Tasler.Windows.Attachments;
 
@@ -28,8 +29,7 @@ public sealed partial class WindowPersistence
 	/// <summary>
 	/// Identifies the <c>Key</c> attached property.
 	/// </summary>
-	public static readonly DependencyProperty KeyProperty = APFactory.Register<string>("Key",
-			PrivateBehaviorPropertyKey.BehaviorPropertyChanged<Window, PrivateBehavior, string>);
+	public static readonly DependencyProperty KeyProperty = APFactory.Register<string>("Key", KeyPropertyChanged);
 
 	/// <summary>
 	/// Gets the key into the <see cref="ApplicationSettingsBase"/>-derived class where the window
@@ -59,6 +59,42 @@ public sealed partial class WindowPersistence
 		element.SetValue(KeyProperty, value);
 	}
 
+	private static void KeyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		PrivateBehaviorPropertyKey.BehaviorPropertyChanged<Window, PrivateBehavior, string>(d, e);
+
+		if (d is Window window)
+		{
+			var key = WindowPersistence.GetKey(window);
+			var settings = WindowPersistence.GetSettings(window);
+			if (settings is not null && key is not null)
+			{
+				CreateSettingsProperty(key, settings);
+			}
+		}
+	}
+
+	private static void CreateSettingsProperty(string key, ApplicationSettingsBase settings)
+	{
+		var settingsProperty = settings.Properties[key];
+		if (settingsProperty is not null)
+			return;
+
+		var provider = settings.Providers.OfType<SettingsProvider>().FirstOrDefault();
+		if (provider is null)
+			return;
+
+		var attributes = new SettingsAttributeDictionary();
+		attributes[typeof(UserScopedSettingAttribute)] = new UserScopedSettingAttribute();
+
+		settingsProperty = new(key, typeof(WindowPlacementModel),
+			provider, false, null, SettingsSerializeAs.Xml, attributes, true, true);
+		SettingsPropertyValue settingsPropertyValue = new (settingsProperty);
+
+		settings.Properties.Add(settingsProperty);
+		settings.PropertyValues.Add(settingsPropertyValue);
+	}
+
 	#endregion Key
 
 	#region Settings
@@ -67,8 +103,7 @@ public sealed partial class WindowPersistence
 	/// Identifies the <c>Settings</c> attached property.
 	/// </summary>
 	public static readonly DependencyProperty SettingsProperty =
-		APFactory.Register<ApplicationSettingsBase>("Settings",
-			PrivateBehaviorPropertyKey.BehaviorPropertyChanged<Window, PrivateBehavior, ApplicationSettingsBase>);
+		APFactory.Register<ApplicationSettingsBase>("Settings", SettingsPropertyChanged);
 
 	/// <summary>
 	/// Gets the instance of the <see cref="ApplicationSettingsBase"/>-derived class where the window
@@ -94,6 +129,21 @@ public sealed partial class WindowPersistence
 	{
 		Guard.IsNotNull(element);
 		element.SetValue(SettingsProperty, value);
+	}
+
+	private static void SettingsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		PrivateBehaviorPropertyKey.BehaviorPropertyChanged<Window, PrivateBehavior, ApplicationSettingsBase > (d, e);
+
+		if (d is Window window)
+		{
+			var key = WindowPersistence.GetKey(window);
+			var settings = WindowPersistence.GetSettings(window);
+			if (settings is not null && key is not null)
+			{
+				CreateSettingsProperty(key, settings);
+			}
+		}
 	}
 
 	#endregion Settings
