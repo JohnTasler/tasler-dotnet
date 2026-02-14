@@ -72,8 +72,10 @@ public sealed partial class WindowPersistence
 			GetSettings(this.AssociatedObject)?.ExpireAndClearAutoSaveDeferral();
 		}
 
+		/// <inheritdoc/>
 		public int Add() => ++_referenceCount;
 
+		/// <inheritdoc/>
 		public int Release() => _referenceCount = Math.Max(--_referenceCount, 0);
 
 		private int _referenceCount;
