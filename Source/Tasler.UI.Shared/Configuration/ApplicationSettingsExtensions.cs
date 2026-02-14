@@ -24,7 +24,7 @@ public static partial class ApplicationSettingsExtensions
 		}
 	}
 
-	public static void ExpireAutoSaveDeferral(this ApplicationSettingsBase settings)
+	public static void ExpireAndClearAutoSaveDeferral(this ApplicationSettingsBase settings)
 	{
 		var helper = GetAutoSaveHelper(settings);
 		if (helper is not null)

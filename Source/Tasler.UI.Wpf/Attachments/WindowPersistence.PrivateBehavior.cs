@@ -69,7 +69,7 @@ public sealed partial class WindowPersistence
 			this.AssociatedObject.LocationChanged -= this.AssociatedObject_PlacementChanged;
 			this.AssociatedObject.Closed -= this.AssociatedObject_Closed;
 
-			GetSettings(this.AssociatedObject)?.ExpireAutoSaveDeferral();
+			GetSettings(this.AssociatedObject)?.ExpireAndClearAutoSaveDeferral();
 		}
 
 		public int Add() => ++_referenceCount;
