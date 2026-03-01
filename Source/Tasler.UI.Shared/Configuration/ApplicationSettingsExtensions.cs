@@ -56,6 +56,13 @@ public static partial class ApplicationSettingsExtensions
 		}
 	}
 
+	public static void MonitorPropertyValueChanges(this ApplicationSettingsBase settings, SettingsPropertyValue propertyValue)
+	{
+		var helper = GetAutoSaveHelper(settings);
+		if (helper is not null)
+			helper.SubscribeToPropertyChanges(propertyValue);
+	}
+
 	private static AutoSaveHelper? GetAutoSaveHelper(ApplicationSettingsBase settings)
 	{
 		return settings.Context.ContainsKey(_autoSaveHelperKey)

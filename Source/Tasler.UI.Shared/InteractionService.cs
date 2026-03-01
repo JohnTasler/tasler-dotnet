@@ -1,6 +1,10 @@
 using System.ComponentModel;
 using Microsoft.Extensions.Hosting;
 using Tasler.ComponentModel;
+using Tasler.Windows.ComponentModel;
+using Microsoft.Extensions.Logging;
+
+
 
 #if WINDOWS_UWP
 using Windows.UI.Xaml;
@@ -15,11 +19,13 @@ namespace Tasler.Windows;
 public class InteractionService : IInteractionService
 {
 	private IHost _host;
+	private ILogger _logger;
 	private IViewModelMapper _viewModelMapper;
 
-	public InteractionService(IHost host, IViewModelMapper viewModelMapper)
+	public InteractionService(IHost host, ILogger<InteractionService> logger, IViewModelMapper viewModelMapper)
 	{
 		_host = host;
+		_logger = logger;
 		_viewModelMapper = viewModelMapper;
 	}
 
@@ -34,6 +40,17 @@ public class InteractionService : IInteractionService
 		return dialogResult.GetValueOrDefault()
 			? (TViewModel)window!.DataContext
 			: default;
+	}
+
+	public void ShowWindow<TViewModel>(TViewModel viewModel, bool showActivated)
+		where TViewModel : class, INotifyPropertyChanged
+	{
+		if (_viewModelMapper.GetViewInstanceFor<TViewModel>(_host) is Window window)
+		{
+			window.DataContext = viewModel;
+			window.ShowActivated = showActivated;
+			window.Show();
+		}
 	}
 #endif
 }

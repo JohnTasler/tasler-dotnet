@@ -115,6 +115,15 @@ namespace Tasler.Windows.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Specified key {0} does not exist in application settings..
+        /// </summary>
+        internal static string InvalidSettingsKeyFormat1 {
+            get {
+                return ResourceManager.GetString("InvalidSettingsKeyFormat1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The TreeRootNodeViewModelBase.CreateChildCollection override must return a non-null collection of type &apos;{0}&apos;..
         /// </summary>
         internal static string MustCreateChildCollectionOfTypeFormat1 {

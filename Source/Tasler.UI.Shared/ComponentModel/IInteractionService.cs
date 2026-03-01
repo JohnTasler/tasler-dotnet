@@ -7,5 +7,8 @@ public interface IInteractionService
 #if WINDOWS_WPF
 	TViewModel? ShowDialog<TViewModel>()
 		where TViewModel : class, INotifyPropertyChanged;
+
+	void ShowWindow<TViewModel>(TViewModel viewModel, bool showActivated)
+		where TViewModel : class, INotifyPropertyChanged;
 #endif
 }
