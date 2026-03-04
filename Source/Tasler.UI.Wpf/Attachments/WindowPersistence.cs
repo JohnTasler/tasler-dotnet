@@ -1,9 +1,6 @@
-using System.Configuration;
 using System.Windows;
-using System.Windows.Interop;
+using System.Windows.Data;
 using CommunityToolkit.Diagnostics;
-using Tasler.Configuration;
-using Tasler.Interop.User;
 using Tasler.Windows.Extensions;
 using Tasler.Windows.Model;
 
@@ -14,8 +11,6 @@ using APFactory = Tasler.Windows.AttachedPropertyFactory<WindowPersistence>;
 public sealed partial class WindowPersistence
 {
 	private WindowPersistence() {}
-
-	#region Attached Properties
 
 	#region PrivateBehavior
 
@@ -33,7 +28,9 @@ public sealed partial class WindowPersistence
 	/// Identifies the <c>Placement</c> attached property.
 	/// </summary>
 	public static readonly DependencyProperty PlacementProperty =
-		APFactory.Register<WindowPlacementModel>("Placement", PlacementPropertyChanged);
+		APFactory.Register<WindowPlacementModel?>("Placement", WindowPlacementModel.Unset,
+			PrivateBehaviorPropertyKey.BehaviorPropertyChanged<Window, PrivateBehavior, WindowPlacementModel?>,
+			FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, UpdateSourceTrigger.Explicit);
 
 	/// <summary>
 	/// Gets the instance of the <see cref="WindowPlacementModel"/> class.
@@ -41,10 +38,11 @@ public sealed partial class WindowPersistence
 	/// <param name="element">The <see cref="Window"/> for which to get the property value.</param>
 	/// <returns>An instance of the <see cref="WindowPlacementModel"/> class.</returns>
 	/// <exception cref="ArgumentNullException"><paramref name="element"/> is <see langword="null"/>.</exception>
-	public static WindowPlacementModel GetPlacement(Window element)
+	[AttachedPropertyBrowsableForType(typeof(Window))]
+	public static WindowPlacementModel? GetPlacement(Window element)
 	{
 		Guard.IsNotNull(element);
-		return (WindowPlacementModel)element.GetValue(PlacementProperty);
+		return (WindowPlacementModel?)element.GetValue(PlacementProperty);
 	}
 
 	/// <summary>
@@ -59,24 +57,5 @@ public sealed partial class WindowPersistence
 		element.SetValue(PlacementProperty, value);
 	}
 
-	private static void PlacementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		PrivateBehaviorPropertyKey.BehaviorPropertyChanged<Window, PrivateBehavior,(d, e);
-		if (d is Window window)
-		{
-			if (e.NewValue is WindowPlacementModel placement)
-			{
-				AttachedBehaviorExtensions.
-
-			}
-			else
-			{
-
-			}
-		}
-	}
-
 	#endregion Placement
-
-	#endregion Attached Properties
 }

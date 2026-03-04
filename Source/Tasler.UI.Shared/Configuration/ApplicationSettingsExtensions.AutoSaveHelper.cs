@@ -1,5 +1,8 @@
 using System.ComponentModel;
 using System.Configuration;
+using System.IO;
+using System.Xml.Serialization;
+using Tasler.Windows.Model;
 using Tasler.Windows.Threading;
 
 namespace Tasler.Configuration;
@@ -34,7 +37,12 @@ public static partial class ApplicationSettingsExtensions
 			this.Settings.PropertyChanged += this.Settings_PropertyChanged;
 
 			// Create a DeferredAction with the specified deferral time
-			this.DeferredAction = new DispatcherTimerDeferredAction(deferralTimeSpan, this.Settings.Save);
+			this.DeferredAction = new DispatcherTimerDeferredAction(deferralTimeSpan, this.UpdateSettings);
+		}
+
+		private void UpdateSettings()
+		{
+			this.Settings.Save();
 		}
 
 		/// <summary>
@@ -68,9 +76,6 @@ public static partial class ApplicationSettingsExtensions
 
 		internal void SubscribeToPropertyChanges(SettingsPropertyValue propertyValue)
 		{
-			if (this.Settings is null)
-				return;
-
 			// Check for the INotifyPropertyChanged interface
 			if (propertyValue.PropertyValue is INotifyPropertyChanged notifyPropertyChanged)
 				notifyPropertyChanged.PropertyChanged += this.ItemPropertyChanged;
@@ -80,30 +85,22 @@ public static partial class ApplicationSettingsExtensions
 		#region IDisposable Members
 		void IDisposable.Dispose()
 		{
-			using (this.DeferredAction)
-			{
-				this.DeferredAction = null;
-				this.Settings = null;
-				GC.SuppressFinalize(this);
-			}
+			this.DeferredAction.Dispose();
+			this.Settings.Save();
+			GC.SuppressFinalize(this);
 		}
 		#endregion IDisposable Members
 
 		#region Private Properties
-		private DispatcherTimerDeferredAction? DeferredAction { get; set; }
-		private ApplicationSettingsBase? Settings { get; set; }
+		private DispatcherTimerDeferredAction DeferredAction { get; set; }
+		private ApplicationSettingsBase Settings { get; set; }
 		#endregion Private Properties
 
 		#region Private Methods
 
 		private void ItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			string? itemName = e.PropertyName;
-			if (itemName is null)
-				return;
-
-			// Get the specified property value object
-			var propertyValue = this.Settings?.PropertyValues[itemName];
+			var propertyValue = this.Settings.PropertyValues.OfType<SettingsPropertyValue>().FirstOrDefault(v => v.PropertyValue == sender);
 
 			// Set its value to itself, thus marking it as needing to be saved
 			// NOTE: Simply setting the IsDirty on the property value is insufficient.
@@ -141,7 +138,7 @@ public static partial class ApplicationSettingsExtensions
 		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			// Check for the INotifyPropertyChanged interface
-			if (this.Settings?[e.PropertyName] is INotifyPropertyChanged notifyPropertyChanged)
+			if (this.Settings[e.PropertyName] is INotifyPropertyChanged notifyPropertyChanged)
 			{
 				// Re-subscribe to the PropertyChanged event
 				notifyPropertyChanged.PropertyChanged -= this.ItemPropertyChanged;

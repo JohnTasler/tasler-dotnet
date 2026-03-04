@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Xml;
 using System.Xml.Serialization;
 using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -19,8 +20,10 @@ public class WindowPlacementModel : ObservableObject
 	private const int c_defaultHeight = 480;
 	#endregion Constants
 
+	public static readonly WindowPlacementModel Unset = new();
+
 	#region Instance Fields
-	private WINDOWPLACEMENT _windowPlacement;
+	private WINDOWPLACEMENT _windowPlacement = new();
 	#endregion Instance Fields
 
 	#region Constructors
@@ -77,58 +80,52 @@ public class WindowPlacementModel : ObservableObject
 		set => this.SetProperty(ref _windowPlacement.ShowCommand, value ? SW.ShowMaximized : SW.ShowNormal);
 	}
 
-	/// <summary>Gets or sets the maximized width.</summary>
-	/// <value>The maximized width.</value>
+	/// <summary>Gets or sets the maximized position.</summary>
+	/// <value>The maximized position.</value>
 	[XmlAttribute]
-	public int MaximizedX
+	public string? MaximizedPosition
 	{
-		get => _windowPlacement.MaximizedPosition.X;
-		set => this.SetProperty(ref _windowPlacement.MaximizedPosition.X, value);
+		get
+		{
+			var point = new Point(_windowPlacement.MaximizedPosition.X, _windowPlacement.MaximizedPosition.Y);
+
+			var converter = new RectConverter();
+			return converter.ConvertToInvariantString(point);
+		}
+		set
+		{
+			var converter = new PointConverter();
+			if (converter.ConvertFromInvariantString(value!) is Point point)
+			{
+				_windowPlacement.MaximizedPosition.X = (int)point.X;
+				_windowPlacement.MaximizedPosition.Y = (int)point.Y;
+			}
+		}
 	}
 
-	/// <summary>Gets or sets the maximized height.</summary>
-	/// <value>The maximized height.</value>
 	[XmlAttribute]
-	public int MaximizedY
+	public string? NormalPosition
 	{
-		get => _windowPlacement.MaximizedPosition.Y;
-		set => this.SetProperty(ref _windowPlacement.MaximizedPosition.Y, value);
-	}
+		get
+		{
+			var rect = new Rect(
+				_windowPlacement.NormalPosition.Left, _windowPlacement.NormalPosition.Top,
+				_windowPlacement.NormalPosition.Width, _windowPlacement.NormalPosition.Height);
 
-	/// <summary>Gets or sets the left coordinate of the normal position rectangle.</summary>
-	/// <value>The left coordinate.</value>
-	[XmlAttribute]
-	public int Left
-	{
-		get => _windowPlacement.NormalPosition.Left;
-		set => this.SetProperty(ref _windowPlacement.NormalPosition.Left, value);
-	}
-
-	/// <summary>Gets or sets the top coordinate of the normal position rectangle.</summary>
-	/// <value>The top coordinate.</value>
-	[XmlAttribute]
-	public int Top
-	{
-		get => _windowPlacement.NormalPosition.Top;
-		set => this.SetProperty(ref _windowPlacement.NormalPosition.Top, value);
-	}
-
-	/// <summary>Gets or sets the right coordinate of the normal position rectangle.</summary>
-	/// <value>The right coordinate.</value>
-	[XmlAttribute]
-	public int Right
-	{
-		get => _windowPlacement.NormalPosition.Right;
-		set => this.SetProperty(ref _windowPlacement.NormalPosition.Right, value);
-	}
-
-	/// <summary>Gets or sets the bottom coordinate of the normal position rectangle.</summary>
-	/// <value>The bottom coordinate.</value>
-	[XmlAttribute]
-	public int Bottom
-	{
-		get => _windowPlacement.NormalPosition.Bottom;
-		set => this.SetProperty(ref _windowPlacement.NormalPosition.Bottom, value);
+			var converter = new RectConverter();
+			return converter.ConvertToInvariantString(rect);
+		}
+		set
+		{
+			var converter = new RectConverter();
+			if (converter.ConvertFromInvariantString(value!) is Rect rect)
+			{
+				_windowPlacement.NormalPosition.Left = (int)(rect.X);
+				_windowPlacement.NormalPosition.Top = (int)rect.Y;
+				_windowPlacement.NormalPosition.Right = (int)(rect.X + rect.Width);
+				_windowPlacement.NormalPosition.Bottom = (int)(rect.Y + rect.Height);
+			}
+		}
 	}
 
 	#endregion Properties
@@ -144,15 +141,8 @@ public class WindowPlacementModel : ObservableObject
 	{
 		Guard.IsNotDefault(hwnd.Handle);
 
-		var wp = hwnd.GetWindowPlacement();
-
-		this.IsMaximized = wp.ShowCommand == SW.ShowMaximized;
-		this.MaximizedX = wp.MaximizedPosition.X;
-		this.MaximizedY = wp.MaximizedPosition.Y;
-		this.Left = wp.NormalPosition.Left;
-		this.Top = wp.NormalPosition.Top;
-		this.Right = wp.NormalPosition.Right;
-		this.Bottom = wp.NormalPosition.Bottom;
+		hwnd.GetWindowPlacement(ref _windowPlacement);
+		this.OnPropertyChanged("*");
 	}
 
 	/// <summary>
