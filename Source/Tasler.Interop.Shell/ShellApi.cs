@@ -1,6 +1,9 @@
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using CommunityToolkit.Diagnostics;
 using Tasler.Interop.Com;
+using Tasler.Interop.User;
 
 namespace Tasler.Interop.Shell;
 
@@ -95,6 +98,31 @@ public static partial class ShellApi
 		if (hr < 0)
 			Marshal.ThrowExceptionForHR(hr);
 		return new SafeCoTaskMemString { Handle = namePtr }.Value;
+	}
+
+	/// <summary>
+	/// Uses ShellExecuteW to open the specified URI in the system's default web browser.
+	/// </summary>
+	/// <param name="uri">
+	/// The URI to open. This must be an absolute URL using http, https, file, or mailto protocols.
+	/// </param>
+	public static void OpenUriInDefaultBrowser(string uri)
+	{
+		if (string.IsNullOrWhiteSpace(uri))
+			throw new ArgumentException(Properties.Resources.ArgumentExceptionNonEmptyAbsoluteUriRequired, nameof(uri));
+
+		if (!Uri.TryCreate(uri, UriKind.Absolute, out var parsedUri) ||
+			(parsedUri.Scheme != Uri.UriSchemeHttp
+			&& parsedUri.Scheme != Uri.UriSchemeHttps
+			&& parsedUri.Scheme != Uri.UriSchemeFile
+			&& parsedUri.Scheme != Uri.UriSchemeMailto))
+		{
+			throw new ArgumentException(Properties.Resources.ArgumentExceptionOnlySpecificAbsoluteUrisSupported, nameof(uri));
+		}
+
+		var result = NativeMethods.ShellExecuteW(SafeHwnd.Null, "open", uri, null, null, SW.ShowNormal);
+		if (result <= 32)
+			throw new Win32Exception();
 	}
 
 	//[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
@@ -197,6 +225,15 @@ public static partial class ShellApi
 			KnownFolderFlags dwFlags,
 			nint hToken,
 			out nint ppidl);
+
+		[LibraryImport(Shell32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+		public static partial nint ShellExecuteW(
+			SafeHwnd hwnd,
+			string? lpOperation,
+			string lpFile,
+			string? lpParameters,
+			string? lpDirectory,
+			SW nShowCmd);
 	}
 }
 
