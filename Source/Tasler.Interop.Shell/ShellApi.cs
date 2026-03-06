@@ -1,5 +1,7 @@
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using CommunityToolkit.Diagnostics;
 using Tasler.Interop.Com;
 using Tasler.Interop.User;
 
@@ -98,9 +100,29 @@ public static partial class ShellApi
 		return new SafeCoTaskMemString { Handle = namePtr }.Value;
 	}
 
+	/// <summary>
+	/// Uses ShellExecuteW to open the specified URI in the system's default web browser.
+	/// </summary>
+	/// <param name="uri">
+	/// The URI to open. This must be an absolute URL using http, https, file, or mailto protocols.
+	/// </param>
 	public static void OpenUriInDefaultBrowser(string uri)
 	{
-		NativeMethods.ShellExecuteW(new SafeHwnd(), null, uri, null, null, SW.ShowNormal);
+		if (string.IsNullOrWhiteSpace(uri))
+			throw new ArgumentException(Properties.Resources.ArgumentExceptionNonEmptyAbsoluteUriRequired, nameof(uri));
+
+		if (!Uri.TryCreate(uri, UriKind.Absolute, out var parsedUri) ||
+			(parsedUri.Scheme != Uri.UriSchemeHttp
+			&& parsedUri.Scheme != Uri.UriSchemeHttps
+			&& parsedUri.Scheme != Uri.UriSchemeFile
+			&& parsedUri.Scheme != Uri.UriSchemeMailto))
+		{
+			throw new ArgumentException(Properties.Resources.ArgumentExceptionOnlySpecificAbsoluteUrisSupported, nameof(uri));
+		}
+
+		var result = NativeMethods.ShellExecuteW(SafeHwnd.Null, "open", uri, null, null, SW.ShowNormal);
+		if (result <= 32)
+			throw new Win32Exception();
 	}
 
 	//[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
