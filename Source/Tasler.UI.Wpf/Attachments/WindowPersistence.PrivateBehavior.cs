@@ -53,7 +53,10 @@ public sealed partial class WindowPersistence
 			this.AssociatedObject.LocationChanged -= this.AssociatedObject_PlacementChanged;
 			this.AssociatedObject.Closed -= this.AssociatedObject_Closed;
 			using (var action = _action)
+			{
 				_action = null;
+				action?.Expire();
+			}
 		}
 
 		private void AssociatedObject_SourceInitialized(object? sender, EventArgs e)
@@ -99,7 +102,7 @@ public sealed partial class WindowPersistence
 			{
 				if (AssociatedObject.ReadLocalValue(PlacementProperty) is BindingExpression binding)
 				{
-					SetPlacement(AssociatedObject, value);
+					this.AssociatedObject.SetCurrentValue(PlacementProperty, value);
 					binding.UpdateSource();
 				}
 			}

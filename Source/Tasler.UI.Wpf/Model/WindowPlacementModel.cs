@@ -21,7 +21,7 @@ public class WindowPlacementModel : ObservableObject, IXmlSerializable, IEquatab
 	private const int c_defaultHeight = 480;
 	#endregion Constants
 
-	public static readonly WindowPlacementModel Unset = new();
+	public static readonly WindowPlacementModel Unset = new UnsetWindowPlacementModel();
 
 	#region Instance Fields
 	private WINDOWPLACEMENT _windowPlacement = new();
@@ -72,7 +72,7 @@ public class WindowPlacementModel : ObservableObject, IXmlSerializable, IEquatab
 	/// <value>
 	///   <see langword="true"/> if the Window is maximized; otherwise, <see langword="false"/>.
 	/// </value>
-	public bool IsMaximized
+	private bool IsMaximized
 	{
 		get => _windowPlacement.ShowCommand == SW.ShowMaximized;
 		set => this.SetProperty(ref _windowPlacement.ShowCommand, value ? SW.ShowMaximized : SW.ShowNormal);
@@ -80,7 +80,7 @@ public class WindowPlacementModel : ObservableObject, IXmlSerializable, IEquatab
 
 	/// <summary>Gets or sets the maximized position.</summary>
 	/// <value>The maximized position.</value>
-	public Point MaximizedPosition
+	private Point MaximizedPosition
 	{
 		get
 		{
@@ -94,7 +94,7 @@ public class WindowPlacementModel : ObservableObject, IXmlSerializable, IEquatab
 	}
 
 	/// <summary>Gets or sets the normal position of the Window.</summary>
-	public Rect NormalPosition
+	private Rect NormalPosition
 	{
 		get
 		{
@@ -125,7 +125,7 @@ public class WindowPlacementModel : ObservableObject, IXmlSerializable, IEquatab
 		Guard.IsNotDefault(hwnd.Handle);
 
 		hwnd.GetWindowPlacement(ref _windowPlacement);
-		this.OnPropertyChanged("*");
+		this.OnPropertyChanged("");
 	}
 
 	/// <summary>
@@ -143,34 +143,41 @@ public class WindowPlacementModel : ObservableObject, IXmlSerializable, IEquatab
 
 	void IXmlSerializable.ReadXml(XmlReader reader)
 	{
-		if (reader.MoveToAttribute(nameof(IsMaximized)))
+		try
 		{
-			this.IsMaximized = bool.TryParse(reader.GetAttribute(nameof(IsMaximized)), out bool sMaximized) && sMaximized;
-		}
-
-		if (reader.MoveToAttribute(nameof(MaximizedPosition)))
-		{
-			var converter = new PointConverter();
-			if (converter.ConvertFromInvariantString(reader.GetAttribute(nameof(MaximizedPosition))!) is Point point)
+			if (reader.MoveToAttribute(nameof(IsMaximized)))
 			{
-				_windowPlacement.MaximizedPosition.X = (int)point.X;
-				_windowPlacement.MaximizedPosition.Y = (int)point.Y;
+				this.IsMaximized = bool.TryParse(reader.GetAttribute(nameof(IsMaximized)), out bool sMaximized) && sMaximized;
 			}
-		}
 
-		if (reader.MoveToAttribute(nameof(NormalPosition)))
-		{
-			var rectConverter = new RectConverter();
-			if (rectConverter.ConvertFromInvariantString(reader.GetAttribute(nameof(NormalPosition))!) is Rect rect)
+			if (reader.MoveToAttribute(nameof(MaximizedPosition)))
 			{
-				_windowPlacement.NormalPosition.Left = (int)(rect.X);
-				_windowPlacement.NormalPosition.Top = (int)rect.Y;
-				_windowPlacement.NormalPosition.Right = (int)(rect.X + rect.Width);
-				_windowPlacement.NormalPosition.Bottom = (int)(rect.Y + rect.Height);
+				var converter = new PointConverter();
+				if (converter.ConvertFromInvariantString(reader.GetAttribute(nameof(MaximizedPosition))!) is Point point)
+				{
+					_windowPlacement.MaximizedPosition.X = (int)point.X;
+					_windowPlacement.MaximizedPosition.Y = (int)point.Y;
+				}
 			}
-		}
 
-		this.OnPropertyChanged("*");
+			if (reader.MoveToAttribute(nameof(NormalPosition)))
+			{
+				var rectConverter = new RectConverter();
+				if (rectConverter.ConvertFromInvariantString(reader.GetAttribute(nameof(NormalPosition))!) is Rect rect)
+				{
+					_windowPlacement.NormalPosition.Left = (int)(rect.X);
+					_windowPlacement.NormalPosition.Top = (int)rect.Y;
+					_windowPlacement.NormalPosition.Right = (int)(rect.X + rect.Width);
+					_windowPlacement.NormalPosition.Bottom = (int)(rect.Y + rect.Height);
+				}
+			}
+
+			this.OnPropertyChanged("");
+		}
+		finally
+		{
+			reader.Skip();
+		}
 	}
 
 	void IXmlSerializable.WriteXml(XmlWriter writer)
@@ -199,4 +206,13 @@ public class WindowPlacementModel : ObservableObject, IXmlSerializable, IEquatab
 	}
 
 	#endregion Methods
+
+	private class UnsetWindowPlacementModel : WindowPlacementModel
+	{
+		public UnsetWindowPlacementModel() : base(0, 0) { }
+
+		public override bool Equals(object? obj) => ReferenceEquals(this, obj);
+
+		public override int GetHashCode() => base.GetHashCode();
+	}
 }

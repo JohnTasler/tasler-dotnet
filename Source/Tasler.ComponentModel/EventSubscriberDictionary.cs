@@ -17,7 +17,7 @@ public class EventSubscriberDictionary<TKey, TDelegate>
 
 	#region Constructors
 	/// <summary>
-	/// Initializes a new instance of the <see cref="EventSubscriberDictionary{TDelegate}" /> class.
+	/// Initializes a new instance of the <see cref="EventSubscriberDictionary{TKey, TDelegate}" /> class.
 	/// </summary>
 	/// <param name="innerDictionary">The inner dictionary on which this object implements its functionality.</param>
 	public EventSubscriberDictionary(IDictionary<TKey, EventSubscriber<TDelegate>?> innerDictionary)
@@ -31,19 +31,10 @@ public class EventSubscriberDictionary<TKey, TDelegate>
 
 	public void Add(TKey key, EventSubscriber<TDelegate>? value)
 	{
-		var existingValue = this[key];
-		if (existingValue is not null)
-		{
-			_innerDictionary[key] = value;
-		}
-		else
-		{
-			_innerDictionary.Add(key, value);
-			this.CollectionChanged?.RaiseAdd(this, key!);
+		_innerDictionary.Add(key, value);
+		this.CollectionChanged?.RaiseAdd(this, key!);
 
-			if (this.PropertyChanged is not null)
-				this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(Count)));
-		}
+		this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
 	}
 
 	public bool ContainsKey(TKey key) => _innerDictionary.ContainsKey(key);
@@ -56,9 +47,7 @@ public class EventSubscriberDictionary<TKey, TDelegate>
 		if (result)
 		{
 			this.CollectionChanged?.RaiseRemove(this, key!);
-
-			if (this.PropertyChanged is not null)
-				this.PropertyChanged(this, new PropertyChangedEventArgs(nameof(Count)));
+			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
 		}
 		return result;
 	}
@@ -71,8 +60,7 @@ public class EventSubscriberDictionary<TKey, TDelegate>
 	{
 		get
 		{
-			EventSubscriber<TDelegate>? result = null;
-			_innerDictionary.TryGetValue(key, out result);
+			_innerDictionary.TryGetValue(key, out var result);
 			return result;
 		}
 		set

@@ -4,9 +4,9 @@ namespace Tasler;
 public sealed class EventSubscriber<TDelegate>
 	where TDelegate : Delegate
 {
-	public TDelegate Handler { get; private set; }
+	public TDelegate? Handler { get; private set; }
 
-	private EventSubscriber(TDelegate handler)
+	private EventSubscriber(TDelegate? handler)
 	{
 		this.Handler = handler;
 	}
@@ -24,7 +24,7 @@ public sealed class EventSubscriber<TDelegate>
 	{
 		if (source is not null)
 		{
-			source.Handler = (Delegate.Remove((source.Handler as Delegate)!, (handler as Delegate)!) as TDelegate)!;
+			source.Handler = Delegate.Remove(source.Handler as Delegate, handler as Delegate) as TDelegate;
 			if (source.Handler is null)
 				source = null!;
 		}
