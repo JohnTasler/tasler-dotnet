@@ -54,7 +54,7 @@ public static class PropertySupport
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
 	public static string ExtractPropertyName<TSource, TResult>(Expression<Func<TSource, TResult>> propertyExpression)
 	{
-		ValidateArgument.IsNotNull(propertyExpression, nameof(propertyExpression));
+		Guard.IsNotNull(propertyExpression);
 
 		if (propertyExpression.Body is not MemberExpression memberExpression)
 		{

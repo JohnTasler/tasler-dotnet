@@ -25,10 +25,7 @@ public static partial class ApplicationSettingsExtensions
 	{
 		var helper = GetAutoSaveHelper(settings);
 		if (helper is not null)
-		{
-			helper.Expire();
 			ClearAutoSaveDeferral(settings);
-		}
 	}
 
 	public static void ClearAutoSaveDeferral(this ApplicationSettingsBase settings)

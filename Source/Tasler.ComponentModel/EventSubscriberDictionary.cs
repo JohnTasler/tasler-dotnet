@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using CommunityToolkit.Diagnostics;
 
-namespace Tasler;
+namespace Tasler.ComponentModel;
 
 public class EventSubscriberDictionary<TKey, TDelegate>
 	: IDictionary<TKey, EventSubscriber<TDelegate>?>

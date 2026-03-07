@@ -1,5 +1,5 @@
 
-namespace Tasler;
+namespace Tasler.ComponentModel;
 
 public sealed class EventSubscriber<TDelegate>
 	where TDelegate : Delegate
