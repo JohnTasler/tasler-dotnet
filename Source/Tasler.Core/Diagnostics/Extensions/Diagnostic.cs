@@ -174,7 +174,7 @@ public static class Diagnostic
 	///			<description>
 	///			"Address=0123456789ABCDEF &lt;non-null&gt;"
 	///			where 0123456789ABCDEF is the hex address of the object.
-	///			</descripton>
+	///			</description>
 	///		</item>
 	///		<item>
 	///			<term>
@@ -198,12 +198,9 @@ public static class Diagnostic
 			asString = Properties.Resources.NullOrNonNull_NonNull;
 
 		nint address = nint.Zero;
-		unsafe
-		{
-			#pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
-			address = (nint)(&@this);
-			#pragma warning restore CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
-		}
+		var gcHandle = GCHandle.Alloc(@this, GCHandleType.Pinned);
+		using (var pinned = new DisposeScopeExit(() => gcHandle.Free()))
+			address = gcHandle.AddrOfPinnedObject();
 		return $"{Properties.Resources.NullOrNonNull_AddressEquals}{address} {asString}";
 	}
 
