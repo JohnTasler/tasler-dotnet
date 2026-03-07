@@ -12,6 +12,7 @@ public sealed partial class WindowPersistence
 {
 	private class PrivateBehavior : Behavior<Window>, ICountReferences
 	{
+		// Note: Reference counting assumes single-threaded (UI thread) access
 		private int _referenceCount;
 
 		/// <inheritdoc/>

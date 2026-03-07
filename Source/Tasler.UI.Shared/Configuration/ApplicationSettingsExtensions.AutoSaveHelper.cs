@@ -41,19 +41,10 @@ public static partial class ApplicationSettingsExtensions
 		{
 			this.Settings.Save();
 		}
-
-		/// <summary>
-		/// Releases unmanaged resources and performs other cleanup operations before the
-		/// <see cref="AutoSaveHelper"/> is reclaimed by garbage collection.
-		/// </summary>
-		~AutoSaveHelper()
-		{
-			((IDisposable)this).Dispose();
-		}
 		#endregion Constructor / Finalizer
 
 		#region Methods
-		internal void Expire() => this.DeferredAction?.Expire();
+		internal void Expire() => this.DeferredAction.Expire();
 
 		internal void Expire(TimeSpan deferralTimeSpan)
 		{
@@ -98,7 +89,7 @@ public static partial class ApplicationSettingsExtensions
 				propertyValue.PropertyValue = propertyValue.PropertyValue;
 
 			// Trigger the deferred action to save the settings
-			this.DeferredAction?.Trigger();
+			this.DeferredAction.Trigger();
 		}
 		#endregion Private Methods
 
@@ -130,7 +121,7 @@ public static partial class ApplicationSettingsExtensions
 			}
 
 			// Trigger the deferred action to save the settings
-			this.DeferredAction?.Trigger();
+			this.DeferredAction.Trigger();
 		}
 		#endregion Event Handlers
 	}

@@ -57,7 +57,7 @@ public static class DiagnosticExtensions
 	}
 
 	[Conditional("DEBUG")]
-	public static void DebugWriteItemPropertySetMessage<T, Index>(Index index, string? message = null, [CallerMemberName] string? methodName = null)
+	public static void DebugWriteItemPropertySetMessage<T, Index>(Index index, string? message = null)
 	{
 		DebugWriteMethodMessage<T>(message, $"set_Item[{index}]");
 	}
@@ -156,7 +156,7 @@ public static class DiagnosticExtensions
 
 		var asString = @this.ToString();
 		if (asString is not null && asString.Contains(@this.GetType().Name))
-			asString = "<non-null";
+			asString = "<non-null>";
 		return $"HashCode={@this.GetHashCode()} {asString}";
 	}
 

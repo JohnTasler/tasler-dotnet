@@ -19,9 +19,9 @@ public static class PropertyObserver
 	/// <param name="propertyName">The property name to observe.</param>
 	/// <param name="handlerAction">The callback to invoke when <paramref name="this"/> object raises the
 	/// <see cref="INotifyPropertyChanged.PropertyChanged"/> event that indicates either the property whose name is
-	/// specified by the <paramref name="propertyName"/>, or one of <see langword="null"/>, <see cref="String.Empty"/>, or a
-	/// <see cref="String"/> containing only whitespace. Any of the latter three can be indicated when "all properties"
-	/// should be refreshed.</param>
+	/// specified by the <paramref name="propertyName"/>, or one of <see langword="null"/>, <see cref="String.Empty"/>, a
+	/// <see cref="String"/> containing only whitespace, or an asterisk. Any of the latter three can be indicated when
+	/// "all properties" should be refreshed.</param>
 	/// <returns>An <see cref="IPropertyObserverItem"/> that allows unsubscribing and refreshing the notification.</returns>
 	public static IPropertyObserverItem Subscribe<T>(this T @this, string propertyName, Action<T> handlerAction)
 		where T : INotifyPropertyChanged

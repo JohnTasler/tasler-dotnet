@@ -32,7 +32,7 @@ namespace Tasler.Windows.Threading
 
 		protected override bool GetHasThreadAccess(Dispatcher dispatcher)
 		{
-			return (dispatcher?.CheckAccess()!).Value;
+			return dispatcher?.CheckAccess() ?? false;
 		}
 
 		protected override void VerifyThreadAccess(Dispatcher dispatcher)
@@ -40,6 +40,6 @@ namespace Tasler.Windows.Threading
 			dispatcher?.VerifyAccess();
 		}
 
-		#endregion Private Implementation
+		#endregion Overrides
 	}
 }

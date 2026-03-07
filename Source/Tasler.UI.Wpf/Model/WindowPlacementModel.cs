@@ -205,6 +205,10 @@ public class WindowPlacementModel : ObservableObject, IXmlSerializable, IEquatab
 			&& this.NormalPosition == other.NormalPosition;
 	}
 
+	public override bool Equals(object? obj) => ((IEquatable<WindowPlacementModel>)this).Equals(obj as WindowPlacementModel);
+
+	public override int GetHashCode() => HashCode.Combine(this.IsMaximized, this.MaximizedPosition, this.NormalPosition);
+
 	#endregion Methods
 
 	private class UnsetWindowPlacementModel : WindowPlacementModel
