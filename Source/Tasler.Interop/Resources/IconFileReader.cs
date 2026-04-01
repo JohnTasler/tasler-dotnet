@@ -163,6 +163,8 @@ public class IconDirectoryItem
 		return iconDirectoryItem;
 	}
 
+	public override string ToString() => $"{Width}x{Height} {BitCount}bpp";
+
 	/// <summary>Gets the width, in pixels, of the icon image.</summary>
 	/// <value>The width, in pixels.</value>
 	public int Width => _binaryEntry.ResDirEntry.Width;

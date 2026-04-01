@@ -20,6 +20,21 @@ public static partial class PropSysApi
 		return pszCanonicalName.Value ?? string.Empty;
 	}
 
+	//public static string GetDescriptonFromPropertyKey(PropertyKey propkey)
+	//{
+	//	SafeCoTaskMemString pszCanonicalName = null!;
+	//	int hr = NativeMethods.PSGetPropertyDescription(propkey, out pszCanonicalName);
+	//	if (hr < 0)
+	//		Marshal.ThrowExceptionForHR(hr);
+
+	//	return pszCanonicalName.Value ?? string.Empty;
+	//}
+
+	extension (PropertyKey @this)
+	{
+		string Name => GetNameFromPropertyKey(@this);
+	}
+
 	public static partial class NativeMethods
 	{
 		private const string PropSys = "propsys.dll";
