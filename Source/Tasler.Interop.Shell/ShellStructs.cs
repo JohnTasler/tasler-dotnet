@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using Tasler.Interop.Gdi;
 using Tasler.SuppressMessage;
 
 namespace Tasler.Interop.Shell;
@@ -49,31 +50,6 @@ public struct CharBuffer82
 	public char C60, C61, C62, C63, C64, C65, C66, C67, C68, C69, C6A, C6B, C6C, C6D, C6E, C6F;
 	public char C70, C71, C72, C73, C74, C75, C76, C77, C78, C79, C7A, C7B, C7C, C7D, C7E, C7F;
 	public char C80;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-[SuppressMessage(Category.Style, CheckId.IDE1006_NamingStyles, Justification = Justification.NamingStyles)]
-public struct RECT
-{
-	public int left;
-	public int top;
-	public int right;
-	public int bottom;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-[SuppressMessage(Category.Style, CheckId.IDE1006_NamingStyles, Justification = Justification.NamingStyles)]
-public struct POINT
-{
-	public int left;
-	public int top;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-[SuppressMessage(Category.Style, CheckId.IDE1006_NamingStyles, Justification = Justification.NamingStyles)]
-public struct COLORREF
-{
-	public uint value;
 }
 
 [StructLayout(LayoutKind.Sequential)]
