@@ -21,34 +21,6 @@ public partial interface IObjMgr
 	void Remove(IEnumString punk);
 }
 
-[Guid(Guids.IID_IEnumACString)]
-[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
-[System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1230:Specifying 'GeneratedComInterfaceAttribute' on an interface that has a base interface defined in another assembly is not supported", Justification = "Allowed")]
-public partial interface IEnumACString : IEnumString
-{
-	/// <summary>
-	/// Retrieves the next auto-complete string into the provided buffer.
-	/// </summary>
-	/// <param name="pszUr">Buffer that receives the next item string.</param>
-	/// <param name="cchMax">Maximum number of characters the buffer can hold, including the terminating null if applicable.</param>
-	/// <param name="pulSortIndex">Receives the sort index associated with the returned item.</param>
-	/// <returns>An HRESULT indicating success, that no more items are available, or an error code.</returns>
-	[PreserveSig]
-	int NextItem(string pszUr, uint cchMax, out uint pulSortIndex);
-
-	/// <summary>
-/// Sets the enumeration options that control how auto-complete strings are produced and filtered.
-/// </summary>
-/// <param name="dwOptions">Flags specifying the auto-complete enumeration behavior to apply.</param>
-	void SetEnumOptions(AutoCompleteOption dwOptions);
-
-	/// <summary>
-/// Gets the options currently applied to auto-complete string enumeration.
-/// </summary>
-/// <returns>The current <see cref="AutoCompleteOption"/> flags controlling enumeration behavior.</returns>
-	AutoCompleteOption GetEnumOptions();
-}
-
 [Guid(Guids.IID_IACList)]
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 public partial interface IACList

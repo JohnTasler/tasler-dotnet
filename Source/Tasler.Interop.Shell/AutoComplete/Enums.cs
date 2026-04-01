@@ -1,13 +1,6 @@
 
 namespace Tasler.Interop.Shell.AutoComplete;
 
-public enum AutoCompleteOption : uint
-{
-	None            = 0x0000, // No options
-	MostRecentFirst = 0x0001, // Display most recently used items first
-	FirstUnused     = 0x10000,// 0x00010000 through 0xffff0000 are for enumerator specific options (0x0002-0xffff are reserved)
-}
-
 [Flags]
 public enum AutoCompleteOptions : uint
 {
