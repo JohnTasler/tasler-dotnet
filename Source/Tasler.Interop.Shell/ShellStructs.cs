@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using Tasler.Extensions;
 using Tasler.Interop.Gdi;
 using Tasler.SuppressMessage;
 
@@ -31,7 +32,7 @@ public struct IMAGEINFO
 [SuppressMessage(Category.Style, CheckId.IDE1006_NamingStyles, Justification = Justification.NamingStyles)]
 public struct IMAGELISTDRAWPARAMS
 {
-	public uint cbSize;
+	private int cbSize = IMAGELISTDRAWPARAMS.SizeOf;
 	public nint himl;
 	public int i;
 	public nint hdcDst;
@@ -43,9 +44,11 @@ public struct IMAGELISTDRAWPARAMS
 	public int yBitmap;        // y offset from the upperleft of bitmap
 	public COLORREF rgbBk;
 	public COLORREF rgbFg;
-	public uint fStyle;
-	public uint dwRop;
-	public uint fState;
+	public ImageListDrawFlags fStyle;
+	public ROP3 dwRop;
+	public ImageListStateFlags fState;
 	public uint Frame;
 	public COLORREF crEffect;
+
+	public IMAGELISTDRAWPARAMS() { }
 }

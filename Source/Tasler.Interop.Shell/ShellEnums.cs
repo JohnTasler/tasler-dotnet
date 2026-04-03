@@ -87,3 +87,136 @@ public enum SHIL
 	/// <summary>normally 256x256</summary>
 	Jumbo = 4,
 }
+
+[Flags]
+public enum ImageListDrawFlags : uint
+{
+	/// <summary>
+	/// Draws the image using the background color for the image list. If the background color is
+	/// the CLR_NONE value, the image is drawn transparently using the mask.
+	/// </summary>
+	Normal = 0x00000000,
+
+	/// <summary>
+	/// Draws the image transparently using the mask, regardless of the background color. This value
+	/// has no effect if the image list does not contain a mask.
+	/// </summary>
+	Transparent = 0x00000001,
+
+	/// <summary>
+	/// Draws the image, blending 25 percent with the blend color specified by rgbFg. This value has
+	/// no effect if the image list does not contain a mask.
+	/// </summary>
+	Blend25 = 0x00000002,
+
+	/// <summary>
+	/// Same as ILD_BLEND25.
+	/// </summary>
+	Focus = 0x00000002,
+
+	/// <summary>
+	/// Draws the image, blending 50 percent with the blend color specified by rgbFg. This value has
+	/// no effect if the image list does not contain a mask.
+	/// </summary>
+	Blend50 = 0x00000004,
+
+	/// <summary>
+	/// Same as ILD_BLEND50.
+	/// </summary>
+	Selected = 0x00000004,
+
+	/// <summary>
+	/// Same as ILD_BLEND50.
+	/// </summary>
+	Blend = 0x00000004,
+
+	/// <summary>
+	/// Draws the mask.
+	/// </summary>
+	Mask = 0x00000010,
+
+	/// <summary>
+	/// If the overlay does not require a mask to be drawn, set this flag.
+	/// </summary>
+	Image = 0x00000020,
+
+	/// <summary>
+	/// Draws the image using the raster operation code specified by the dwRop member.
+	/// </summary>
+	Rop = 0x00000040,
+
+	/// <summary>
+	/// To extract the overlay image from the fStyle member, use the logical AND to combine fStyle
+	/// with the ILD_OVERLAYMASK value.
+	/// </summary>
+	OverlayMask = 0x00000F00,
+
+	/// <summary>
+	/// Preserves the alpha channel in the destination.
+	/// </summary>
+	PreserveAlpha = 0x00001000,
+
+	/// <summary>
+	/// Causes the image to be scaled to cx, cy instead of being clipped.
+	/// </summary>
+	Scale = 0x00002000,
+
+	/// <summary>
+	/// Scales the image to the current dpi of the display.
+	/// </summary>
+	DpiU= 0x00004000,
+
+	/// <summary>
+	/// Windows Vista and later. Draw the image if it is available in the cache. Do not extract it
+	/// automatically.The called draw method returns E_PENDING to the calling component, which should
+	/// then take an alternative action, such as, provide another image and queue a background task
+	/// to force the image to be loaded via ForceImagePresent using the ILFIP_ALWAYS flag.The
+	/// Async flag then prevents the extraction operation from blocking the current thread and is
+	/// especially important if a draw method is called from the user interface (UI) thread.
+	/// </summary>
+	Async = 0x00008000,
+}
+
+[Flags]
+public enum ImageListStateFlags : uint
+{
+	/// <summary>The image state is not modified.</summary>
+	Normal = 0x00000000,
+
+	/// <summary>Not supported.</summary>
+	Glow = 0x00000001,
+
+	/// <summary>Not supported.</summary>
+	Shadow = 0x00000002,
+
+	/// <summary>
+	/// Reduces the color saturation of the icon to grayscale. This only affects 32bpp images.
+	/// </summary>
+	Saturate = 0x00000004,
+
+	/// <summary>
+	/// Alpha blends the icon. Alpha blending controls the transparency level of an icon, according
+	/// to the value of its alpha channel. The value of the alpha channel is indicated by the frame
+	/// member in the IMAGELISTDRAWPARAMS method. The alpha channel can be from 0 to 255, with 0
+	/// being completely transparent, and 255 being completely opaque.
+	/// </summary>
+	Alpha = 0x00000008,
+}
+
+/// <summary>
+/// Used in the <see cref="IImageList.Copy"/> methodd.
+/// </summary>
+[Flags]
+public enum ImageListCopyFlags : uint
+{
+	/// <summary>
+	/// The source image is copied to the destination image's index. This operation results in
+	/// multiple instances of a given image.
+	/// </summary>
+	Move = 0,
+
+	/// <summary>
+	/// The source and destination images exchange positions within the image list.
+	/// </summary>
+	Swap = 1,
+}

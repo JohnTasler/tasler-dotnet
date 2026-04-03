@@ -22,11 +22,11 @@ public partial interface IImageList
 
 	void Remove(int i);
 
-	nint GetIcon(int i, uint flags);  // SafeGdiIconOwned
+	nint GetIcon(int i, ImageListDrawFlags flags);  // SafeGdiIconOwned
 
 	IMAGEINFO GetImageInfo(int i);
 
-	void Copy(int iDst, nint punkSrc, int iSrc, uint uFlags);
+	void Copy(int iDst, nint punkSrc, int iSrc, ImageListCopyFlags uFlags);
 
 	void Merge(int i1, nint punk2, int i2, int dx, int dy, ref Guid riid, out nint ppv);
 
@@ -60,7 +60,7 @@ public partial interface IImageList
 
 	void DragShowNolock([MarshalAs(UnmanagedType.Bool)] bool fShow);
 
-	nint GetDragImage(out POINT ppt, out POINT pptHotspot, ref Guid riid);
+	nint GetDragImage(out POINT ppt, out POINT pptHotspot, out Guid riid);
 
 	uint GetItemFlags(int i);
 
