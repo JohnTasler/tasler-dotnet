@@ -52,3 +52,12 @@ public struct IMAGELISTDRAWPARAMS
 
 	public IMAGELISTDRAWPARAMS() { }
 }
+
+[StructLayout(LayoutKind.Sequential)]
+public struct IMAGELISTSTATS
+{
+	public uint SizeInBytes;
+	public int AllocatedCount;
+	public int UsedCount;
+	public int StandbyCount;
+}

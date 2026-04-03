@@ -8,7 +8,7 @@ namespace Tasler.Interop.Shell.Interfaces;
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 public partial interface IImageList
 {
-	void Add(nint hbmImage, nint hbmMask);
+	void Add(/*SafeGdiBitmap*/ nint hbmImage, /*SafeGdiBitmap*/ nint hbmMask);
 
 	void ReplaceIcon(int i, /*SafeGdiIcon*/ nint hIcon);
 
@@ -16,7 +16,7 @@ public partial interface IImageList
 
 	void Replace(int i, nint hbmImage, nint hbmMask);
 
-	void AddMasked(nint hbmImage, COLORREF crMask);
+	void AddMasked(/*SafeGdiBitmap*/ nint hbmImage, COLORREF crMask);
 
 	void Draw(ref IMAGELISTDRAWPARAMS imldp);
 

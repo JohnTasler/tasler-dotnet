@@ -220,3 +220,86 @@ public enum ImageListCopyFlags : uint
 	/// </summary>
 	Swap = 1,
 }
+
+/// <summary>
+/// Used in the <see cref="IImageList2.ForceImagePresent"/> method.
+/// </summary>
+public enum ImageListForceImagePresent
+{
+	/// <summary>Always get the image(can be slow).</summary>
+	P_ALWAYS = 0x00000000,
+
+	/// <summary>Only get if on standby.</summary>
+	P_FROMSTANDBY = 0x00000001,
+}
+
+[Flags]
+public enum ImageListCreationFlags : uint
+{
+	/// <summery>Use a mask. The image list contains two bitmaps, one of which is a monochrome bitmap used as a mask.If this value is not included, the image list contains only one bitmap.</summery>
+	Mask = 0x00000001,
+
+	/// <summery>Use the default behavior if none of the other ILC_COLORx flags is specified.Typically, the default is ILC_COLOR4, but for older display drivers, the default is ILC_COLORDDB.</summery>
+	Color = 0x00000000,
+
+	/// <summery>Use a device-dependent bitmap.</summery>
+	Colorddb = 0x000000FE,
+
+	/// <summery>Use a 4-bit (16-color) device-independent bitmap(DIB) section as the bitmap for the image list.</summery>
+	Color4 = 0x00000004,
+
+	/// <summery>Use an 8-bit DIB section.The colors used for the color table are the same colors as the halftone palette.</summery>
+	Color8 = 0x00000008,
+
+	/// <summery>Use a 16-bit (32/64k-color) DIB section.</summery>
+	Color16 = 0x00000010,
+
+	/// <summery>Use a 24-bit DIB section.</summery>
+	Color24 = 0x00000018,
+
+	/// <summery>Use a 32-bit DIB section.</summery>
+	Color32 = 0x00000020,
+
+	/// <summery>Not implemented.</summery>
+	Palette = 0x00000800,
+
+	/// <summery>Mirror the icons contained, if the process is mirrored</summery>
+	Mirror = 0x00002000,
+
+	/// <summery>Causes the mirroring code to mirror each item when inserting a set of images, versus the whole strip.</summery>
+	Peritemmirror = 0x00008000,
+
+	/// <summery>Windows Vista and later. Imagelist should accept smaller than set images and apply original size based on image added.</summery>
+	Originalsize = 0x00010000,
+
+	/// <summery>Windows Vista and later. Reserved.</summery>
+	Highqualityscale = 0x00020000,
+}
+
+[Flags]
+public enum ImageListReplaceFlags : uint
+{
+	/// <summary>Horizontally align to left.</summary>
+	HorizontalLeft = 0x0000,
+
+	/// <summary>Horizontally center.</summary>
+	HorizontalCenter = 0x0001,
+
+	/// <summary>Horizontally align to right.</summary>
+	HorizontalRight = 0x0002,
+
+	/// <summary>Vertically align to top.</summary>
+	VerticalTop = 0x0000,
+
+	/// <summary>Vertically align to center.</summary>
+	VerticalCenter = 0x0010,
+
+	/// <summary>Vertically align to bottom.</summary>
+	VerticalBottom = 0x0020,
+
+	/// <summary>Do nothing.</summary>
+	ScaleClip = 0x0000,
+
+	/// <summary>Scale.</summary>
+	ScaleAspectRatio = 0x0100,
+}
