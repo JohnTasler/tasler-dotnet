@@ -17,16 +17,16 @@ public static class Guids
 	public const string CLSID_ACLMulti               = "00BB2765-6A77-11D0-A535-00C04FD7D062";    // Microsoft Multiple AutoComplete List Container (IACList, IEnumString, IEnumACString, IObjMgr, IPersist, IPersistFolder)
 	public const string CLSID_AutoComplete           = "00BB2763-6A77-11D0-A535-00C04FD7D062";    // Microsoft AutoComplete                         (         IEnumString, IAutoComplete, IAutoComplete2, IAutoCompleteDropDown, IAccessible, IDispatch)
 
-	public static Guid Guid_IACList                  => new(IID_IACList                 );
-	public static Guid Guid_IACList2                 => new(IID_IACList2                );
-	public static Guid Guid_IAutoComplete            => new(IID_IAutoComplete           );
-	public static Guid Guid_IAutoComplete2           => new(IID_IAutoComplete2          );
-	public static Guid Guid_ICurrentWorkingDirectory => new(IID_ICurrentWorkingDirectory);
-	public static Guid Guid_IObjMgr                  => new(IID_IObjMgr                 );
-	public static Guid Guid_ACLCustomMRU             => new(CLSID_ACLCustomMRU          );
-	public static Guid Guid_ACLHistory               => new(CLSID_ACLHistory            );
-	public static Guid Guid_ACListISF                => new(CLSID_ACListISF             );
-	public static Guid Guid_ACLMRU                   => new(CLSID_ACLMRU                );
-	public static Guid Guid_ACLMulti                 => new(CLSID_ACLMulti              );
-	public static Guid Guid_AutoComplete             => new(CLSID_AutoComplete          );
+	public static readonly Guid Guid_IACList                  = new(IID_IACList                 );
+	public static readonly Guid Guid_IACList2                 = new(IID_IACList2                );
+	public static readonly Guid Guid_IAutoComplete            = new(IID_IAutoComplete           );
+	public static readonly Guid Guid_IAutoComplete2           = new(IID_IAutoComplete2          );
+	public static readonly Guid Guid_ICurrentWorkingDirectory = new(IID_ICurrentWorkingDirectory);
+	public static readonly Guid Guid_IObjMgr                  = new(IID_IObjMgr                 );
+	public static readonly Guid Guid_ACLCustomMRU             = new(CLSID_ACLCustomMRU          );
+	public static readonly Guid Guid_ACLHistory               = new(CLSID_ACLHistory            );
+	public static readonly Guid Guid_ACListISF                = new(CLSID_ACListISF             );
+	public static readonly Guid Guid_ACLMRU                   = new(CLSID_ACLMRU                );
+	public static readonly Guid Guid_ACLMulti                 = new(CLSID_ACLMulti              );
+	public static readonly Guid Guid_AutoComplete             = new(CLSID_AutoComplete          );
 }

@@ -1,43 +1,40 @@
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using Tasler.Interop.Gdi;
 
 namespace Tasler.Interop.Shell.Interfaces;
 
-[ComImport]
 [Guid("46EB5926-582E-4017-9FDF-E8998DAA0950")]
-[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-public interface IImageList
+[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
+public partial interface IImageList
 {
-	int Add(IntPtr hbmImage, IntPtr hbmMask);
+	void Add(nint hbmImage, nint hbmMask);
 
-	int ReplaceIcon(int i, SafeGdiIcon hIcon);
+	void ReplaceIcon(int i, /*SafeGdiIcon*/ nint hIcon);
 
 	void SetOverlayImage(int iImage, int iOverlay);
 
-	void Replace(int i, IntPtr hbmImage, IntPtr hbmMask);
+	void Replace(int i, nint hbmImage, nint hbmMask);
 
-	int AddMasked(IntPtr hbmImage, COLORREF crMask);
+	void AddMasked(nint hbmImage, COLORREF crMask);
 
 	void Draw(ref IMAGELISTDRAWPARAMS imldp);
 
 	void Remove(int i);
 
-	SafeGdiIconOwned GetIcon(int i, uint flags);
+	nint GetIcon(int i, uint flags);  // SafeGdiIconOwned
 
 	IMAGEINFO GetImageInfo(int i);
 
-	void Copy(int iDst, [MarshalAs(UnmanagedType.IUnknown)] object punkSrc, int iSrc, uint uFlags);
+	void Copy(int iDst, nint punkSrc, int iSrc, uint uFlags);
 
-	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 5)]
-	void Merge(int i1, [MarshalAs(UnmanagedType.IUnknown)] object punk2, int i2, int dx, int dy, ref Guid riid);
+	void Merge(int i1, nint punk2, int i2, int dx, int dy, ref Guid riid, out nint ppv);
 
-	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 0)]
-
-	object Clone(ref Guid riid);
+	nint Clone(ref Guid riid);
 
 	RECT GetImageRect(int i);
 
-	int GetIconSize(out int cx);
+	void GetIconSize(out int cx, out int cy);
 
 	void SetIconSize(int cx, int cy);
 
@@ -53,20 +50,19 @@ public interface IImageList
 
 	void EndDrag();
 
-	void DragEnter(IntPtr IntPtrLock, int x, int y);
+	void DragEnter(nint nintLock, int x, int y);
 
-	void DragLeave(IntPtr IntPtrLock);
+	void DragLeave(nint nintLock);
 
 	void DragMove(int x, int y);
 
-	void SetDragCursorImage([MarshalAs(UnmanagedType.IUnknown)] object punk, int iDrag, int dxHotspot, int dyHotspot);
+	void SetDragCursorImage(nint punk, int iDrag, int dxHotspot, int dyHotspot);
 
-	void DragShowNolock(bool fShow);
+	void DragShowNolock([MarshalAs(UnmanagedType.Bool)] bool fShow);
 
-	[return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 2)]
-	object GetDragImage(out POINT ppt, out POINT pptHotspot, ref Guid riid);
+	nint GetDragImage(out POINT ppt, out POINT pptHotspot, ref Guid riid);
 
 	uint GetItemFlags(int i);
 
-	int GetOverlayImage(int iOverlay);
+	void GetOverlayImage(int iOverlay, out int index);
 }

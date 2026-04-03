@@ -56,7 +56,7 @@ public enum SHGFI : uint
 	Selected          = 0x000010000,
 	/// <summary>get only specified attributes</summary>
 	AttrSpecified     = 0x000020000,
-	/// <summary></summary>
+	/// <summary>get large icon (default)</summary
 	LargeIcon         = 0x000000000,
 	/// <summary>get small icon</summary>
 	SmallIcon         = 0x000000001,

@@ -31,7 +31,7 @@ public partial interface IEnumACString : IEnumString
 	[PreserveSig]
 	int NextItem(
 		[MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I2, SizeParamIndex = 1)]
-		[Out] char[] pszUr,
+		[Out] char[] pszUrl,
 		uint cchMax,
 		out uint pulSortIndex);
 

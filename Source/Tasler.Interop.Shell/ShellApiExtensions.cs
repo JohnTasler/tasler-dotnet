@@ -75,9 +75,12 @@ public static partial class ShellApi
 		{
 			Guid iid = typeof(IShellFolder).GUID;
 			IShellFolder folderParent = (IShellFolder)ShellApi.GetDesktopFolder();
-			var folderParentPointer = folderParent.BindToObject(folderParentIdList.Handle, null, ref iid);
+
 			if (!folderParentIdList.IsEmpty)
-				ComApi.Wrappers.GetOrCreateObjectForComInstance(folderParentPointer, CreateObjectFlags.Unwrap);
+			{
+				var folderParentPointer = folderParent.BindToObject(folderParentIdList.Handle, null, ref iid);
+				folderParent = (IShellFolder)ComApi.Wrappers.GetOrCreateObjectForComInstance(folderParentPointer, CreateObjectFlags.Unwrap);
+			}
 
 			using StrRet strRet = folderParent.GetDisplayNameOf(folderInParentIdList.Handle, SHGDNF.ForParsing);
 			return strRet.Value ?? strRet.GetValue(folderInParentIdList);
@@ -96,7 +99,8 @@ public static partial class ShellApi
 		int hr = NativeMethods.SHGetNameFromIDList(pidlAbsolute.Handle, sigdnName, out var namePtr);
 		if (hr < 0)
 			Marshal.ThrowExceptionForHR(hr);
-		return new SafeCoTaskMemString { Handle = namePtr }.Value;
+		using var name = new SafeCoTaskMemString { Handle = namePtr };
+		return name.Value;
 	}
 
 	/// <summary>
