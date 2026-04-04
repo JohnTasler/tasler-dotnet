@@ -13,6 +13,8 @@
 		<Platforms>AnyCPU;arm64;x64;x86</Platforms>
 		<Description>Windows native dotnet interop framework for shell functionality.</Description>
 		<Title>$(AssemblyName)</Title>
+
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 	</PropertyGroup>
 
 	<PropertyGroup>

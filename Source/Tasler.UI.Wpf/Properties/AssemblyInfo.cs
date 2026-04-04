@@ -21,6 +21,7 @@ using Tasler.Windows;
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Converters")]
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Extensions")]
 [assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Markup")]
+[assembly: XmlnsDefinition(XmlNamespace.Tasler, "Tasler.Windows.Model")]
 
 [assembly: InternalsVisibleTo("Tasler.Windows.Input")]
 [assembly: InternalsVisibleTo("Tasler.Configuration")]
