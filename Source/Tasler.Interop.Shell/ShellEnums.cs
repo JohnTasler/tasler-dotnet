@@ -16,7 +16,7 @@ public enum SFGAO : uint
 	Link            = 0x00010000, // Shortcut (link)
 	Share           = 0x00020000, // shared
 	ReadOnly        = 0x00040000, // read-only
-	Ghosted         = 0x00080000, // ghosted icon
+	Ghosted         = 0x00008000, // ghosted icon
 	Hidden          = 0x00080000, // hidden object
 	DisplayAttrMask = 0x000F0000,
 	FileSysAncestor = 0x10000000, // It contains file system folder

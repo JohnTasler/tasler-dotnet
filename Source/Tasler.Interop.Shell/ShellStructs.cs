@@ -32,7 +32,7 @@ public struct IMAGEINFO
 [SuppressMessage(Category.Style, CheckId.IDE1006_NamingStyles, Justification = Justification.NamingStyles)]
 public struct IMAGELISTDRAWPARAMS
 {
-	private int cbSize = IMAGELISTDRAWPARAMS.SizeOf;
+	public int cbSize = IMAGELISTDRAWPARAMS.SizeOf;
 	public nint himl;
 	public int i;
 	public nint hdcDst;
@@ -40,7 +40,7 @@ public struct IMAGELISTDRAWPARAMS
 	public int y;
 	public int cx;
 	public int cy;
-	public int xBitmap;        // x offest from the upperleft of bitmap
+	public int xBitmap;        // x offset from the upperleft of bitmap
 	public int yBitmap;        // y offset from the upperleft of bitmap
 	public COLORREF rgbBk;
 	public COLORREF rgbFg;
@@ -54,10 +54,11 @@ public struct IMAGELISTDRAWPARAMS
 }
 
 [StructLayout(LayoutKind.Sequential)]
+[SuppressMessage(Category.Style, CheckId.IDE1006_NamingStyles, Justification = Justification.NamingStyles)]
 public struct IMAGELISTSTATS
 {
-	public uint SizeInBytes;
-	public int AllocatedCount;
-	public int UsedCount;
-	public int StandbyCount;
+	public int cbSize;
+	public int cAllocated;
+	public int cUsed;
+	public int cStandby;
 }
