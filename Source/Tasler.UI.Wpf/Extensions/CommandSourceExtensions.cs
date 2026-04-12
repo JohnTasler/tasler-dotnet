@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Tasler.Windows.Extensions
@@ -11,14 +11,14 @@ namespace Tasler.Windows.Extensions
 		public static bool CanExecuteCommandSource(this ICommandSource commandSource)
 		{
 			var command = commandSource.Command;
-			if (command == null)
+			if (command is null)
 				return false;
 
 			var commandParameter = commandSource.CommandParameter;
 			var commandTarget = commandSource.CommandTarget;
 
 			var routedCommand = command as RoutedCommand;
-			if (routedCommand == null)
+			if (routedCommand is null)
 				return command.CanExecute(commandParameter);
 
 			commandTarget = commandTarget ?? commandSource as IInputElement;
@@ -28,12 +28,12 @@ namespace Tasler.Windows.Extensions
 		public static void ExecuteCommandSource(this ICommandSource commandSource)
 		{
 			var command = commandSource.Command;
-			if (command != null)
+			if (command is not null)
 			{
 				var commandParameter = commandSource.CommandParameter;
 				var commandTarget = commandSource.CommandTarget;
 				var routedCommand = command as RoutedCommand;
-				if (routedCommand != null)
+				if (routedCommand is not null)
 				{
 					commandTarget = commandTarget ?? commandSource as IInputElement;
 					if (routedCommand.CanExecute(commandParameter, commandTarget))

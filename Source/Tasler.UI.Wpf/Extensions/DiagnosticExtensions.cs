@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 
 namespace Tasler.Windows.Extensions
 {
@@ -19,7 +19,7 @@ namespace Tasler.Windows.Extensions
 
 			var result = string.Empty;
 			var frameworkElement = instance as FrameworkElement;
-			if (frameworkElement != null && !string.IsNullOrWhiteSpace(frameworkElement.Name))
+			if (frameworkElement is not null && !string.IsNullOrWhiteSpace(frameworkElement.Name))
 				result = frameworkElement.Name + " ";
 
 			result += "(" + instance.GetType().Name + ")";
