@@ -127,7 +127,7 @@ public sealed class Int32SizeConverter : TypeConverter
 
 	public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
 	{
-		if (value == null)
+		if (value is null)
 			throw base.GetConvertFromException(value);
 
 		if (value is string source)
@@ -156,7 +156,7 @@ public class Int32SizeValueSerializer : ValueSerializer
 
 	public override object ConvertFromString(string value, IValueSerializerContext context)
 	{
-		if (value != null)
+		if (value is not null)
 			return Int32Size.Parse(value);
 
 		return base.ConvertFromString(value, context);

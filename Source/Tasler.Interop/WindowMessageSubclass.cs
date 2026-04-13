@@ -48,7 +48,7 @@ public class WindowMessageSubclass : WindowMessageProcessor
 
 	private bool IsSubclassed
 	{
-		get { return this.OriginalWindowProcedure != null; }
+		get { return this.OriginalWindowProcedure is not null; }
 	}
 
 	private void Subclass()

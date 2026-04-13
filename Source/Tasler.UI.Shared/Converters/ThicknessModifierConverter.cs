@@ -104,7 +104,7 @@ public partial class ThicknessModifierConverter : ConverterBase
 	//	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	//	{
 	//		var valueString = value as string;
-	//		if (valueString == null)
+	//		if (valueString is null)
 	//			throw new NotSupportedException("INVALID SUPPORT");
 
 	//		return ThicknessModifier.Parse(culture, valueString);

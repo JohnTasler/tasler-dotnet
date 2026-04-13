@@ -67,7 +67,7 @@ public sealed partial class PopupManagement
 					_window = Window.GetWindow(this.AssociatedObject).GetSelfAndOwners().LastOrDefault();
 					Trace.WriteLineIf(_window is null, "Not expecting this.window to be null. The FrameworkElement is loaded, so it should be in the logical tree of a Window.");
 
-					if (_window != null)
+					if (_window is not null)
 						this.NotifyWindowBehavior(_window);
 				}
 			}

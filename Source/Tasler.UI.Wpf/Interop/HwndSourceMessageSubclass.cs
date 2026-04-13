@@ -15,7 +15,7 @@ namespace Tasler.Windows.Interop
 		#region Construction
 		public HwndSourceMessageSubclass(IInputElement? element)
 		{
-			if (element == null)
+			if (element is null)
 				throw new ArgumentNullException("element");
 
 			_element = element;

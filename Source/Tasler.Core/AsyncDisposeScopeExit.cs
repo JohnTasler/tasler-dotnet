@@ -64,7 +64,7 @@ public class AsyncDisposeScopeExit : IAsyncDisposable
 	public async ValueTask DisposeAsync()
 	{
 		var disposeAsyncAction = Interlocked.Exchange(ref _disposeAsyncAction, null);
-		if (disposeAsyncAction != null)
+		if (disposeAsyncAction is not null)
 		{
 			GC.SuppressFinalize(this);
 			await disposeAsyncAction.Invoke();

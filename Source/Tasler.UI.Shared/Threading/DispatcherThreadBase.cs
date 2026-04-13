@@ -92,7 +92,7 @@ public abstract class DispatcherThreadBase : IDisposable
 	public void Stop()
 	{
 		var dispatcher = _dispatcher;
-		if (dispatcher != null)
+		if (dispatcher is not null)
 			this.StopDispatcher(dispatcher);
 	}
 
@@ -203,7 +203,7 @@ public abstract class DispatcherThreadBase : IDisposable
 
 	private void StopDispatcher(Dispatcher dispatcher)
 	{
-		if (dispatcher != null)
+		if (dispatcher is not null)
 			this.ExitDispatcherLoop(dispatcher);
 	}
 
@@ -244,7 +244,7 @@ public abstract class DispatcherThreadBase : IDisposable
 	public void Dispose()
 	{
 		var dispatcher = _dispatcher;
-		if (dispatcher != null)
+		if (dispatcher is not null)
 		{
 			this.StopDispatcher(dispatcher);
 			GC.SuppressFinalize(this);

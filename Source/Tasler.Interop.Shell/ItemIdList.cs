@@ -505,7 +505,7 @@ public class ChildItemIdList : SafeCoTaskMemHandle
 	/// <returns>`true` if <paramref name="o"/> is an ItemIdList or ChildItemIdList that represents the same PIDL as this instance, `false` otherwise.</returns>
 	public override bool Equals(object? o)
 	{
-		if ((o == null) || !(o is ItemIdList || o is ChildItemIdList))
+		if ((o is null) || !(o is ItemIdList || o is ChildItemIdList))
 			return false;
 
 		return (o is ItemIdList) ? Equals(this, (ItemIdList)o) : Equals(this, (ChildItemIdList)o);

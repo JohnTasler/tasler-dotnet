@@ -26,7 +26,7 @@ namespace Tasler.Windows.Threading
 
 		protected override void ExitDispatcherLoop(Dispatcher dispatcher)
 		{
-			if (dispatcher != null && !dispatcher.HasShutdownStarted && !dispatcher.HasShutdownFinished)
+			if (dispatcher is not null && !dispatcher.HasShutdownStarted && !dispatcher.HasShutdownFinished)
 				dispatcher.InvokeShutdown();
 		}
 

@@ -146,7 +146,7 @@ public static class NotifyCollectionChangedExtensions
 					var sourceItemRef = new WeakReference<TSourceItem>(sourceItem);
 					if (!translatedItemsMap.TryGetValue(sourceItemRef, out var translatedItemRef) ||
 						!translatedItemRef.TryGetTarget(out var translatedItem) ||
-						translatedItem == null)
+						translatedItem is null)
 					{
 						translatedItem = translationSelector(sourceItem);
 						translatedItemRef = new WeakReference<TResultItem>(translatedItem);

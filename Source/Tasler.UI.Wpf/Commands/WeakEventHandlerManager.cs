@@ -90,7 +90,7 @@ internal static class WeakEventHandlerManager
 		public static DispatcherProxy? CreateDispatcher()
 		{
 			DispatcherProxy? proxy = null;
-			if (Application.Current == null)
+			if (Application.Current is null)
 				return null;
 
 			proxy = new DispatcherProxy(Application.Current.Dispatcher);
@@ -135,7 +135,7 @@ internal static class WeakEventHandlerManager
 	///<param name="defaultListSize">Default list size.</param>
 	public static void AddWeakReferenceHandler(ref List<WeakReference> handlers, EventHandler handler, int defaultListSize)
 	{
-		if (handlers == null)
+		if (handlers is null)
 		{
 			handlers = (defaultListSize > 0 ? new List<WeakReference>(defaultListSize) : new List<WeakReference>());
 		}
@@ -150,7 +150,7 @@ internal static class WeakEventHandlerManager
 	///<param name="handler">Handler to remove.</param>
 	public static void RemoveWeakReferenceHandler(List<WeakReference> handlers, EventHandler handler)
 	{
-		if (handlers != null)
+		if (handlers is not null)
 		{
 			for (int i = handlers.Count - 1; i >= 0; i--)
 			{

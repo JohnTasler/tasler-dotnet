@@ -148,7 +148,7 @@ public static class PropertyObserver
 			get
 			{
 				var source = this.SourceReference?.Target as INotifyPropertyChanged;
-				if (source == null)
+				if (source is null)
 					this.Clear();
 
 				return source;

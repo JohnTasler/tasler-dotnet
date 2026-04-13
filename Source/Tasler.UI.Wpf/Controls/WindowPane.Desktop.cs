@@ -119,7 +119,6 @@ public class WindowPane : UserControl
 		this.Show();
 
 		// Disable all enabled siblings
-		_enabledSiblings ??= [];
 		if (this.Owner is not null)
 		{
 			foreach (var sibling in this.Owner.Children.OfType<IInputElement>())

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -11,10 +11,10 @@ namespace Tasler.Windows.Extensions
 	{
 		public static IEnumerable<Window> GetOwners(this Window window)
 		{
-			if (window != null)
+			if (window is not null)
 			{
 				var owner = window.Owner;
-				while (owner != null)
+				while (owner is not null)
 				{
 					yield return owner;
 					owner = owner.Owner;
@@ -24,7 +24,7 @@ namespace Tasler.Windows.Extensions
 
 		public static IEnumerable<Window> GetSelfAndOwners(this Window window)
 		{
-			if (window != null)
+			if (window is not null)
 			{
 				var result = new[] { window };
 				return result.Concat(window.GetOwners());

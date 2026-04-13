@@ -10,10 +10,10 @@ public static class IChildExtensions
 	public static IEnumerable<object> GetAncestors(this IChild source)
 	{
 		var node = source;
-		while (node != null)
+		while (node is not null)
 		{
 			var parent = node.GetParent();
-			if (parent != null)
+			if (parent is not null)
 				yield return parent;
 			node = parent as IChild;
 		}
@@ -54,7 +54,7 @@ public static class IChildExtensions
 		var ancestors = source.GetSelfAndAncestors();
 
 		var multipleSelectionContainer = ancestors.OfType<IMulitpleSelectionContainer>().FirstOrDefault();
-		if (multipleSelectionContainer != null)
+		if (multipleSelectionContainer is not null)
 		{
 			if (isSelected)
 				multipleSelectionContainer.AddToSelectedItems(source);
@@ -64,7 +64,7 @@ public static class IChildExtensions
 		else
 		{
 			var singleSelectionContainer = ancestors.OfType<ISingleSelectionContainer>().FirstOrDefault();
-			if (singleSelectionContainer != null)
+			if (singleSelectionContainer is not null)
 			{
 				if (isSelected)
 				{

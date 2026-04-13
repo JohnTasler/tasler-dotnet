@@ -88,7 +88,7 @@ namespace Tasler.IO
 			// Set the maximum byte count
 			count = (int)Math.Min(count, _length - _position);
 
-			if (_stream != null)
+			if (_stream is not null)
 			{
 				lock (_stream)
 				{

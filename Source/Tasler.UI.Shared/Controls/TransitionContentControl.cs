@@ -214,16 +214,16 @@ public partial class TransitionContentControl : ContentControl
 
 			// Get the AnimationStates group
 			var stateGroup = stateGroups.FirstOrDefault(vsm => vsm.Name == AnimationStates.GroupName);
-			if (stateGroup != null)
+			if (stateGroup is not null)
 			{
 				// Subscribe to the Storyboard.Completed event of the states of interest
 				foreach (var state in stateGroup.States.OfType<VisualState>())
-					if (state.Storyboard != null && state.Name != AnimationStates.Transitioned)
+					if (state.Storyboard is not null && state.Name != AnimationStates.Transitioned)
 						state.Storyboard.Completed += this.Storyboard_Completed;
 
 				// Subscribe to the Storyboard.Completed event of the transtitions of interest
 				foreach (var transition in stateGroup.Transitions.OfType<VisualTransition>())
-					if (transition.Storyboard != null && transition.To != AnimationStates.Transitioned)
+					if (transition.Storyboard is not null && transition.To != AnimationStates.Transitioned)
 						transition.Storyboard.Completed += (sender, e) => this.OldContent = null;
 			}
 		}

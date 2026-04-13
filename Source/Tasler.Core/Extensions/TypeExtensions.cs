@@ -61,7 +61,7 @@ public static class TypeExtensions
 	/// </returns>
 	public static T[] GetCustomAttributes<T>(this Type @this, bool inherit)
 	{
-		if (@this == null)
+		if (@this is null)
 			return [];
 
 		return [.. @this.GetCustomAttributes(typeof(T), inherit).OfType<T>()];

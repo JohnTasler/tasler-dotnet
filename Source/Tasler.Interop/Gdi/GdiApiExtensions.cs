@@ -178,7 +178,7 @@ public static partial class GdiApi
 	public static SafeGdiPenOwned CreatePen(this PenStyle penStyle, int width, uint color, params int[] segmentLengths)
 	{
 		var logBrush = new LOGBRUSH { Color = color };
-		var segmentCount = (segmentLengths != null) ? segmentLengths.Length : 0;
+		var segmentCount = (segmentLengths is not null) ? segmentLengths.Length : 0;
 		var hpen = NativeMethods.ExtCreatePen(penStyle, width, logBrush, segmentCount, segmentLengths ??= []);
 		return hpen;
 	}

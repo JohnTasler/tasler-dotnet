@@ -52,10 +52,7 @@ public abstract class WindowMessageRedirector
 	{
 		get
 		{
-			if (_wndProc is null)
-			{
-				_wndProc = this.WndProc;
-			}
+			_wndProc ??= this.WndProc;
 
 			if (_wndProcNative == nint.Zero)
 			{
@@ -75,7 +72,7 @@ public abstract class WindowMessageRedirector
 
 	protected bool HasEventSubscribers
 	{
-		get { return _eventSubscribers?.Count != 0; }
+		get => _eventSubscribers?.Count != 0;
 	}
 
 	#endregion Properties

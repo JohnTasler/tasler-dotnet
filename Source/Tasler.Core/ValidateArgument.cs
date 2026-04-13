@@ -36,7 +36,7 @@ public static class ValidateArgument
 	{
 		if (argument is null)
 		{
-			throw new ArgumentNullException(argumentNameCreator(), messageCreator != null ? messageCreator() : null);
+			throw new ArgumentNullException(argumentNameCreator(), messageCreator is not null ? messageCreator() : null);
 		}
 
 		return argument;

@@ -29,7 +29,7 @@ public class ThreadedDispatcherObject
 
 	public void Start(ApartmentState apartmentState)
 	{
-		if (this.Dispatcher == null)
+		if (this.Dispatcher is null)
 		{
 			AutoResetEvent? dispatcherCreatedEvent = null;
 			lock (_lockObject)

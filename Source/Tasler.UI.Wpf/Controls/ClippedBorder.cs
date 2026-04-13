@@ -46,7 +46,7 @@ public sealed class ClippedBorder : Border
 		Size arrangedSize = base.ArrangeOverride(finalSize);
 
 		// Clip the child element to its interior
-		if (base.Child != null)
+		if (base.Child is not null)
 			base.Child.Clip = this.GenerateChildClipGeometry(arrangedSize);
 
 		// Return the arranged size

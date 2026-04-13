@@ -61,7 +61,7 @@ namespace Tasler.Windows.Attachments
 			EventHandler inputBindingChangedHandler =
 				(sender, _) => UpdateInputBinding(element, newValue, sender as InputBinding);
 
-			if (newValue != null)
+			if (newValue is not null)
 			{
 				// The dictionary of clones should currently be empty
 				Debug.Assert(clones.Count == 0);
@@ -76,7 +76,7 @@ namespace Tasler.Windows.Attachments
 					inputBinding.Changed += inputBindingChangedHandler;
 
 					// Subscribe to changes on the input binding's command
-					if (inputBinding.Command != null)
+					if (inputBinding.Command is not null)
 					{
 						UpdateInputBindingCommandCanExecuteChanged(element, inputBinding);
 						EventHandler canExecuteChangedHandler = (s, e) => UpdateInputBindingCommandCanExecuteChanged(element, inputBinding);
@@ -91,7 +91,7 @@ namespace Tasler.Windows.Attachments
 				foreach (var inputBinding in inputBindings)
 				{
 					// Unsubscribe from changes on the input binding's command
-					if (inputBinding.Command != null)
+					if (inputBinding.Command is not null)
 					{
 						EventHandler canExecuteChangedHandler = (s, e) => UpdateInputBindingCommandCanExecuteChanged(element, inputBinding);
 						inputBinding.Command.CanExecuteChanged -= canExecuteChangedHandler;
@@ -103,7 +103,7 @@ namespace Tasler.Windows.Attachments
 						inputBinding.Changed -= inputBindingChangedHandler;
 
 					// Remove the clone we made of the input binding from the input element's collection
-					if (oldValue != null)
+					if (oldValue is not null)
 					{
 						InputBinding? clone;
 						if (clones.TryGetValue(inputBinding, out clone))
@@ -130,7 +130,7 @@ namespace Tasler.Windows.Attachments
 		private static Dictionary<InputBinding, InputBinding> GetClones(FrameworkElement d)
 		{
 			var result = (Dictionary<InputBinding, InputBinding>)d.GetValue(ClonesProperty);
-			if (result == null)
+			if (result is null)
 				d.SetValue(ClonesProperty, result = new Dictionary<InputBinding, InputBinding>(d.InputBindings.Count));
 
 			return result;
@@ -145,7 +145,7 @@ namespace Tasler.Windows.Attachments
 		private static HashSet<object> GetReferenceCache(FrameworkElement d)
 		{
 			var result = (HashSet<object>)d.GetValue(ReferenceCacheProperty);
-			if (result == null)
+			if (result is null)
 				d.SetValue(ReferenceCacheProperty, result = new HashSet<object>(new object[d.InputBindings.Count]));
 
 			return result;
@@ -159,7 +159,7 @@ namespace Tasler.Windows.Attachments
 		private static void RemoveFromReferenceCache(FrameworkElement d, object reference)
 		{
 			var cache = (HashSet<object>)d.GetValue(ReferenceCacheProperty);
-			if (cache != null)
+			if (cache is not null)
 				cache.Remove(reference);
 		}
 		#endregion ReferenceCache

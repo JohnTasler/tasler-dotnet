@@ -70,9 +70,9 @@ public class WindowMessageBroadcastProcessor : WindowMessageRedirector
 
 	private void CreateInnerProcessor()
 	{
-		Debug.Assert(_innerProcessor == null);
+		Debug.Assert(_innerProcessor is null);
 
-		if (_windowUsage == null)
+		if (_windowUsage is null)
 			_windowUsage = WindowUsage.Auto;
 
 		var windowHandleToSubclass = new SafeHwnd();
@@ -133,7 +133,7 @@ public class WindowMessageBroadcastProcessor : WindowMessageRedirector
 
 	private void DestroyInnerProcessor()
 	{
-		Debug.Assert(_innerProcessor != null);
+		Debug.Assert(_innerProcessor is not null);
 	}
 
 	#endregion Private Implementation

@@ -8,7 +8,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 #if !SILVERLIGHT
 	public static bool RaiseReset(this NotifyCollectionChangedEventHandler handler, object sender)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -17,7 +17,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReset(this NotifyCollectionChangedEventHandler handler, object sender, object changedItem)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, changedItem));
@@ -26,7 +26,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReset(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, changedItems));
@@ -35,7 +35,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReset(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems, int startingIndex)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, changedItems, startingIndex));
@@ -44,7 +44,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseAdd(this NotifyCollectionChangedEventHandler handler, object sender, object changedItem)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItem));
@@ -53,7 +53,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseAdd(this NotifyCollectionChangedEventHandler handler, object sender, object changedItem, int index)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItem, index));
@@ -62,7 +62,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseAdd(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems));
@@ -71,7 +71,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseAdd(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems, int startingIndex)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startingIndex));
@@ -80,7 +80,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseRemove(this NotifyCollectionChangedEventHandler handler, object sender, object changedItem)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItem));
@@ -89,7 +89,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseRemove(this NotifyCollectionChangedEventHandler handler, object sender, object changedItem, int index)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItem, index));
@@ -98,7 +98,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseRemove(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItems));
@@ -107,7 +107,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseRemove(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems, int startingIndex)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItems, startingIndex));
@@ -116,7 +116,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReplace(this NotifyCollectionChangedEventHandler handler, object sender, object newItem, object oldItem)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItem, oldItem));
@@ -125,7 +125,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReplace(this NotifyCollectionChangedEventHandler handler, object sender, object newItem, object oldItem, int index)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItem, oldItem, index));
@@ -134,7 +134,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReplace(this NotifyCollectionChangedEventHandler handler, object sender, IList newItems, IList oldItems)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems));
@@ -143,7 +143,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReplace(this NotifyCollectionChangedEventHandler handler, object sender, IList newItems, IList oldItems, int startingIndex)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems, startingIndex));
@@ -154,7 +154,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReset(this NotifyCollectionChangedEventHandler handler, object sender)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -163,7 +163,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReset(this NotifyCollectionChangedEventHandler handler, object sender, object changedItem)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, changedItem, -1));
@@ -172,10 +172,10 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReset(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
-		if (changedItems != null)
+		if (changedItems is not null)
 			foreach (var changedItem in changedItems)
 				handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, changedItem, -1));
 		return true;
@@ -187,7 +187,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 		// TODO: implement this if needed
 		#if false
-			if (handler == null)
+			if (handler is null)
 				return false;
 
 			// TODO:
@@ -198,7 +198,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseAdd(this NotifyCollectionChangedEventHandler handler, object sender, object changedItem)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItem, -1));
@@ -207,7 +207,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseAdd(this NotifyCollectionChangedEventHandler handler, object sender, object changedItem, int index)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItem, index));
@@ -216,10 +216,10 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseAdd(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
-		if (changedItems != null)
+		if (changedItems is not null)
 			foreach (var changedItem in changedItems)
 				handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItem, -1));
 		return true;
@@ -227,10 +227,10 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseAdd(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems, int startingIndex)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
-		if (changedItems != null)
+		if (changedItems is not null)
 			foreach (var changedItem in changedItems)
 				handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItem, startingIndex++));
 		return true;
@@ -238,7 +238,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseRemove(this NotifyCollectionChangedEventHandler handler, object sender, object changedItem)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItem, -1));
@@ -247,7 +247,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseRemove(this NotifyCollectionChangedEventHandler handler, object sender, object changedItem, int index)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItem, index));
@@ -256,10 +256,10 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseRemove(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
-		if (changedItems != null)
+		if (changedItems is not null)
 			foreach (var changedItem in changedItems)
 				handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItem, -1));
 
@@ -268,10 +268,10 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseRemove(this NotifyCollectionChangedEventHandler handler, object sender, IList changedItems, int startingIndex)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
-		if (changedItems != null)
+		if (changedItems is not null)
 			foreach (var changedItem in changedItems)
 				handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItem, startingIndex++));
 		return true;
@@ -279,7 +279,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReplace(this NotifyCollectionChangedEventHandler handler, object sender, object newItem, object oldItem)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItem, oldItem, -1));
@@ -288,7 +288,7 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReplace(this NotifyCollectionChangedEventHandler handler, object sender, object newItem, object oldItem, int index)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
 		handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItem, oldItem, index));
@@ -297,10 +297,10 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReplace(this NotifyCollectionChangedEventHandler handler, object sender, IList newItems, IList oldItems)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
-		if (oldItems != null && newItems != null && oldItems.Count == newItems.Count)
+		if (oldItems is not null && newItems is not null && oldItems.Count == newItems.Count)
 			for (var index = 0; index < oldItems.Count; ++index)
 				handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems[index], oldItems[index], -1));
 		return true;
@@ -308,10 +308,10 @@ public static class NotifyCollectionChangedEventHandlerExtensions
 
 	public static bool RaiseReplace(this NotifyCollectionChangedEventHandler handler, object sender, IList newItems, IList oldItems, int startingIndex)
 	{
-		if (handler == null)
+		if (handler is null)
 			return false;
 
-		if (oldItems != null && newItems != null && oldItems.Count == newItems.Count)
+		if (oldItems is not null && newItems is not null && oldItems.Count == newItems.Count)
 			for (var index = 0; index < oldItems.Count; ++index)
 				handler(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems[index], oldItems[index], startingIndex + index));
 		return true;

@@ -13,7 +13,7 @@ public class ContextMenuScopeBehavior : Behavior<FrameworkElement>
 
 		AssociatedObject.Loaded += (sender, args) =>
 		{
-			if (AssociatedObject.ContextMenu != null)
+			if (AssociatedObject.ContextMenu is not null)
 			{
 				var scope = AssociatedObject.GetVisualAncestors().OfType<UserControl>().FirstOrDefault() ?? AssociatedObject;
 				var nameScope = NameScope.GetNameScope(scope);

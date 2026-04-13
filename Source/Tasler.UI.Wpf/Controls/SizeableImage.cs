@@ -49,7 +49,7 @@ public class SizeableImage : FrameworkElement
 			oldValue.Failed -= this.ImageFactory_Failed;
 		}
 
-		if (newValue != null)
+		if (newValue is not null)
 		{
 			newValue.Loaded += this.ImageFactory_Loaded;
 			newValue.Failed += this.ImageFactory_Failed;
@@ -103,7 +103,7 @@ public class SizeableImage : FrameworkElement
 
 	protected override Visual GetVisualChild(int index)
 	{
-		if (_image == null || index != 0)
+		if (_image is null || index != 0)
 			throw new ArgumentOutOfRangeException("index");
 
 		return _image;
@@ -144,7 +144,7 @@ public class SizeableImage : FrameworkElement
 
 		// Request a new image to best fit the size
 		ISizeableImageFactory imageFactory = this.ImageFactory;
-		if (imageFactory != null)
+		if (imageFactory is not null)
 			imageFactory.RequestImageSource(new Int32Size((int)size.Width, (int)size.Height));
 	}
 	#endregion Overrides

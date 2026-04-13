@@ -14,11 +14,11 @@ public partial class IsEqualConverter : ConverterBase
 
 	public override object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
 	{
-		if (value == null)
-			return parameter == null;
+		if (value is null)
+			return parameter is null;
 
 		var valueType = value.GetType();
-		if (parameter != null && parameter?.GetType() != valueType)
+		if (parameter is not null && parameter?.GetType() != valueType)
 			parameter = System.Convert.ChangeType(parameter, valueType, GetCultureInfo(culture));
 
 		return object.Equals(value, parameter);

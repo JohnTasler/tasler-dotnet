@@ -14,7 +14,7 @@ namespace Tasler.Windows.Extensions
 
 		public static string FormatNameAndType(this object instance, string resultIfNull)
 		{
-			if (instance == null)
+			if (instance is null)
 				return resultIfNull;
 
 			var result = string.Empty;
