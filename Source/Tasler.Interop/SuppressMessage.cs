@@ -1,5 +1,5 @@
 
-namespace Tasler.SuppressMessage;
+namespace Tasler.Interop.SuppressMessage;
 
 internal static class Justification
 {

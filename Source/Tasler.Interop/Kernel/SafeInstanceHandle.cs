@@ -15,6 +15,8 @@ public class SafeInstanceHandle : SafeHandleZeroIsInvalid
 	#endregion Constructors
 
 	#region Overrides
-	protected override bool ReleaseHandle() => true;
+	protected override bool ReleaseHandle() => this.FreeLibrary();
 	#endregion Overrides
+
+	public static implicit operator SafeInstanceHandle(nint hInstance) => new(hInstance, false);
 }

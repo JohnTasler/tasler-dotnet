@@ -53,7 +53,7 @@ public struct WINDOWPOS
 public struct WINDOWPLACEMENT
 {
 	public WINDOWPLACEMENT() { }
-	private int _length = WINDOWPLACEMENT.SizeOf;
+	public int Length = WINDOWPLACEMENT.SizeOf;
 	public WindowPlacementFlags Flags;
 	public SW ShowCommand;
 	public POINT MinimizedPosition;

@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using Tasler.Interop.Extensions;
 
 namespace Tasler.Interop.Shell;
 
@@ -17,7 +18,7 @@ public partial interface IEnumIDList
 	/// An HRESULT-like status code: `S_OK` if the requested number of elements was returned, `S_FALSE` if fewer elements were returned (end of enumeration), or an error code on failure.
 	/// </returns>
 	[PreserveSig]
-	int Next(int elementCount, [MarshalUsing(CountElementName = nameof(elementCount))] [Out] nint[] elements, out int elementsFetched);
+	HRESULT Next(int elementCount, [MarshalUsing(CountElementName = nameof(elementCount))] [Out] nint[] elements, out int elementsFetched);
 
 	/// <summary>
 	/// Advances the enumeration position by the specified number of elements.

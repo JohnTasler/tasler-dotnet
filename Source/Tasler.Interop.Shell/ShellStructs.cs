@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Tasler.Extensions;
 using Tasler.Interop.Gdi;
-using Tasler.SuppressMessage;
+using Tasler.Interop.SuppressMessage;
 
 namespace Tasler.Interop.Shell;
 
@@ -23,8 +23,8 @@ public struct IMAGEINFO
 {
 	public nint hbmImage;
 	public nint hbmMask;
-	public int Unused1;
-	public int Unused2;
+	private int _unused1;
+	private int _unused2;
 	public RECT rcImage;
 }
 

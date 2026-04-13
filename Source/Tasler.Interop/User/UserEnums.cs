@@ -248,8 +248,6 @@ public enum WindowPlacementFlags : uint
 	AsyncWindowPlacement = 0x0004,
 }
 
-
-
 /// <summary>System Menu Commands</summary>
 public enum SC
 {
@@ -520,7 +518,6 @@ public enum ClipboardFormat : short
 	/// <summary>CF_GDIOBJLAST</summary>
 	GdiObjectLast = 0x03FF,
 }
-
 public enum COLOR
 {
 	/// <summary>Face color for three-dimensional display elements and for dialog box backgrounds.</summary
@@ -546,4 +543,19 @@ public enum COLOR
 
 	/// <summary>Text in windows.The associated background color is COLOR_WINDOW.</summary
 	WindowText = 8,
+}
+
+public enum ImageType
+{
+	/// <summary>Loads a bitmap.</summary>
+	Bitmap = 0,
+
+	/// <summary>Loads an icon.</summary>
+	Icon = 1,
+
+	/// <summary>Loads a cursor.</summary>
+	Cursor = 2,
+
+	/// <summary>Loads an enhanced metafile.</summary>
+	EnhancedMetafile = 3,
 }

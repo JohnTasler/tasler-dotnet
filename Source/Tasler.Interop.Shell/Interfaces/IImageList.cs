@@ -22,7 +22,7 @@ public partial interface IImageList
 
 	void Remove(int i);
 
-	nint GetIcon(int i, ImageListDrawFlags flags);  // SafeGdiIconOwned
+	nint GetIconNative(int i, ImageListDrawFlags flags);  // SafeGdiIconOwned
 
 	IMAGEINFO GetImageInfo(int i);
 
@@ -66,3 +66,22 @@ public partial interface IImageList
 
 	void GetOverlayImage(int iOverlay, out int index);
 }
+
+public static class IImageListExtensions
+{
+	public static void Add(this IImageList @this, SafeGdiBitmap hbmImage, SafeGdiBitmap hbmMask) =>
+		@this.Add(hbmImage.Handle, hbmMask.Handle);
+
+	public static void ReplaceIcon(this IImageList @this, int i, SafeGdiIcon hIcon) =>
+		@this.ReplaceIcon(i, hIcon.Handle);
+
+	public static void Replace(this IImageList @this, int i, SafeGdiBitmap hbmImage, SafeGdiBitmap hbmMask) =>
+		@this.Replace(i, hbmImage.Handle, hbmMask.Handle);
+
+	public static void AddMasked(this IImageList @this, SafeGdiBitmap hbmImage, COLORREF crMask) =>
+		@this.AddMasked(hbmImage.Handle, crMask);
+
+	public static SafeGdiIconOwned GetIcon(this IImageList @this, int i, ImageListDrawFlags flags) =>
+		new SafeGdiIconOwned { Handle = @this.GetIconNative(i, flags) };
+}
+

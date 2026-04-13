@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.IO.MemoryMappedFiles;
 using CommunityToolkit.Diagnostics;
+using Tasler.Interop.Extensions;
 using Tasler.Interop.User;
 
 namespace Tasler.Interop.Gdi;
@@ -71,14 +72,14 @@ public static partial class GdiApi
 	/// Deletes the specified GDI object and releases its associated resources.
 	/// </summary>
 	public static void DeleteObject(this SafeGdiObject gdiObject)
-		=> NativeMethods.DeleteObject(gdiObject);
+		=> NativeMethods.DeleteObject(gdiObject).ReturnOrThrow();
 
 	/// <summary>
 	/// Creates a memory device context compatible with the specified device context.
 	/// </summary>
 	/// <returns>A safe handle to the newly created compatible device context.</returns>
 	public static SafePrivateHdc CreateCompatibleDC(this SafeHdc hdcExisting)
-		=> NativeMethods.CreateCompatibleDC(hdcExisting);
+		=> NativeMethods.CreateCompatibleDC(hdcExisting).ReturnOrThrow();
 
 	/// <summary>
 	/// Creates a bitmap compatible with the specified device context and dimensions.
@@ -87,7 +88,7 @@ public static partial class GdiApi
 	/// <param name="height">The height of the bitmap in pixels.</param>
 	/// <returns>A safe handle to the created compatible bitmap.</returns>
 	public static SafeGdiBitmapOwned CreateCompatibleBitmap(this SafeHdc hdc, int width, int height)
-		=> NativeMethods.CreateCompatibleBitmap(hdc, width, height);
+		=> NativeMethods.CreateCompatibleBitmap(hdc, width, height).ReturnOrThrow();
 
 	/// <summary>
 	/// Creates a device-independent bitmap (DIB) section using the specified device context and bitmap information header.
@@ -97,7 +98,7 @@ public static partial class GdiApi
 	/// <param name="ppvBits">When the method returns, contains a pointer to the bitmap's bit values.</param>
 	/// <returns>A safe handle to the created DIB section.</returns>
 	public static SafeGdiBitmapOwned CreateDIBSection(this SafeHdc hdc, BITMAPINFOHEADER pbmi, out nint ppvBits)
-		=> NativeMethods.CreateDIBSection(hdc, pbmi, 0, out ppvBits, nint.Zero, 0);
+		=> NativeMethods.CreateDIBSection(hdc, pbmi, 0, out ppvBits, nint.Zero, 0).ReturnOrThrow();
 
 	/// <summary>
 	/// Creates a device-independent bitmap (DIB) section using the specified device context, bitmap information header, and memory-mapped file.
@@ -108,7 +109,7 @@ public static partial class GdiApi
 	/// <param name="ppvBits">When the method returns, contains a pointer to the bitmap's bit values.</param>
 	/// <returns>A safe handle to the created DIB section.</returns>
 	public static SafeGdiBitmapOwned CreateDIBSection(this SafeHdc hdc, BITMAPINFOHEADER pbmi, MemoryMappedFile section, out nint ppvBits)
-		=> NativeMethods.CreateDIBSection(hdc, pbmi, 0, out ppvBits, section.SafeMemoryMappedFileHandle, 0);
+		=> NativeMethods.CreateDIBSection(hdc, pbmi, 0, out ppvBits, section.SafeMemoryMappedFileHandle, 0).ReturnOrThrow();
 
 	/// <summary>
 	/// Creates a device-independent bitmap (DIB) section with the specified dimensions and bits per pixel.
@@ -239,7 +240,7 @@ public static partial class GdiApi
 	public static void BitBlt(
 		this SafeHdc hdcDest, int xDest, int yDest, int cxDest, int cyDest,
 		SafeHdc hdcSrc, int xSrc, int ySrc, ROP3 dwRop)
-		=> NativeMethods.BitBlt(hdcDest, xDest, yDest, cxDest, cyDest, hdcSrc, xSrc, ySrc, dwRop);
+		=> NativeMethods.BitBlt(hdcDest, xDest, yDest, cxDest, cyDest, hdcSrc, xSrc, ySrc, dwRop).ReturnOrThrow();
 
 	/// <summary>
 	/// Performs a bit-block transfer of color data from a source device context to a destination device context, stretching or compressing the image to fit the specified destination rectangle.
@@ -258,7 +259,7 @@ public static partial class GdiApi
 	public static void StretchBlt(
 		this SafeHdc hdcDest, int xDest, int yDest, int cxDest, int cyDest,
 		SafeHdc hdcSrc, int xSrc, int ySrc, int cxSrc, int cySrc, ROP3 dwRop)
-		=> NativeMethods.StretchBlt(hdcDest, xDest, yDest, cxDest, cyDest, hdcSrc, xSrc, ySrc, cxSrc, cySrc, dwRop);
+		=> NativeMethods.StretchBlt(hdcDest, xDest, yDest, cxDest, cyDest, hdcSrc, xSrc, ySrc, cxSrc, cySrc, dwRop).ReturnOrThrow();
 
 	/// <summary>
 	/// Sets the stretch mode for bit-block transfers in the specified device context and returns an <see cref="IDisposable"/> that restores the previous mode when disposed.
@@ -270,8 +271,6 @@ public static partial class GdiApi
 	public static IDisposable SetStretchBltMode(this SafeHdc hdc, StretchBltMode stretchMode)
 	{
 		var previous = NativeMethods.SetStretchBltMode(hdc, stretchMode);
-		if ((int)previous == 0)
-			throw new Win32Exception();
 		return new DisposeScopeExit(() => NativeMethods.SetStretchBltMode(hdc, previous));
 	}
 
@@ -285,8 +284,6 @@ public static partial class GdiApi
 	public static IDisposable SetROP2(this SafeHdc hdc, ROP2 mixMode)
 	{
 		var previous = NativeMethods.SetROP2(hdc, mixMode);
-		if ((int)previous == 0)
-			throw new Win32Exception();
 		return new DisposeScopeExit(() => NativeMethods.SetROP2(hdc, previous));
 	}
 
@@ -300,8 +297,6 @@ public static partial class GdiApi
 	public static IDisposable SetBkColor(this SafeHdc hdc, uint color)
 	{
 		var previous = NativeMethods.SetBkColor(hdc, color);
-		if (previous == 0xFFFFFFFF)
-			throw new Win32Exception();
 		return new DisposeScopeExit(() => NativeMethods.SetBkColor(hdc, previous));
 	}
 
@@ -314,8 +309,6 @@ public static partial class GdiApi
 	public static IDisposable SetBkMode(this SafeHdc hdc, BackgroundMode bkMode)
 	{
 		var previous = NativeMethods.SetBkMode(hdc, bkMode);
-		if ((int)previous == 0)
-			throw new Win32Exception();
 		return new DisposeScopeExit(() => NativeMethods.SetBkMode(hdc, previous));
 	}
 
@@ -329,8 +322,6 @@ public static partial class GdiApi
 	public static IDisposable SelectObject(this SafeHdc hdc, SafeGdiObject obj)
 	{
 		var previous = NativeMethods.SelectObject(hdc, obj);
-		if (previous.IsInvalid)
-			throw new Win32Exception();
 		return new DisposeScopeExit(() => NativeMethods.SelectObject(hdc, previous));
 	}
 
@@ -447,8 +438,7 @@ public static partial class GdiApi
 		Guard.IsNotDefault(hIconOrCursor);
 
 		var iconInfo = new ICONINFO();
-		if (!UserApi.NativeMethods.GetIconInfo(hIconOrCursor, ref iconInfo))
-			throw new Win32Exception();
+		UserApi.NativeMethods.GetIconInfo(hIconOrCursor, ref iconInfo).ReturnOrThrow();
 
 		return iconInfo;
 	}
@@ -480,8 +470,19 @@ public static partial class GdiApi
 		Guard.IsNotNull(hIcon);
 		Guard.IsNotDefault(hIcon.Handle);
 		var iconInfo = hIcon.GetIconInfo();
-		var safeBitmap = new SafeGdiBitmap { Handle = iconInfo.ColorBitmap };
-		return safeBitmap.GetBitmapInfo();
+
+		var bitmapHandle = iconInfo.ColorBitmap == default
+			? iconInfo.MaskBitmap
+			: iconInfo.ColorBitmap;
+		if (bitmapHandle == default)
+			return new();
+
+		var safeBitmap = new SafeGdiBitmap { Handle = bitmapHandle };
+		var result = safeBitmap.GetBitmapInfo();
+		if (result.BitsPerPixel == 1)
+			result.Height /= 2;
+
+		return result;
 	}
 
 	/// <summary>

@@ -1,29 +1,25 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using System.Security.Principal;
 using Microsoft.Win32.SafeHandles;
+using Tasler.Interop.Extensions;
 
 namespace Tasler.Interop.Gdi;
 
 public static partial class GdiApi
 {
 	/// <summary>
-/// Creates a solid brush with the specified color.
-/// </summary>
-/// <param name="color">The RGB color value for the brush.</param>
-/// <returns>A SafeGdiBrushOwned representing the created solid brush.</returns>
-public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.CreateSolidBrush(color);
+	/// Creates a solid brush with the specified color.
+	/// </summary>
+	/// <param name="color">The RGB color value for the brush.</param>
+	/// <returns>A SafeGdiBrushOwned representing the created solid brush.</returns>
+	public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.CreateSolidBrush(color);
 
 	/// <summary>
 	/// Flushes the GDI batch, ensuring all pending GDI operations are completed.
 	/// </summary>
 	/// <exception cref="Win32Exception">Thrown if the native GDI flush operation fails.</exception>
-	public static void GdiFlush()
-	{
-		if (!GdiApi.NativeMethods.GdiFlush())
-			throw new Win32Exception();
-	}
+	public static void GdiFlush() => NativeMethods.GdiFlush().ReturnOrThrow();
 
 	/// <summary>
 	/// Combines two ROP3 raster operation codes into a single ROP4 code for use in advanced GDI operations.
@@ -138,14 +134,14 @@ public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.Cr
 
 		[LibraryImport(ApiLib, SetLastError = true)]
 		public static partial SafeGdiPenOwned ExtCreatePen(
-				PenStyle penStyle, int width, LOGBRUSH logBrush, int segmentCount,
-				[MarshalUsing(CountElementName = nameof(segmentCount))] [In] int[] segments);
+			PenStyle penStyle, int width, LOGBRUSH logBrush, int segmentCount,
+			[MarshalUsing(CountElementName = nameof(segmentCount))] [In] int[] segments);
 
 		[LibraryImport(ApiLib, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static partial bool BitBlt(
-				SafeHdc hdcDest, int xDest, int yDest, int cxDest, int cyDest,
-				SafeHdc hdcSrc, int xSrc, int ySrc, ROP3 dwRop);
+			SafeHdc hdcDest, int xDest, int yDest, int cxDest, int cyDest,
+			SafeHdc hdcSrc, int xSrc, int ySrc, ROP3 dwRop);
 
 		[LibraryImport(ApiLib, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -163,10 +159,10 @@ public static SafeGdiBrushOwned CreateSolidBrush(uint color) => NativeMethods.Cr
 			SafeHdc hdcSrc, int xSrc, int ySrc,
 			SafeGdiBitmap hbmMask, int xMask, int yMask, uint rop);
 
-		[LibraryImport(ApiLib, SetLastError = true)]
+		[LibraryImport(ApiLib)]
 		public static partial ROP2 SetROP2(SafeHdc hdc, ROP2 mixMode);
 
-		[LibraryImport(ApiLib, SetLastError = true)]
+		[LibraryImport(ApiLib)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static partial bool GdiFlush();
 

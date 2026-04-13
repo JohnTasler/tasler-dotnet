@@ -42,6 +42,10 @@ public static class PersistExtensions
 		ulong MaximumSize => @this.GetSizeMax();
 	}
 
+	/// <summary>
+	/// Extension methods for the specified <see cref="IPersistStorage"/> instance.
+	/// </summary>
+	/// <param name="this">The <see cref="IPersistStorage"/> instance.</param>
 	extension(IPersistStorage @this)
 	{
 		/// <summary>
@@ -51,6 +55,10 @@ public static class PersistExtensions
 		bool IsDirty => @this.IsDirty() == 0;
 	}
 
+	/// <summary>
+	/// Extension methods for the specified <see cref="IPersistFile"/> instance.
+	/// </summary>
+	/// <param name="this">The <see cref="IPersistFile"/> instance.</param>
 	extension(IPersistFile @this)
 	{
 		/// <summary>
@@ -60,6 +68,10 @@ public static class PersistExtensions
 		bool IsDirty => @this.IsDirty() == 0;
 	}
 
+	/// <summary>
+	/// Extension methods for the specified <see cref="IPersistMemory"/> instance.
+	/// </summary>
+	/// <param name="this">The <see cref="IPersistMemory"/> instance.</param>
 	extension(IPersistMemory @this)
 	{
 		/// <summary>

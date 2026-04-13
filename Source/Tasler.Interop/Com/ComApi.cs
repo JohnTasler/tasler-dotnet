@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using CommunityToolkit.Diagnostics;
 using Tasler.Interop.Com.Interfaces;
+using Tasler.Interop.Extensions;
 
 namespace Tasler.Interop.Com;
 
@@ -20,10 +21,7 @@ public static partial class ComApi
 	/// Thrown if the underlying COM call fails.
 	public static nint CoCreateInstance(Guid clsid, Guid iid, ClsCtx dwClsContext = ClsCtx.Default)
 	{
-		int hr = NativeMethods.CoCreateInstance(ref clsid, nint.Zero, dwClsContext, ref iid, out nint ppv);
-		if (hr < 0)
-			Marshal.ThrowExceptionForHR(hr);
-
+		NativeMethods.CoCreateInstance(ref clsid, nint.Zero, dwClsContext, ref iid, out nint ppv).ReturnOrThrow();
 		return ppv;
 	}
 
@@ -35,11 +33,8 @@ public static partial class ComApi
 	/// <returns>The created COM object wrapped and cast to <typeparamref name="TInterface"/>.</returns>
 	public static TInterface CoCreateInstance<TInterface>(Guid clsid, ClsCtx dwClsContext = ClsCtx.Default)
 		where TInterface : class
-	{
-		return (TInterface)Wrappers.GetOrCreateObjectForComInstance(
-			CoCreateInstance(clsid, typeof(TInterface).GUID, dwClsContext),
-			CreateObjectFlags.UniqueInstance);
-	}
+		=> (TInterface)Wrappers.GetOrCreateObjectForComInstance(CoCreateInstance(
+			clsid, typeof(TInterface).GUID, dwClsContext), CreateObjectFlags.UniqueInstance);
 
 	/// <summary>
 	/// Creates a COM object for TClass and returns it cast to TInterface.
@@ -49,9 +44,7 @@ public static partial class ComApi
 	public static TInterface CoCreateInstance<TClass, TInterface>(ClsCtx dwClsContext = ClsCtx.Default)
 		where TClass : class
 		where TInterface : class
-	{
-		return CoCreateInstance<TInterface>(typeof(TClass).GUID, dwClsContext);
-	}
+		=> CoCreateInstance<TInterface>(typeof(TClass).GUID, dwClsContext);
 
 	/// <summary>
 	/// Registers a COM class object (class factory or raw IUnknown pointer) with the COM runtime.
@@ -64,10 +57,7 @@ public static partial class ComApi
 	/// <exception cref="System.Runtime.InteropServices.COMException">Thrown when the COM call returns a failure HRESULT.</exception>
 	public static uint CoRegisterClassObject(Guid rclsid, nint pUnk, ClsCtx dwClsContext, RegCls flags)
 	{
-		int hr = NativeMethods.CoRegisterClassObject(ref rclsid, pUnk, dwClsContext, flags, out uint lpdwRegister);
-		if (hr < 0)
-			Marshal.ThrowExceptionForHR(hr);
-
+		NativeMethods.CoRegisterClassObject(ref rclsid, pUnk, dwClsContext, flags, out uint lpdwRegister).ReturnOrThrow();
 		return lpdwRegister;
 	}
 
@@ -104,16 +94,15 @@ public static partial class ComApi
 	/// </summary>
 	/// <param name="dwRegister">The registration cookie returned by CoRegisterClassObject.</param>
 	/// <returns>The HRESULT returned by CoRevokeClassObject; `0` (S_OK) on success, a negative value on failure.</returns>
-	public static int CoRevokeClassObject(uint dwRegister) => NativeMethods.CoRevokeClassObject(dwRegister);
+	public static HRESULT CoRevokeClassObject(uint dwRegister)
+		=> NativeMethods.CoRevokeClassObject(dwRegister);
 
 	/// <summary>
 	/// Creates a COM Global Interface Table (GIT) instance.
 	/// </summary>
 	/// <returns>An <see cref="IGlobalInterfaceTable"/> representing the COM Global Interface Table.</returns>
 	public static IGlobalInterfaceTable GetGlobalInterfaceTable()
-	{
-		return CoCreateInstance<IGlobalInterfaceTable>(new Guid("00000323-0000-0000-C000-000000000046"));
-	}
+		=> CoCreateInstance<IGlobalInterfaceTable>(new Guid("00000323-0000-0000-C000-000000000046"));
 
 	/// <summary>
 	/// Obtain the system Running Object Table (ROT) wrapped as an IRunningObjectTable.
@@ -122,10 +111,7 @@ public static partial class ComApi
 	/// <exception cref="System.Runtime.InteropServices.COMException">Thrown when retrieving the Running Object Table fails with a COM error.</exception>
 	public static IRunningObjectTable GetRunningObjectTable()
 	{
-		var hr = NativeMethods.GetRunningObjectTable(0, out nint rotHandle);
-		if (hr < 0)
-			Marshal.ThrowExceptionForHR(hr);
-
+		NativeMethods.GetRunningObjectTable(0, out nint rotHandle).ReturnOrThrow();
 		return (IRunningObjectTable)Wrappers.GetOrCreateObjectForComInstance(rotHandle, CreateObjectFlags.Unwrap);
 	}
 
@@ -136,10 +122,7 @@ public static partial class ComApi
 	/// <exception cref="System.Exception">Thrown when the underlying CreateBindCtx call fails; a corresponding exception is thrown for the HRESULT returned.</exception>
 	public static IBindCtx CreateBindCtx()
 	{
-		var hr = NativeMethods.CreateBindCtx(0, out nint ctx);
-		if (hr < 0)
-			Marshal.ThrowExceptionForHR(hr);
-
+		NativeMethods.CreateBindCtx(0, out nint ctx).ReturnOrThrow();
 		return (IBindCtx)Wrappers.GetOrCreateObjectForComInstance(ctx, CreateObjectFlags.Unwrap);
 	}
 
@@ -156,10 +139,7 @@ public static partial class ComApi
 			return query;
 
 		var wrapperPtr = Wrappers.GetOrCreateComInterfaceForObject(@this, CreateComInterfaceFlags.None);
-		int hr = Marshal.QueryInterface(wrapperPtr, typeof(TQuery).GUID, out nint queryPtr);
-		if (hr < 0)
-			Marshal.ThrowExceptionForHR(hr);
-
+		Marshal.QueryInterface(wrapperPtr, typeof(TQuery).GUID, out nint queryPtr).ReturnOrThrow();
 		return (TQuery)Wrappers.GetOrCreateObjectForComInstance(queryPtr, CreateObjectFlags.None);
 	}
 	/// <summary>
@@ -199,16 +179,16 @@ public static partial class ComApi
 		private const string ApiLib = "ole32.dll";
 
 		/// <summary>
-			/// Creates a COM object for the specified CLSID and returns a pointer to the requested interface.
-			/// </summary>
-			/// <param name="rclsid">The CLSID of the COM class to instantiate.</param>
-			/// <param name="pUnkOuter">Pointer to the controlling IUnknown for aggregation, or <c>nint.Zero</c> if not aggregating.</param>
-			/// <param name="dwClsContext">The execution context in which the code that manages the newly created object will run.</param>
-			/// <param name="riid">The IID of the interface being requested from the new object.</param>
-			/// <param name="ppv">When successful, receives a pointer to the requested interface.</param>
-			/// <returns>HRESULT result code: S_OK (0) on success; a negative value indicates failure.</returns>
-			[LibraryImport(ApiLib)]
-		public static partial int CoCreateInstance(
+		/// Creates a COM object for the specified CLSID and returns a pointer to the requested interface.
+		/// </summary>
+		/// <param name="rclsid">The CLSID of the COM class to instantiate.</param>
+		/// <param name="pUnkOuter">Pointer to the controlling IUnknown for aggregation, or <c>nint.Zero</c> if not aggregating.</param>
+		/// <param name="dwClsContext">The execution context in which the code that manages the newly created object will run.</param>
+		/// <param name="riid">The IID of the interface being requested from the new object.</param>
+		/// <param name="ppv">When successful, receives a pointer to the requested interface.</param>
+		/// <returns>HRESULT result code: S_OK (0) on success; a negative value indicates failure.</returns>
+		[LibraryImport(ApiLib)]
+		public static partial HRESULT CoCreateInstance(
 			ref Guid rclsid,
 			nint pUnkOuter,
 			ClsCtx dwClsContext,
@@ -225,7 +205,7 @@ public static partial class ComApi
 		/// <param name="lpdwRegister">Receives the registration cookie that can be used to revoke the registration.</param>
 		/// <returns>The HRESULT result code; negative values indicate failure.</returns>
 		[LibraryImport(ApiLib)]
-		public static partial int CoRegisterClassObject(
+		public static partial HRESULT CoRegisterClassObject(
 			ref Guid rclsid,
 			nint pUnk,
 			ClsCtx dwClsContext,
@@ -239,7 +219,7 @@ public static partial class ComApi
 		/// <param name="dwRegister">The registration cookie returned by CoRegisterClassObject.</param>
 		/// <returns>HRESULT result: `0` on success, a failure HRESULT otherwise.</returns>
 		[LibraryImport(ApiLib)]
-		public static partial int CoRevokeClassObject(
+		public static partial HRESULT CoRevokeClassObject(
 			uint dwRegister
 		);
 
@@ -253,7 +233,7 @@ public static partial class ComApi
 		/// <param name="ppv">Receives a pointer to the requested interface on success.</param>
 		/// <returns>An HRESULT value: `S_OK` on success; otherwise an error code. On success `ppv` receives the requested interface pointer.</returns>
 		[LibraryImport(ApiLib)]
-		public static partial int CoGetClassObject(
+		public static partial HRESULT CoGetClassObject(
 			ref Guid rclsid,
 			ClsCtx dwClsContext,
 			nint pvReserved,
@@ -267,10 +247,17 @@ public static partial class ComApi
 		/// <param name="pprot">When the method returns successfully, receives a pointer to the ROT (an IRunningObjectTable COM interface).</param>
 		/// <returns>An HRESULT value: `S_OK` (0) on success or an error HRESULT on failure.</returns>
 		[LibraryImport(ApiLib)]
-		public static partial int GetRunningObjectTable(int reserved, out nint pprot);
+		public static partial HRESULT GetRunningObjectTable(int reserved, out nint pprot);
 
+		/// <summary>
+		/// Creates a standard binding context object.
+		/// </summary>
+		/// <param name="reserved">Reserved; must be zero.</param>
+		/// <param name="ppbc">When the method returns successfully, receives a pointer to a new
+		/// COM binding context.</param>
+		/// <returns>An HRESULT value: `S_OK` (0) on success or an error HRESULT on failure.</returns>
 		[LibraryImport(ApiLib)]
-		public static partial int CreateBindCtx(int reserved, out nint ppbc);
+		public static partial HRESULT CreateBindCtx(int reserved, out nint ppbc);
 	}
 
 	#endregion Nested Types

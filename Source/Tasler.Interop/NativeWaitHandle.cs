@@ -31,15 +31,14 @@ public class NativeWaitHandle : WaitHandle
 		{
 			var hCurrentProcess = KernelApi.GetCurrentProcess();
 
-			SafeWaitHandle duplicatedHandle = new();
 			bool succeeded = hCurrentProcess.DuplicateHandle(
-					nativeHandle, hCurrentProcess, ref duplicatedHandle,
+					nativeHandle, hCurrentProcess, out nint duplicatedHandle,
 					0, false, DUPLICATE_SAME_ACCESS);
 
 			if (!succeeded)
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 
-			nativeHandle = duplicatedHandle;
+			nativeHandle = new(duplicatedHandle, false);
 		}
 
 		base.SafeWaitHandle = nativeHandle;

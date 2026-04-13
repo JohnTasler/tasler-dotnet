@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using CommunityToolkit.Diagnostics;
 using Tasler.Extensions;
 using Tasler.Interop.Gdi;
+using Tasler.Interop.Kernel;
 using Tasler.Interop.User;
 using Tasler.IO;
 
@@ -10,7 +12,7 @@ namespace Tasler.Interop.Resources;
 /// <summary>
 /// The type of the file stream resource. Cursors and icons have very similar structures.
 /// </summary>
-public enum ResourceType : ushort
+public enum IconCursorResourceType : ushort
 {
 	Icon = 1,
 	Cursor = 2,
@@ -26,7 +28,7 @@ public struct IconCursorHeader
 {
 	private ushort _reserved;
 	/// <summary>The resource type, cursor or icon. Cursors and icons have very similar structures.</summary>
-	public ResourceType ResourceType;
+	public IconCursorResourceType ResourceType;
 	/// <summary>The number of icons or cursors in the file stream resource.</summary>
 	public ushort ResourceCount;
 }
@@ -81,11 +83,14 @@ public struct IconResDir
 
 	/// <summary>Gets or sets the color count.</summary>
 	/// <value>The number of colors in each pixel.</value>
-	/// <remarks>Since this is stored as a byte, the maximum value is 256, stored as zero.</remarks>
+	/// <remarks>
+	/// Acceptable values are 2, 8, and 16. The value 0 means that the number of colors deduced from
+	/// <see cref="IDirEntry.BitCount"/> and <see cref="IDirEntry.Planes"/> in the
+	/// <see cref="DirEntry"/> or <see cref="GroupDirEntry"/> structures.</remarks>
 	public int ColorCount
 	{
-		get => GetExtent(_colorCount);
-		set => SetExtent(ref _colorCount, value);
+		get => _colorCount;
+		set => _colorCount = (byte)value;
 	}
 
 	/// <summary>
@@ -113,6 +118,23 @@ public struct IconResDir
 	public override string ToString() => $"{Width}x{Height} {ColorCount}bpp";
 }
 
+public interface IIconDirectoryItem
+{
+	int Width { get; }
+	int Height { get; }
+	int ColorCount { get; }
+	IconResDir ResDirEntry { get; }
+	ushort Planes { get; }
+	ushort BitCount { get; }
+	uint BytesInRes { get; }
+	uint FileOffset { get; }
+	bool IsPngData { get; }
+	byte[] ImageData { get; }
+	BITMAPINFOHEADER BitmapInfoHeader { get; }
+	SafeGdiIconOwned CreateIcon();
+	SafeGdiIconOwned GetIcon(SafeInstanceHandle hModule);
+}
+
 /// <summary>
 /// After the <c>RT_GROUP_ICON</c> header, represented by <see cref="IconCursorHeader"/>, each
 /// <c>RT_ICON</c> represents the image data of one image resolution and bit depth. The directory
@@ -121,9 +143,11 @@ public struct IconResDir
 /// directory items and its access to its image data.
 /// </summary>
 /// <seealso cref="System.IDisposable" />
-public class IconDirectoryItem
+public class IconDirectoryItem<T> : IIconDirectoryItem
+	where T : unmanaged, IDirEntry
 {
-	private DirEntry _binaryEntry = new();
+	private T _binaryEntry;
+	private bool _isFromResourceGroupIcon;
 
 	/// <summary>
 	/// Constructor to read the icon directory item from a stream<.
@@ -138,17 +162,20 @@ public class IconDirectoryItem
 	/// <param name="stream">A readable stream positioned at an icon directory entry within an ICO or CUR file.</param>
 	/// <exception cref="ArgumentNullException">Thrown if <paramref name="stream"/> is null.</exception>
 	/// <exception cref="ArgumentException">Thrown if <paramref name="stream"/> is not readable or contains invalid data.</exception>
-	private IconDirectoryItem(Stream stream)
+	private IconDirectoryItem(Stream stream, bool isFromResourceGroupIcon)
 	{
 		Guard.IsNotNull(stream, nameof(stream));
 		Guard.CanRead(stream);
 
 		stream.ReadStruct(out _binaryEntry);
 
-		long fileOffset = stream.Position;
-		using (var scope = new DisposeScopeExit(() => stream.Position = fileOffset))
+		_isFromResourceGroupIcon = isFromResourceGroupIcon;
+
+		if (!_isFromResourceGroupIcon)
 		{
-			this.LoadImageData(stream);
+			long fileOffset = stream.Position;
+			using var scope = new DisposeScopeExit(() => stream.Position = fileOffset);
+			this.LoadImageData(stream, _binaryEntry.FileOffset);
 		}
 	}
 
@@ -157,9 +184,11 @@ public class IconDirectoryItem
 	/// </summary>
 	/// <param name="stream">The stream positioned at the start of an icon directory entry.</param>
 	/// <returns>An <see cref="IconDirectoryItem"/> representing the parsed entry and its image data.</returns>
-	internal static IconDirectoryItem CreateFromStream(Stream stream)
+	internal static IIconDirectoryItem CreateFromStream(Stream stream, bool isFromResourceGroupIcon = false)
 	{
-		var iconDirectoryItem = new IconDirectoryItem(stream);
+		IIconDirectoryItem iconDirectoryItem = isFromResourceGroupIcon
+			? new IconDirectoryItem<GroupDirEntry>(stream, isFromResourceGroupIcon)
+			: new IconDirectoryItem<DirEntry>(stream, isFromResourceGroupIcon);
 		return iconDirectoryItem;
 	}
 
@@ -168,11 +197,9 @@ public class IconDirectoryItem
 	/// <summary>Gets the width, in pixels, of the icon image.</summary>
 	/// <value>The width, in pixels.</value>
 	public int Width => _binaryEntry.ResDirEntry.Width;
-
 	/// <summary>Gets the height, in pixels, of the icon image.</summary>
 	/// <value>The height, in pixels.</value>
 	public int Height => _binaryEntry.ResDirEntry.Height;
-
 	/// <summary>Gets the number of bits used to represent colors in each pixel.</summary>
 	/// <value>The number of bits</value>
 	public int ColorCount => _binaryEntry.ResDirEntry.ColorCount;
@@ -181,18 +208,19 @@ public class IconDirectoryItem
 	public ushort BitCount => _binaryEntry.BitCount;
 	public uint BytesInRes => _binaryEntry.BytesInRes;
 	public uint FileOffset => _binaryEntry.FileOffset;
-
 	public bool IsPngData { get; private set; }
-
 	public byte[] ImageData { get; private set; } = [];
-
 	public BITMAPINFOHEADER BitmapInfoHeader => _bitmapInfoHeader;
 	private BITMAPINFOHEADER _bitmapInfoHeader;
 
 	/// <summary>
 	/// Creates a GDI icon handle from the image data of this directory entry.
 	/// </summary>
-	/// <returns>A <see cref="SafeGdiIconOwned"/> representing the created icon, or an empty handle if no image data is present.</returns>
+	/// <returns>
+	/// A <see cref="SafeGdiIconOwned"/> representing the created icon, or an empty handle if and
+	/// error occurs. To get extended error information, call
+	/// <see cref="Marshal.GetLastPInvokeError"/>.
+	/// </returns>
 	public SafeGdiIconOwned CreateIcon()
 	{
 		if (this.ImageData.Length == 0)
@@ -202,19 +230,43 @@ public class IconDirectoryItem
 	}
 
 	/// <summary>
+	/// Gets the associated GDI icon handle from the specified executable module handle.
+	/// </summary>
+	/// <returns>
+	/// A <see cref="SafeGdiIconOwned"/> representing the loaded icon, or an empty handle if an error
+	/// occurs.
+	/// </returns>
+	public SafeGdiIconOwned GetIcon(SafeInstanceHandle hModule)
+	{
+		Guard.IsTrue(_isFromResourceGroupIcon);
+
+		var name = new ResourceValue((nint)_binaryEntry.FileOffset);
+
+		var hrsrc = hModule.FindResource(name, new(IntegerResourceType.Icon));
+		var hGlobal = hModule.LoadResource(hrsrc);
+		var pointer = hGlobal.LockResource();
+		unsafe
+		{
+			var span = new ReadOnlySpan<byte>((void*)pointer, hModule.SizeofResource(hrsrc));
+			using var stream = new UnmanagedMemoryStream((byte*)pointer, span.Length);
+			this.LoadImageData(stream, 0);
+		}
+		return this.CreateIcon();
+	}
+
+	/// <summary>
 	/// Loads the image data and bitmap info header for the icon directory entry from the specified stream.
 	/// </summary>
 	/// <param name="stream">The stream positioned at the start of the icon or cursor file.</param>
 	/// <remarks>
 	/// Determines if the image data is in PNG format by inspecting the bitmap info header. Sets the <c>IsPngData</c> property accordingly and reads the image data bytes into <c>ImageData</c>.
 	/// </remarks>
-	private void LoadImageData(Stream stream)
+	private void LoadImageData(Stream stream, uint fromOffset)
 	{
 		const int pngSignature1 = 0x474E_5089;
 		const int pngSignature2 = 0x0A1A_0A0D;
 
-		_bitmapInfoHeader = new();
-		stream.Seek(_binaryEntry.FileOffset, SeekOrigin.Begin);
+		stream.Seek(fromOffset, SeekOrigin.Begin);
 		stream.ReadStruct(out _bitmapInfoHeader);
 
 		this.IsPngData = false;
@@ -230,19 +282,50 @@ public class IconDirectoryItem
 
 		int imageDataSize = (int)_binaryEntry.BytesInRes;
 		this.ImageData = new byte[imageDataSize];
-		stream.Seek(_binaryEntry.FileOffset, SeekOrigin.Begin);
+		stream.Seek(fromOffset, SeekOrigin.Begin);
 		stream.ReadExactly(this.ImageData, 0, imageDataSize);
 	}
+}
 
-	[StructLayout(LayoutKind.Sequential, Pack = 2)]
-	internal struct DirEntry
-	{
-		public IconResDir ResDirEntry;
-		public ushort Planes;
-		public ushort BitCount;
-		public uint BytesInRes;
-		public uint FileOffset;
-	}
+public interface IDirEntry
+{
+	IconResDir ResDirEntry { get; }
+	ushort Planes { get; }
+	ushort BitCount { get; }
+	uint BytesInRes { get; }
+	uint FileOffset { get; }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 2)]
+internal struct DirEntry : IDirEntry
+{
+	private IconResDir _resDirEntry;
+	private ushort _planes;
+	private ushort _bitCount;
+	private uint _bytesInRes;
+	private uint _fileOffset;
+
+	public IconResDir ResDirEntry => _resDirEntry;
+	public ushort Planes => _planes;
+	public ushort BitCount => _bitCount;
+	public uint BytesInRes => _bytesInRes;
+	public uint FileOffset => _fileOffset;
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 2)]
+internal struct GroupDirEntry : IDirEntry
+{
+	private IconResDir _resDirEntry;
+	private ushort _planes;
+	private ushort _bitCount;
+	private uint _bytesInRes;
+	private ushort _fileOffset;
+
+	public IconResDir ResDirEntry => _resDirEntry;
+	public ushort Planes => _planes;
+	public ushort BitCount => _bitCount;
+	public uint BytesInRes => _bytesInRes;
+	public uint FileOffset => _fileOffset;
 }
 
 public static class IconFileReader
@@ -254,7 +337,7 @@ public static class IconFileReader
 	/// <returns>An enumerable sequence of <see cref="IconDirectoryItem"/> objects representing each icon or cursor entry in the file.</returns>
 	/// <exception cref="ArgumentNullException">Thrown if <paramref name="icoFileDataStream"/> is null.</exception>
 	/// <exception cref="ArgumentException">Thrown if the stream is not readable or does not contain a valid ICO or CUR file header.</exception>
-	public static IEnumerable<IconDirectoryItem> GetIconDirectoryEntries(Stream icoFileDataStream)
+	public static IEnumerable<IIconDirectoryItem> GetIconDirectoryEntries(Stream icoFileDataStream, bool isFromResourceGroupIcon = false)
 	{
 		Guard.IsNotNull(icoFileDataStream);
 		Guard.CanRead(icoFileDataStream);
@@ -263,13 +346,15 @@ public static class IconFileReader
 		var header = new IconCursorHeader();
 		icoFileDataStream.ReadExactly(MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref header, 1)));
 		Guard.IsTrue(
-			header.ResourceType == ResourceType.Icon || header.ResourceType == ResourceType.Cursor,
+			header.ResourceType == IconCursorResourceType.Icon || header.ResourceType == IconCursorResourceType.Cursor,
 			nameof(header.ResourceType), Properties.Resources.ArgumentExceptionStreamIsNotIcoOrCursorFormat);
 
 		// Read each icon directory item
 		for (int i = 0; i < header.ResourceCount; ++i)
 		{
-			var iconDirectoryItem = IconDirectoryItem.CreateFromStream(icoFileDataStream);
+			var iconDirectoryItem = isFromResourceGroupIcon
+				? IconDirectoryItem<GroupDirEntry>.CreateFromStream(icoFileDataStream, isFromResourceGroupIcon)
+				: IconDirectoryItem<DirEntry>.CreateFromStream(icoFileDataStream, isFromResourceGroupIcon);
 			yield return iconDirectoryItem;
 		}
 	}

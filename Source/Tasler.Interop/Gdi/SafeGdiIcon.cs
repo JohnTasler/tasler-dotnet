@@ -1,7 +1,9 @@
+using System.Runtime.InteropServices.Marshalling;
 using Tasler.Interop.User;
 
 namespace Tasler.Interop.Gdi;
 
+[NativeMarshalling(typeof(SafeHandleMarshaller<SafeGdiIcon>))]
 public class SafeGdiIcon : SafeGdiObject
 {
 	#region Constructors
@@ -17,6 +19,7 @@ public class SafeGdiIcon : SafeGdiObject
 	#endregion Constructors
 }
 
+[NativeMarshalling(typeof(SafeHandleMarshaller<SafeGdiIconOwned>))]
 public class SafeGdiIconOwned : SafeGdiIcon
 {
 	/// <summary>
