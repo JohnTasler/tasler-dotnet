@@ -17,12 +17,15 @@ namespace Tasler.Windows.Extensions
 			var commandParameter = commandSource.CommandParameter;
 			var commandTarget = commandSource.CommandTarget;
 
-			var routedCommand = command as RoutedCommand;
-			if (routedCommand is null)
+			if (command is RoutedCommand routedCommand)
+			{
+				commandTarget ??= commandSource as IInputElement;
+				return routedCommand.CanExecute(commandParameter, commandTarget);
+			}
+			else
+			{
 				return command.CanExecute(commandParameter);
-
-			commandTarget = commandTarget ?? commandSource as IInputElement;
-			return routedCommand.CanExecute(commandParameter, commandTarget);
+			}
 		}
 
 		public static void ExecuteCommandSource(this ICommandSource commandSource)
@@ -35,7 +38,7 @@ namespace Tasler.Windows.Extensions
 				var routedCommand = command as RoutedCommand;
 				if (routedCommand is not null)
 				{
-					commandTarget = commandTarget ?? commandSource as IInputElement;
+					commandTarget ??= commandSource as IInputElement;
 					if (routedCommand.CanExecute(commandParameter, commandTarget))
 						routedCommand.Execute(commandParameter, commandTarget);
 				}

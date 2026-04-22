@@ -81,12 +81,15 @@ public struct PropertyKey
 }
 
 //
-// I used these regular expression search/replace operations to help convert from the declarations in the propkey.h file.
-// Keep these around if/when new ones are introduced.
+// I used these regular expressions in Visual Studio search/replace operations to help convert from the declarations in the propkey.h file.
+// Keep these around for when new ones are introduced.
 //
-// Find this:DEFINE_PROPERTYKEY\(PKEY_{:i}, {.+}:b*$
-// Replace with:    public static PropertyKey \1 => new PropertyKey(\2);
+// Find this:DEFINE_PROPERTYKEY\(PKEY_([a-zA-Z_][a-zA-Z_0-9]+), (.+)\s*\);\r\n
+// Replace with:\t\tpublic static PropertyKey $1 => new($2);\r\n
 //
-// Find this:{Name\::b*}{.+}\n{Type\::b*}{.+}\n{FormatID\::b*}{.+}\n\n{(.|\n)#}\n    public
-// Replace with:    /// <summary>\7</summary>\n    /// <remarks>\n    /// <list type="table">\n    ///   <item>\1</item><description>\2</description>\n    ///   <item>\3</item><description>\4</description>\n    ///   <item>\5</item><description>\6</description>\n    /// </list>\n    /// </remarks>\n    public
+// Find this://  Name:(\s+)(.+)\n//  Type:(\s+)(.+)\n//  FormatID:(\s+)(.+)\n
+// Replace with:\t\t/// <summary></summary>\r\n\t\t/// <remarks>\r\n\t\t/// <list type="table">\r\n\t\t///   <item><term>Name</term>$1<description>$2</description></item>\r\n\t\t///   <item><term>Type</term>$3<description>$4</description></item>\r\n\t\t///   <item><term>Format ID</term>$5<description>$6</description></item>\r\n\t\t/// </list>\r\n\t\t/// </remarks>\r\n
+//
+// Find this://  Name:(\s+)(.+)\n//  Type:(\s+)(.+)\n//  FormatID:(\s+)(.+)\n//\s*\r\n//  (.+)\r\n
+// Replace with:\t\t/// <summary>$7</summary>\r\n\t\t/// <remarks>\r\n\t\t/// <list type="table">\r\n\t\t///   <item><term>Name</term>$1<description>$2</description></item>\r\n\t\t///   <item><term>Type</term>$3<description>$4</description></item>\r\n\t\t///   <item><term>Format ID</term>$5<description>$6</description></item>\r\n\t\t/// </list>\r\n\t\t/// </remarks>\r\n
 //
