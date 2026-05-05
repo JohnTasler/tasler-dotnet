@@ -87,7 +87,7 @@ public static partial class PropertyKeys
 		public static PropertyKey HandlerType => new(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 8);
 
 		/// <summary>Possible discrete values for PKEY_HandlerType.</summary>
-		public enum HandlerTypeValues : uint
+		public enum HandlerTypeValues
 		{
 			Other = 0,
 			Programs = 1,
@@ -97,8 +97,7 @@ public static partial class PropertyKeys
 			Computers = 5,
 		}
 
-		/// <summary>
-		/// </summary>
+		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
 		///   <item><term><b>Name:     </b></term><description>System.Sync.HandlerTypeLabel -- PKEY_HandlerTypeLabel</description></item>
@@ -127,5 +126,49 @@ public static partial class PropertyKeys
 		/// </list>
 		/// </remarks>
 		public static PropertyKey ItemName => new(0xCE50C159, 0x2FB8, 0x41FD, 0xBE, 0x68, 0xD3, 0xE0, 0x42, 0xE2, 0x74, 0xBC, 3);
+
+		/// <summary>
+		/// An integer value between 0 and 100 representing the percentage completed.
+		/// </summary>
+		/// <remarks>
+		/// <list type="table">
+		///   <item><term><b>Name:     </b></term><description>System.Sync.ProgressPercentage -- PKEY_Sync_ProgressPercentage</description></item>r
+		///   <item><term><b>Type:     </b></term><description>UInt32 -- VT_UI4</description></item>
+		///   <item><term><b>Format ID:</b></term><description>{7BD5533E-AF15-44DB-B8C8-BD6624E1D032}, 23</description></item>
+		/// </list>
+		/// </remarks>
+		public static PropertyKey Sync_ProgressPercentage => new(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 23);
+
+		/// <summary>Sync state.</summary>
+		/// <remarks>
+		/// <list type="table">
+		///   <item><term><b>Name:     </b></term><description>System.Sync.State -- PKEY_Sync_State</description></item>r
+		///   <item><term><b>Type:     </b></term><description>UInt32 -- VT_UI4</description></item>
+		///   <item><term><b>Format ID:</b></term><description>{7BD5533E-AF15-44DB-B8C8-BD6624E1D032}, 24</description></item>
+		/// </list>
+		/// </remarks>
+		/// <seealso cref="SyncStates"/>
+		public static PropertyKey Sync_State => new(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 24);
+
+		/// <summary>Possible discrete values for PKEY_Sync_State</summary>
+		public enum SyncStates
+		{
+			NotSetup   = 0,
+			SyncNotRun = 1,
+			Idle       = 2,
+			Error      = 3,
+			Pending    = 4,
+			Syncing    = 5,
+		}
+
+		/// <summary></summary>
+		/// <remarks>
+		/// <list type="table">
+		///   <item><term><b>Name:     </b></term><description>System.Sync.Status -- PKEY_Sync_Status</description></item>
+		///   <item><term><b>Type:     </b></term><description>String -- VT_LPWSTR  (For variants: VT_BSTR)</description></item>
+		///   <item><term><b>Format ID:</b></term><description>{7BD5533E-AF15-44DB-B8C8-BD6624E1D032}, 10</description></item>
+		/// </list>
+		/// </remarks>
+		public static PropertyKey Sync_Status => new(0x7BD5533E, 0xAF15, 0x44DB, 0xB8, 0xC8, 0xBD, 0x66, 0x24, 0xE1, 0xD0, 0x32, 10);
 	}
 }

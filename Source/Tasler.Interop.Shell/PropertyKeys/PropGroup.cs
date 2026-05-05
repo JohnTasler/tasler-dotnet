@@ -8,7 +8,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Advanced -- PKEY_Advanced</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Advanced -- PKEY_PropGroup_Advanced</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>900A403B-097B-4B95-8AE2-071FDAEEB118, 100</description></item>
 		/// </list>
@@ -18,7 +18,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Audio -- PKEY_Audio</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Audio -- PKEY_PropGroup_Audio</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>2804D469-788F-48AA-8570-71B9C187E138, 100</description></item>
 		/// </list>
@@ -28,7 +28,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Calendar -- PKEY_Calendar</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Calendar -- PKEY_PropGroup_Calendar</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>9973D2B5-BFD8-438A-BA94-5349B293181A, 100</description></item>
 		/// </list>
@@ -38,7 +38,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Camera -- PKEY_Camera</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Camera -- PKEY_PropGroup_Camera</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>DE00DE32-547E-4981-AD4B-542F2E9007D8, 100</description></item>
 		/// </list>
@@ -48,7 +48,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Contact -- PKEY_Contact</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Contact -- PKEY_PropGroup_Contact</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>DF975FD3-250A-4004-858F-34E29A3E37AA, 100</description></item>
 		/// </list>
@@ -58,7 +58,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Content -- PKEY_Content</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Content -- PKEY_PropGroup_Content</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>D0DAB0BA-368A-4050-A882-6C010FD19A4F, 100</description></item>
 		/// </list>
@@ -68,7 +68,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Description -- PKEY_Description</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Description -- PKEY_PropGroup_Description</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>8969B275-9475-4E00-A887-FF93B8B41E44, 100</description></item>
 		/// </list>
@@ -78,7 +78,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.FileSystem -- PKEY_FileSystem</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.FileSystem -- PKEY_PropGroup_FileSystem</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>E3A7D2C1-80FC-4B40-8F34-30EA111BDC2E, 100</description></item>
 		/// </list>
@@ -88,7 +88,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.General -- PKEY_General</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.General -- PKEY_PropGroup_General</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>CC301630-B192-4C22-B372-9F4C6D338E07, 100</description></item>
 		/// </list>
@@ -98,7 +98,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.GPS -- PKEY_GPS</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.GPS -- PKEY_PropGroup_GPS</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>F3713ADA-90E3-4E11-AAE5-FDC17685B9BE, 100</description></item>
 		/// </list>
@@ -108,7 +108,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Image -- PKEY_Image</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Image -- PKEY_PropGroup_Image</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>E3690A87-0FA8-4A2A-9A9F-FCE8827055AC, 100</description></item>
 		/// </list>
@@ -118,7 +118,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Media -- PKEY_Media</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Media -- PKEY_PropGroup_Media</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>61872CF7-6B5E-4B4B-AC2D-59DA84459248, 100</description></item>
 		/// </list>
@@ -128,7 +128,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.MediaAdvanced -- PKEY_MediaAdvanced</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.MediaAdvanced -- PKEY_PropGroup_MediaAdvanced</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>8859A284-DE7E-4642-99BA-D431D044B1EC, 100</description></item>
 		/// </list>
@@ -138,7 +138,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Message -- PKEY_Message</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Message -- PKEY_PropGroup_Message</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>7FD7259D-16B4-4135-9F97-7C96ECD2FA9E, 100</description></item>
 		/// </list>
@@ -148,7 +148,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Music -- PKEY_Music</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Music -- PKEY_PropGroup_Music</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>68DD6094-7216-40F1-A029-43FE7127043F, 100</description></item>
 		/// </list>
@@ -158,7 +158,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Origin -- PKEY_Origin</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Origin -- PKEY_PropGroup_Origin</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>2598D2FB-5569-4367-95DF-5CD3A177E1A5, 100</description></item>
 		/// </list>
@@ -168,7 +168,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.PhotoAdvanced -- PKEY_PhotoAdvanced</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.PhotoAdvanced -- PKEY_PropGroup_PhotoAdvanced</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>0CB2BF5A-9EE7-4A86-8222-F01E07FDADAF, 100</description></item>
 		/// </list>
@@ -178,7 +178,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.RecordedTV -- PKEY_RecordedTV</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.RecordedTV -- PKEY_PropGroup_RecordedTV</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>E7B33238-6584-4170-A5C0-AC25EFD9DA56, 100</description></item>
 		/// </list>
@@ -188,7 +188,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Video -- PKEY_Video</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.PropGroup.Video -- PKEY_PropGroup_Video</description></item>
 		///   <item><term><b>Type:     </b></term><description>Null -- VT_NULL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>BEBE0920-7671-4C54-A3EB-49FDDFC191EE, 100</description></item>
 		/// </list>

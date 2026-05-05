@@ -16,7 +16,7 @@ public static partial class PropertyKeys
 		public static PropertyKey Color => new(0x4776CAFA, 0xBCE4, 0x4CB1, 0xA2, 0x3E, 0x26, 0x5E, 0x76, 0xD8, 0xEB, 0x11, 100);
 
 		/// <summary>Possible discrete values for PKEY_Color.</summary>
-		public enum ColorValues : ushort
+		public enum ColorValues : short
 		{
 			Blue = 0,
 			Green = 1,
@@ -28,7 +28,8 @@ public static partial class PropertyKeys
 
 		/// <summary>
 		/// This is the user-friendly form of System.Note.Color.
-		/// Not intended to be parsed programmatically.</summary>
+		/// Not intended to be parsed programmatically.
+		/// </summary>
 		/// <remarks>
 		/// <list type="table">
 		///   <item><term><b>Name:     </b></term><description>System.Note.ColorText -- PKEY_ColorText</description></item>

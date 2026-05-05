@@ -9,7 +9,7 @@ public static partial class PropertyKeys
 		/// Indicates the filesystem of the volume.</summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.Volume.FileSystem -- PKEY_FileSystem</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.Volume.FileSystem -- PKEY_Volume_FileSystem</description></item>
 		///   <item><term><b>Type:     </b></term><description>String -- VT_LPWSTR  (For variants: VT_BSTR)</description></item>
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_Volume) 9B174B35-40FF-11D2-A27E-00C04FC30871, 4 (PID_VOLUME_FILESYSTEM)  (Filesystem Volume Properties)</description></item>
 		/// </list>
@@ -19,7 +19,7 @@ public static partial class PropertyKeys
 		/// <summary></summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.Volume.IsMappedDrive -- PKEY_IsMappedDrive</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.Volume.IsMappedDrive -- PKEY_Volume_IsMappedDrive</description></item>
 		///   <item><term><b>Type:     </b></term><description>Boolean -- VT_BOOL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>149C0B69-2C2D-48FC-808F-D318D78C4636, 2</description></item>
 		/// </list>
@@ -30,7 +30,7 @@ public static partial class PropertyKeys
 		/// </summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term><b>Name:     </b></term><description>System.Volume.IsRoot -- PKEY_IsRoot</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.Volume.IsRoot -- PKEY_Volume_IsRoot</description></item>
 		///   <item><term><b>Type:     </b></term><description>Boolean -- VT_BOOL</description></item>
 		///   <item><term><b>Format ID:</b></term><description>(FMTID_Volume) 9B174B35-40FF-11D2-A27E-00C04FC30871, 10  (Filesystem Volume Properties)</description></item>
 		/// </list>

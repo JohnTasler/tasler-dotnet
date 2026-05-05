@@ -80,16 +80,30 @@ public struct PropertyKey
 	#endregion Construction
 }
 
-//
-// I used these regular expressions in Visual Studio search/replace operations to help convert from the declarations in the propkey.h file.
-// Keep these around for when new ones are introduced.
-//
-// Find this:DEFINE_PROPERTYKEY\(PKEY_([a-zA-Z_][a-zA-Z_0-9]+), (.+)\s*\);\r\n
-// Replace with:\t\tpublic static PropertyKey $1 => new($2);\r\n
-//
-// Find this://  Name:(\s+)(.+)\n//  Type:(\s+)(.+)\n//  FormatID:(\s+)(.+)\n
-// Replace with:\t\t/// <summary></summary>\r\n\t\t/// <remarks>\r\n\t\t/// <list type="table">\r\n\t\t///   <item><term>Name</term>$1<description>$2</description></item>\r\n\t\t///   <item><term>Type</term>$3<description>$4</description></item>\r\n\t\t///   <item><term>Format ID</term>$5<description>$6</description></item>\r\n\t\t/// </list>\r\n\t\t/// </remarks>\r\n
-//
-// Find this://  Name:(\s+)(.+)\n//  Type:(\s+)(.+)\n//  FormatID:(\s+)(.+)\n//\s*\r\n//  (.+)\r\n
-// Replace with:\t\t/// <summary>$7</summary>\r\n\t\t/// <remarks>\r\n\t\t/// <list type="table">\r\n\t\t///   <item><term>Name</term>$1<description>$2</description></item>\r\n\t\t///   <item><term>Type</term>$3<description>$4</description></item>\r\n\t\t///   <item><term>Format ID</term>$5<description>$6</description></item>\r\n\t\t/// </list>\r\n\t\t/// </remarks>\r\n
-//
+#if false
+
+I used these regular expressions in Visual Studio search/replace operations to help convert from the declarations in the propkey.h file.
+KEEP THESE AROUND for when new ones are introduced.
+
+Find this:
+DEFINE_PROPERTYKEY\(PKEY_([a-zA-Z_][a-zA-Z_0-9]+), (.+)\s*\);\r\n
+Replace with:
+\t\tpublic static PropertyKey $1 => new($2);\r\n
+
+Find this:
+//  Name:\s+(.+)\r\n//  Type:\s+(.+)\r\n//  FormatID:\s+(.+)\r\n
+Replace with:
+\t\t/// <summary></summary>\r\n\t\t/// <remarks>\r\n\t\t/// <list type="table">\r\n\t\t///   <item><term><b>Name:     </b></term><description>$1</description></item>\r\n\t\t///   <item><term><b>Type:     </b></term><description>$2</description></item>\r\n\t\t///   <item><term><b>Format ID:</b></term><description>$3</description></item>\r\n\t\t/// </list>\r\n\t\t/// </remarks>\r\n
+
+Find this:
+//  Name:\s+(.+)\r\n//  Type:\s+(.+)\r\n//  FormatID:\s+(.+)\r\n//\s*\r\n//  (.+)\r\n
+Replace with:
+\t\t/// <summary>\r\n\t\t/// $4\r\n\t\t/// </summary>\r\n\t\t/// <remarks>\r\n\t\t/// <list type="table">\r\n\t\t///   <item><term><b>Name:     </b></term><description>$1</description></item>r\n\t\t///   <item><term><b>Type:     </b></term><description>$2</description></item>\r\n\t\t///   <item><term><b>Format ID:</b></term><description>$3</description></item>\r\n\t\t/// </list>\r\n\t\t/// </remarks>\r\n
+
+The most recent propkey.h file CRC32 and SHA512 is:
+CRC32 : 03C0AB88
+SHA512: 1CE9A7C09F9FA1C5D14D792FD6F918FB86B80688B634821EA067D1A43045DB9148B5FE5F03A1C687F0C17A8ECF1C1050541088952A843DFDD009667D0788BDCE
+
+#endif
+
+

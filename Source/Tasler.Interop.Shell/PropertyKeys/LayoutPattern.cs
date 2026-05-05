@@ -8,9 +8,9 @@ public static partial class PropertyKeys
 		/// <summary>Specifies the layout pattern that the content view mode should apply for this item in the context of browsing. Register the regvalue under the name of "ContentViewModeLayoutPatternForBrowse".</summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term>Name</term>     <description>System.LayoutPattern.ContentViewModeForBrowse -- PKEY_LayoutPattern_ContentViewModeForBrowse</description></item>
-		///   <item><term>Type</term>     <description>String -- VT_LPWSTR  (For variants: VT_BSTR)</description></item>
-		///   <item><term>Format ID</term><description>{C9944A21-A406-48FE-8225-AEC7E24C211B}, 500</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.LayoutPattern.ContentViewModeForBrowse -- PKEY_LayoutPattern_ContentViewModeForBrowse</description></item>
+		///   <item><term><b>Type:     </b></term><description>String -- VT_LPWSTR  (For variants: VT_BSTR)</description></item>
+		///   <item><term><b>Format ID:</b></term><description>{C9944A21-A406-48FE-8225-AEC7E24C211B}, 500</description></item>
 		/// </list>
 		/// </remarks>
 		public static PropertyKey ContentViewModeForBrowse => new(0xC9944A21, 0xA406, 0x48FE, 0x82, 0x25, 0xAE, 0xC7, 0xE2, 0x4C, 0x21, 0x1B, 500);
@@ -18,9 +18,9 @@ public static partial class PropertyKeys
 		/// <summary>Specifies the layout pattern that the content view mode should apply for this item in the context of searching. Register the regvalue under the name of "ContentViewModeLayoutPatternForSearch".</summary>
 		/// <remarks>
 		/// <list type="table">
-		///   <item><term>Name</term>     <description>System.LayoutPattern.ContentViewModeForSearch -- PKEY_LayoutPattern_ContentViewModeForSearch</description></item>
-		///   <item><term>Type</term>     <description>String -- VT_LPWSTR  (For variants: VT_BSTR)</description></item>
-		///   <item><term>Format ID</term><description>{C9944A21-A406-48FE-8225-AEC7E24C211B}, 501</description></item>
+		///   <item><term><b>Name:     </b></term><description>System.LayoutPattern.ContentViewModeForSearch -- PKEY_LayoutPattern_ContentViewModeForSearch</description></item>
+		///   <item><term><b>Type:     </b></term><description>String -- VT_LPWSTR  (For variants: VT_BSTR)</description></item>
+		///   <item><term><b>Format ID:</b></term><description>{C9944A21-A406-48FE-8225-AEC7E24C211B}, 501</description></item>
 		/// </list>
 		/// </remarks>
 		public static PropertyKey ContentViewModeForSearch => new(0xC9944A21, 0xA406, 0x48FE, 0x82, 0x25, 0xAE, 0xC7, 0xE2, 0x4C, 0x21, 0x1B, 501);
