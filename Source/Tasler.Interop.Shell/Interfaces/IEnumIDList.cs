@@ -1,12 +1,15 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using Tasler.Interop.Com;
 using Tasler.Interop.Extensions;
 
 namespace Tasler.Interop.Shell;
 
-[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("000214F2-0000-0000-C000-000000000046")]
-public partial interface IEnumIDList
+[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
+[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
+public partial interface IEnumIDList : IUnknown
 {
 	/// <summary>
 	/// Retrieves up to a specified number of item identifier lists from the enumeration.

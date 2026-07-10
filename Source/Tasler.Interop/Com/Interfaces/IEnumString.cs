@@ -17,7 +17,7 @@ public partial interface IEnumString : IUnknown
 	/// An HRESULT indicating the result: `S_OK` if exactly <paramref name="elementCount"/> elements were retrieved, `S_FALSE` if fewer elements were retrieved, or an error code on failure.
 	/// </returns>
 	[PreserveSig]
-	int Next(int elementCount, [MarshalUsing(CountElementName = nameof(elementCount))] [Out] nint[] elements, out int elementsFetched);
+	HRESULT Next(int elementCount, [MarshalUsing(CountElementName = nameof(elementCount))] [Out] nint[] elements, out int elementsFetched);
 
 	/// <summary>
 	/// Advances the enumeration by the specified number of elements.
@@ -25,7 +25,7 @@ public partial interface IEnumString : IUnknown
 	/// <param name="elementCount">The number of elements to skip.</param>
 	/// <returns>An HRESULT indicating the result: `S_OK` if the requested number of elements were skipped, `S_FALSE` if fewer elements were skipped, or a failure code on error.</returns>
 	[PreserveSig]
-	int Skip(uint elementCount);
+	HRESULT Skip(uint elementCount);
 
 	/// <summary>
 	/// Resets the enumeration to its initial position so subsequent retrievals start from the first element.

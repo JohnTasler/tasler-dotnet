@@ -1,21 +1,22 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Tasler.Interop.Com;
 
 namespace Tasler.Interop.Shell;
 
-// [System.Diagnostics.CodeAnalysis.SuppressMessage("ComInterfaceGenerator", "SYSLIB1051:Specified type is not supported by source-generated COM", Justification = "It works")]
+[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
 [Guid("43826D1E-E718-42EE-BC55-A1E261C37BFE")]
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
-public partial interface IShellItem
+public partial interface IShellItem : IUnknown
 {
 	/// <summary>
-/// Binds the specified handler for this shell item and returns a pointer to the requested interface.
-/// </summary>
-/// <param name="pbc">Optional bind context supplied to the handler; may be null.</param>
-/// <param name="bhid">The handler ID (BHID) GUID to bind.</param>
-/// <param name="riid">The GUID of the interface being requested from the handler.</param>
-/// <returns>A native pointer to the requested handler interface, or zero if the operation failed.</returns>
+	/// Binds the specified handler for this shell item and returns a pointer to the requested interface.
+	/// </summary>
+	/// <param name="pbc">Optional bind context supplied to the handler; may be null.</param>
+	/// <param name="bhid">The handler ID (BHID) GUID to bind.</param>
+	/// <param name="riid">The GUID of the interface being requested from the handler.</param>
+	/// <returns>A native pointer to the requested handler interface, or zero if the operation failed.</returns>
 	nint BindToHandler(IBindCtx pbc, ref Guid bhid, ref Guid riid);
 
 	/// <summary>
@@ -48,7 +49,6 @@ public partial interface IShellItem
 	/// <returns>A negative value if this item precedes <paramref name="shellItem"/>, zero if they are equivalent, or a positive value if this item follows <paramref name="shellItem"/>.</returns>
 	int Compare(IShellItem shellItem, SHELLITEMCOMPAREHINT hint);
 }
-
 
 [Flags]
 public enum SFGAOF : uint

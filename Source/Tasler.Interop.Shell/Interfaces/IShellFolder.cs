@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Tasler.Interop.Com;
@@ -83,7 +84,8 @@ public enum SHCOLSTATEF : uint
 
 [Guid("000214E6-0000-0000-C000-000000000046")]
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
-public partial interface IShellFolder
+[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
+public partial interface IShellFolder : IUnknown
 {
 	/// <summary>
 	/// Parses a display name and returns the item identifier list (PIDL) and the number of characters consumed from the input.

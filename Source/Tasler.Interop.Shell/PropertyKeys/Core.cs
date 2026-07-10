@@ -369,7 +369,8 @@ public static partial class PropertyKeys
 		public static PropertyKey FileAllocationSize => new(0xB725F130, 0x47EF, 0x101A, 0xA5, 0xF1, 0x02, 0x60, 0x8C, 0x9E, 0xEB, 0xAC, 18);
 
 		/// <summary>
-		/// This is the WIN32_FIND_DATA dwFileAttributes for the file-based item.</summary>
+		/// This is the WIN32_FIND_DATA dwFileAttributes for the file-based item.
+		/// </summary>
 		/// <remarks>
 		/// <list type="table">
 		///   <item><term><b>Name:     </b></term><description>System.FileAttributes -- PKEY_FileAttributes</description></item>

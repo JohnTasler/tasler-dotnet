@@ -88,17 +88,6 @@ public static partial class PropertyKeys
 					/// </list>
 					/// </remarks>
 					public static PropertyKey IsConnectable => new(0x995EF0B0, 0x7EB3, 0x4A8B, 0xB9, 0xCE, 0x06, 0x8B, 0xB3, 0xF4, 0xAF, 0x69, 8);
-
-					/// <summary>
-					/// Whether the Device Association Endpoint can be paired with the system or not
-					/// </summary>
-					/// <remarks>
-					/// <list type="table">
-					///   <item><term><b>Name:     </b></term><description>System.Devices.Aep.CanPair -- PKEY_Devices_Aep_CanPair</description></item>r
-					///   <item><term><b>Type:     </b></term><description>Boolean -- VT_BOOL</description></item>
-					///   <item><term><b>Format ID:</b></term><description>{E7C3FB29-CAA7-4F47-8C8B-BE59B330D4C5}, 3</description></item>
-					/// </list>
-					/// </remarks>
 				}
 			}
 		}

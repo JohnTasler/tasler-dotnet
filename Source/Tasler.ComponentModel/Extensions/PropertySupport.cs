@@ -32,7 +32,7 @@ public static class PropertySupport
 
 		var getMethod = propertyInfo.GetGetMethod(true);
 		if (getMethod is not null && getMethod.IsStatic)
-			throw new ArgumentException(Strings.PropertySupport_StaticExpression_Exception, "propertyExpression");
+			throw new ArgumentException(Strings.PropertySupport_StaticExpression_Exception, nameof(propertyExpression));
 
 		return memberExpression.Member.Name;
 	}

@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using Tasler.Interop;
 using Tasler.Interop.Com;
 using Tasler.Interop.Shell.AutoComplete;
 
@@ -21,7 +22,7 @@ public partial class CustomAcList : IEnumString, IACList
 
 	public CustomAcList() => _enumerator = GetStrings();
 
-	public int Next(int elementCount, [MarshalUsing(CountElementName = "elementCount"), Out] nint[] elements, out int elementsFetched)
+	public HRESULT Next(int elementCount, [MarshalUsing(CountElementName = "elementCount"), Out] nint[] elements, out int elementsFetched)
 	{
 		elementsFetched = 0;
 		while (elementsFetched < elementCount && _enumerator.MoveNext())
@@ -37,13 +38,13 @@ public partial class CustomAcList : IEnumString, IACList
 		return elementsFetched == elementCount ? 0 : 1;
 	}
 
-	public int Skip(uint elementCount) => throw new NotImplementedException();
+	public HRESULT Skip(uint elementCount) => throw new NotImplementedException();
 
 	public void Reset() => _enumerator = GetStrings();
 
 	public IEnumString Clone() => new CustomAcList();
 
-	public int Expand([MarshalAs(UnmanagedType.LPWStr)] string pszExpand)
+	public HRESULT Expand([MarshalAs(UnmanagedType.LPWStr)] string pszExpand)
 	{
 		_filter = s => s.StartsWith(pszExpand, StringComparison.CurrentCultureIgnoreCase);
 		this.Reset();

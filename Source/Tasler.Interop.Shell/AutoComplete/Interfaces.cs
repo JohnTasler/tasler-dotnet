@@ -1,12 +1,14 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Tasler.Interop.Com;
 
 namespace Tasler.Interop.Shell.AutoComplete;
 
-[GeneratedComInterface]
 [Guid(Guids.IID_IObjMgr)]
-public partial interface IObjMgr
+[GeneratedComInterface]
+[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
+public partial interface IObjMgr : IUnknown
 {
 	/// <summary>
 	/// Adds an IEnumString enumerator to the object manager.
@@ -23,7 +25,8 @@ public partial interface IObjMgr
 
 [Guid(Guids.IID_IACList)]
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
-public partial interface IACList
+[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
+public partial interface IACList : IUnknown
 {
 	/// <summary>
 	/// Expands a partial input string to generate or display auto-complete suggestions.
@@ -31,7 +34,7 @@ public partial interface IACList
 	/// <param name="pszExpand">The input string to expand.</param>
 	/// <returns>An HRESULT indicating the result of the expansion: `S_OK` if expansion succeeded, `S_FALSE` if no expansion is available, or an error code on failure.</returns>
 	[PreserveSig]
-	int Expand(string pszExpand);
+	HRESULT Expand(string pszExpand);
 }
 
 [Guid(Guids.IID_IACList2)]
@@ -44,35 +47,38 @@ public partial interface IACList2 : IACList
 	/// <param name="dwFlag">Flags that modify how the auto-complete list behaves.</param>
 	/// <returns>HRESULT indicating success or failure (S_OK on success, error code otherwise).</returns>
 	[PreserveSig]
-	int SetOptions(AutoCompleteListOptions dwFlag);
+	HRESULT SetOptions(AutoCompleteListOptions dwFlag);
 
 	/// <summary>
-/// Retrieves the current auto-complete list options.
-/// </summary>
-/// <returns>The current <see cref="AutoCompleteListOptions"/> value.</returns>
+	/// Retrieves the current auto-complete list options.
+	/// </summary>
+	/// <returns>The current <see cref="AutoCompleteListOptions"/> value.</returns>
 	AutoCompleteListOptions GetOptions();
 }
 
 [Guid(Guids.IID_IAutoComplete)]
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
-public partial interface IAutoComplete
+[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
+public partial interface IAutoComplete : IUnknown
 {
 	/// <summary>
-/// Initializes auto-complete support for the specified edit control.
-/// </summary>
-/// <param name="hwndEdit">Handle to the edit control that will receive auto-complete.</param>
-/// <param name="punkACL">An <see cref="IEnumString"/> that supplies completion strings; may be null.</param>
-/// <param name="pwszRegKeyPath">Optional registry key path used by the auto-complete implementation; may be null or empty.</param>
-/// <param name="pwszQuickComplete">Optional quick-complete string to seed suggestions; may be null or empty.</param>
-/// <returns>HRESULT-style status code: S_OK (0) on success, otherwise an HRESULT error code.</returns>
-	int Init(nint hwndEdit, IEnumString punkACL, string pwszRegKeyPath, string pwszQuickComplete);
+	/// Initializes auto-complete support for the specified edit control.
+	/// </summary>
+	/// <param name="hwndEdit">Handle to the edit control that will receive auto-complete.</param>
+	/// <param name="punkACL">An <see cref="IEnumString"/> that supplies completion strings; may be null.</param>
+	/// <param name="pwszRegKeyPath">Optional registry key path used by the auto-complete implementation; may be null or empty.</param>
+	/// <param name="pwszQuickComplete">Optional quick-complete string to seed suggestions; may be null or empty.</param>
+	/// <returns>HRESULT-style status code: S_OK (0) on success, otherwise an HRESULT error code.</returns>
+	[PreserveSig]
+	HRESULT Init(nint hwndEdit, IEnumString punkACL, string pwszRegKeyPath, string pwszQuickComplete);
 
 	/// <summary>
-/// Enables or disables the auto-complete behavior for the associated edit control.
-/// </summary>
-/// <param name="fEnable">`true` to enable auto-complete, `false` to disable it.</param>
-/// <returns>HRESULT indicating success or failure; `S_OK` on success.</returns>
-	int Enable([MarshalAs(UnmanagedType.Bool)] bool fEnable);
+	/// Enables or disables the auto-complete behavior for the associated edit control.
+	/// </summary>
+	/// <param name="fEnable">`true` to enable auto-complete, `false` to disable it.</param>
+	/// <returns>HRESULT indicating success or failure; `S_OK` on success.</returns>
+	[PreserveSig]
+	HRESULT Enable([MarshalAs(UnmanagedType.Bool)] bool fEnable);
 }
 
 [Guid(Guids.IID_IAutoComplete)]
@@ -85,17 +91,18 @@ public partial interface IAutoComplete2 : IAutoComplete
 	/// <param name="dwFlag">Flags that modify auto-complete behavior.</param>
 	/// <returns>An HRESULT value: S_OK on success, or a COM error code on failure.</returns>
 	[PreserveSig]
-	int SetOptions(AutoCompleteOptions dwFlag);
+	HRESULT SetOptions(AutoCompleteOptions dwFlag);
 
 	/// <summary>
-/// Gets the currently configured auto-complete options.
-/// </summary>
-/// <returns>The currently configured AutoCompleteOptions flags.</returns>
+	/// Gets the currently configured auto-complete options.
+	/// </summary>
+	/// <returns>The currently configured AutoCompleteOptions flags.</returns>
 	AutoCompleteOptions GetOptions();
 }
 
 [Guid(Guids.IID_ICurrentWorkingDirectory)]
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
+[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
 public partial interface ICurrentWorkingDirectory : IUnknown
 {
 	/// <summary>
@@ -105,7 +112,7 @@ public partial interface ICurrentWorkingDirectory : IUnknown
 	/// <param name="cchSize">The size of <paramref name="pwzPath"/> in characters.</param>
 	/// <returns>An HRESULT indicating the result of the operation; `S_OK` on success, otherwise an error HRESULT.</returns>
 	[PreserveSig]
-	int GetDirectory([MarshalUsing(CountElementName = nameof(cchSize))] [Out] char[] pwzPath, uint cchSize);
+	HRESULT GetDirectory([MarshalUsing(CountElementName = nameof(cchSize))] [Out] char[] pwzPath, uint cchSize);
 
 	/// <summary>
 	/// Sets the current working directory to the specified path.
@@ -113,5 +120,5 @@ public partial interface ICurrentWorkingDirectory : IUnknown
 	/// <param name="pwzPath">The directory path to become the current working directory.</param>
 	/// <returns>An HRESULT value: `S_OK` if the directory was set successfully, otherwise an error code.</returns>
 	[PreserveSig]
-	int SetDirectory(string pwzPath);
+	HRESULT SetDirectory(string pwzPath);
 }

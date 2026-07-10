@@ -1,12 +1,15 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using Tasler.Interop.Com;
 
 namespace Tasler.Interop.Shell
 {
-	[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 	[Guid("BB2E617C-0920-11d1-9A0B-00C04FC2D6C1")]
-	public partial interface IExtractImage
+	[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
+	[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
+	public partial interface IExtractImage : IUnknown
 	{
 		/// <summary>
 		/// Retrieves the image location and preferred thumbnail parameters, writing the path into the provided character buffer and returning size and flag information.

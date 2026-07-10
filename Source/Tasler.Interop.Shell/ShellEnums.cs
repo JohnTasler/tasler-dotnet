@@ -1,4 +1,13 @@
 
+using System.Diagnostics;
+using System.Net;
+using System.Reflection.Metadata;
+using System.Runtime.Intrinsics.X86;
+using Tasler.Interop.User;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static Tasler.Interop.Shell.PropertyKeys;
+using static Tasler.Interop.Shell.PropertyKeys.Shell;
+
 namespace Tasler.Interop.Shell;
 
 
@@ -302,4 +311,114 @@ public enum ImageListReplaceFlags : uint
 
 	/// <summary>Scale.</summary>
 	ScaleAspectRatio = 0x0100,
+}
+
+[Flags]
+public enum GetPropertyStoreFlags : uint
+{
+	/// <remarks>
+	/// <list type="table">
+	///   <item><term><b>For a calling process</b></term><description>Return a read-only property store that contains all properties. Slow items (offline files) are not opened.</description></item>
+	///   <item><term><b>For a calling process</b></term><description>Return a read-only property store that contains all properties. Slow items (offline files) are not opened.</description></item>
+	///   <item><term><b>Combination with other flags</b></term><description>Can be overridden by other flags.</description></item>
+	/// </list>
+	/// </remarks>
+	Default = 0,
+
+	/// <remarks>
+	/// <list type="table">
+	///   <item><term><b>For a calling process</b></term><description>Include only properties directly from the property handler, which opens the file on the disk, network, or device.</description></item>
+	///   <item><term><b>For a file folder</b></term><description>Only include properties directly from the handler.</description></item>
+	///   <item><term><b>For other folders</b></term><description>When delegating to a file folder, pass this flag on to the file folder; do not do any multiplexing (MUX). When not delegating to a file folder, ignore this flag instead of returning a failure code.</description></item>
+	///   <item><term><b>Combination with other flags</b></term><description>Cannot be combined with 	TEMPORARY, 	FASTPROPERTIESONLY, or 	BESTEFFORT.</description></item>
+	/// </list>
+	/// </remarks>
+	HandlerPropertiesOnly = 0x1,
+
+	/// <remarks>
+	/// <list type="table">
+	///   <item><term><b>For a calling process</b></term><description>Can write properties to the item. Note</b></term><description>The store may contain fewer properties than a read-only store.</description></item>
+	///   <item><term><b>For a file folder</b></term><description>ReadWrite.</description></item>
+	///   <item><term><b>For other folders</b></term><description>ReadWrite. Note</b></term><description>When using default MUX, return a single unmultiplexed store because the default MUX does not support ReadWrite.</description></item>
+	///   <item><term><b>Combination with other flags</b></term><description>Cannot be combined with 	TEMPORARY, 	FASTPROPERTIESONLY, 	BESTEFFORT, or 	DELAYCREATION. Implies 	HANDLERPROPERTIESONLY.</description></item>
+	/// </list>
+	/// </remarks>
+	ReadWrite = 0x2,
+
+	/// <remarks>
+	/// <list type="table">
+	///   <item><term><b>For a calling process</b></term><description>Provides a writable store, with no initial properties, that exists for the lifetime of the Shell item instance; basically, a property bag attached to the item instance.</description></item>
+	///   <item><term><b>For a file folder</b></term><description>Not applicable. Handled by the Shell item.</description></item>
+	///   <item><term><b>For other folders</b></term><description>Not applicable. Handled by the Shell item.</description></item>
+	///   <item><term><b>Combination with other flags</b></term><description>Cannot be combined with any other flag. Implies 	READWRITE.</description></item>
+	/// </list>
+	/// </remarks>
+	Temporary = 0x4,
+
+	/// <remarks>
+	/// <list type="table">
+	///   <item><term><b>For a calling process</b></term><description>Provides a store that does not involve reading from the disk or network. Note</b></term><description>Some values may be different, or missing, compared to a store without this flag.</description></item>
+	///   <item><term><b>For a file folder</b></term><description>Include the "innate" and "fallback" stores only. Do not load the handler.</description></item>
+	///   <item><term><b>For other folders</b></term><description>Include only properties that are available in memory or can be computed very quickly (no properties from disk, network, or peripheral IO devices). This is normally only data sources from the IDLIST. When delegating to other folders, pass this flag on to them.</description></item>
+	///   <item><term><b>Combination with other flags</b></term><description>Cannot be combined with 	TEMPORARY, 	READWRITE, 	HANDLERPROPERTIESONLY, or 	DELAYCREATION.</description></item>
+	/// </list>
+	/// </remarks>
+	FastPropertiesOnly = 0x8,
+
+	/// <remarks>
+	/// <list type="table">
+	///   <item><term><b>For a calling process</b></term><description>Open a slow item (offline file) if necessary.</description></item>
+	///   <item><term><b>For a file folder</b></term><description>Retrieve a file from offline storage, if necessary. Note</b></term><description>Without this flag, the handler is not created for offline files.</description></item>
+	///   <item><term><b>For other folders</b></term><description>Do not return any properties that are very slow.</description></item>
+	///   <item><term><b>Combination with other flags</b></term><description>Cannot be combined with 	TEMPORARY or 	FASTPROPERTIESONLY.</description></item>
+	/// </list>
+	/// </remarks>
+	OpenSlowItem = 0x10,
+
+	/// <remarks>
+	/// <list type="table">
+	///   <item><term><b>For a calling process</b></term><description>Delay memory-intensive operations, such as file access, until a property is requested that requires such access.</description></item>
+	///   <item><term><b>For a file folder</b></term><description>Do not create the handler until needed; for example, either GetCount/GetAt or GetValue, where the innate store does not satisfy the request. Note</b></term><description>GetValue might fail due to file access problems.</description></item>
+	///   <item><term><b>For other folders</b></term><description>If the folder has memory-intensive properties, such as delegating to a file folder or network access, it can optimize performance by supporting IDelayedPropertyStoreFactory and splitting up its properties into a fast and a slow store. It can then use delayed MUX to recombine them.</description></item>
+	///   <item><term><b>Combination with other flags</b></term><description>Cannot be combined with 	TEMPORARY or 	READWRITE.</description></item>
+	/// </list>
+	/// </remarks>
+	DelayCreation = 0x20,
+
+	/// <remarks>
+	/// <list type="table">
+	///   <item><term><b>For a calling process</b></term><description>Succeed at getting the store, even if some properties are not returned. Note</b></term><description>Some values may be different, or missing, compared to a store without this flag.</description></item>
+	///   <item><term><b>For a file folder</b></term><description>Succeed and return a store, even if the handler or innate store has an error during creation. Only fail if substores fail.</description></item>
+	///   <item><term><b>For other folders</b></term><description>Succeed on getting the store, even if some properties are not returned.</description></item>
+	///   <item><term><b>Combination with other flags</b></term><description>Cannot be combined with 	TEMPORARY, 	READWRITE, or 	HANDLERPROPERTIESONLY.</description></item>
+	/// </list>
+	/// </remarks>
+	BestEffort = 0x40,
+
+	/// <remarks>
+	/// <list type="table">
+	///   <item><term><b>Windows 7 and later</b></term><description>Callers should use this flag only if they are already holding an opportunistic lock (oplock) on the file because without an oplock, the bind operation cannot continue. By default, the Shell requests an oplock on a file before binding to the property handler. This flag disables the default behavior.</description></item>
+	///   <item><term><b>Windows Server 2008 and Windows Vista</b></term><description> This flag is not available.</description></item>
+	/// </list>
+	/// </remarks>
+	NoOpLock = 0x80,
+
+	/// <remarks>
+	/// <list type="table">
+	///   <item><term><b>Windows 8 and later</b></term><description>Use this flag to retrieve only properties from the indexer for WDS results.</descriptiont>	ription></item>
+	/// </list>
+	/// </remarks>
+	PreferQueryProperties = 0x100,
+
+	ExtrinsicProperties = 0x200,
+
+	/// <summary>Include only properties from the file's secondary stream.</summary>
+	ExtrinsicPropertiesOnly = 0x400,
+
+	VolatileProperties = 0x800,
+
+	VolatilePropertiesOnly = 0x1000,
+
+	/// <summary>Mask for valid GETPROPERTYSTOREFLAGS values.</summary
+	MaskValid = 0x1fff,
 }

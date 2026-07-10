@@ -1,11 +1,51 @@
 using System.Runtime.InteropServices;
+using Tasler.Interop;
 using Tasler.Interop.Com;
 using Tasler.Interop.Com.Extensions;
+using Tasler.Interop.Shell;
 using Tasler.Interop.Shell.AutoComplete;
 using TrimmingTests;
 
 Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
 Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
+
+#if true
+
+Console.WriteLine(PropertyKeys.Core.FileAttributes.Name);
+
+IShellFolder2 desktopFolder = ShellApi.GetDesktopFolder();
+
+SFGAOF flags = SFGAOF.Hidden | SFGAOF.FileSystem;
+desktopFolder.ParseDisplayName(nint.Zero, null, "desktop.ini", out var eaten, out var idlist, ref flags);
+using var relativeIdList = new ChildItemIdList(idlist);
+
+IShellItem item = ShellApi.CreateShellItem(new (), desktopFolder, relativeIdList);
+IShellItem2 item2 = (IShellItem2)item;
+
+var propertyKey = PropertyKeys.Core.FileAttributes;
+var property = item2.GetProperty(ref propertyKey);
+
+propertyKey = PropertyKeys.Core.DateModified;
+property = item2.GetProperty(ref propertyKey);
+
+propertyKey = PropertyKeys.Core.ItemPathDisplay;
+var path = item2.GetString(propertyKey);
+
+propertyKey = PropertyKeys.Core.ShellOmitFromView;
+var omit = item2.GetString(propertyKey);
+
+// var clsid = PropSysApi.PSLookupPropertyHandlerCLSID(@"C:\Users\John Tasler\Desktop\desktop.ini");
+// Console.WriteLine($"PSLookupPropertyHandlerCLSID = {clsid:B}");
+
+
+
+var propertyStore = item2.GetItemPropertyStore(GetPropertyStoreFlags.ReadWrite | GetPropertyStoreFlags.ExtrinsicPropertiesOnly);
+property.vt = VARTYPE.LPWStr;
+property.punkVal = Marshal.StringToCoTaskMemUni("True");
+propertyStore.SetValue(ref propertyKey, ref property);
+propertyStore.Commit();
+
+#else
 
 nint objMgrRaw = ComApi.CoCreateInstance(Guids.Guid_ACLMulti, Guids.Guid_IObjMgr);
 var objMgr = (IObjMgr)ComApi.Wrappers.GetOrCreateObjectForComInstance(objMgrRaw, CreateObjectFlags.UniqueInstance);
@@ -134,3 +174,4 @@ while (true)
 			Console.WriteLine($"{hr:X8} {Marshal.GetExceptionForHR(hr)?.Message}");
 	}
 }
+#endif

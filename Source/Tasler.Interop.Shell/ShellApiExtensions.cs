@@ -15,12 +15,18 @@ public static partial class ShellApi
 	/// <exception cref="System.Runtime.InteropServices.COMException">Thrown when the native SHGetDesktopFolder call fails; the HRESULT is converted to a managed exception.</exception>
 	public static IShellFolder2 GetDesktopFolder()
 	{
-		IShellFolder folder = null!;
-		var hr = NativeMethods.SHGetDesktopFolder(out folder);
+		int hr = NativeMethods.SHGetDesktopFolder(out IShellFolder folder);
 		if (hr < 0)
 			Marshal.ThrowExceptionForHR(hr);
-
 		return (IShellFolder2)folder;
+	}
+
+	public static IShellItem2 CreateShellItem(ItemIdList pidlParent, IShellFolder psfParent, ChildItemIdList childIdl)
+	{
+		int hr = NativeMethods.SHCreateShellItem(pidlParent, psfParent, childIdl, out var item);
+		if (hr < 0)
+			Marshal.ThrowExceptionForHR(hr);
+		return (IShellItem2)item;
 	}
 
 	/// <summary>

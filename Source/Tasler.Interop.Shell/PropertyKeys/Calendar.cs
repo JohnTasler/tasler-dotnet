@@ -65,7 +65,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>09429607-582D-437F-84C3-DE93A2B24C3C, 100</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey OptionalAttendeeName:      s => new(0x09429607, 0x582D, 0x437F, 0x84, 0xC3, 0xDE, 0x93, 0xA2, 0xB2, 0x4C, 0x3C, 100);
+		public static PropertyKey OptionalAttendeeNames => new(0x09429607, 0x582D, 0x437F, 0x84, 0xC3, 0xDE, 0x93, 0xA2, 0xB2, 0x4C, 0x3C, 100);
 
 		/// <summary>
 		/// Address of the organizer organizing the event.</summary>
@@ -117,7 +117,7 @@ public static partial class PropertyKeys
 		///   <item><term><b>Format ID:</b></term><description>B33AF30B-F552-4584-936C-CB93E5CDA29F, 100</description></item>
 		/// </list>
 		/// </remarks>
-		public static PropertyKey RequiredAttendeeName:      s => new(0xB33AF30B, 0xF552, 0x4584, 0x93, 0x6C, 0xCB, 0x93, 0xE5, 0xCD, 0xA2, 0x9F, 100);
+		public static PropertyKey RequiredAttendeeNames => new(0xB33AF30B, 0xF552, 0x4584, 0x93, 0x6C, 0xCB, 0x93, 0xE5, 0xCD, 0xA2, 0x9F, 100);
 
 		/// <summary></summary>
 		/// <remarks>

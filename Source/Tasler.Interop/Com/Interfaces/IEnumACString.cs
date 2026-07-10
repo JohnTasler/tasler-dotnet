@@ -24,7 +24,7 @@ public partial interface IEnumACString : IEnumString
 	/// <summary>
 	/// Retrieves the next auto-complete string into the provided buffer.
 	/// </summary>
-	/// <param name="pszUr">Buffer that receives the next item string.</param>
+	/// <param name="pszUrl">Buffer that receives the next item string.</param>
 	/// <param name="cchMax">Maximum number of characters the buffer can hold, including the terminating null if applicable.</param>
 	/// <param name="pulSortIndex">Receives the sort index associated with the returned item.</param>
 	/// <returns>An HRESULT indicating success, that no more items are available, or an error code.</returns>

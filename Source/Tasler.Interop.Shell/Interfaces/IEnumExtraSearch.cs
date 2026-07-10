@@ -1,12 +1,14 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using Tasler.Interop.Com;
 
 namespace Tasler.Interop.Shell;
 
-[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [Guid("0E700BE1-9DB6-11d1-A1CE-00C04FD75D13")]
-public partial interface IEnumExtraSearch
+[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
+[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
+public partial interface IEnumExtraSearch : IUnknown
 {
 	/// <summary>
 	/// Retrieves up to <paramref name="elementCount"/> EXTRASEARCH entries from the enumerator into the provided buffer.

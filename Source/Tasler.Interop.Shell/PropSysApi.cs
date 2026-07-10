@@ -1,52 +1,50 @@
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
+using Tasler.Interop.Com;
+using Tasler.Interop.Shell.PropertyStore;
 
 namespace Tasler.Interop.Shell;
 
 public static partial class PropSysApi
 {
-	/// <summary>
-	/// Gets the canonical name associated with the specified property key.
-	/// </summary>
-	/// <param name="propkey">The property key whose canonical name to retrieve.</param>
-	/// <returns>The canonical property name, or an empty string if no name is available.</returns>
-	/// <exception cref="System.Runtime.InteropServices.COMException">Thrown when the native API returns a failing HRESULT.</exception>
-	public static string GetNameFromPropertyKey(PropertyKey propkey)
-	{
-		SafeCoTaskMemString pszCanonicalName = null!;
-		int hr = NativeMethods.PSGetNameFromPropertyKey(propkey, out pszCanonicalName);
-		if (hr < 0)
-			Marshal.ThrowExceptionForHR(hr);
-
-		return pszCanonicalName.Value ?? string.Empty;
-	}
-
-	//public static string GetDescriptonFromPropertyKey(PropertyKey propkey)
-	//{
-	//	SafeCoTaskMemString pszCanonicalName = null!;
-	//	int hr = NativeMethods.PSGetPropertyDescription(propkey, out pszCanonicalName);
-	//	if (hr < 0)
-	//		Marshal.ThrowExceptionForHR(hr);
-
-	//	return pszCanonicalName.Value ?? string.Empty;
-	//}
-
-	extension (PropertyKey @this)
-	{
-		string Name => GetNameFromPropertyKey(@this);
-	}
-
 	public static partial class NativeMethods
 	{
 		private const string PropSys = "propsys.dll";
 
 		/// <summary>
+		/// Looks up a per-machine registered file property handler.
+		/// </summary>
+		/// <param name="pszFilePath"></param>
+		/// <param name="pclsid"></param>
+		/// <returns></returns>
+		[LibraryImport(PropSys, StringMarshalling = StringMarshalling.Utf16)]
+		internal static partial HRESULT PSLookupPropertyHandlerCLSID(nint pszFilePath, out Guid pclsid);
+
+		/// <summary>
+		/// Get a property handler, on Vista or downlevel to XP
+		/// </summary>
+		/// <param name="punkItem">The <see cref="IShellItem"/> for which to get the property handler.</param>
+		/// <param name="fReadWrite"></param>
+		/// <param name="riid"></param>
+		/// <param name="ppv">Upon success, an <see cref="IPropertyStore"/> for the item.</param>
+		/// <returns></returns>
+		// punkItem is a shell item created with an SHCreateItemXXX API
+		// Returns an IPropertyStore
+		[LibraryImport(PropSys)]
+		internal static partial HRESULT PSGetItemPropertyHandler(
+			IShellItem punkItem,
+			[MarshalAs(UnmanagedType.Bool)] bool fReadWrite,
+			ref Guid riid,
+			out IPropertyStore ppv);
+
+		/// <summary>
 		/// Retrieves the canonical name associated with a PropertyKey.
 		/// </summary>
 		/// <param name="propkey">The property key to query.</param>
-		/// <param name="ppszCanonicalName">When successful, receives a SafeCoTaskMemString that wraps the canonical name returned by the native API.</param>
-		/// <returns>An HRESULT value indicating the result of the operation (S_OK on success).</returns>
+		/// <returns>Returns a SafeCoTaskMemString that wraps the canonical name returned by the native API.</returns>
+		/// <exception cref="COMException">In case of COM failure code.</exception>
 		[LibraryImport(PropSys)]
-		internal static partial int PSGetNameFromPropertyKey(PropertyKey propkey, out SafeCoTaskMemString ppszCanonicalName);
+		internal static partial int PSGetNameFromPropertyKey(ref PropertyKey propkey, out SafeCoTaskMemString name);
 
 		/// <summary>
 		/// Retrieves a property description object for the specified property key using the requested interface IID.
@@ -57,8 +55,20 @@ public static partial class PropSysApi
 		/// <returns>The HRESULT returned by the native call indicating success or failure.</returns>
 		[LibraryImport(PropSys)]
 		internal static partial int PSGetPropertyDescription(
-			PropertyKey propkey,
+			ref PropertyKey propkey,
 			ref Guid riid,
 			out nint ppv);
+
+		/// <summary>
+		/// Creates an in-memory property store.
+		/// </summary>
+		/// <param name="riid"></param>
+		/// <param name="ppv">Upon success, contains an IPropertyStore, IPersistSerializedPropStorage, or related interface.</param>
+		/// <returns>The HRESULT returned by the native call indicating success or failure.</returns>
+		[LibraryImport(PropSys)]
+		internal static partial int PSCreateMemoryPropertyStore(
+			ref Guid riid,
+			out IUnknown ppv);
+
 	}
 }

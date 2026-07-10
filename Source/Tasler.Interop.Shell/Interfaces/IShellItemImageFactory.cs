@@ -1,11 +1,14 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using Tasler.Interop.Com;
 
 namespace Tasler.Interop.Shell;
 
 [GeneratedComInterface]
 [Guid("BCC18B79-BA16-442F-80C4-8A59C30C463B")]
-public partial interface IShellItemImageFactory
+[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
+public partial interface IShellItemImageFactory : IUnknown
 {
 	/// <summary>
 	/// Retrieves a bitmap for the shell item at the requested size and with the specified retrieval options.

@@ -13,10 +13,10 @@ public static partial class ShellApi
 		/// <summary>
 		/// Retrieves the desktop folder's COM IShellFolder interface.
 		/// </summary>
-		/// <param name="shellFolder">When successful, receives the desktop IShellFolder instance.</param>
-		/// <returns>`HRESULT` indicating success or failure (`S_OK` on success, error code otherwise).</returns>
+		/// <returns>When successful, returns the desktop IShellFolder instance.</returns>
+		/// <exception cref="COMException">A COM error code.</exception>
 		[LibraryImport(Shell32)]
-		public static partial int SHGetDesktopFolder(out IShellFolder shellFolder);
+		public static partial int SHGetDesktopFolder(out IShellFolder folder);
 
 		/// <summary>
 		/// Creates a Shell item COM object for the item identified by a PIDL and returns the requested interface pointer.
@@ -96,14 +96,12 @@ public static partial class ShellApi
 		/// <param name="rfid">The identifier (KNOWNFOLDERID) of the known folder to retrieve.</param>
 		/// <param name="dwFlags">Flags that control retrieval behavior.</param>
 		/// <param name="hToken">An access token that represents a particular user, or zero to use the current user.</param>
-		/// <param name="ppidl">When the method returns successfully, receives a pointer to the allocated PIDL for the known folder; the caller must free this with CoTaskMemFree.</param>
-		/// <returns>An HRESULT value indicating success or failure. On success, `ppidl` contains the allocated PIDL for the requested known folder.</returns>
+		/// <returns>When the method returns successfully, receives a pointer to the allocated PIDL for the known folder; the caller must free this with ItemIdList.Dispose.</returns>
 		[LibraryImport(Shell32)]
-		public static partial int SHGetKnownFolderIDList(
+		public static partial ItemIdList SHGetKnownFolderIDList(
 			KnownFolderId rfid,
 			KnownFolderFlags dwFlags,
-			nint hToken,
-			out nint ppidl);
+			nint hToken);
 
 		[LibraryImport(Shell32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
 		public static partial nint ShellExecuteW(
@@ -119,6 +117,9 @@ public static partial class ShellApi
 
 		[LibraryImport(Shell32)]
 		public static partial int SHGetImageList(SHIL iImageList, ref Guid iid, out nint imageList);
+
+		[LibraryImport(Shell32)]
+		public static partial int SHCreateShellItem(ItemIdList pidlParent, IShellFolder psfParent, ChildItemIdList childIdl, out IShellItem item);
 	}
 }
 

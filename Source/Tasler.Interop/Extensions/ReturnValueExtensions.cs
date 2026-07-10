@@ -49,10 +49,18 @@ public static class ReturnValueExtensions
 		return result;
 	}
 
-	public static HRESULT ReturnOrThrow(this HRESULT result)
+	public static HRESULT ReturnOrThrow(this HRESULT result) => result.ThrowIfFailed();
+
+	extension(HRESULT hr)
 	{
-		if (result < 0)
-			Marshal.ThrowExceptionForHR(result);
-		return result;
+		public bool IsSucceeded => !hr.IsFailed;
+
+		public bool IsFailed => hr.Value < 0;
+
+		public HRESULT ThrowIfFailed()
+		{
+			Marshal.ThrowExceptionForHR(hr.Value);
+			return hr;
+		}
 	}
 }

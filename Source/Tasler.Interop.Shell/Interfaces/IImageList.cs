@@ -1,12 +1,15 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using Tasler.Interop.Com;
 using Tasler.Interop.Gdi;
 
 namespace Tasler.Interop.Shell.Interfaces;
 
 [Guid("46EB5926-582E-4017-9FDF-E8998DAA0950")]
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
-public partial interface IImageList
+[SuppressMessage(SuppressMessage.Category.ComInterfaceGenerator, SuppressMessage.CheckId.SYSLIB1230_BaseInterfaceInOtherAssembly, Justification = SuppressMessage.Justification.IUnknownNoProblem)]
+public partial interface IImageList : IUnknown
 {
 	void Add(/*SafeGdiBitmap*/ nint hbmImage, /*SafeGdiBitmap*/ nint hbmMask);
 
